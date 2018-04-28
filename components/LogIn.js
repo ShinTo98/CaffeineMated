@@ -9,13 +9,13 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 
-export class SignUp extends Component {
+export class LogIn extends Component {
 
     constructor(props) {
       super(props);
       this.state = {
         titleText: "CaffeineMated",
-        bodyText: 'This is not really a bird nest.',
+        //bodyText: 'This is not really a bird nest.',
         email: 'Email',
         password: 'Password',
         forgotPassword: 'Forgot Password?',
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default LogIn;

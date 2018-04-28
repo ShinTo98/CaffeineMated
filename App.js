@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import {LogIn} from './components/LogIn.js';
 import {SignUp} from './components/SignUp.js';
 
 export default class App extends React.Component {
@@ -14,7 +15,7 @@ export default class App extends React.Component {
     //       CaffeineMated
     //     </Text>
     //   </View>
-       <SignUp />
+       <LogIn />
     );
   }
 }
