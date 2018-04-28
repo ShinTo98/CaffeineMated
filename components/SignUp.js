@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Button, StyleSheet, View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 
-class SignUp extends Component {
+export class SignUp extends Component {
 
     constructor(props) {
       super(props);
