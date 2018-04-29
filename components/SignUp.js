@@ -12,68 +12,68 @@ import {styles} from '../CSS/SignUp.js';
 
 export class SignUp extends Component {
 
-    constructor(props) {
-      super(props);
-      this.state = {
-        titleText: "CaffeineMated",
-        //bodyText: 'This is not really a bird nest.',
-        name: 'Name',
-        email: 'Email',
-        password: 'Password',
-        comfirm: 'Comfirm Password',
-      };
-    }
+  static navigationOptions = {
+    header: null
+  }
 
-    render(){
-        return(
+  constructor(props) {
+    super(props);
+    this.state = {
+      titleText: "CaffeineMated",
+      //bodyText: 'This is not really a bird nest.',
+      name: 'Name',
+      email: 'Email',
+      password: 'Password',
+      comfirm: 'Comfirm Password',
+      haveAccount: 'Already have an account? ',
+    };
+  }
 
-          <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-          <View style={styles.container}>
-            <View style={styles.banner}>
-              <Text style={styles.titleText}>{this.state.titleText}</Text>
-              <Image
-                style={styles.logo}
-                source={require('../resources/wei_logo.png')}
-              />
+  render() {
+    return (
+
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <View style={styles.container}>
+          <View style={styles.banner}>
+            <Text style={styles.titleText}>{this.state.titleText}</Text>
+            <Image style={styles.logo} source={require('../resources/wei_logo.png')}/>
+          </View>
+          <View style={styles.white_banner}/>
+          <View style={styles.textSection}>
+            <TextInput style={styles.textInput} onChangeText={(text) => this.setState({text})} value={this.state.name}/>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(text) => this.setState({text})}
+              keyboardType='email-address'
+              value={this.state.email}/>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(text) => this.setState({text})}
+              keyboardType='visible-password'
+              value={this.state.password}/>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(text) => this.setState({text})}
+              keyboardType='visible-password'
+              value={this.state.comfirm}/>
+            <View style={styles.buttons}>
+              <Button title="Sign Up" color="#ffffff" accessibilityLabel="Tap to sign up"/>
             </View>
-            <View style={styles.white_banner} />
-            <View style={styles.textSection}>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={(text) => this.setState({text})}
-                value={this.state.name}
-              />
-              <TextInput
-                style={styles.textInput}
-                onChangeText={(text) => this.setState({text})}
-                keyboardType='email-address'
-                value={this.state.email}
-              />
-              <TextInput
-                style={styles.textInput}
-                onChangeText={(text) => this.setState({text})}
-                keyboardType='visible-password'
-                value={this.state.password}
-              />
-              <TextInput
-                style={styles.textInput}
-                onChangeText={(text) => this.setState({text})}
-                keyboardType='visible-password'
-                value={this.state.comfirm}
-              />
-              <View style={styles.buttons}>
-                <Button
-                  title="Sign Up"
-                  color="#ffffff"
-                  accessibilityLabel="Tap to sign up"
-                />
+            <View style={styles.textView}>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.subText}>{this.state.haveAccount}</Text>
+                <Text style={{
+                    fontSize: 12,
+                  }}
+                  onPress={() => this.props.navigation.navigate('logIn')}>
+                Log In</Text>
               </View>
             </View>
           </View>
-          </KeyboardAvoidingView>
-        );
-    }
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
 }
-
 
 export default SignUp;

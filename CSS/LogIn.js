@@ -37,11 +37,13 @@ export const styles = StyleSheet.create({
     width: 250,
     top: 80,
   },
-  text: {
-    fontSize: 30,
-    //color: '#ffffff',
+  textView: {
     top: 135,
     alignItems: 'center',
+  },
+  subText: {
+    color: 'gray',
+    fontSize: 12,
   },
   titleText: {
     fontSize: 35,
