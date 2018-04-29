@@ -72,7 +72,7 @@ export class LogIn extends Component {
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.subText}>{this.state.signUp}</Text>
                 <Text
-                  style={{fontSize:12, color:'gray'}}
+                  style={{fontSize:12}}
                   onPress={() => this.props.navigation.navigate('signUp')}
                 >Sign Up</Text>
               </View>
