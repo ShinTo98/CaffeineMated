@@ -6,7 +6,8 @@ import {
   Text,
   Image,
   TextInput,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/LogIn.js';
 import {StackNavigator} from 'react-navigation'
@@ -36,10 +37,12 @@ export class LogIn extends Component {
         <View style={styles.container}>
           <View style={styles.banner}>
             <Text style={styles.titleText}>{this.state.titleText}</Text>
+            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('main')}>
             <Image
               style={styles.logo}
               source={require('../resources/wei_logo.png')}
             />
+            </TouchableWithoutFeedback>
           </View>
           <View style={styles.white_banner}/>
           <View style={styles.textSection}>
