@@ -10,15 +10,15 @@ export default class App extends React.Component {
   render() {
     return (
       // <View style={styles.container}>
-     // <Image
-     //   style={styles.logo}
-     //   source={require('./resources/wei_logo.png')}
-     // />
-     //   <Text style={styles.name}>
-     //     CaffeineMated
-     //   </Text>
-     // </View>
-       <RootStack />
+      //   <Image
+      //     style={styles.logo}
+      //     source={require('./resources/wei_logo.png')}
+      //   />
+      //   <Text style={styles.name}>
+      //     CaffeineMated
+      //   </Text>
+      // </View>
+      <RootStack />
     );
   }
 }
