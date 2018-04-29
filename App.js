@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {LogIn} from './components/LogIn.js';
 import {SignUp} from './components/SignUp.js';
-import {styles} from './CSS/MainPage.js';
+import {Main} from './components/Main.js';
+
 import {StackNavigator} from 'react-navigation';
 
 export default class App extends React.Component {
@@ -25,6 +26,9 @@ export default class App extends React.Component {
 
 const RootStack = StackNavigator(
   {
+    main:{
+      screen: Main,
+    },
     logIn: {
       screen: LogIn,
     },
@@ -33,7 +37,7 @@ const RootStack = StackNavigator(
     },
   },
   {
-    initialRouteName: 'logIn',
+    initialRouteName: 'main',
     headerMode: 'none',
   }
 )
