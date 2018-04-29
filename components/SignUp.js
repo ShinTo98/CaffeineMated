@@ -8,7 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView
 } from 'react-native';
-import {styles} from '../CSS/LogIn.js';
+import {styles} from '../CSS/SignUp.js';
 
 export class SignUp extends Component {
 
@@ -67,7 +67,7 @@ export class SignUp extends Component {
                   color="#ffffff"
                   accessibilityLabel="Tap to sign up"
                 />
-              </View>           
+              </View>
             </View>
           </View>
           </KeyboardAvoidingView>

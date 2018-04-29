@@ -61,7 +61,9 @@ export class LogIn extends Component {
               </View>
               <View style={styles.text}>
                 <Text style={{color:'gray'}}>{this.state.forgotPassword}</Text>
-                <Text style={{top:80, color:'gray'}}>{this.state.signUp}</Text>
+                <Text
+                  style={{top:80, color:'gray'}
+                }>{this.state.signUp}</Text>
               </View>
             </View>
           </View>

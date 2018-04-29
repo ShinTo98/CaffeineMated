@@ -16,7 +16,7 @@ export default class App extends React.Component {
       //     CaffeineMated
       //   </Text>
       // </View>
-       <SignUp />
+       <LogIn />
     );
   }
 }

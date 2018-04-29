@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     //fontSize: 30,
     width: 200,
     padding: 5,
-    top: 130,
+    top: 100,
   },
   textSection: {
     flex: 3,
@@ -35,12 +35,12 @@ export const styles = StyleSheet.create({
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
     width: 250,
-    top: 80,
+    top: 50,
   },
   text: {
     fontSize: 30,
     //color: '#ffffff',
-    top: 135,
+    top: 155,
     alignItems: 'center',
   },
   titleText: {
