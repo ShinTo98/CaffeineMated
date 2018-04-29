@@ -8,6 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView
 } from 'react-native';
+import {styles} from '../CSS/LogIn.js';
 
 export class LogIn extends Component {
 
@@ -42,12 +43,14 @@ export class LogIn extends Component {
                 onChangeText={(text) => this.setState({text})}
                 keyboardType='email-address'
                 value={this.state.email}
+                //placeHolder={this.state.email}
               />
               <TextInput
                 style={styles.textInput}
                 onChangeText={(text) => this.setState({text})}
                 keyboardType='visible-password'
                 value={this.state.password}
+                //placeHolder={this.state.password}
               />
               <View style={styles.buttons}>
                 <Button
@@ -66,61 +69,5 @@ export class LogIn extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  white_banner: {
-    flex: 0.15,
-    backgroundColor: '#ffffff',
-  },
-  banner: {
-    flex: 1.8,
-    backgroundColor: '#ff9052',
-    alignItems: 'center',
-  },
-  buttons: {
-    backgroundColor: '#47525e',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    //fontSize: 30,
-    width: 200,
-    padding: 5,
-    top: 150,
-  },
-  textSection: {
-    flex: 3,
-    backgroundColor: '#E3E3E3',
-    alignItems: 'center',
-    //justifyContent: 'center',
-  },
-  textInput: {
-    height: 40,
-    color: 'gray',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-    width: 250,
-    top: 100,
-  },
-  text: {
-    fontSize: 30,
-    //color: '#ffffff',
-    top: 155,
-    alignItems: 'center',
-  },
-  titleText: {
-    fontSize: 35,
-    fontWeight: '300',
-    color: 'white',
-    top: 55,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    top: 70,
-  },
-});
 
 export default LogIn;
