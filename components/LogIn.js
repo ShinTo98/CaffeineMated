@@ -36,28 +36,42 @@ export class LogIn extends Component {
         <View style={styles.container}>
           <View style={styles.banner}>
             <Text style={styles.titleText}>{this.state.titleText}</Text>
-            <Image style={styles.logo} source={require('../resources/wei_logo.png')}/>
+            <Image
+              style={styles.logo}
+              source={require('../resources/wei_logo.png')}
+            />
           </View>
           <View style={styles.white_banner}/>
           <View style={styles.textSection}>
-            <TextInput style={styles.textInput} onChangeText={(text) => this.setState({text})} keyboardType='email-address' value={this.state.email}
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(text) => this.setState({text})}
+              keyboardType='email-address'
+              value={this.state.email}
               //placeHolder={this.state.email}
             />
-            <TextInput style={styles.textInput} onChangeText={(text) => this.setState({text})} keyboardType='visible-password' value={this.state.password}
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(text) => this.setState({text})}
+              keyboardType='visible-password'
+              value={this.state.password}
               //placeHolder={this.state.password}
             />
             <View style={styles.buttons}>
-              <Button title="Log In" color="#ffffff" accessibilityLabel="Learn more about this purple button"/>
+              <Button
+                title="Log In"
+                color="#ffffff"
+                accessibilityLabel="Learn more about this purple button"
+              />
             </View>
             <View style={styles.textView}>
               <Text style={styles.subText}>{this.state.forgotPassword}</Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.subText}>{this.state.signUp}</Text>
-                <Text style={{
-                    fontSize: 12,
-                  }}
-                  onPress={() => this.props.navigation.navigate('signUp')}>
-                Sign Up</Text>
+                <Text
+                  style={{fontSize:12, color:'gray'}}
+                  onPress={() => this.props.navigation.navigate('signUp')}
+                >Sign Up</Text>
               </View>
             </View>
           </View>
