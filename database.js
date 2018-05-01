@@ -13,3 +13,26 @@ firebase.initializeApp(config);
 export function userSignIn() {
 
 }
+
+// Function name: userSignUp
+// Function Parameters: string: email, string: password
+// Return:
+//         Error Condition: errorMessage
+//         Success: 1 represents sign in successfully
+export function userSignUp (email, password) {
+  if (typeof email === 'string' && password === 'string') {
+    this.props.db.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      });
+      if （errorMessage === '') {
+        return 1;
+      } else {
+        return errorMessage;
+      }
+  } else {
+    return 'Wrong type passed in';
+  }
+
+}
