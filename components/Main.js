@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {
-  Button,
   StyleSheet,
   View,
-  Text,
   Image,
   TextInput,
   KeyboardAvoidingView
 } from 'react-native';
+import { Container, Header, Content, Button, Text } from 'native-base';
 import {styles} from '../CSS/Main.js';
 import {StackNavigator} from 'react-navigation'
 
@@ -36,22 +35,12 @@ export class Main extends Component {
        </View>
 
 
-       <View style={styles.bottom}>
-         <View style={styles.buttons} >
-            <Button
-              title="Log In"
-              color="#ffffff"
-              onPress={() => this.props.navigation.navigate('logIn')}
-            />
-          </View>
-          <View style={styles.buttons}>
-            <Button
-              title="Sign Up"
-              color="#ffffff"
-              onPress={() => this.props.navigation.navigate('signUp')}
-             />
-          </View>
-        </View>
+
+        <Container style={styles.bottom}>
+          <Button style={styles.buttons} bordered light onPress={() => this.props.navigation.navigate('logIn')}><Text> Log In </Text></Button>
+
+          <Button style={styles.buttons} bordered light onPress={() => this.props.navigation.navigate('signUp')}><Text> Sign Up </Text></Button>
+        </Container>
       </View>
     );
   }
