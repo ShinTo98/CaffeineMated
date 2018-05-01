@@ -10,4 +10,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-export function 
+export function userSignIn() {
+
+}
