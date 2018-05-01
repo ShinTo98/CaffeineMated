@@ -10,6 +10,27 @@ var config = {
 };
 firebase.initializeApp(config);
 
-export function userSignIn() {
-
+// Function name: userLogIn
+// Function Parameters: string -- email, string -- password
+// Return:
+//         Error Condition: 1) Error Message indicates what went wrong
+//                          2) Error Inputs
+//         Success: 1
+export function userLogIn(email, password) {
+  if( typeof email === 'string'  && typeof password === 'string'){
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if( errorMessage != ""){
+        return errorMessage;
+      }else{
+        return 1;
+      }
+    });
+  }else{
+    return "Wrong type passed in";
+  }
 }
+
+
+
