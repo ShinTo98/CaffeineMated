@@ -43,13 +43,13 @@ export default class App extends React.Component {
 const RootStack = StackNavigator(
   {
     main:{
-      screen: Main,
+      screen: props => <Main {...props} db={firebase} />,
     },
     logIn: {
-      screen: LogIn,
+      screen: props => <LogIn {...props} db={firebase} />,
     },
     signUp: {
-      screen: SignUp,
+      screen: props => <SignUp {...props} db={firebase} />,
     },
   },
   {
