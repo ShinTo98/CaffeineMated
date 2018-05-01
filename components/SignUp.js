@@ -28,6 +28,17 @@ export class SignUp extends Component {
       comfirm: 'Comfirm Password',
       haveAccount: 'Already have an account? ',
     };
+    this.createUser = this.createUser.bind(this);
+  }
+
+  createUser(){
+      this.props.db.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if(errorMessage != ""){
+        alert(errorMessage);
+      }
+    });
   }
 
   render() {
@@ -52,13 +63,13 @@ export class SignUp extends Component {
             />
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({email: text})}
               keyboardType='email-address'
               value={this.state.email}
             />
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({password: text})}
               keyboardType='visible-password'
               value={this.state.password}
             />
@@ -73,6 +84,7 @@ export class SignUp extends Component {
                 title="Sign Up"
                 color="#ffffff"
                 accessibilityLabel="Tap to sign up"
+                onPress={this.createUser}
               />
             </View>
             <View style={styles.textView}>
