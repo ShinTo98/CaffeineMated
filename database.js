@@ -32,7 +32,6 @@ export function userLogIn(email, password) {
   }
 }
 
-<<<<<<< HEAD
 // Function name: userSignUp
 // Function Parameters: string: email, string: password
 // Return:
@@ -45,7 +44,7 @@ export function userSignUp (email, password) {
       let errorCode = error.code;
       let errorMessage = error.message;
       });
-      if （errorMessage === '') {
+      if (errorMessage == '') {
         return 1;
       } else {
         return errorMessage;
@@ -55,7 +54,3 @@ export function userSignUp (email, password) {
   }
 
 }
-=======
-
-
->>>>>>> f5fc27e30ed74842d8f8d76557f6db233eff99c9
