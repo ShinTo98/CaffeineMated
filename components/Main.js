@@ -22,7 +22,6 @@ export class Main extends Component {
   }
 
   render() {
-    console.log(this.props.db); 
     return (
       <View style={styles.container}>
        <View style={styles.container}>
@@ -36,7 +35,7 @@ export class Main extends Component {
 
        </View>
 
-         
+
        <View style={styles.bottom}>
          <View style={styles.buttons} >
             <Button
@@ -57,4 +56,3 @@ export class Main extends Component {
     );
   }
 }
-

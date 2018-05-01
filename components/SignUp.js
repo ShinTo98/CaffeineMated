@@ -31,7 +31,6 @@ export class SignUp extends Component {
   }
 
   render() {
-    console.log(this.props.db); 
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.container}>
