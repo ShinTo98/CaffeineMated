@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 
+// Firebase configuration
 var config = {
   apiKey: "AIzaSyAQSNocuGrjIBtwErRJeHV7nUsfQGZC_uE",
   authDomain: "cmdatabase-c3084.firebaseapp.com",
@@ -8,32 +9,33 @@ var config = {
   storageBucket: "cmdatabase-c3084.appspot.com",
   messagingSenderId: "964208744011"
 };
+// Firebase initialization
 firebase.initializeApp(config);
 
-// Function name: userLogIn
-// Function Parameters: string -- email, string -- password
-// Return:
-//         Error Condition: 1) Error Message indicates what went wrong
-//                          2) Error Inputs
-//         Success: 1
-export function userLogIn(email, password, cb) {
-  var succ = true;
+/* 
+ * Name: userLogin
+ * Parameters: email - string; user login email
+ *             password - string; user login password
+ * Return:
+ *  Error Condition: 1) Error Message indicates what went wrong
+ *                   2) Error Inputs
+ * Success: 1
+ */
+export function userLogin(email, password, cb) {
   //if( typeof email === 'string'  && typeof password === 'string'){
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+    firebase.auth().signInWithEmailAndPassword(email, password).then(
+      function() {
+        cb(0);
+      }
+    ).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-      succ = !succ;
      // if( errorCode === 'auth/wrong-password'){
         cb(errorCode);
       //}else{
         //return 1;
       //}
-    }).then(function() {
-      if(succ) {
-      cb(0);
-      }
-    }
-    );
+    });
 
   //}else{
   //  return "Wrong type passed in";

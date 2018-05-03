@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {styles} from '../CSS/LogIn.js';
 import {StackNavigator} from 'react-navigation'
-import {userLogIn} from '../database.js'
+import {userLogin} from '../database.js'
 
 export class LogIn extends Component {
 
@@ -30,12 +30,12 @@ export class LogIn extends Component {
       signUp: 'Don\'t have an account? '
     };
 
-    this.userLogin = this.userLogin.bind(this);
+    this.login = this.login.bind(this);
     this.cb = this.cb.bind(this);
   }
 
-  userLogin() {
-     userLogIn(this.state.email, this.state.password, this.cb);
+  login() {
+     userLogin(this.state.email, this.state.password, this.cb);
   }
 
   cb(msg) {
@@ -81,7 +81,7 @@ export class LogIn extends Component {
                 title="Log In"
                 color="#ffffff"
                 accessibilityLabel="Learn more about this purple button"
-                onPress={this.userLogin}
+                onPress={this.login}
               />
             </View>
             <View style={styles.textView}>
