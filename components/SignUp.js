@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/SignUp.js';
-import {userSignUp} from '../database.js'
+import {userSignup} from '../database.js'
 
 export class SignUp extends Component {
 
@@ -29,12 +29,20 @@ export class SignUp extends Component {
       comfirm: 'Comfirm Password',
       haveAccount: 'Already have an account? ',
     };
-    this.createUser = this.createUser.bind(this);
+    this.signup = this.signup.bind(this);
+    this.signup_cb = this.signup_cb.bind(this);
   }
 
-  createUser(){
-    var returnVal = userSignUp(this.state.email, this.state.password);
-    alert(returnVal);
+  signup (){
+    userSignup(this.state.email, this.state.password, this.signup_cb);
+  }
+
+  signup_cb (msg) {
+    if(msg === 0) {
+      alert("Signup Successful!");
+    } else {
+      alert(msg);
+    }
   }
 
   render() {
@@ -80,7 +88,7 @@ export class SignUp extends Component {
                 title="Sign Up"
                 color="#ffffff"
                 accessibilityLabel="Tap to sign up"
-                onPress={this.createUser}
+                onPress={this.signup}
               />
             </View>
             <View style={styles.textView}>

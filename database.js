@@ -21,46 +21,37 @@ firebase.initializeApp(config);
  *                   2) Error Inputs
  * Success: 1
  */
-export function userLogin(email, password, login_cb) {
-  //if( typeof email === 'string'  && typeof password === 'string'){
-    firebase.auth().signInWithEmailAndPassword(email, password).then(
+export function userLogin (email, password, login_cb) {
+  firebase.auth().signInWithEmailAndPassword(email, password).then(
+    function() {
+      // callback with 0 indicating login success
+      login_cb(0);
+    }
+  ).catch(function(error) {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // callback with errorMessage
+    login_cb(errorMessage);
+  });
+}
+
+/* 
+ * Name: userSignUp
+ * Parameters: string: email, string: password
+ * Return:
+ * Error Condition: errorMessage
+ * Success: 1 represents sign in successfully
+ */
+export function userSignup (email, password, signup_cb) {
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(
       function() {
-        login_cb(0);
+      // callback with 0 indicating login success
+        signup_cb(0);
       }
     ).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-     // if( errorCode === 'auth/wrong-password'){
-        login_cb(errorMessage);
-      //}else{
-        //return 1;
-      //}
+      // callback with errorMessage
+      signup_cb(errorMessage);
     });
-
-  //}else{
-  //  return "Wrong type passed in";
-  //}
-}
-
-// Function name: userSignUp
-// Function Parameters: string: email, string: password
-// Return:
-//         Error Condition: errorMessage
-//         Success: 1 represents sign in successfully
-export function userSignUp (email, password) {
-  //if (typeof email === 'string' && password === 'string') {
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      });
-      //if (errorMessage == '') {
-      //  return 1;
-      //} else {
-      //  return errorMessage;
-      //}
-  //} else {
-  //  return 'Wrong type passed in';
-  //}
-
 }
