@@ -16,20 +16,28 @@ firebase.initializeApp(config);
 //         Error Condition: 1) Error Message indicates what went wrong
 //                          2) Error Inputs
 //         Success: 1
-export function userLogIn(email, password) {
-  if( typeof email === 'string'  && typeof password === 'string'){
+export function userLogIn(email, password, cb) {
+  var succ = true;
+  //if( typeof email === 'string'  && typeof password === 'string'){
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
-      if( errorMessage != ""){
-        return errorMessage;
-      }else{
-        return 1;
+      succ = !succ;
+     // if( errorCode === 'auth/wrong-password'){
+        cb(errorCode);
+      //}else{
+        //return 1;
+      //}
+    }).then(function() {
+      if(succ) {
+      cb(0);
       }
-    });
-  }else{
-    return "Wrong type passed in";
-  }
+    }
+    );
+
+  //}else{
+  //  return "Wrong type passed in";
+  //}
 }
 
 // Function name: userSignUp
@@ -38,19 +46,19 @@ export function userLogIn(email, password) {
 //         Error Condition: errorMessage
 //         Success: 1 represents sign in successfully
 export function userSignUp (email, password) {
-  if (typeof email === 'string' && password === 'string') {
-    this.props.db.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+  //if (typeof email === 'string' && password === 'string') {
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
       });
-      if (errorMessage == '') {
-        return 1;
-      } else {
-        return errorMessage;
-      }
-  } else {
-    return 'Wrong type passed in';
-  }
+      //if (errorMessage == '') {
+      //  return 1;
+      //} else {
+      //  return errorMessage;
+      //}
+  //} else {
+  //  return 'Wrong type passed in';
+  //}
 
 }

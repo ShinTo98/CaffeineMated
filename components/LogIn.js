@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {styles} from '../CSS/LogIn.js';
 import {StackNavigator} from 'react-navigation'
+import {userLogIn} from '../database.js'
 
 export class LogIn extends Component {
 
@@ -28,6 +29,21 @@ export class LogIn extends Component {
       forgotPassword: 'Forgot Password?',
       signUp: 'Don\'t have an account? '
     };
+
+    this.userLogin = this.userLogin.bind(this);
+    this.cb = this.cb.bind(this);
+  }
+
+  userLogin() {
+     userLogIn(this.state.email, this.state.password, this.cb);
+  }
+
+  cb(msg) {
+    if(msg === 0) {
+      alert("Login Successful!");
+    } else {
+    alert(msg);
+    }
   }
 
   render() {
@@ -48,14 +64,14 @@ export class LogIn extends Component {
           <View style={styles.textSection}>
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({email: text})}
               keyboardType='email-address'
               value={this.state.email}
               //placeHolder={this.state.email}
             />
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({password: text})}
               keyboardType='visible-password'
               value={this.state.password}
               //placeHolder={this.state.password}
@@ -65,6 +81,7 @@ export class LogIn extends Component {
                 title="Log In"
                 color="#ffffff"
                 accessibilityLabel="Learn more about this purple button"
+                onPress={this.userLogin}
               />
             </View>
             <View style={styles.textView}>

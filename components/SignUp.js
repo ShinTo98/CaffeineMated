@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/SignUp.js';
+import {userSignUp} from '../database.js'
 
 export class SignUp extends Component {
 
@@ -32,13 +33,8 @@ export class SignUp extends Component {
   }
 
   createUser(){
-      this.props.db.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if(errorMessage != ""){
-        alert(errorMessage);
-      }
-    });
+    var returnVal = userSignUp(this.state.email, this.state.password);
+    alert(returnVal);
   }
 
   render() {
@@ -58,7 +54,7 @@ export class SignUp extends Component {
           <View style={styles.textSection}>
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({name: text})}
               value={this.state.name}
             />
             <TextInput
@@ -75,7 +71,7 @@ export class SignUp extends Component {
             />
             <TextInput
               style={styles.textInput}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({confirm: text})}
               keyboardType='visible-password'
               value={this.state.comfirm}
             />
