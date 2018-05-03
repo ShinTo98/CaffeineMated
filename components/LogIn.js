@@ -30,25 +30,27 @@ export class LogIn extends Component {
       signUp: 'Don\'t have an account? '
     };
 
+    // Bind login related functions
     this.login = this.login.bind(this);
-    this.cb = this.cb.bind(this);
+    this.login_cb = this.login_cb.bind(this);
   }
 
+  // Function called when user clicked the login button
   login() {
-     userLogin(this.state.email, this.state.password, this.cb);
+     userLogin(this.state.email, this.state.password, this.login_cb);
   }
 
-  cb(msg) {
+  // Callback function used for login process
+  login_cb(msg) {
     if(msg === 0) {
       alert("Login Successful!");
     } else {
-    alert(msg);
+      alert(msg);
     }
   }
 
   render() {
     return (
-
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.container}>
           <View style={styles.banner}>

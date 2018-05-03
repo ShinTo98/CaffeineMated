@@ -21,17 +21,17 @@ firebase.initializeApp(config);
  *                   2) Error Inputs
  * Success: 1
  */
-export function userLogin(email, password, cb) {
+export function userLogin(email, password, login_cb) {
   //if( typeof email === 'string'  && typeof password === 'string'){
     firebase.auth().signInWithEmailAndPassword(email, password).then(
       function() {
-        cb(0);
+        login_cb(0);
       }
     ).catch(function(error) {
       var errorCode = error.code;
       var errorMessage = error.message;
      // if( errorCode === 'auth/wrong-password'){
-        cb(errorCode);
+        login_cb(errorMessage);
       //}else{
         //return 1;
       //}
