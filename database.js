@@ -56,9 +56,56 @@ export function userSignup (email, password, signup_cb) {
     });
 }
 
+<<<<<<< HEAD
 // export function displayMenu () {
 //
 // }
+=======
+/*
+ * Name: displayMenu
+ * Parameters: call back function
+ * Return: List of pairs. [[img, TypeName]...]
+ * Error Condition: None
+ */
+export function displayMenu (displayMenu_cb) {
+    // access the Menu field in firebase
+    const firebaseRef = firebase.database().ref("Menu");
+
+    firebaseRef.on('value', function(snapshot){
+      let menu = [];
+      let type = [];
+
+      // Find the value of the Menu field
+      let types = snapshot.val();
+      var typeName;
+
+      // loop through all types in menu
+      for( typeName in types){
+        // for each different type, get the value
+        let typeField = types[typeName];
+        type = [];
+
+        // find image and name
+        type.push(typeField.image);
+        type.push(typeName);
+        menu.push(type);
+      }
+
+      // return menu, for debug, uncomment the next step
+       console.log(menu);
+      displayMenu_cb(menu);
+
+    }, function(errorObject){
+      alert("failed:" + errorObject.code);
+    });
+}
+
+export function displayType (type) {
+
+}
+
+export function displayItem (item_id) {
+>>>>>>> 8a2ab0a51760aae35a528328ae9b196ccbb45869
 
 /*
  * Name: displayType
@@ -83,6 +130,7 @@ export function displayType (type, displayType_cb) {
     });
 }
 
+<<<<<<< HEAD
 //
 // export function displayItem (item_id) {
 //
@@ -91,3 +139,26 @@ export function displayType (type, displayType_cb) {
 // export function saveOrder (order) {
 //
 // }
+=======
+/*
+ * Name: saveOrder
+ * Description: save order object to database
+ * Parameters: object: order, function: saveOrder_cb
+ * Return:
+ * Error Condition: none
+ * Success: return order id of saved order
+ */
+export function saveOrder (order, saveOrder_cb) {
+  let orderRef = firebase.database().ref("Orders"); 
+  let order_id = 0; 
+  orderRef.once("value", dataSnapshot => {
+    order_id = dataSnapshot.val().size; 
+    if (!order_id) {
+      order_id = 0; 
+    }
+    orderRef.child("items").child(order_id).set(order); 
+    orderRef.child("size").set(++order_id); 
+    saveOrder_cb(order_id); 
+  }); 
+}
+>>>>>>> 8a2ab0a51760aae35a528328ae9b196ccbb45869
