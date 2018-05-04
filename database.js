@@ -56,18 +56,38 @@ export function userSignup (email, password, signup_cb) {
     });
 }
 
-export function displayMenu () {
+// export function displayMenu () {
+//
+// }
 
+/*
+ * Name: displayType
+ * Parameters: string: type
+ * Return: an array contains each item with image, id, and name.
+ * @image: url
+ * @id: string
+ * @name: string
+ */
+export function displayType (type, displayType_cb) {
+    let firebaseRef = firebase.database().ref('Menu');
+    let drinks = [];
+    firebaseRef.on('value', dataSnapshot => {
+      let menu = dataSnapshot.val();
+      var index;
+      for (index in menu[type].items) {
+        let item = menu[type].items[index];
+        let drink = {image: item.image, id: index, name: item.name}
+        drinks.push(drink);
+      }
+      displayType_cb(drinks);
+    });
 }
 
-export function displayType (type) {
-
-}
-
-export function displayItem (item_id) {
-
-}
-
-export function saveOrder (order) {
-
-}
+//
+// export function displayItem (item_id) {
+//
+// }
+//
+// export function saveOrder (order) {
+//
+// }
