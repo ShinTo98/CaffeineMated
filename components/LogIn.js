@@ -9,11 +9,11 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback
 } from 'react-native';
-import {styles} from '../CSS/LogIn.js';
+import {styles} from '../CSS/Login.js';
 import {StackNavigator} from 'react-navigation'
 import {userLogin} from '../database.js'
 
-export class LogIn extends Component {
+export class Login extends Component {
 
   static navigationOptions = {
     header: null,
@@ -27,7 +27,7 @@ export class LogIn extends Component {
       email: 'Email',
       password: 'Password',
       forgotPassword: 'Forgot Password?',
-      signUp: 'Don\'t have an account? '
+      signup: 'Don\'t have an account? '
     };
 
     // Bind login related functions
@@ -55,7 +55,7 @@ export class LogIn extends Component {
         <View style={styles.container}>
           <View style={styles.banner}>
             <Text style={styles.titleText}>{this.state.titleText}</Text>
-            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('main')}>
+            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('start')}>
             <Image
               style={styles.logo}
               source={require('../resources/wei_logo.png')}
@@ -80,7 +80,7 @@ export class LogIn extends Component {
             />
             <View style={styles.buttons}>
               <Button
-                title="Log In"
+                title="Login"
                 color="#ffffff"
                 accessibilityLabel="Learn more about this purple button"
                 onPress={this.login}
@@ -89,10 +89,10 @@ export class LogIn extends Component {
             <View style={styles.textView}>
               <Text style={styles.subText}>{this.state.forgotPassword}</Text>
               <View style={{flexDirection: 'row'}}>
-                <Text style={styles.subText}>{this.state.signUp}</Text>
+                <Text style={styles.subText}>{this.state.signup}</Text>
                 <Text
                   style={{fontSize:12}}
-                  onPress={() => this.props.navigation.navigate('signUp')}
+                  onPress={() => this.props.navigation.navigate('signup')}
                 >Sign Up</Text>
               </View>
             </View>
@@ -103,4 +103,4 @@ export class LogIn extends Component {
   }
 }
 
-export default LogIn;
+export default Login;

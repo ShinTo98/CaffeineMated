@@ -10,10 +10,10 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback
 } from 'react-native';
-import {styles} from '../CSS/SignUp.js';
+import {styles} from '../CSS/Signup.js';
 import {userSignup, displayMenu} from '../database.js'
 
-export class SignUp extends Component {
+export class Signup extends Component {
 
   static navigationOptions = {
     header: null
@@ -48,12 +48,11 @@ export class SignUp extends Component {
 
   render() {
     return (
-
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.container}>
           <View style={styles.banner}>
             <Text style={styles.titleText}>{this.state.titleText}</Text>
-            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('main')}>
+            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('start')}>
             <Image
               style={styles.logo}
               source={require('../resources/wei_logo.png')}
@@ -87,7 +86,7 @@ export class SignUp extends Component {
             />
             <View style={styles.buttons}>
               <Button
-                title="Sign Up"
+                title="Signup"
                 color="#ffffff"
                 accessibilityLabel="Tap to sign up"
                 onPress={this.signup}
@@ -98,8 +97,8 @@ export class SignUp extends Component {
                 <Text style={styles.subText}>{this.state.haveAccount}</Text>
                 <Text
                   style={{fontSize:12}}
-                  onPress={() => this.props.navigation.navigate('logIn')}
-                >Log In</Text>
+                  onPress={() => this.props.navigation.navigate('login')}
+                >Login</Text>
               </View>
             </View>
           </View>
@@ -109,4 +108,4 @@ export class SignUp extends Component {
   }
 }
 
-export default SignUp;
+export default Signup;
