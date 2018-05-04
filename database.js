@@ -103,6 +103,24 @@ export function displayItem (item_id) {
 
 }
 
-export function saveOrder (order) {
-
+/*
+ * Name: saveOrder
+ * Description: save order object to database
+ * Parameters: object: order, function: saveOrder_cb
+ * Return:
+ * Error Condition: none
+ * Success: return order id of saved order
+ */
+export function saveOrder (order, saveOrder_cb) {
+  let orderRef = firebase.database().ref("Orders"); 
+  let order_id = 0; 
+  orderRef.once("value", dataSnapshot => {
+    order_id = dataSnapshot.val().size; 
+    if (!order_id) {
+      order_id = 0; 
+    }
+    orderRef.child("items").child(order_id).set(order); 
+    orderRef.child("size").set(++order_id); 
+    saveOrder_cb(order_id); 
+  }); 
 }
