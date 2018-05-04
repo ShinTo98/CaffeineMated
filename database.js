@@ -12,7 +12,7 @@ var config = {
 // Firebase initialization
 firebase.initializeApp(config);
 
-/* 
+/*
  * Name: userLogin
  * Parameters: email - string; user login email
  *             password - string; user login password
@@ -35,7 +35,7 @@ export function userLogin (email, password, login_cb) {
   });
 }
 
-/* 
+/*
  * Name: userSignUp
  * Parameters: string: email, string: password
  * Return:
@@ -54,4 +54,16 @@ export function userSignup (email, password, signup_cb) {
       // callback with errorMessage
       signup_cb(errorMessage);
     });
+}
+
+export function displayMenu () {
+
+}
+
+export function displayType (type) {
+
+}
+
+export function displayItem (item_id) {
+  
 }
