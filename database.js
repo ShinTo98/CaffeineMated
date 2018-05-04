@@ -95,9 +95,6 @@ export function displayMenu (displayMenu_cb) {
     });
 }
 
-export function displayType (type) {
-
-}
 
 /*
  * Name: displayItem
