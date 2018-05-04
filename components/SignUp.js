@@ -48,11 +48,7 @@ export class SignUp extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
 
-=======
-      
->>>>>>> 8a2ab0a51760aae35a528328ae9b196ccbb45869
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.container}>
           <View style={styles.banner}>
