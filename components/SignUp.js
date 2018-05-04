@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/SignUp.js';
-import {userSignup} from '../database.js'
+import {userSignup, displayMenu} from '../database.js'
 
 export class SignUp extends Component {
 
@@ -47,6 +47,7 @@ export class SignUp extends Component {
 
   render() {
     return (
+      
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.container}>
           <View style={styles.banner}>

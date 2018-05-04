@@ -56,8 +56,43 @@ export function userSignup (email, password, signup_cb) {
     });
 }
 
-export function displayMenu () {
+/*
+ * Name: displayMenu
+ * Parameters: call back function
+ * Return: List of pairs. [[img, TypeName]...]
+ * Error Condition: None
+ */
+export function displayMenu (displayMenu_cb) {
+    // access the Menu field in firebase
+    const firebaseRef = firebase.database().ref("Menu");
 
+    firebaseRef.on('value', function(snapshot){
+      let menu = [];
+      let type = [];
+
+      // Find the value of the Menu field
+      let types = snapshot.val();
+      var typeName;
+
+      // loop through all types in menu
+      for( typeName in types){
+        // for each different type, get the value
+        let typeField = types[typeName];
+        type = [];
+
+        // find image and name
+        type.push(typeField.image);
+        type.push(typeName);
+        menu.push(type);
+      }
+
+      // return menu, for debug, uncomment the next step
+       console.log(menu);
+      displayMenu_cb(menu);
+
+    }, function(errorObject){
+      alert("failed:" + errorObject.code);
+    });
 }
 
 export function displayType (type) {
