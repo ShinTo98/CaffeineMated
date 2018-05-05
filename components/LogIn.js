@@ -44,6 +44,7 @@ export class Login extends Component {
   login_cb(msg) {
     if(msg === 0) {
       alert("Login Successful!");
+      this.props.navigation.navigate('main');
     } else {
       alert(msg);
     }

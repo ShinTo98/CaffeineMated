@@ -1,4 +1,3 @@
-
 import React, {Component} from 'react';
 import {
   Button,
@@ -40,7 +39,8 @@ export class Signup extends Component {
 
   signup_cb (msg) {
     if(msg === 0) {
-      alert("Signup Successful!");
+      alert("Signup Successful! Now you can log in with your newly created account.");
+      this.props.navigation.navigate('login');
     } else {
       alert(msg);
     }

@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import {Login} from './components/Login.js';
 import {Signup} from './components/Signup.js';
 import {Start} from './components/Start.js';
+import {Main} from './components/Main.js';
 
 import {StackNavigator} from 'react-navigation';
 
@@ -36,9 +37,13 @@ const RootStack = StackNavigator(
     signup: {
       screen: Signup,
     },
+    main: {
+      screen: Main,
+    }
   },
   {
-    initialRouteName: 'start',
+    // TEMPERARY! Original: start; for development usage only
+    initialRouteName: 'main',
     headerMode: 'none',
   }
 )
