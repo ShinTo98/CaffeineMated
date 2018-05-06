@@ -55,7 +55,7 @@ const RootStack = StackNavigator(
   },
   {
     // TEMPERARY! Original: start; for development usage only
-    initialRouteName: 'start',
+    initialRouteName: 'customization',
     headerMode: 'none',
   }
 );
