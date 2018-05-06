@@ -44,7 +44,8 @@ export class Signup extends Component {
         } else {
           Toast.show({
             text: 'Please enter a valid UCSD email!',
-            buttonText: 'Okay'
+            buttonText: 'Okay',
+            duration: 5000
           })
         }
       }
