@@ -100,20 +100,15 @@ export function displayMenu (displayMenu_cb) {
  * Name: displayItem
  * Parameters: string: type, string: item_id, displayItem_cb
  * Return:
- * The array containing name, description, image.
+ * The json containing the information of the item including description, image url, name and price
  *
  */
 export function displayItem (type, item_id, displayItem_cb) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
-    var information = [];
     firebase.database().ref(dir).on("value", function (snapshot) {
-        var coffee = snapshot.val();
-        // push information to the array
-        information.push(coffee.name);
-        information.push(coffee.description);
-        information.push(coffee.image);
-        displayItem_cb(information);
+        var itemInformation = snapshot.val();
+        displayItem_cb(itemInformation);
     });
 }
     //return(information);
@@ -161,4 +156,20 @@ export function saveOrder (order, saveOrder_cb) {
     orderRef.child("size").set(++order_id); 
     saveOrder_cb(order_id); 
   }); 
+}
+
+/*
+ * Name: viewOrderDetailById
+ * Parameters: string: order_id, viewOrderDetailById
+ * Return:
+ * The json containing the information of the order corresponding to the order_id
+ *
+ */
+export function viewOrderDetailById (order_id, viewOrderDetailById_cb) {
+    // get the direction
+    dir = "Orders/items/" + order_id;
+    firebase.database().ref(dir).on("value", function (snapshot) {
+        var orderInformation = snapshot.val();
+        viewOrderDetailById_cb(orderInformation);
+    });
 }
