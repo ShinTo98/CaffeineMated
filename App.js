@@ -7,6 +7,7 @@ import {Main} from './components/Main.js';
 
 import {StackNavigator} from 'react-navigation';
 import { Root } from "native-base";
+import {Customization} from "./components/Customization";
 
 export default class App extends React.Component {
 
@@ -42,7 +43,11 @@ const RootStack = StackNavigator(
     },
     main: {
       screen: Main,
+    },
+    customization: {
+     screen: Customization,
     }
+
   },
   {
     // TEMPERARY! Original: start; for development usage only
