@@ -31,13 +31,22 @@ export class Signup extends Component {
     };
     this.signup = this.signup.bind(this);
     this.signup_cb = this.signup_cb.bind(this);
-    this.checkPassword = this.checkPassword.bind(this);
+    this.validityCheck = this.validityCheck.bind(this);
   }
 
-//TODO: function does not work, this.state.password returns undefined object
-  checkPassword(){
+  // Validity check function; whether is ucsd.edu email and if confirm password met 
+  // original password
+  validityCheck(){
       if( this.state.password == this.state.confirm ){
-        this.signup;
+        // if there is 'ucsd.edu' occurance, valid email
+        if (this.state.email.indexOf('ucsd.edu') != -1) {
+          this.signup;
+        } else {
+          Toast.show({
+            text: 'Please enter a valid UCSD email!',
+            buttonText: 'Okay'
+          })
+        }
       }
       else{
         Toast.show({
@@ -116,7 +125,7 @@ export class Signup extends Component {
               style={styles.buttons}
               color="#ffffff"
               onPress={
-                this.checkPassword}
+                this.validityCheck}
             > <Text> Sign Up </Text>
             </Button>
 
