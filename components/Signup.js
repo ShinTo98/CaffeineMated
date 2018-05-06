@@ -40,7 +40,7 @@ export class Signup extends Component {
       if( this.state.password == this.state.confirm ){
         // if there is 'ucsd.edu' occurance, valid email
         if (this.state.email.indexOf('ucsd.edu') != -1) {
-          this.signup;
+          this.signup();
         } else {
           Toast.show({
             text: 'Please enter a valid UCSD email!',
