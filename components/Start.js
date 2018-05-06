@@ -18,7 +18,7 @@ export class Start extends Component {
     return (
       <Container style={styles.container}>
         <Container style={styles.container}>
-          <Image style={styles.logo} source={require('../resources/wei_logo.png')}/>
+          <Image style={styles.logo} source={require('../resources/logo.png')}/>
           <Text style={styles.name}>
             CaffeineMated
           </Text>
@@ -30,8 +30,8 @@ export class Start extends Component {
             bordered
             light
             onPress={() => this.props.navigation.navigate('login')}>
-            <Text>
-              Login
+            <Text style = {{color: '#FF9052'}}>
+              Log In
             </Text>
           </Button>
           <Button
@@ -39,8 +39,8 @@ export class Start extends Component {
             bordered
             light
             onPress={() => this.props.navigation.navigate('signup')}>
-            <Text>
-              Signup
+            <Text style = {{color: '#FF9052'}}>
+              Sign Up
             </Text>
           </Button>
         </Container>

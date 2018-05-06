@@ -3,14 +3,14 @@ import {StyleSheet, Dimensions} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FF9052',
+    backgroundColor: '#FAFAFA',
     alignItems: 'center',
     justifyContent: 'center',
     height: Dimensions.get('window').height
   },
   name: {
     fontSize: 40,
-    color: '#FFFFFF',
+    color: '#FF9052',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius:10,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: '#FF9052',
     //fontSize: 30,
     width: 150,
     padding: 5,
