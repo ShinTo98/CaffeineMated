@@ -6,6 +6,7 @@ import {Start} from './components/Start.js';
 import {Main} from './components/Main.js';
 
 import {StackNavigator} from 'react-navigation';
+import { Root } from "native-base";
 
 export default class App extends React.Component {
 
@@ -21,7 +22,9 @@ export default class App extends React.Component {
       //     CaffeineMated
       //   </Text>
       // </View>
-      <RootStack />
+      <Root>
+        <RootStack />
+      </Root>
     );
   }
 }
@@ -43,7 +46,7 @@ const RootStack = StackNavigator(
   },
   {
     // TEMPERARY! Original: start; for development usage only
-    initialRouteName: 'start',
+    initialRouteName: 'signup',
     headerMode: 'none',
   }
-)
+);
