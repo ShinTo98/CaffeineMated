@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  login_form: {
+    width: '80%',
+    top: 380,
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -16,6 +20,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttons: {
+    alignItems: 'center',
     backgroundColor: '#47525e',
     flexDirection: 'row',
     justifyContent: 'center',

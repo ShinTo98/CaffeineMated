@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {styles} from '../CSS/Signup.js';
 import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
-import { Container, Header, Content, Button, Text, Form, Item, Input, Label } from 'native-base';
+import { Container, Header, Content, Button, Toast, Text, Form, Item, Input, Label } from 'native-base';
 
 export class Signup extends Component {
 
@@ -27,9 +27,35 @@ export class Signup extends Component {
       password: 'Password',
       comfirm: 'Comfirm Password',
       haveAccount: 'Already have an account? ',
+      showToast: false,
     };
     this.signup = this.signup.bind(this);
     this.signup_cb = this.signup_cb.bind(this);
+    this.validityCheck = this.validityCheck.bind(this);
+  }
+
+  // Validity check function; whether is ucsd.edu email and if confirm password met 
+  // original password
+  validityCheck(){
+      if( this.state.password == this.state.confirm ){
+        // if there is 'ucsd.edu' occurance, valid email
+        if (this.state.email.indexOf('ucsd.edu') != -1) {
+          this.signup();
+        } else {
+          Toast.show({
+            text: 'Please enter a valid UCSD email!',
+            buttonText: 'Okay',
+            duration: 5000
+          })
+        }
+      }
+      else{
+        Toast.show({
+              text: 'Password does not match!',
+              buttonText: 'Okay',
+              duration: 5000
+        })
+      }
   }
 
   signup (){
@@ -100,7 +126,8 @@ export class Signup extends Component {
             <Button
               style={styles.buttons}
               color="#ffffff"
-              onPress={this.signup}
+              onPress={
+                this.validityCheck}
             > <Text> Sign Up </Text>
             </Button>
 

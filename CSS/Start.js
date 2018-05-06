@@ -37,5 +37,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     //alignSelf: 'flex-end'
+  },
+  button_text: {
+    color: '#ffffff',
   }
 });

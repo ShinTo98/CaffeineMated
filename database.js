@@ -87,31 +87,13 @@ export function displayMenu (displayMenu_cb) {
       }
 
       // return menu, for debug, uncomment the next step
-       console.log(menu);
+      console.log(menu);
       displayMenu_cb(menu);
 
     }, function(errorObject){
       alert("failed:" + errorObject.code);
     });
 }
-
-
-/*
- * Name: displayItem
- * Parameters: string: type, string: item_id, displayItem_cb
- * Return:
- * The json containing the information of the item including description, image url, name and price
- *
- */
-export function displayItem (type, item_id, displayItem_cb) {
-    // get the direction
-    dir = "Menu/" + type + "/items/" + item_id;
-    firebase.database().ref(dir).on("value", function (snapshot) {
-        var itemInformation = snapshot.val();
-        displayItem_cb(itemInformation);
-    });
-}
-    //return(information);
 
 /*
  * Name: displayType
@@ -133,6 +115,27 @@ export function displayType (type, displayType_cb) {
         drinks.push(drink);
       }
       displayType_cb(drinks);
+    });
+  }
+
+/*
+ * Name: displayItem
+ * Parameters: string: type, string: item_id, displayItem_cb
+ * Return:
+ * The array containing name, description, image.
+ *
+ */
+export function displayItem (type, item_id, displayItem_cb) {
+    // get the direction
+    dir = "Menu/" + type + "/items/" + item_id;
+    var information = [];
+    firebase.database().ref(dir).on("value", function (snapshot) {
+        var coffee = snapshot.val();
+        // push information to the array
+        information.push(coffee.name);
+        information.push(coffee.description);
+        information.push(coffee.image);
+        displayItem_cb(information);
     });
 }
 
