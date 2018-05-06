@@ -31,6 +31,7 @@ export class Signup extends Component {
     };
     this.signup = this.signup.bind(this);
     this.signup_cb = this.signup_cb.bind(this);
+    this.checkPassword = this.checkPassword.bind(this);
   }
 
 //TODO: function does not work, this.state.password returns undefined object
