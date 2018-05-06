@@ -30,6 +30,7 @@ export class Signup extends Component {
       showToast: false,
     };
     this.signup = this.signup.bind(this);
+    this.signup_cb = this.signup_cb.bind(this);
     this.validityCheck = this.validityCheck.bind(this);
   }
 
@@ -57,15 +58,19 @@ export class Signup extends Component {
       }
   }
 
-  async signup (){
-    var result = await userSignup(this.state.email, this.state.password);
-    if(result === 0) {
+  signup (){
+    userSignup(this.state.email, this.state.password, this.signup_cb);
+  }
+
+  signup_cb (msg) {
+    if(msg === 0) {
       alert("Signup Successful! Now you can log in with your newly created account.");
       this.props.navigation.navigate('login');
     } else {
-      alert(result);
+      alert(msg);
     }
   }
+
 
   render() {
     return (

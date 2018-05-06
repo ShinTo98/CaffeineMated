@@ -21,22 +21,18 @@ firebase.initializeApp(config);
  *                   2) Error Inputs
  * Success: 1
  */
-export async function userLogin (email, password) {
-  var result;
-  await firebase.auth().signInWithEmailAndPassword(email, password).then(
-    function success() {
+export function userLogin (email, password, login_cb) {
+  firebase.auth().signInWithEmailAndPassword(email, password).then(
+    function() {
       // callback with 0 indicating login success
-      result = 0;
+      login_cb(0);
     }
-  ).catch(
-    function failure (error) {
+  ).catch(function(error) {
     var errorCode = error.code;
     var errorMessage = error.message;
     // callback with errorMessage
-    result = errorMessage;
+    login_cb(errorMessage);
   });
-
-  return result;
 }
 
 /*
@@ -46,33 +42,27 @@ export async function userLogin (email, password) {
  * Error Condition: errorMessage
  * Success: 1 represents sign in successfully
  */
-export async function userSignup (email, password) {
-    var result;
-    await firebase.auth().createUserWithEmailAndPassword(email, password).then(
-
-      function success(){
-        result = 0;
+export function userSignup (email, password, signup_cb) {
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(
+      function() {
+      // callback with 0 indicating login success
+        signup_cb(0);
       }
-    ).catch(
-      function failure(error){
-        var errorCode = error.code;
-        var errorMsg = error.message;
-
-        result = errorMsg;
-
-      }
-    );
-
-    return result;
+    ).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // callback with errorMessage
+      signup_cb(errorMessage);
+    });
 }
 
 /*
  * Name: displayMenu
- * Parameters: None
+ * Parameters: call back function
  * Return: List of pairs. [[img, TypeName]...]
  * Error Condition: None
  */
-export function displayMenu () {
+export function displayMenu (displayMenu_cb) {
     // access the Menu field in firebase
     const firebaseRef = firebase.database().ref("Menu");
 
@@ -98,7 +88,7 @@ export function displayMenu () {
 
       // return menu, for debug, uncomment the next step
       console.log(menu);
-      return menu;
+      displayMenu_cb(menu);
 
     }, function(errorObject){
       alert("failed:" + errorObject.code);
@@ -113,7 +103,7 @@ export function displayMenu () {
  * @id: string
  * @name: string
  */
-export function displayType (type) {
+export function displayType (type, displayType_cb) {
     let firebaseRef = firebase.database().ref('Menu');
     let drinks = [];
     firebaseRef.on('value', dataSnapshot => {
@@ -124,7 +114,7 @@ export function displayType (type) {
         let drink = {image: item.image, id: index, name: item.name}
         drinks.push(drink);
       }
-      return drink;
+      displayType_cb(drinks);
     });
   }
 
@@ -135,7 +125,7 @@ export function displayType (type) {
  * The array containing name, description, image.
  *
  */
-export function displayItem (type, item_id) {
+export function displayItem (type, item_id, displayItem_cb) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
     var information = [];
@@ -145,7 +135,7 @@ export function displayItem (type, item_id) {
         information.push(coffee.name);
         information.push(coffee.description);
         information.push(coffee.image);
-        return information;
+        displayItem_cb(information);
     });
 }
 
@@ -157,7 +147,7 @@ export function displayItem (type, item_id) {
  * Error Condition: none
  * Success: return order id of saved order
  */
-export function saveOrder (order) {
+export function saveOrder (order, saveOrder_cb) {
   let orderRef = firebase.database().ref("Orders");
   let order_id = 0;
   orderRef.once("value", dataSnapshot => {
@@ -167,7 +157,7 @@ export function saveOrder (order) {
     }
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
-    return order_id;
+    saveOrder_cb(order_id);
   });
 }
 

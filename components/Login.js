@@ -31,16 +31,21 @@ export class Login extends Component {
 
     // Bind login related functions
     this.login = this.login.bind(this);
+    this.login_cb = this.login_cb.bind(this);
   }
 
   // Function called when user clicked the login button
-  async login() {
-     var result = await userLogin(this.state.email, this.state.password);
-     if(result === 0) {
+  login() {
+     userLogin(this.state.email, this.state.password, this.login_cb);
+  }
+
+  // Callback function used for login process
+  login_cb(msg) {
+    if(msg === 0) {
       alert("Login Successful!");
       this.props.navigation.navigate('main');
     } else {
-      alert(result);
+      alert(msg);
     }
   }
 
