@@ -41,8 +41,9 @@ export class Signup extends Component {
       }
       else{
         Toast.show({
-              text: 'Entered Password does not match!',
-              buttonText: 'Okay'
+              text: 'Password does not match!',
+              buttonText: 'Okay',
+              duration: 5000
         })
       }
   }
