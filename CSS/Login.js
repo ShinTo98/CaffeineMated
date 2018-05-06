@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  login_form: {
+    width: '80%',
+    top: 380,
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -15,17 +19,19 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttons: {
+    alignItems: 'center',
     backgroundColor: '#47525e',
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 200,
+    width: 280,
     padding: 5,
-    top: 130,
+    top: 420,
+    left: 50,
   },
   textSection: {
-    flex: 3,
-    backgroundColor: '#E3E3E3',
+    //flex: 3,
+    //backgroundColor: '#E3E3E3',
     alignItems: 'center',
     //justifyContent: 'center',
   },
