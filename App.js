@@ -8,6 +8,7 @@ import {SideBar} from './components/SideBar.js';
 
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
+import {Customization} from "./components/Customization";
 
 export default class App extends React.Component {
 
@@ -62,6 +63,9 @@ const RootStack = StackNavigator(
     main: {
       screen: Main,
     },
+    customization: {
+      screen: Customization,
+    },
     sidebar: {
       screen: SideBar,
     },
@@ -69,6 +73,7 @@ const RootStack = StackNavigator(
       screen: Drawer,
     },
   },
+
   {
     initialRouteName: 'drawer',
     headerMode: 'none',

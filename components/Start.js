@@ -17,6 +17,7 @@ export class Start extends Component {
   render() {
     return (
       <Container style={styles.container}>
+
         <Container style={styles.container}>
           <Image style={styles.logo} source={require('../resources/logo.png')}/>
           <Text style={styles.name}>
