@@ -95,6 +95,27 @@ export function displayMenu (displayMenu_cb) {
     });
 }
 
+<<<<<<< HEAD
+=======
+
+/*
+ * Name: displayItem
+ * Parameters: string: type, string: item_id, displayItem_cb
+ * Return:
+ * The json containing the information of the item including description, image url, name and price
+ *
+ */
+export function displayItem (type, item_id, displayItem_cb) {
+    // get the direction
+    dir = "Menu/" + type + "/items/" + item_id;
+    firebase.database().ref(dir).on("value", function (snapshot) {
+        var itemInformation = snapshot.val();
+        displayItem_cb(itemInformation);
+    });
+}
+    //return(information);
+
+>>>>>>> 1611356e7716d21b206d7e13c7e25bd2db238e7d
 /*
  * Name: displayType
  * Parameters: string: type
@@ -148,15 +169,120 @@ export function displayItem (type, item_id, displayItem_cb) {
  * Success: return order id of saved order
  */
 export function saveOrder (order, saveOrder_cb) {
-  let orderRef = firebase.database().ref("Orders"); 
-  let order_id = 0; 
+  let orderRef = firebase.database().ref("Orders");
+  let order_id = 0;
   orderRef.once("value", dataSnapshot => {
-    order_id = dataSnapshot.val().size; 
+    order_id = dataSnapshot.val().size;
     if (!order_id) {
-      order_id = 0; 
+      order_id = 0;
     }
-    orderRef.child("items").child(order_id).set(order); 
-    orderRef.child("size").set(++order_id); 
-    saveOrder_cb(order_id); 
+    orderRef.child("items").child(order_id).set(order);
+    orderRef.child("size").set(++order_id);
+    saveOrder_cb(order_id);
+  });
+}
+
+
+/*
+ * Name: cancelByBuyer
+ * Description: delete order object from database
+ * Parameters: string: order_id
+ */
+export function cancelByBuyer(order_id) {
+    let orderRef = firebase.database().ref("Orders/items/" + order_id);
+    orderRef.remove();
+}
+
+
+/*
+ * Name: cancelByCarrier
+ * Description: return accepted order object to pending orders
+ * Parameters: string: order_id
+ */
+export function cancelByCarrier(order_id) {
+    let orderRef = firebase.database().ref("Orders/items/" + order_id);
+    orderRef.once('value', dataSnapshot => {
+      if (dataSnapshot.val().status === 2) {
+        orderRef.child('status').set(1);
+      }
+    });
+}
+
+/*
+ * Name: viewPendingOrders
+ * Description: This is for carrier to see all pending orders
+ * Parameters: object: order, function: saveOrder_cb
+ * Return:
+ * Error Condition: none
+ * Success: viewPendingOrders_cb
+ */
+export function viewPendingOrders() {
+  // access the Menu field in firebase
+  const firebaseRef = firebase.database().ref("Orders");
+
+  firebaseRef.on('value', function(snapshot){
+
+    // Find the value of Orders field
+    let orders = snapshot.val();
+    orders = orders.items;
+
+    pendingOrders=[];
+    var order_id;
+
+    // loop through all types in orders
+    for( order_id in orders){
+      
+      // check if it is a pending order
+      let order = orders[order_id];
+      if( order.status == 1){
+        pendingOrders.push(order_id);
+      }
+
+    }
+
+    console.log(pendingOrders);
+   // displayMenu_cb(menu);
+
+  }, function(errorObject){
+    alert("failed:" + errorObject.code);
+  });
+}
+
+/*
+ * Name: updateOrderStatus
+ * Description: update order status
+ * Parameters: string: order_id, function: updateOrderStatus_cb
+ * Return:
+ * Error Condition: none
+ * Success: update the order status
+ */
+export function updateOrderStatus(order_id, updateOrderStatus_cb) {
+  let orderRef = firebase.database().ref("Orders/items/" + order_id); 
+  let status = -1; 
+  orderRef.once("value", dataSnapshot => {
+    if (!dataSnapshot) {
+      return; 
+    } else {
+      status = dataSnapshot.val().status; 
+      status = Math.max(++status, 4);
+      orderRef.child("status").set(status); 
+      updateOrderStatus_cb(order_id); 
+    }
   }); 
+}
+
+/*
+ * Name: viewOrderDetailById
+ * Parameters: string: order_id, viewOrderDetailById
+ * Return:
+ * The json containing the information of the order corresponding to the order_id
+ *
+ */
+export function viewOrderDetailById (order_id, viewOrderDetailById_cb) {
+    // get the direction
+    dir = "Orders/items/" + order_id;
+    firebase.database().ref(dir).on("value", function (snapshot) {
+        var orderInformation = snapshot.val();
+        viewOrderDetailById_cb(orderInformation);
+    });
 }
