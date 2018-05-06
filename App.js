@@ -1,10 +1,13 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {LogIn} from './components/LogIn.js';
-import {SignUp} from './components/SignUp.js';
+import {Login} from './components/Login.js';
+import {Signup} from './components/Signup.js';
+import {Start} from './components/Start.js';
 import {Main} from './components/Main.js';
+import {SideBar} from './components/SideBar.js';
 
-import {StackNavigator} from 'react-navigation';
+import {StackNavigator, DrawerNavigator} from 'react-navigation';
+import { Root } from "native-base";
 
 export default class App extends React.Component {
 
@@ -20,25 +23,56 @@ export default class App extends React.Component {
       //     CaffeineMated
       //   </Text>
       // </View>
-      <RootStack />
+      <Root>
+        <RootStack />
+      </Root>
     );
   }
 }
 
+const Drawer = DrawerNavigator(
+  {
+    main: { screen: Main },
+    login: {screen: Login},
+    start: {screen: Start},
+  },
+  {
+
+    //modify here to change the inital screen
+
+    initialRouteName: "start",
+    contentOptions: {
+      activeTintColor: "#e91e63"
+    },
+    contentComponent: props => <SideBar {...props} />
+  }
+);
+
 const RootStack = StackNavigator(
   {
-    main:{
+    start:{
+      screen: Start,
+    },
+    login: {
+      screen: Login,
+    },
+    signup: {
+      screen: Signup,
+    },
+    main: {
       screen: Main,
     },
-    logIn: {
-      screen: LogIn,
+    sidebar: {
+      screen: SideBar,
     },
-    signUp: {
-      screen: SignUp,
+    drawer: {
+      screen: Drawer,
     },
   },
   {
-    initialRouteName: 'main',
+    initialRouteName: 'drawer',
     headerMode: 'none',
   }
-)
+);
+
+
