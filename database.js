@@ -162,3 +162,26 @@ export function saveOrder (order, saveOrder_cb) {
     saveOrder_cb(order_id); 
   }); 
 }
+
+/*
+ * Name: updateOrderStatus
+ * Description: update order status
+ * Parameters: string: order_id, function: updateOrderStatus_cb
+ * Return:
+ * Error Condition: none
+ * Success: update the order status
+ */
+export function updateOrderStatus(order_id, updateOrderStatus_cb) {
+  let orderRef = firebase.database().ref("Orders/items/" + order_id); 
+  let status = -1; 
+  orderRef.once("value", dataSnapshot => {
+    if (!dataSnapshot) {
+      return; 
+    } else {
+      status = dataSnapshot.val().status; 
+      status = Math.max(++status, 4);
+      orderRef.child("status").set(status); 
+      updateOrderStatus_cb(order_id); 
+    }
+  }); 
+}
