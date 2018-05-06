@@ -150,15 +150,41 @@ export function displayType (type, displayType_cb) {
  * Success: return order id of saved order
  */
 export function saveOrder (order, saveOrder_cb) {
-  let orderRef = firebase.database().ref("Orders"); 
-  let order_id = 0; 
+  let orderRef = firebase.database().ref("Orders");
+  let order_id = 0;
   orderRef.once("value", dataSnapshot => {
-    order_id = dataSnapshot.val().size; 
+    order_id = dataSnapshot.val().size;
     if (!order_id) {
-      order_id = 0; 
+      order_id = 0;
     }
-    orderRef.child("items").child(order_id).set(order); 
-    orderRef.child("size").set(++order_id); 
-    saveOrder_cb(order_id); 
-  }); 
+    orderRef.child("items").child(order_id).set(order);
+    orderRef.child("size").set(++order_id);
+    saveOrder_cb(order_id);
+  });
+}
+
+
+/*
+ * Name: cancelByBuyer
+ * Description: delete order object from database
+ * Parameters: string: order_id
+ */
+export function cancelByBuyer(order_id) {
+    let orderRef = firebase.database().ref("Orders/items/" + order_id);
+    orderRef.remove();
+}
+
+
+/*
+ * Name: cancelByCarrier
+ * Description: return accepted order object to pending orders
+ * Parameters: string: order_id
+ */
+export function cancelByCarrier(order_id) {
+    let orderRef = firebase.database().ref("Orders/items/" + order_id);
+    orderRef.once('value', dataSnapshot => {
+      if (dataSnapshot.val().status === 2) {
+        orderRef.child('status').set(1);
+      }
+    });
 }
