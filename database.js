@@ -95,27 +95,6 @@ export function displayMenu (displayMenu_cb) {
     });
 }
 
-<<<<<<< HEAD
-=======
-
-/*
- * Name: displayItem
- * Parameters: string: type, string: item_id, displayItem_cb
- * Return:
- * The json containing the information of the item including description, image url, name and price
- *
- */
-export function displayItem (type, item_id, displayItem_cb) {
-    // get the direction
-    dir = "Menu/" + type + "/items/" + item_id;
-    firebase.database().ref(dir).on("value", function (snapshot) {
-        var itemInformation = snapshot.val();
-        displayItem_cb(itemInformation);
-    });
-}
-    //return(information);
-
->>>>>>> 1611356e7716d21b206d7e13c7e25bd2db238e7d
 /*
  * Name: displayType
  * Parameters: string: type
