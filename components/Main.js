@@ -1,59 +1,60 @@
 import React, {Component} from 'react';
-import {
-  Button,
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TextInput,
-  KeyboardAvoidingView
-} from 'react-native';
+//import {
+//  Button,
+//  StyleSheet,
+//  View,
+//  Text,
+//  Image,
+//  TextInput,
+//  KeyboardAvoidingView,
+//  TouchableWithoutFeedback
+//} from 'react-native';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text } from 'native-base';
 import {styles} from '../CSS/Main.js';
-import {StackNavigator} from 'react-navigation'
 
 export class Main extends Component {
 
   static navigationOptions = {
-    header: null,
+    header: null
   }
 
   constructor(props) {
     super(props);
+    this.state = {
+      //titleText: "CaffeineMated",
+      //bodyText: 'This is not really a bird nest.',
+      //name: 'Name',
+      //email: 'Email',
+      //password: 'Password',
+      //comfirm: 'Comfirm Password',
+      //haveAccount: 'Already have an account? ',
+    };
   }
 
   render() {
     return (
-      <View style={styles.container}>
-       <View style={styles.container}>
-         <Image
-           style={styles.logo}
-           source={require('../resources/wei_logo.png')}
-         />
-         <Text style={styles.name}>
-           CaffeineMated
-         </Text>
-
-       </View>
-
-         
-       <View style={styles.bottom}>
-         <View style={styles.buttons} >
-            <Button
-              title="Log In"
-              color="#ffffff"
-              onPress={() => this.props.navigation.navigate('logIn')}
-            />
-          </View>
-          <View style={styles.buttons}>
-            <Button
-              title="Sign Up"
-              color="#ffffff"
-              onPress={() => this.props.navigation.navigate('signUp')}
-             />
-          </View>
-        </View>
-      </View>
+       <Container>
+        <Header style={styles.color_theme}>
+          <Left>
+            <Button transparent>
+              <Icon name="menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Segment style={styles.color_theme}>
+              <Button first><Text>Buyer</Text></Button>
+              <Button last active><Text>Carrier</Text></Button>
+            </Segment>
+          </Body>
+          <Right>
+          </Right>
+        </Header>
+        <Content padder style={styles.color_theme}>
+          <Text>Awesome segment</Text>
+        </Content>
+      </Container>
     );
   }
 }
 
+export default Main;

@@ -1,41 +1,63 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
+  color_theme: {
+    // TODO: correct color code
+    backgroundColor: '#ffffff',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#FF9052',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: Dimensions.get('window').height
+    flexDirection: 'column',
   },
-  name: {
-    fontSize: 40,
-    color: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
+  white_banner: {
+    flex: 0.15,
+    backgroundColor: '#ffffff',
   },
-  logo: {
-    width: 120,
-    height: 120,
+  banner: {
+    flex: 1.8,
+    backgroundColor: '#ff9052',
+    alignItems: 'center',
   },
   buttons: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#47525e',
     flexDirection: 'row',
     justifyContent: 'center',
-    borderRadius:10,
-    borderWidth: 1,
-    borderColor: 'white',
     //fontSize: 30,
-    width: 150,
+    width: 200,
     padding: 5,
-    marginLeft: 10,
-    marginRight: 10,
+    top: 100,
   },
-  bottom:{
-    flex: 0.2,
-    flexDirection: 'row',
+  textSection: {
+    flex: 3,
+    backgroundColor: '#E3E3E3',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    //alignSelf: 'flex-end'
-  }
+    //justifyContent: 'center',
+  },
+  textInput: {
+    height: 40,
+    color: 'gray',
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    width: 250,
+    top: 50,
+  },
+  textView: {
+    top: 110,
+    alignItems: 'center',
+  },
+  subText: {
+    color: 'gray',
+    fontSize: 12,
+  },
+  titleText: {
+    fontSize: 35,
+    fontWeight: '300',
+    color: 'white',
+    top: 55,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    top: 70,
+  },
 });

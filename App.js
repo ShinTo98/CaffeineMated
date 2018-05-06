@@ -1,12 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {LogIn} from './components/LogIn.js';
-import {SignUp} from './components/SignUp.js';
+import {Login} from './components/Login.js';
+import {Signup} from './components/Signup.js';
+import {Start} from './components/Start.js';
 import {Main} from './components/Main.js';
 
 import {StackNavigator} from 'react-navigation';
 
 export default class App extends React.Component {
+
 
   render() {
     return (
@@ -26,18 +28,22 @@ export default class App extends React.Component {
 
 const RootStack = StackNavigator(
   {
-    main:{
+    start:{
+      screen: Start,
+    },
+    login: {
+      screen: Login,
+    },
+    signup: {
+      screen: Signup,
+    },
+    main: {
       screen: Main,
-    },
-    logIn: {
-      screen: LogIn,
-    },
-    signUp: {
-      screen: SignUp,
-    },
+    }
   },
   {
-    initialRouteName: 'main',
+    // TEMPERARY! Original: start; for development usage only
+    initialRouteName: 'signup',
     headerMode: 'none',
   }
 )
