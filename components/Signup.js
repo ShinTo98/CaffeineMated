@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {styles} from '../CSS/Signup.js';
 import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
-import { Container, Header, Content, Button, Text, Form, Item, Input, Label } from 'native-base';
+import { Container, Header, Content, Button, Toast, Text, Form, Item, Input, Label } from 'native-base';
 
 export class Signup extends Component {
 
@@ -27,9 +27,23 @@ export class Signup extends Component {
       password: 'Password',
       comfirm: 'Comfirm Password',
       haveAccount: 'Already have an account? ',
+      showToast: false,
     };
     this.signup = this.signup.bind(this);
     this.signup_cb = this.signup_cb.bind(this);
+  }
+
+//TODO: function does not work, this.state.password returns undefined object
+  checkPassword(){
+      if( this.state.password == this.state.confirm ){
+        this.signup;
+      }
+      else{
+        Toast.show({
+              text: 'Entered Password does not match!',
+              buttonText: 'Okay'
+        })
+      }
   }
 
   signup (){
@@ -100,7 +114,8 @@ export class Signup extends Component {
             <Button
               style={styles.buttons}
               color="#ffffff"
-              onPress={this.signup}
+              onPress={
+                this.checkPassword}
             > <Text> Sign Up </Text>
             </Button>
 
