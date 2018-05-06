@@ -10,8 +10,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   banner: {
-    flex: 1.8,
-    backgroundColor: '#ff9052',
+    flex: 2,
+    backgroundColor: '#FAFAFA',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   buttons: {
@@ -20,30 +21,34 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     //fontSize: 30,
-    width: 200,
+    width: 250,
     padding: 5,
-    top: 100,
+    top: 50,
   },
   textSection: {
-    flex: 3,
-    backgroundColor: '#E3E3E3',
+    flex: 2,
+    backgroundColor: '#FAFAFA',
     alignItems: 'center',
     //justifyContent: 'center',
   },
   textInput: {
     height: 50,
-    color: 'gray',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
+    backgroundColor: '#FFFFFF',
+    borderColor: 'gray',
+    borderWidth: 2,
     width: 250,
-    top: 50,
   },
   textView: {
-    top: 110,
+    top: 55,
     alignItems: 'center',
   },
+  labelText: {
+    color: '#8190A5',
+    fontSize: 13,
+    paddingLeft: 8,
+  },
   subText: {
-    color: 'gray',
+    color: '#8190A5',
     fontSize: 12,
   },
   titleText: {
@@ -53,8 +58,7 @@ export const styles = StyleSheet.create({
     top: 55,
   },
   logo: {
-    width: 100,
-    height: 100,
-    top: 70,
+    width: 120,
+    height: 120,
   },
 });

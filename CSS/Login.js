@@ -38,7 +38,6 @@ export const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 2,
     width: 250,
-
   },
   textView: {
     top: 45,

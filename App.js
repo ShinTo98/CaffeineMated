@@ -43,7 +43,7 @@ const RootStack = StackNavigator(
   },
   {
     // TEMPERARY! Original: start; for development usage only
-    initialRouteName: 'login',
+    initialRouteName: 'signup',
     headerMode: 'none',
   }
 )

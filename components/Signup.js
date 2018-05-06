@@ -51,40 +51,52 @@ export class Signup extends Component {
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
         <View style={styles.container}>
           <View style={styles.banner}>
-            <Text style={styles.titleText}>{this.state.titleText}</Text>
             <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('start')}>
             <Image
               style={styles.logo}
-              source={require('../resources/wei_logo.png')}
+              source={require('../resources/logo.png')}
             />
             </TouchableWithoutFeedback>
           </View>
-          <View style={styles.white_banner}/>
           <View style={styles.textSection}>
 
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(text) => this.setState({name: text})}
-              value={this.state.name}
-            />
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(text) => this.setState({email: text})}
+            <Form >
+            <Item regular style={styles.textInput}>
+              <Label style={styles.labelText}>Name</Label>
+              <Input onChangeText={(text) => this.setState({name: text})}
+              />
+            </Item>
+            </Form>
+
+            <Form style = {{top: 10}}>
+            <Item regular style={styles.textInput}>
+              <Label style={styles.labelText}>Email</Label>
+              <Input onChangeText={(text) => this.setState({email: text})}
               keyboardType='email-address'
-              value={this.state.email}
-            />
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(text) => this.setState({password: text})}
+              />
+            </Item>
+            </Form>
+
+            <Form style = {{top: 20}}>
+            <Item regular style={styles.textInput}>
+              <Label style={styles.labelText}>Password</Label>
+              <Input onChangeText={(text) => this.setState({password: text})}
               keyboardType='visible-password'
-              value={this.state.password}
-            />
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(text) => this.setState({confirm: text})}
+              secureTextEntry= {true}
+              />
+            </Item>
+            </Form>
+
+            <Form style = {{top: 30}}>
+            <Item regular style={styles.textInput}>
+              <Label style={styles.labelText}>Confirm</Label>
+              <Input onChangeText={(text) => this.setState({confirm: text})}
               keyboardType='visible-password'
-              value={this.state.comfirm}
-            />
+              secureTextEntry= {true}
+              />
+            </Item>
+            </Form>
+
             <Button
               style={styles.buttons}
               color="#ffffff"
