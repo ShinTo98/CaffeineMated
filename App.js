@@ -40,7 +40,7 @@ const Drawer = DrawerNavigator(
 
     //modify here to change the inital screen
 
-    initialRouteName: "main",
+    initialRouteName: "start",
     contentOptions: {
       activeTintColor: "#e91e63"
     },
