@@ -185,7 +185,6 @@ export function cancelByCarrier(order_id) {
 }
 
 /*
-<<<<<<< HEAD
  * Name: viewPendingOrders
  * Description: This is for carrier to see all pending orders
  * Parameters: object: order, function: saveOrder_cb
@@ -223,7 +222,9 @@ export function viewPendingOrders() {
   }, function(errorObject){
     alert("failed:" + errorObject.code);
   });
-=======
+}
+
+/*
  * Name: updateOrderStatus
  * Description: update order status
  * Parameters: string: order_id, function: updateOrderStatus_cb
@@ -260,5 +261,4 @@ export function viewOrderDetailById (order_id, viewOrderDetailById_cb) {
         var orderInformation = snapshot.val();
         viewOrderDetailById_cb(orderInformation);
     });
->>>>>>> a7061bc414e82c8a4882858bf5edd25c086f377a
 }
