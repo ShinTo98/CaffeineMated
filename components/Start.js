@@ -27,8 +27,8 @@ export class Start extends Component {
         <Container style={styles.bottom}>
           <Button
             style={styles.buttons}
-            bordered="bordered"
-            light="light"
+            bordered
+            light
             onPress={() => this.props.navigation.navigate('login')}>
             <Text>
               Login
@@ -36,8 +36,8 @@ export class Start extends Component {
           </Button>
           <Button
             style={styles.buttons}
-            bordered="bordered"
-            light="light"
+            bordered
+            light
             onPress={() => this.props.navigation.navigate('signup')}>
             <Text>
               Signup

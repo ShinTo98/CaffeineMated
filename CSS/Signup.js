@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#47525e',
     flexDirection: 'row',
     justifyContent: 'center',
+    alignSelf: 'center',
     //fontSize: 30,
     width: 200,
     padding: 5,
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
     //justifyContent: 'center',
   },
   textInput: {
-    height: 40,
+    height: 50,
     color: 'gray',
     borderBottomColor: 'gray',
     borderBottomWidth: 1,

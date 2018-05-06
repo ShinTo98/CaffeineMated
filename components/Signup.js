@@ -1,16 +1,15 @@
 import React, {Component} from 'react';
 import {
-  Button,
   StyleSheet,
-  View,
-  Text,
-  Image,
   TextInput,
+  View,
+  Image,
   KeyboardAvoidingView,
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/Signup.js';
 import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
+import { Container, Header, Content, Button, Text, Form, Item, Input, Label } from 'native-base';
 
 export class Signup extends Component {
 
@@ -62,6 +61,7 @@ export class Signup extends Component {
           </View>
           <View style={styles.white_banner}/>
           <View style={styles.textSection}>
+
             <TextInput
               style={styles.textInput}
               onChangeText={(text) => this.setState({name: text})}
@@ -85,21 +85,20 @@ export class Signup extends Component {
               keyboardType='visible-password'
               value={this.state.comfirm}
             />
-            <View style={styles.buttons}>
-              <Button
-                title="Signup"
-                color="#ffffff"
-                accessibilityLabel="Tap to sign up"
-                onPress={this.signup}
-              />
-            </View>
+            <Button
+              style={styles.buttons}
+              color="#ffffff"
+              onPress={this.signup}
+            > <Text> Sign Up </Text>
+            </Button>
+
             <View style={styles.textView}>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.subText}>{this.state.haveAccount}</Text>
                 <Text
                   style={{fontSize:12}}
                   onPress={() => this.props.navigation.navigate('login')}
-                >Login</Text>
+                >Log In</Text>
               </View>
             </View>
           </View>
