@@ -6,7 +6,7 @@ import {Start} from './components/Start.js';
 import {Main} from './components/Main.js';
 import {SideBar} from './components/SideBar.js';
 
-import {StackNavigator} from 'react-navigation';
+import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
 
 export default class App extends React.Component {
@@ -30,6 +30,24 @@ export default class App extends React.Component {
   }
 }
 
+const Drawer = DrawerNavigator(
+  {
+    main: { screen: Main },
+    login: {screen: Login},
+    start: {screen: Start},
+  },
+  {
+
+    //modify here to change the inital screen
+
+    initialRouteName: "main",
+    contentOptions: {
+      activeTintColor: "#e91e63"
+    },
+    contentComponent: props => <SideBar {...props} />
+  }
+);
+
 const RootStack = StackNavigator(
   {
     start:{
@@ -46,11 +64,15 @@ const RootStack = StackNavigator(
     },
     sidebar: {
       screen: SideBar,
-    }
+    },
+    drawer: {
+      screen: Drawer,
+    },
   },
   {
-    // TEMPERARY! Original: start; for development usage only
-    initialRouteName: 'start',
+    initialRouteName: 'drawer',
     headerMode: 'none',
   }
 );
+
+
