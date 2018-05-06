@@ -10,7 +10,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/Signup.js';
-import {userSignup, displayMenu} from '../database.js'
+import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
 
 export class Signup extends Component {
 
@@ -45,6 +45,7 @@ export class Signup extends Component {
       alert(msg);
     }
   }
+
 
   render() {
     return (
