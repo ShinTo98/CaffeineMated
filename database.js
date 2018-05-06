@@ -162,3 +162,43 @@ export function saveOrder (order, saveOrder_cb) {
     saveOrder_cb(order_id); 
   }); 
 }
+
+/*
+ * Name: viewPendingOrders
+ * Description: This is for carrier to see all pending orders
+ * Parameters: object: order, function: saveOrder_cb
+ * Return:
+ * Error Condition: none
+ * Success: viewPendingOrders_cb
+ */
+export function viewPendingOrders() {
+  // access the Menu field in firebase
+  const firebaseRef = firebase.database().ref("Orders");
+
+  firebaseRef.on('value', function(snapshot){
+
+    // Find the value of Orders field
+    let orders = snapshot.val();
+    orders = orders.items;
+
+    pendingOrders=[];
+    var order_id;
+
+    // loop through all types in orders
+    for( order_id in orders){
+      
+      // check if it is a pending order
+      let order = orders[order_id];
+      if( order.status == 1){
+        pendingOrders.push(order_id);
+      }
+
+    }
+
+    console.log(pendingOrders);
+   // displayMenu_cb(menu);
+
+  }, function(errorObject){
+    alert("failed:" + errorObject.code);
+  });
+}
