@@ -68,11 +68,11 @@ export async function userSignup (email, password) {
 
 /*
  * Name: displayMenu
- * Parameters: call back function
+ * Parameters: None
  * Return: List of pairs. [[img, TypeName]...]
  * Error Condition: None
  */
-export function displayMenu (displayMenu_cb) {
+export function displayMenu () {
     // access the Menu field in firebase
     const firebaseRef = firebase.database().ref("Menu");
 
@@ -98,7 +98,7 @@ export function displayMenu (displayMenu_cb) {
 
       // return menu, for debug, uncomment the next step
       console.log(menu);
-      displayMenu_cb(menu);
+      return menu;
 
     }, function(errorObject){
       alert("failed:" + errorObject.code);
@@ -113,7 +113,7 @@ export function displayMenu (displayMenu_cb) {
  * @id: string
  * @name: string
  */
-export function displayType (type, displayType_cb) {
+export function displayType (type) {
     let firebaseRef = firebase.database().ref('Menu');
     let drinks = [];
     firebaseRef.on('value', dataSnapshot => {
@@ -124,7 +124,7 @@ export function displayType (type, displayType_cb) {
         let drink = {image: item.image, id: index, name: item.name}
         drinks.push(drink);
       }
-      displayType_cb(drinks);
+      return drink;
     });
   }
 
@@ -135,7 +135,7 @@ export function displayType (type, displayType_cb) {
  * The array containing name, description, image.
  *
  */
-export function displayItem (type, item_id, displayItem_cb) {
+export function displayItem (type, item_id) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
     var information = [];
@@ -145,7 +145,7 @@ export function displayItem (type, item_id, displayItem_cb) {
         information.push(coffee.name);
         information.push(coffee.description);
         information.push(coffee.image);
-        displayItem_cb(information);
+        return information;
     });
 }
 
@@ -157,7 +157,7 @@ export function displayItem (type, item_id, displayItem_cb) {
  * Error Condition: none
  * Success: return order id of saved order
  */
-export function saveOrder (order, saveOrder_cb) {
+export function saveOrder (order) {
   let orderRef = firebase.database().ref("Orders");
   let order_id = 0;
   orderRef.once("value", dataSnapshot => {
@@ -167,7 +167,7 @@ export function saveOrder (order, saveOrder_cb) {
     }
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
-    saveOrder_cb(order_id);
+    return order_id;
   });
 }
 
