@@ -30,18 +30,15 @@ export class SignUp extends Component {
       haveAccount: 'Already have an account? ',
     };
     this.signup = this.signup.bind(this);
-    this.signup_cb = this.signup_cb.bind(this);
   }
 
-  signup (){
-    userSignup(this.state.email, this.state.password, this.signup_cb);
-  }
-
-  signup_cb (msg) {
-    if(msg === 0) {
-      alert("Signup Successful!");
-    } else {
-      alert(msg);
+  async signup (){
+    var result = await userSignup(this.state.email, this.state.password);
+    if(result == 0){
+      alert("Sign up successful!");
+    }
+    else{
+      alert(result);
     }
   }
 

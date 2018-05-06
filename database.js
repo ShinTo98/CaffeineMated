@@ -21,18 +21,22 @@ firebase.initializeApp(config);
  *                   2) Error Inputs
  * Success: 1
  */
-export function userLogin (email, password, login_cb) {
-  firebase.auth().signInWithEmailAndPassword(email, password).then(
-    function() {
+export async function userLogin (email, password) {
+  var result;
+  await firebase.auth().signInWithEmailAndPassword(email, password).then(
+    function success() {
       // callback with 0 indicating login success
-      login_cb(0);
+      result = 0;
     }
-  ).catch(function(error) {
+  ).catch(
+    function failure (error) {
     var errorCode = error.code;
     var errorMessage = error.message;
     // callback with errorMessage
-    login_cb(errorMessage);
+    result = errorMessage;
   });
+
+  return result;
 }
 
 /*
@@ -42,19 +46,26 @@ export function userLogin (email, password, login_cb) {
  * Error Condition: errorMessage
  * Success: 1 represents sign in successfully
  */
-export function userSignup (email, password, signup_cb) {
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(
-      function() {
-      // callback with 0 indicating login success
-        signup_cb(0);
+export async function userSignup (email, password) {
+    var result;
+    await firebase.auth().createUserWithEmailAndPassword(email, password).then(
+
+      function success(){
+        result = 0;
       }
-    ).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // callback with errorMessage
-      signup_cb(errorMessage);
-    });
+    ).catch(
+      function failure(error){
+        var errorCode = error.code;
+        var errorMsg = error.message;
+
+        result = errorMsg;
+
+      }
+    );
+
+    return result;
 }
+
 
 export function displayMenu () {
 
