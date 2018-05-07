@@ -8,7 +8,6 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {SubMenuView} from './components/SubMenuView.js';
 import {MenuView} from './components/MenuView.js';
-
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
 
@@ -89,5 +88,3 @@ const RootStack = StackNavigator(
     headerMode: 'none',
   }
 );
-
-

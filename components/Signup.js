@@ -30,11 +30,10 @@ export class Signup extends Component {
       showToast: false,
     };
     this.signup = this.signup.bind(this);
-    this.signup_cb = this.signup_cb.bind(this);
     this.validityCheck = this.validityCheck.bind(this);
   }
 
-  // Validity check function; whether is ucsd.edu email and if confirm password met 
+  // Validity check function; whether is ucsd.edu email and if confirm password met
   // original password
   validityCheck(){
       if( this.state.password == this.state.confirm ){
@@ -58,16 +57,13 @@ export class Signup extends Component {
       }
   }
 
-  signup (){
-    userSignup(this.state.email, this.state.password, this.signup_cb);
-  }
-
-  signup_cb (msg) {
-    if(msg === 0) {
+  async signup (){
+    var result = await userSignup(this.state.email, this.state.password);
+    if(result === 0) {
       alert("Signup Successful! Now you can log in with your newly created account.");
       this.props.navigation.navigate('login');
     } else {
-      alert(msg);
+      alert(result);
     }
   }
 
