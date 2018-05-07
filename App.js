@@ -68,9 +68,12 @@ const RootStack = StackNavigator(
     drawer: {
       screen: Drawer,
     },
+    customization: {
+      screen: Customization,
+    },
   },
   {
-    initialRouteName: 'drawer',
+    initialRouteName: 'customization',
     headerMode: 'none',
   }
 );
