@@ -6,6 +6,8 @@ import {Start} from './components/Start.js';
 import {Main} from './components/Main.js';
 import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
+import {MenuView} from './components/MenuView.js';
+import {SubMenuView} from './components/SubMenuView.js';
 
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
@@ -36,12 +38,13 @@ const Drawer = DrawerNavigator(
     main: { screen: Main },
     login: {screen: Login},
     start: {screen: Start},
+    menu: {screen: MenuView},
   },
   {
 
     //modify here to change the inital screen
 
-    initialRouteName: "start",
+    initialRouteName: "main",
     contentOptions: {
       activeTintColor: "#e91e63"
     },
@@ -71,6 +74,9 @@ const RootStack = StackNavigator(
     },
     customization: {
       screen: Customization,
+    },
+    menu: {
+      screen: MenuView
     },
   },
   {
