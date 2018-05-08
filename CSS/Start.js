@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     borderRadius:10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#FF9052',
     //fontSize: 30,
     width: 150,
