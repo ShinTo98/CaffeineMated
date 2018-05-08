@@ -9,7 +9,8 @@ export const styles = StyleSheet.create({
     height: Dimensions.get('window').height
   },
   name: {
-    fontSize: 40,
+    marginTop: '2%',
+    fontSize: 32,
     color: '#FF9052',
     justifyContent: 'center',
     alignItems: 'center',
@@ -32,7 +33,7 @@ export const styles = StyleSheet.create({
     marginRight: 10,
   },
   bottom:{
-    flex: 0.2,
+    flex: 0.125,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
