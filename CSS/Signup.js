@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     top: 50,
   },
   textSection: {
-    flex: 2,
+    flex: 2.4,
     backgroundColor: '#FAFAFA',
     alignItems: 'center',
     //justifyContent: 'center',
