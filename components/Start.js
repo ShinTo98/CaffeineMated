@@ -28,19 +28,17 @@ export class Start extends Component {
         <Container style={styles.bottom}>
           <Button
             style={styles.buttons}
-            bordered
             light
             onPress={() => this.props.navigation.navigate('login')}>
-            <Text style = {{color: '#FF9052'}}>
+            <Text style = {{color: '#FF9052', fontSize: 20}}>
               Log In
             </Text>
           </Button>
           <Button
             style={styles.buttons}
-            bordered
             light
             onPress={() => this.props.navigation.navigate('signup')}>
-            <Text style = {{color: '#FF9052'}}>
+            <Text style = {{color: '#FF9052', fontSize: 20}}>
               Sign Up
             </Text>
           </Button>

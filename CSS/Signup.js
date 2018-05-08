@@ -34,8 +34,8 @@ export const styles = StyleSheet.create({
   textInput: {
     height: 50,
     backgroundColor: '#FFFFFF',
-    borderColor: 'gray',
-    borderWidth: 2,
+    borderColor: '#47525e',
+    borderWidth: 0.5,
     width: 250,
   },
   textView: {
