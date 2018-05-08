@@ -38,7 +38,7 @@ const Drawer = DrawerNavigator(
     main: { screen: Main },
     login: {screen: Login},
     start: {screen: Start},
-    menu: {screen: MenuView},
+    //menu: {screen: MenuView},
   },
   {
 
