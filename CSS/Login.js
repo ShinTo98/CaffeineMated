@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   textInput: {
     height: 50,
     backgroundColor: '#FFFFFF',
-    borderColor: '#47525e',
+    borderColor: '#8190A5',
     borderWidth: 0.5,
     width: 250,
   },
