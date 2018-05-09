@@ -135,17 +135,13 @@ export function displayType (type) {
  * The array containing name, description, image.
  *
  */
-export function displayItem (type, item_id) {
+export function displayItem (type, item_id, displayItem_cb) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
     var information = [];
     firebase.database().ref(dir).on("value", function (snapshot) {
         var coffee = snapshot.val();
-        // push information to the array
-        information.push(coffee.name);
-        information.push(coffee.description);
-        information.push(coffee.image);
-        return information;
+        displayItem_cb(coffee);
     });
 }
 
