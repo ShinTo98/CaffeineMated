@@ -38,6 +38,9 @@ export class SubMenuView extends Component {
       c5: 'Macchiato',
       c6: 'Espresso',
     };
+
+    // Bind login related functions
+    //this. = this.login.bind(this);
   }
 
   render () {
@@ -48,22 +51,24 @@ export class SubMenuView extends Component {
         <Header style={styles.header}>
           <Left>
             <Button transparent>
-              <Icon name='arrow-back' style={styles.icon}/>
+              <Icon
+                name='arrow-back'
+                style={styles.icon }
+                onPress={() => this.props.navigation.navigate('menu')}
+              />
             </Button>
           </Left>
           <Right>
             <Button transparent>
-              <Icon name='search'/>
+              <Icon name='search' style={styles.search}/>
             </Button>
           </Right>
         </Header>
 
-        <Content>
-            <Text style={styles.menu}>{this.state.menu}</Text>
-        </Content>
-
-        <View style={styles.coffeeNameUnderline}>
-        </View>
+        <Container style={styles.menu_container}>
+          <Text style={styles.menu}>{this.state.menu}</Text>
+          <View style={styles.coffeeNameUnderline} />
+        </Container>
 
         <Container style={styles.back}>
 
