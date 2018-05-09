@@ -135,6 +135,7 @@ export async function displayType (type) {
 export async function displayItem (type, item_id) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
+<<<<<<< HEAD
     var information = [];
     await firebase.database().ref(dir).on("value", function (snapshot) {
         var coffee = snapshot.val();
@@ -142,9 +143,13 @@ export async function displayItem (type, item_id) {
         information.push(coffee.name);
         information.push(coffee.description);
         information.push(coffee.image);
+=======
+    var coffee;
+    await firebase.database().ref(dir).once("value", function (snapshot) {
+        coffee = snapshot.val();
+>>>>>>> cba7072e6edb243ad4ba8961a8cdab93459e2361
     });
-
-    return information;
+    return coffee;
 }
 
 /*
