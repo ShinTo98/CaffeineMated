@@ -2,8 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   color_theme: {
-    // TODO: correct color code
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FAFAFA',
   },
   container: {
     flex: 1,
@@ -11,8 +10,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
-  segment:{
-
+  icon: {
+    color: '#FF9052',
   },
   white_banner: {
     flex: 0.15,
@@ -128,9 +127,10 @@ export const styles = StyleSheet.create({
     color: 'white',
     top: 55,
   },
-  logo: {
-    width: 100,
-    height: 100,
-    top: 70,
+  signOut: {
+    backgroundColor: '#47525e',
+  },
+  signOutText: {
+    color: "#ffffff",
   },
 });

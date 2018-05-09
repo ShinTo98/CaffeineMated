@@ -166,7 +166,10 @@ export async function saveOrder (order) {
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 71ee9dea21c2789eb2d2581f1cecac83670e0527
   return order_id;
 }
 
@@ -244,15 +247,19 @@ export function viewPendingOrders() {
  * Error Condition: none
  * Success: update the order status
  */
+<<<<<<< HEAD
 export function updateOrderStatus(order_id) {
+=======
+export async function updateOrderStatus(order_id) {
+>>>>>>> 71ee9dea21c2789eb2d2581f1cecac83670e0527
   let orderRef = firebase.database().ref("Orders/items/" + order_id); 
   let status = -1; 
-  orderRef.once("value", dataSnapshot => {
+  await orderRef.once("value", dataSnapshot => {
     if (!dataSnapshot) {
       return; 
     } else {
       status = dataSnapshot.val().status; 
-      status = Math.max(++status, 4);
+      status = Math.min(++status, 4);
       orderRef.child("status").set(status); 
     }
   }); 
