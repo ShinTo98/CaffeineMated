@@ -6,8 +6,9 @@ import {Start} from './components/Start.js';
 import {Main} from './components/Main.js';
 import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
-import {SubMenuView} from './components/SubMenuView.js';
 import {MenuView} from './components/MenuView.js';
+import {SubMenuView} from './components/SubMenuView.js';
+
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
 
@@ -39,7 +40,7 @@ const Drawer = DrawerNavigator(
     start: {screen: Start},
     customization: {screen: Customization},
     subMenuView: {screen: SubMenuView},
-    menuView: {screen: MenuView},
+    menu: {screen: MenuView},
   },
   {
 
@@ -79,12 +80,12 @@ const RootStack = StackNavigator(
     subMenuView: {
       screen: SubMenuView
     },
-    menuView: {
+    menu: {
       screen: MenuView
     },
   },
   {
-    initialRouteName: 'menuView',
+    initialRouteName: 'menu',
     headerMode: 'none',
   }
 );

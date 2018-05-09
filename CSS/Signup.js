@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     top: 50,
   },
   textSection: {
-    flex: 2,
+    flex: 2.4,
     backgroundColor: '#FAFAFA',
     alignItems: 'center',
     //justifyContent: 'center',
@@ -34,8 +34,8 @@ export const styles = StyleSheet.create({
   textInput: {
     height: 50,
     backgroundColor: '#FFFFFF',
-    borderColor: 'gray',
-    borderWidth: 2,
+    borderColor: '#8190A5',
+    borderWidth: 0.5,
     width: 250,
   },
   textView: {

@@ -68,7 +68,7 @@ export class Login extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 10}}>
+            <Form style = {{top: 8}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Password</Label>
               <Input onChangeText={(text) => this.setState({password: text})}

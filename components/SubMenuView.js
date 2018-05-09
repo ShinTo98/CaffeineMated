@@ -7,9 +7,23 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback
 } from 'react-native';
-import {styles} from '../CSS/SubMenuView.js';
+import {styles} from '../CSS/MenuView.js';
 import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
-import { Container, Header, Content, Button, Toast, Text, Form, Item, Input, Label, Icon } from 'native-base';
+import {
+  Container,
+  Header,
+  Content,
+  Button,
+  Toast,
+  Text,
+  Form,
+  Item,
+  Input,
+  Label,
+  Icon,
+  Left,
+  Right,
+} from 'native-base';
 
 export class SubMenuView extends Component {
 
@@ -28,21 +42,28 @@ export class SubMenuView extends Component {
 
   render () {
     return(
+
       <Container style={styles.container}>
-        <Container style={styles.top_bar}>
-          <Button iconLeft light>
-            <Icon name='arrow-back' />
-          </Button>
 
-          <Item>
-               <Icon name="ios-search" />
-          </Item>
+        <Header style={styles.header}>
+          <Left>
+            <Button transparent>
+              <Icon name='arrow-back' style={styles.icon}/>
+            </Button>
+          </Left>
+          <Right>
+            <Button transparent>
+              <Icon name='search'/>
+            </Button>
+          </Right>
+        </Header>
 
-        </Container>
+        <Content>
+            <Text style={styles.menu}>{this.state.menu}</Text>
+        </Content>
 
-        <Container style={styles.banner}>
-          <Text style={styles.menu}>{this.state.menu}</Text>
-        </Container>
+        <View style={styles.coffeeNameUnderline}>
+        </View>
 
         <Container style={styles.back}>
 

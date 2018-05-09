@@ -90,7 +90,7 @@ export class Signup extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 10}}>
+            <Form style = {{top: 8}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Email</Label>
               <Input onChangeText={(text) => this.setState({email: text})}
@@ -99,7 +99,7 @@ export class Signup extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 20}}>
+            <Form style = {{top: 16}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Password</Label>
               <Input onChangeText={(text) => this.setState({password: text})}
@@ -109,7 +109,7 @@ export class Signup extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 30}}>
+            <Form style = {{top: 24}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Confirm</Label>
               <Input onChangeText={(text) => this.setState({confirm: text})}

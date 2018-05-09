@@ -37,7 +37,7 @@ export class Main extends Component {
           </Left>
           <Body>
 
-            //TODO: fix tint color 
+            //TODO: fix tint color
             <Segment style={styles.segment}>
               <Button
 
@@ -61,8 +61,8 @@ export class Main extends Component {
         </Header>
 
         <Content padder>
-          {this.state.seg === 1 && 
-            
+          {this.state.seg === 1 &&
+
             <Container style = {styles.Container}>
             <View style= {styles.banner}>
             <Item regular style={styles.textInput}>
@@ -86,7 +86,7 @@ export class Main extends Component {
               <Label style = {styles.orderTitle}>
                 Orders
               </Label>
-              
+
             </Item>
 
             <View style={styles.buttonItem}>
@@ -99,7 +99,7 @@ export class Main extends Component {
             </View>
 
             </View>
-            
+
             </Container>
           }
 
@@ -113,14 +113,14 @@ export class Main extends Component {
               <Icon name="clock" />
               </Button>
             </Item >
-            
+
 
             <Item regular style={styles.requestItem}>
 
               <Label style = {styles.orderTitle}>
                 Requests
               </Label>
-              
+
             </Item>
 
             <View style={styles.buttonItem}>
@@ -133,7 +133,7 @@ export class Main extends Component {
             </View>
 
             </View>
-            
+
             </Container>
           }
 
