@@ -10,6 +10,7 @@ import React, {Component} from 'react';
 //  TouchableWithoutFeedback
 //} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
+
 import {styles} from '../CSS/Main.js';
 
 export class Main extends Component {
@@ -29,30 +30,31 @@ export class Main extends Component {
   render() {
     return (
       <Container style={styles.color_theme}>
-        <Header hasSegment>
+        <Header hasSegment style={styles.header}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.navigate('DrawerOpen')}>
-              <Icon name="menu" />
+              <Icon name="menu" style={styles.icon}/>
             </Button>
           </Left>
           <Body>
 
             //TODO: fix tint color
-            <Segment style={styles.segment}>
+            <Segment >
               <Button
-
-                active={this.state.seg === 1 ? true : false}
+                style={this.state.seg === 1 ? styles.button_header_on : styles.button_header_off}
+                //active={this.state.seg === 1 ? true : false}
                 first
                 onPress={() => this.setState({ seg: 1 })}
               >
-                <Text>Buyer</Text>
+                <Text style={this.state.seg === 1 ? styles.text_on : styles.text_off}>Buyer</Text>
               </Button>
               <Button
+                style={this.state.seg === 2 ? styles.button_header_on : styles.button_header_off}
                 last
-                active={this.state.seg === 2 ? true : false}
+                //active={this.state.seg === 1 ? true : false}
                 onPress={() => this.setState({ seg: 2 })}
               >
-                <Text>Carrier</Text>
+                <Text style={this.state.seg === 2 ? styles.text_on : styles.text_off}>Carrier</Text>
               </Button>
             </Segment>
           </Body>
@@ -69,7 +71,7 @@ export class Main extends Component {
               <Input placeholder='Where...' style={styles.subText} onChangeText={(text) => this.setState({where: text})}
               />
               <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name="clock" />
+              <Icon style={styles.icon} name="clock" />
               </Button>
             </Item >
             <View style={styles.buttonItem}>
@@ -110,7 +112,7 @@ export class Main extends Component {
               <Input placeholder='Where...' style={styles.subText} onChangeText={(text) => this.setState({where: text})}
               />
               <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon name="clock" />
+              <Icon style={styles.icon} name="clock" />
               </Button>
             </Item >
 

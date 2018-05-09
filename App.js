@@ -8,7 +8,8 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
-import {Settings} from './components/Settings.js'
+import {Settings} from './components/Settings.js';
+import {Profile} from './components/Profile.js';
 
 
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
@@ -50,12 +51,17 @@ const Drawer = DrawerNavigator(
     main: {screen: Main},
     menu: { screen: SubMenuView },
     customization: {screen: Customization},
-    settings: {screen: Settings}
+    settings: {screen: Settings},
+    profile: {screen: Profile},
 
     //menu: {screen: MenuView},
   },
   {
     initialRouteName: 'main',
+
+    navigationOptions: {
+      headerTintColor: 'red',
+    },
 
     //modify here to change the inital screen
 
@@ -106,7 +112,8 @@ const RootStack = StackNavigator(
     headerMode: 'none',
     //transitionConfig: noTransitionConfig,
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
+      headerTintColor: 'red',
     }
   }
 );
@@ -152,7 +159,8 @@ const PrimaryNav = StackNavigator({
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
+      headerTintColor: 'red',
     }
   }
 
