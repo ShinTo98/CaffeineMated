@@ -12,15 +12,15 @@ import {styles} from '../CSS/SideBar.js';
 const datas = [
   {
     name: "View history",
-    route: "history",
+    route: "menu",
     icon: 'menu',
   },
   {
     name: "Payment",
-    route: "payment",
+    route: "customization",
     icon: 'card',
   },
-  {
+  /*{
     name: "Reward",
     route: "reward",
     icon: 'menu',
@@ -39,7 +39,7 @@ const datas = [
     name: "Settings",
     route: "settings",
     icon: 'settings',
-  },
+  },*/
 ];
 
 export class SideBar extends Component {
