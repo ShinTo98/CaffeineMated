@@ -71,6 +71,23 @@ export class TestPage extends Component {
                         </CardItem>
                     </Card>
 
+                    <Card>
+                        <CardItem header>
+                          <Text>DisplayType</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: String typeName (example input is "Hot Coffees")</Text>
+                                <Text>Output: An array contains each item with image, id, and name.</Text>
+                                <Text />
+                                <Button small primary onPress={this.testdisplayType}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                    
 
                 </Content>
 

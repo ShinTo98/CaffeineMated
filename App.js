@@ -14,6 +14,7 @@ import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
 
 
+
 export default class App extends React.Component {
 
 
@@ -72,6 +73,9 @@ const LoginScreen = StackNavigator(
     signup: {
       screen: Signup,
     },
+    testPage:{
+      screen:TestPage,
+    }
   },
   {
     initialRouteName: 'start',
@@ -116,7 +120,7 @@ const PrimaryNav = StackNavigator({
   }
 },
   {
-    initialRouteName: 'main',
+    initialRouteName: 'start',
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {

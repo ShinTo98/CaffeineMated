@@ -72,11 +72,11 @@ export async function userSignup (email, password) {
  * Return: List of pairs. [[img, TypeName]...]
  * Error Condition: None
  */
-export function displayMenu () {
+export async function displayMenu () {
     // access the Menu field in firebase
     const firebaseRef = firebase.database().ref("Menu");
 
-    firebaseRef.on('value', function(snapshot){
+    await firebaseRef.on('value', function(snapshot){
       let menu = [];
       let type = [];
 
@@ -97,7 +97,7 @@ export function displayMenu () {
       }
 
       // return menu, for debug, uncomment the next step
-      console.log(menu);
+      //console.log(menu);
       return menu;
 
     }, function(errorObject){
@@ -124,7 +124,7 @@ export function displayType (type) {
         let drink = {image: item.image, id: index, name: item.name}
         drinks.push(drink);
       }
-      return drink;
+      return drinks;
     });
   }
 
