@@ -33,7 +33,7 @@ export class Signup extends Component {
     this.validityCheck = this.validityCheck.bind(this);
   }
 
-  // Validity check function; whether is ucsd.edu email and if confirm password met 
+  // Validity check function; whether is ucsd.edu email and if confirm password met
   // original password
   validityCheck(){
       if( this.state.password == this.state.confirm ){
@@ -67,6 +67,7 @@ export class Signup extends Component {
     }
   }
 
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
@@ -89,7 +90,7 @@ export class Signup extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 10}}>
+            <Form style = {{top: 8}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Email</Label>
               <Input onChangeText={(text) => this.setState({email: text})}
@@ -98,7 +99,7 @@ export class Signup extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 20}}>
+            <Form style = {{top: 16}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Password</Label>
               <Input onChangeText={(text) => this.setState({password: text})}
@@ -108,7 +109,7 @@ export class Signup extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 30}}>
+            <Form style = {{top: 24}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Confirm</Label>
               <Input onChangeText={(text) => this.setState({confirm: text})}

@@ -7,20 +7,20 @@ import {styles} from '../CSS/SideBar.js';
 //const drawerCover = require("../resources/newlogo.png");
 //const drawerImage = require("../resources/newlogo.png");
 
-//TDDO: find icon names 
+//TDDO: find icon names
 
 const datas = [
   {
     name: "View history",
-    route: "history",
+    route: "menu",
     icon: 'menu',
   },
   {
     name: "Payment",
-    route: "payment",
-    icon: 'menu',
+    route: "customization",
+    icon: 'card',
   },
-  {
+  /*{
     name: "Reward",
     route: "reward",
     icon: 'menu',
@@ -28,13 +28,14 @@ const datas = [
   {
     name: "Help",
     route: "help",
-    icon: 'menu',
+    icon: 'help-circle',
   },
   {
     name: "Report",
     route: "report",
     icon: 'menu',
   },
+  */
   {
     name: "Settings",
     route: "settings",

@@ -35,8 +35,8 @@ export class Login extends Component {
 
   // Function called when user clicked the login button
   async login() {
-     var result = await userLogin(this.state.email, this.state.password);
-     if(result === 0) {
+    var result = await userLogin(this.state.email, this.state.password);
+    if(result === 0) {
       alert("Login Successful!");
       this.props.navigation.navigate('main');
     } else {
@@ -68,7 +68,7 @@ export class Login extends Component {
             </Item>
             </Form>
 
-            <Form style = {{top: 10}}>
+            <Form style = {{top: 8}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Password</Label>
               <Input onChangeText={(text) => this.setState({password: text})}
