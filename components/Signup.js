@@ -57,6 +57,7 @@ export class Signup extends Component {
       }
   }
 
+  
   async signup (){
     var result = await userSignup(this.state.email, this.state.password);
     if(result === 0) {
