@@ -51,17 +51,15 @@ export class MenuView extends Component {
           </Left>
           <Right>
             <Button transparent>
-              <Icon name='search'/>
+              <Icon name='search' style={styles.search}/>
             </Button>
           </Right>
         </Header>
 
-        <Content>
-            <Text style={styles.menu}>{this.state.menu}</Text>
-        </Content>
-
-        <View style={styles.coffeeNameUnderline}>
-        </View>
+        <Container style={styles.menu_container}>
+          <Text style={styles.menu}>{this.state.menu}</Text>
+          <View style={styles.coffeeNameUnderline} />
+        </Container>
 
         <Container style={styles.back}>
 
