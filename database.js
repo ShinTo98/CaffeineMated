@@ -167,7 +167,7 @@ export async function saveOrder (order) {
     }
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
-  });
+  }); // get order_id
   return order_id;
 }
 
