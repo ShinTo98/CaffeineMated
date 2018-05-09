@@ -75,8 +75,8 @@ export async function userSignup (email, password) {
 export async function displayMenu () {
     // access the Menu field in firebase
     const firebaseRef = firebase.database().ref("Menu");
-
-    await firebaseRef.on('value', function(snapshot){
+    var result;
+    await firebaseRef.once('value', function(snapshot){
       let menu = [];
       let type = [];
 
@@ -95,14 +95,10 @@ export async function displayMenu () {
         type.push(typeName);
         menu.push(type);
       }
-
-      // return menu, for debug, uncomment the next step
-      //console.log(menu);
-      return menu;
-
-    }, function(errorObject){
-      alert("failed:" + errorObject.code);
+      result = menu;
     });
+
+    return result;
 }
 
 /*
@@ -113,10 +109,10 @@ export async function displayMenu () {
  * @id: string
  * @name: string
  */
-export function displayType (type) {
+export async function displayType (type) {
     let firebaseRef = firebase.database().ref('Menu');
     let drinks = [];
-    firebaseRef.on('value', dataSnapshot => {
+    await firebaseRef.on('value', dataSnapshot => {
       let menu = dataSnapshot.val();
       var index;
       for (index in menu[type].items) {
@@ -124,35 +120,37 @@ export function displayType (type) {
         let drink = {image: item.image, id: index, name: item.name}
         drinks.push(drink);
       }
-      return drinks;
     });
+
+    return drinks;
   }
 
 /*
  * Name: displayItem
- * Parameters: string: type, string: item_id, displayItem_cb
+ * Parameters: string: type, string: item_id
  * Return:
  * The array containing name, description, image.
  *
  */
-export function displayItem (type, item_id) {
+export async function displayItem (type, item_id) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
     var information = [];
-    firebase.database().ref(dir).on("value", function (snapshot) {
+    await firebase.database().ref(dir).on("value", function (snapshot) {
         var coffee = snapshot.val();
         // push information to the array
         information.push(coffee.name);
         information.push(coffee.description);
         information.push(coffee.image);
-        return information;
     });
+
+    return information;
 }
 
 /*
  * Name: saveOrder
  * Description: save order object to database
- * Parameters: object: order, function: saveOrder_cb
+ * Parameters: object: order
  * Return:
  * Error Condition: none
  * Success: return order id of saved order
@@ -167,7 +165,7 @@ export async function saveOrder (order) {
     }
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
-  }); // get order_id
+  });
   return order_id;
 }
 
@@ -200,16 +198,17 @@ export function cancelByCarrier(order_id) {
 /*
  * Name: viewPendingOrders
  * Description: This is for carrier to see all pending orders
- * Parameters: object: order, function: saveOrder_cb
+ * Parameters: object: order
  * Return:
  * Error Condition: none
  * Success: viewPendingOrders_cb
  */
-export function viewPendingOrders() {
+export async function viewPendingOrders() {
   // access the Menu field in firebase
   const firebaseRef = firebase.database().ref("Orders");
 
-  firebaseRef.on('value', function(snapshot){
+  var pendingOrders;
+  await firebaseRef.once('value', function(snapshot){
 
     // Find the value of Orders field
     let orders = snapshot.val();
@@ -228,19 +227,17 @@ export function viewPendingOrders() {
       }
 
     }
-
-    console.log(pendingOrders);
-   // displayMenu_cb(menu);
-
   }, function(errorObject){
     alert("failed:" + errorObject.code);
   });
+
+  return pendingOrders;
 }
 
 /*
  * Name: updateOrderStatus
  * Description: update order status
- * Parameters: string: order_id, function: updateOrderStatus_cb
+ * Parameters: string: order_id
  * Return:
  * Error Condition: none
  * Success: update the order status
@@ -261,16 +258,18 @@ export async function updateOrderStatus(order_id) {
 
 /*
  * Name: viewOrderDetailById
- * Parameters: string: order_id, viewOrderDetailById
+ * Parameters: string: order_id
  * Return:
  * The json containing the information of the order corresponding to the order_id
  *
  */
-export function viewOrderDetailById (order_id, viewOrderDetailById_cb) {
+export async function viewOrderDetailById (order_id) {
     // get the direction
     dir = "Orders/items/" + order_id;
-    firebase.database().ref(dir).on("value", function (snapshot) {
-        var orderInformation = snapshot.val();
-        viewOrderDetailById_cb(orderInformation);
+    var orderInformation;
+    await firebase.database().ref(dir).once("value", function (snapshot) {
+        orderInformation = snapshot.val();
     });
+
+    return orderInformation;
 }
