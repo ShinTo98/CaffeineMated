@@ -113,7 +113,7 @@ const PrimaryNav = StackNavigator({
   }
 },
   {
-    initialRouteName: 'main',
+    initialRouteName: 'start',
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {

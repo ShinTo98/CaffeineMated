@@ -59,13 +59,13 @@ export class Settings extends Component {
           <Container>
             <List>
               <ListItem>
-                <Text>Default Mode</Text>
+                <Text>Change Default Mode</Text>
               </ListItem>
               <ListItem>
-                <Text>Nathaniel Clyne</Text>
+                <Text>Feedback</Text>
               </ListItem>
               <ListItem>
-                <Text>Dejan Lovren</Text>
+                <Text>About</Text>
               </ListItem>
             </List>
 
