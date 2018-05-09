@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
 import {styles} from '../CSS/TestPage.js';
-import {displayMenu, displayType} from './../database.js';
+import {displayMenu, displayType, saveOrder} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -15,6 +15,11 @@ export class TestPage extends Component {
 
     async testdisplayType(){
         var test = await displayType("Hot Coffees");
+        console.log(test);
+    }
+
+    async testsaveOrder(){
+        var test = await saveOrder({status: 1});
         console.log(test);
     }
 
@@ -58,6 +63,23 @@ export class TestPage extends Component {
                     <Card>
                         <CardItem header>
                           <Text>DisplayType</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text style={styles.parameter}>Input: String typeName (example input is "Hot Coffees")</Text>
+                                <Text style={styles.parameter}>Output: An array contains each item with image, id, and name.</Text>
+                                <Text />
+                                <Button small primary onPress={this.testdisplayType}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>saveOrder</Text>
                         </CardItem>
 
                         <CardItem>
