@@ -56,6 +56,10 @@ const Drawer = DrawerNavigator(
   {
     initialRouteName: 'main',
 
+    navigationOptions: {
+      headerTintColor: 'red',
+    },
+
     //modify here to change the inital screen
 
     contentComponent: props => <SideBar {...props} />
@@ -101,7 +105,8 @@ const RootStack = StackNavigator(
     headerMode: 'none',
     //transitionConfig: noTransitionConfig,
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
+      headerTintColor: 'red',
     }
   }
 );
@@ -119,7 +124,8 @@ const PrimaryNav = StackNavigator({
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
+      headerTintColor: 'red',
     }
   }
 

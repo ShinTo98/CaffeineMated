@@ -11,8 +11,24 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
-  segment:{
+  text_on:{
+    color: '#ffffff',
+  },
+  text_off:{
+    color: '#FF9052',
+  },
 
+  button_header_on: {
+    borderColor: '#FF9052',
+    backgroundColor: '#FF9052',
+
+  },
+  button_header_off: {
+    borderColor: '#FF9052',
+    backgroundColor: '#ffffff',
+  },
+  icon: {
+    color: '#FF9052',
   },
   white_banner: {
     flex: 0.15,
