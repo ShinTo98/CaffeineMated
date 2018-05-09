@@ -20,11 +20,12 @@ const datas = [
     route: "customization",
     icon: 'card',
   },
-  /*{
-    name: "Reward",
-    route: "reward",
+  {
+    name: "Profile",
+    route: "profile",
     icon: 'menu',
   },
+  /*
   {
     name: "Help",
     route: "help",
