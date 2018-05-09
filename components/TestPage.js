@@ -125,7 +125,7 @@ export class TestPage extends Component {
 
                         <CardItem>
                             <Body>
-                                <Text>Input: string orderId</Text>
+                                <Text>Input: string orderId (example: "2")</Text>
                                 <Text>Output: Order object</Text>
                                 <Text />
                                 <Button small primary onPress={this.testViewOrderDetailById}>
