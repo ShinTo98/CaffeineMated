@@ -132,24 +132,16 @@ export async function displayType (type) {
  * The array containing name, description, image.
  *
  */
-<<<<<<< HEAD
 export async function displayItem (type, item_id) {
-=======
-export function displayItem (type, item_id, displayItem_cb) {
->>>>>>> 744ad592f2f53363dcb053e2e3898aaf7ff9738c
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
     var information = [];
     await firebase.database().ref(dir).on("value", function (snapshot) {
         var coffee = snapshot.val();
-<<<<<<< HEAD
         // push information to the array
         information.push(coffee.name);
         information.push(coffee.description);
         information.push(coffee.image);
-=======
-        displayItem_cb(coffee);
->>>>>>> 744ad592f2f53363dcb053e2e3898aaf7ff9738c
     });
 
     return information;
