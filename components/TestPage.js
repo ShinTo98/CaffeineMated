@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {styles} from '../CSS/TestPage.js';
 import {displayMenu, displayType} from './../database.js';
 
 export class TestPage extends Component {
@@ -45,8 +44,8 @@ export class TestPage extends Component {
 
                         <CardItem>
                             <Body>
-                                <Text style={styles.parameter}>Input: N/A</Text>
-                                <Text style={styles.parameter}>Output: Array of pairs which include image and name for all types</Text>
+                                <Text>Input: N/A</Text>
+                                <Text>Output: Array of pairs which include image and name for all types</Text>
                                 <Text />
                                 <Button small primary onPress={this.testdisplayMenu}>
                                     <Text>Test</Text>
@@ -62,8 +61,8 @@ export class TestPage extends Component {
 
                         <CardItem>
                             <Body>
-                                <Text style={styles.parameter}>Input: String typeName (example input is "Hot Coffees")</Text>
-                                <Text style={styles.parameter}>Output: An array contains each item with image, id, and name.</Text>
+                                <Text>Input: String typeName (example input is "Hot Coffees")</Text>
+                                <Text>Output: An array contains each item with image, id, and name.</Text>
                                 <Text />
                                 <Button small primary onPress={this.testdisplayType}>
                                     <Text>Test</Text>
