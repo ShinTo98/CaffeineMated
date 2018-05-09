@@ -166,10 +166,6 @@ export async function saveOrder (order) {
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
-<<<<<<< HEAD
-
-=======
->>>>>>> 71ee9dea21c2789eb2d2581f1cecac83670e0527
   return order_id;
 }
 
@@ -207,11 +203,12 @@ export function cancelByCarrier(order_id) {
  * Error Condition: none
  * Success: viewPendingOrders_cb
  */
-export function viewPendingOrders() {
+export async function viewPendingOrders() {
   // access the Menu field in firebase
   const firebaseRef = firebase.database().ref("Orders");
 
-  firebaseRef.on('value', function(snapshot){
+  var pendingOrders;
+  await firebaseRef.once('value', function(snapshot){
 
     // Find the value of Orders field
     let orders = snapshot.val();
@@ -230,13 +227,11 @@ export function viewPendingOrders() {
       }
 
     }
-
-    console.log(pendingOrders);
-   // displayMenu_cb(menu);
-
   }, function(errorObject){
     alert("failed:" + errorObject.code);
   });
+
+  return pendingOrders;
 }
 
 /*
@@ -247,11 +242,7 @@ export function viewPendingOrders() {
  * Error Condition: none
  * Success: update the order status
  */
-<<<<<<< HEAD
-export function updateOrderStatus(order_id) {
-=======
 export async function updateOrderStatus(order_id) {
->>>>>>> 71ee9dea21c2789eb2d2581f1cecac83670e0527
   let orderRef = firebase.database().ref("Orders/items/" + order_id); 
   let status = -1; 
   await orderRef.once("value", dataSnapshot => {
