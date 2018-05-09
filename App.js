@@ -8,7 +8,6 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
-import {Settings} from './components/Settings.js'
 
 
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
@@ -49,7 +48,7 @@ const Drawer = DrawerNavigator(
     main: {screen: Main},
     menu: { screen: SubMenuView },
     customization: {screen: Customization},
-    settings: {screen: Settings},
+
     //menu: {screen: MenuView},
   },
   {
@@ -81,7 +80,7 @@ const LoginScreen = StackNavigator(
 
 const RootStack = StackNavigator(
   {
-
+    
     main: {
       screen: Main,
     },
@@ -98,6 +97,7 @@ const RootStack = StackNavigator(
   {
     initialRouteName: 'drawer',
     headerMode: 'none',
+    //transitionConfig: noTransitionConfig,
     navigationOptions: {
       gesturesEnabled: false
     }
@@ -108,12 +108,12 @@ const PrimaryNav = StackNavigator({
   start: {
     screen: LoginScreen,
   },
-  main: {
+  root: {
     screen: RootStack,
   }
 },
   {
-    initialRouteName: 'main',
+    initialRouteName: 'start',
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {
