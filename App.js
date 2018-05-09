@@ -46,17 +46,10 @@ const noTransitionConfig = () => ({
 
 const Drawer = DrawerNavigator(
   {
-<<<<<<< HEAD
-    main: { screen: Main },
-    login: {screen: Login},
-    start: {screen: Start},
-    settings: {screen: Settings}
-=======
     main: {screen: Main},
     menu: { screen: SubMenuView },
     customization: {screen: Customization},
-
->>>>>>> eec5ef2794173c9789d2b996287d4c29c485d632
+    settings: {screen: Settings},
     //menu: {screen: MenuView},
   },
   {
@@ -88,7 +81,7 @@ const LoginScreen = StackNavigator(
 
 const RootStack = StackNavigator(
   {
-    
+
     main: {
       screen: Main,
     },
@@ -101,16 +94,9 @@ const RootStack = StackNavigator(
     menu: {
       screen: MenuView
     },
-    settings: {
-      screen: Settings
-    }
   },
   {
-<<<<<<< HEAD
-    initialRouteName: 'settings',
-=======
     initialRouteName: 'drawer',
->>>>>>> eec5ef2794173c9789d2b996287d4c29c485d632
     headerMode: 'none',
     navigationOptions: {
       gesturesEnabled: false
@@ -127,7 +113,7 @@ const PrimaryNav = StackNavigator({
   }
 },
   {
-    initialRouteName: 'start',
+    initialRouteName: 'main',
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {
