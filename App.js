@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, Animated, Easing, View, Image} from 'react-native';
 import {Login} from './components/Login.js';
 import {Signup} from './components/Signup.js';
 import {Start} from './components/Start.js';
@@ -8,6 +8,7 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
+
 
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
@@ -26,35 +27,41 @@ export default class App extends React.Component {
       //     CaffeineMated
       //   </Text>
       // </View>
-      <Root>
-        <RootStack />
-      </Root>
+      //<Root>
+       //<PrimaryNav />
+      <ZmqPageTest />
+      //</Root>
     );
   }
 }
 
+const noTransitionConfig = () => ({
+  transitionSpec: {
+    duration: 0,
+    timing: Animated.timing,
+    easing: Easing.step0
+  }
+})
+
+
 const Drawer = DrawerNavigator(
   {
-    main: { screen: Main },
-    login: {screen: Login},
-    start: {screen: Start},
+    main: {screen: Main},
+    menu: { screen: SubMenuView },
     customization: {screen: Customization},
-    subMenuView: {screen: SubMenuView},
-    menu: {screen: MenuView},
+
+    //menu: {screen: MenuView},
   },
   {
+    initialRouteName: 'main',
 
     //modify here to change the inital screen
 
-    initialRouteName: "main",
-    contentOptions: {
-      activeTintColor: "#e91e63"
-    },
     contentComponent: props => <SideBar {...props} />
   }
 );
 
-const RootStack = StackNavigator(
+const LoginScreen = StackNavigator(
   {
     start:{
       screen: Start,
@@ -65,11 +72,18 @@ const RootStack = StackNavigator(
     signup: {
       screen: Signup,
     },
+  },
+  {
+    initialRouteName: 'start',
+    headerMode: 'none',
+  }
+)
+
+const RootStack = StackNavigator(
+  {
+
     main: {
       screen: Main,
-    },
-    sidebar: {
-      screen: SideBar,
     },
     drawer: {
       screen: Drawer,
@@ -85,7 +99,58 @@ const RootStack = StackNavigator(
     },
   },
   {
-    initialRouteName: 'menu',
+
+    initialRouteName: 'drawer',
     headerMode: 'none',
+    navigationOptions: {
+      gesturesEnabled: false
+    }
   }
 );
+
+const ZmqPageTest = StackNavigator(
+  {
+    start:{
+      screen: Start,
+    },
+    login: {
+      screen: Login,
+    },
+    signup: {
+      screen: Signup,
+    },
+    customization: {
+      screen: Customization,
+    },
+    subMenuView: {
+      screen: SubMenuView
+    },
+    menu: {
+      screen: MenuView
+    },
+  },
+  {
+    initialRouteName: 'customization',
+    headerMode: 'none',
+  }
+)
+
+
+const PrimaryNav = StackNavigator({
+  start: {
+    screen: LoginScreen,
+  },
+  main: {
+    screen: RootStack,
+  }
+},
+  {
+    initialRouteName: 'start',
+    headerMode: 'none',
+    transitionConfig: noTransitionConfig,
+    navigationOptions: {
+      gesturesEnabled: false
+    }
+  }
+
+)

@@ -20,137 +20,133 @@ import {
 } from 'native-base';
 import {styles} from "../CSS/Customization.js";
 
+
+/* Class of Buttons */
+class SizeButtons extends Component {
+  loopingFunction() {
+    const fields = [];
+    for (let i=0; i < this.props.size.length; i++) {
+      fields.push(
+        <Button bordered style={styles.buttonStyle}>
+          <Text style={styles.button_text}>{this.props.size[i]}</Text>
+        </Button>
+      );
+    }
+    return fields;
+  }
+
+  render() {
+    return (
+      this.loopingFunction()
+  );
+  }
+}
+
+
+
+class IECButtons extends Component {
+  loopingFunction() {
+    const fields = [];
+    for (let i=0; i < this.props.choices.length; i++) {
+      fields.push(
+        <Button bordered style={styles.buttonStyle}>
+          <Text style={styles.button_text}>{this.props.choices[i]}</Text>
+        </Button>
+      );
+    }
+    return fields;
+  }
+
+  render() {
+    return (
+      <Container style={styles.iecSubContainer}>
+        <Text style={styles.button_text}>{this.props.item}</Text>
+        {this.loopingFunction()}
+      </Container>
+
+    );
+  }
+}
+
+
 export class Customization extends Component {
 
   static navigationOptions = {
     header: null
-
   }
+
+
 
   constructor(props) {
     super(props);
   }
 
   render() {
-    return (
-      <Container style={styles.bgColor}>
+    let ice = ['Regular', 'Light', 'None'];
+    let shot = ['1 Shot', '2 Shots', '3 Shots'];
+    let cream = ['With', 'Without'];
+    let sugar = ['Regular', 'Light', 'Over'];
 
-        <Header style={styles.header}>
+    let sizes = ['Short', 'Tall', 'Grande', 'Venti', 'Tentra']
+
+    return (
+      <Container style={styles.biggestContainer}>      /* biggest container */
+
+
+        <Header style={styles.header}>            /* Header */
           <Left>
-            <Button transparent>
-              <Icon name='arrow-back' style={styles.icon}/>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate('subMenuView')}>
+              <Icon name='arrow-back' style={styles.icon_BackArrow}/>
             </Button>
           </Left>
           <Right>
             <Button transparent>
-              <Icon name='search'/>
+              <Icon name='search' style={styles.icon_Search}/>
             </Button>
           </Right>
         </Header>
 
-        <Container style={styles.coffeeTitle}>
-          <Content>
-            <View style={styles.coffeeNameUnderline}>
-              <Text style={styles.coffeeName}>
-                Mocha
-              </Text>
-            </View>
-          </Content>
-        </Container>
-
-        <Container style={styles.coffeeSizeContainer}>
-          <Content>
-            <View style={styles.coffeeNameUnderline}>
-
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Short</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Tall</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Grande</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Venti</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Iced</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Hot</Text>
-              </Button>
-            </View>
-          </Content>
-        </Container>
-
-        <Container style={styles.IECcontainer}>
-          <Content>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.button_text}>Ice</Text>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Regular</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Light</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>None</Text>
-              </Button>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.button_text}>Espresso</Text>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>1 Shot</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text.color}>2 Shots</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text.color}>3 Shots</Text>
-              </Button>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.button_text}>Cream</Text>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>With</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Without</Text>
-              </Button>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={styles.button_text}>Sugar</Text>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Regular</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Light</Text>
-              </Button>
-              <Button bordered style={styles.buttonStyle}>
-                <Text style={styles.button_text}>Over</Text>
-              </Button>
-            </View>
-            <View>
-              <Form>
-              <Textarea rowSpan={8} bordered
-                        placeholder="Other Customization..."/>
-              </Form>
-            </View>
-          </Content>
-        </Container>
-
-
 
         <Container
-          style={styles.coffeeSizeContainer}
-          justifyContent='flex-end'>
+          style={styles.coffeeTitleUnderlinedContainer}> /* Coffee Title */
+          <Content>
+            <Text style={styles.coffeeTitle}>
+              Mocha
+            </Text>
+          </Content>
+        </Container>
+
+
+        <Container style={styles.coffeeSizeContainer}>  /* Coffee Size */
+          <SizeButtons size={sizes}/>
+        </Container>
+
+        <Container style={styles.iecContainer}>
+          <IECButtons item='Ice' choices={ice}/>
+          <IECButtons item='Espresso' choices={shot}/>
+          <IECButtons item='Cream' choices={cream}/>
+          <IECButtons item='Sugar' choices={sugar}/>
+
+
+          <Container style={styles.customizationTextboxContainer}>
+              <Form>
+              <Textarea rowSpan={5}
+                        bordered
+                        placeholder="Other Customization..."/>
+              </Form>
+            </Container>
+        </Container>    /* end iecContainer */
+
+
+        <Container style={styles.submitButtonContainer}>
           <Button bordered style={styles.comfirmButton}>
             <Text style={styles.button_text}>Confirm</Text>
           </Button>
         </Container>
 
-      </Container>
+      </Container>    /* biggest container */
 
     );
 
