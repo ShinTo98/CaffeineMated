@@ -271,22 +271,6 @@ export async function viewOrderDetailById (order_id) {
     return orderInformation;
 }
 
-
-// Helper
-// TODO
-// Return:
-export function getDistance(origin, destination, id) {
-  const xhr = new XMLHttpRequest();
-
-  const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+loc+"&destination=peterson%20hall%20ucsd&mode=walking";
-  xhr.responseType = 'json';
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-		    console.log(xhr.response.routes[0].legs[0].distance.value);
-        return {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
-    }
-  };
-
 /*
  * Name: acceptOrder
  * Parameter: string:order_id  string:carrier_id
@@ -312,6 +296,20 @@ export async function acceptOrder(order_id, carrier_id){
     });
 }
 
+// Helper
+// TODO
+// Return:
+export function getDistance(origin, destination, id) {
+  const xhr = new XMLHttpRequest();
+
+  const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+loc+"&destination=peterson%20hall%20ucsd&mode=walking";
+  xhr.responseType = 'json';
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+		    console.log(xhr.response.routes[0].legs[0].distance.value);
+        return {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
+    }
+  };
 
   xhr.open('GET', url);
   xhr.send();
