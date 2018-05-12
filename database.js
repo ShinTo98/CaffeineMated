@@ -272,6 +272,7 @@ export async function viewOrderDetailById (order_id) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Helper
 // TODO
 // Return:
@@ -287,6 +288,8 @@ export function getDistance(origin, destination, id) {
     }
   };
 =======
+=======
+>>>>>>> bd7e10f5c6a461e3ac6466547ddd6eef41d9a351
 /*
  * Name: acceptOrder
  * Parameter: string:order_id  string:carrier_id
@@ -311,11 +314,14 @@ export async function acceptOrder(order_id, carrier_id){
         }
     });
 }
+<<<<<<< HEAD
 >>>>>>> bd7e10f5c6a461e3ac6466547ddd6eef41d9a351
 
   xhr.open('GET', url);
   xhr.send();
 }
+=======
+>>>>>>> bd7e10f5c6a461e3ac6466547ddd6eef41d9a351
 
 export async function 
 
