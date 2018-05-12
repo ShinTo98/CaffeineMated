@@ -27,6 +27,9 @@ export class Main extends Component {
     };
   }
 
+
+
+
   render() {
     return (
       <Container style={styles.color_theme}>
@@ -62,7 +65,7 @@ export class Main extends Component {
           </Right>
         </Header>
 
-        <Content padder>
+        <Content padder bounces={false} scrollEnabled={false}>
           {this.state.seg === 1 &&
 
             <Container style = {styles.Container}>
