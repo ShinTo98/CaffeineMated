@@ -12,9 +12,6 @@ var config = {
 // Firebase initialization
 firebase.initializeApp(config);
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDczrGbOZIU4SISKYlKfi9X2ki-kXLW8Kg&callback=initMap"
-  type="text/javascript"></script>
-
 /*
  * Name: userLogin
  * Parameters: email - string; user login email
