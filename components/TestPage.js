@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, sortLocation} from './../database.js';
+import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortLocation} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -35,6 +35,11 @@ export class TestPage extends Component {
     async testGetDistance() {
       var test = await sortLocation('Warren Lecture Hall');
     } // TODO
+
+    async testGetOrderLocationById(){
+        var test = await getOrderLocationById("6");
+        console.log(test);
+    }
 
      render(){
          return(
@@ -156,6 +161,25 @@ export class TestPage extends Component {
                             </Body>
                         </CardItem>
                     </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>getOrderLocationById</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: Order_id</Text>
+                                <Text>Output: String Location</Text>
+                                <Text />
+                                <Button small primary onPress={this.testGetOrderLocationById}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+
                 </Content>
 
               </Container>

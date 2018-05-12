@@ -5,11 +5,10 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  ListView
+  TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
+import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
 import {
   Container,
   Header,
@@ -24,39 +23,24 @@ import {
   Icon,
   Left,
   Right,
-  Col,
-  Row,
-  Grid,
-  Body,
-  Title
 } from 'native-base';
-
 
 export class SubMenuView extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      Types:[]
+      menu: 'Coffee',
+      c1: 'Americano',
+      c2: 'Mocha',
+      c3: 'Latte',
+      c4: 'Cappuccino',
+      c5: 'Macchiato',
+      c6: 'Espresso',
     };
-
-    this.callDisplayMenu = this.callDisplayMenu.bind(this);
-
   }
-
-  componentDidMount(){
-    this.callDisplayMenu();
-  }
-
-  async callDisplayMenu(){
-    var result = await displayType("Cold Coffees");
-    console.log(result);
-    this.setState({Types:result});
-}
 
   render () {
-    const Result = this.state.Types;
     return(
 
       <Container style={styles.container}>
@@ -67,9 +51,6 @@ export class SubMenuView extends Component {
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
-          <Body>
-            <Title>Menu</Title>
-          </Body>
           <Right>
             <Button transparent>
               <Icon name='search'/>
@@ -77,25 +58,50 @@ export class SubMenuView extends Component {
           </Right>
         </Header>
 
+        <Content>
+            <Text style={styles.menu}>{this.state.menu}</Text>
+        </Content>
 
+        <View style={styles.coffeeNameUnderline}>
+        </View>
 
+        <Container style={styles.back}>
 
-        <Grid style={{flexWrap: 'wrap'}}>
-          {
-               Result.map((type,i) =>
-               <Col key={i} style={{height:'30%', width:'45%', alignItems: "center"}}>
-                 <Row style={{height:'90%'}}>
-                   <Image style={styles.image}
-                          source={{uri: type.image}} />
-                 </Row>
-                 <Row>
-                   <Text style={styles.text}>{type.name}</Text>
-                </Row>
-              </Col>
-             )
-          }
-
-       </Grid>
+          <Container style={styles.box}>
+          <Image
+            style={styles.image}
+            source={require('../resources/logo.png')}
+          />
+          <Text style={styles.text}>{this.state.c1}</Text>
+          <Image
+            style={styles.image}
+            source={require('../resources/logo.png')}
+          />
+          <Text style={styles.text}>{this.state.c3}</Text>
+          <Image
+            style={styles.image}
+            source={require('../resources/logo.png')}
+          />
+          <Text style={styles.text}>{this.state.c5}</Text>
+          </Container>
+          <Container style={styles.box}>
+          <Image
+            style={styles.image}
+            source={require('../resources/logo.png')}
+          />
+          <Text style={styles.text}>{this.state.c2}</Text>
+          <Image
+            style={styles.image}
+            source={require('../resources/logo.png')}
+          />
+          <Text style={styles.text}>{this.state.c4}</Text>
+          <Image
+            style={styles.image}
+            source={require('../resources/logo.png')}
+          />
+          <Text style={styles.text}>{this.state.c6}</Text>
+          </Container>
+        </Container>
       </Container>
     );
   }

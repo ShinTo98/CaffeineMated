@@ -271,6 +271,41 @@ export async function viewOrderDetailById (order_id) {
     return orderInformation;
 }
 
+export async function getOrderLocationById ( order_id){
+  // get the direction
+  dir = "Orders/items/" + order_id;
+  var location;
+  await firebase.database().ref(dir).once("value", function (snapshot){
+    location = snapshot.val().location;
+    location = location.split(' ').join('%20');
+  });
+  return location;
+}
+
+/*
+ * Name: acceptOrder
+ * Parameter: string:order_id  string:carrier_id
+ * Return: -1 if the order is not found or already accepted by others.
+ * If the current order is still pending, the carrier will take the order.
+ * The database will update the carrier_id entry with the current carrier_id.
+ * If the order is already taken by others, it will return -1.
+ */
+export async function acceptOrder(order_id, carrier_id){
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  let status = -1;
+  await orderRef.once("value", dataSnapshot => {
+      // the order is already accpeted by others if status is not 1
+      if (dataSnapshot.val().status != 1) {
+          alert("The order is already accepted by others. Try refresh!");
+      }
+
+      // update the carrier_id and status of the order.
+      else {
+          orderRef.child("carrier_id").set(carrier_id);
+          orderRef.child("status").set(2);
+      }
+  });
+}
 
 // Helper
 // TODO
@@ -286,38 +321,11 @@ export function getDistance(origin, destination, id) {
         return {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
     }
   };
-
-/*
- * Name: acceptOrder
- * Parameter: string:order_id  string:carrier_id
- * Return: -1 if the order is not found or already accepted by others.
- * If the current order is still pending, the carrier will take the order.
- * The database will update the carrier_id entry with the current carrier_id.
- * If the order is already taken by others, it will return -1.
- */
-export async function acceptOrder(order_id, carrier_id){
-    let orderRef = firebase.database().ref("Orders/items/" + order_id);
-    let status = -1;
-    await orderRef.once("value", dataSnapshot => {
-        // the order is already accpeted by others if status is not 1
-        if (dataSnapshot.val().status != 1) {
-            alert("The order is already accepted by others. Try refresh!");
-        }
-
-        // update the carrier_id and status of the order.
-        else {
-            orderRef.child("carrier_id").set(carrier_id);
-            orderRef.child("status").set(2);
-        }
-    });
-}
-
-
   xhr.open('GET', url);
   xhr.send();
 }
 
-export async function
+
 
 export async function sortOrder(origin) {
   let orders = await viewPendingOrders();
