@@ -10,6 +10,7 @@ import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
+import {Feedback} from './components/Feedback.js';
 
 
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
@@ -45,13 +46,30 @@ const noTransitionConfig = () => ({
   }
 })
 
+const SettingsStack = StackNavigator(
+  {
+
+    settings: {
+      screen: Settings,
+    },
+    feedback: {
+      screen: Feedback,
+    },
+  },
+  {
+
+    initialRouteName: 'settings',
+    headerMode: 'none',
+  }
+);
+
 
 const Drawer = DrawerNavigator(
   {
     main: {screen: Main},
     menu: { screen: SubMenuView },
     customization: {screen: Customization},
-    settings: {screen: Settings},
+    settings: {screen: SettingsStack},
     profile: {screen: Profile},
 
     //menu: {screen: MenuView},

@@ -23,7 +23,7 @@ import {
 } from 'native-base';
 import {styles} from '../CSS/Settings.js';
 
-export class Settings extends Component {
+export class Feedback extends Component {
 
   static navigationOptions = {
     header: null
@@ -42,13 +42,13 @@ export class Settings extends Component {
       <Container style={styles.color_theme}>
         <Header hasSegment="hasSegment">
           <Left>
-            <Button transparent onPress={() => this.props.navigation.navigate('main')}>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
           <Body>
 
-            <Title>Settings</Title>
+            <Title>Feedback</Title>
 
           </Body>
           <Right></Right>
@@ -59,9 +59,9 @@ export class Settings extends Component {
           <Container>
             <List>
               <ListItem>
-                <Text>Change Default Mode</Text>
+                <Text>Hi</Text>
               </ListItem>
-              <ListItem onPress={() => this.props.navigation.navigate('feedback')}>
+              <ListItem>
                 <Text>Feedback</Text>
               </ListItem>
               <ListItem>
@@ -74,7 +74,7 @@ export class Settings extends Component {
         <Footer>
           <FooterTab>
             <Button full="full" style={styles.signOut}>
-              <Text style={styles.signOutText}>Sign Out</Text>
+              <Text style={styles.signOutText}>Submit</Text>
             </Button>
           </FooterTab>
         </Footer>
@@ -82,4 +82,4 @@ export class Settings extends Component {
     );
   }
 }
-export default Settings;
+export default Feedback;
