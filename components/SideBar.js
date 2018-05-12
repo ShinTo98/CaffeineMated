@@ -57,6 +57,7 @@ export class SideBar extends Component {
     return (
       <Container>
         <Content
+          scrollEnabled={false}
           bounces={false}
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
@@ -71,6 +72,7 @@ export class SideBar extends Component {
 
 
           <List
+            scrollEnabled={false}
             dataArray={datas}
             renderRow={data =>
               <ListItem
