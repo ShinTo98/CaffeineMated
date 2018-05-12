@@ -12,6 +12,9 @@ var config = {
 // Firebase initialization
 firebase.initializeApp(config);
 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDczrGbOZIU4SISKYlKfi9X2ki-kXLW8Kg&callback=initMap"
+  type="text/javascript"></script>
+
 /*
  * Name: userLogin
  * Parameters: email - string; user login email
@@ -214,7 +217,7 @@ export async function viewPendingOrders() {
 
     // loop through all types in orders
     for( order_id in orders){
-      
+
       // check if it is a pending order
       let order = orders[order_id];
       if( order.status == 1){
@@ -238,17 +241,17 @@ export async function viewPendingOrders() {
  * Success: update the order status
  */
 export async function updateOrderStatus(order_id) {
-  let orderRef = firebase.database().ref("Orders/items/" + order_id); 
-  let status = -1; 
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  let status = -1;
   await orderRef.once("value", dataSnapshot => {
     if (!dataSnapshot) {
-      return; 
+      return;
     } else {
-      status = dataSnapshot.val().status; 
+      status = dataSnapshot.val().status;
       status = Math.min(++status, 4);
-      orderRef.child("status").set(status); 
+      orderRef.child("status").set(status);
     }
-  }); 
+  });
 }
 
 /*
@@ -267,4 +270,17 @@ export async function viewOrderDetailById (order_id) {
     });
 
     return orderInformation;
+}
+
+
+export function sortLocation(location) {
+
+}
+
+export function changeDefaultMode(id) {
+
+}
+
+export function changeProfilePhoto() {
+
 }
