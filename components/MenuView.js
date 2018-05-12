@@ -23,86 +23,78 @@ import {
   Input,
   Label,
   Icon,
+  Col,
+  Row,
+  Grid,
+  Body,
+  Title
 } from 'native-base';
 
 export class MenuView extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
-      menu: 'Menu',
-      cold_coffee: 'Cold Coffee',
-      cold_tea: 'Cold Tea',
-      hot_coffee: 'Hot Coffee',
-      hot_tea: 'Hot Tea',
-      frappuccino: 'Frappuccino',
-      drinks: 'Drinks',
+      Types:[]
     };
+
+    this.callDisplayMenu = this.callDisplayMenu.bind(this);
+
   }
 
-  render () {
-    return(
-      <Container style={styles.container}>
-        <Header style={styles.header}>
-          <Left>
-            <Button transparent>
-              <Icon name='arrow-back' style={styles.icon}/>
-            </Button>
-          </Left>
-          <Right>
-            <Button transparent>
-              <Icon name='search'/>
-            </Button>
-          </Right>
-        </Header>
-
-        <Content>
-            <Text style={styles.menu}>{this.state.menu}</Text>
-        </Content>
-
-        <View style={styles.coffeeNameUnderline}>
-        </View>
-
-        <Container style={styles.back}>
-
-          <Container style={styles.box}>
-
-            <Image
-              style={styles.image}
-              source={require('../resources/logo.png')}
-            />
-            <Text style={styles.text}>{this.state.cold_coffee}</Text>
-            <Image
-              style={styles.image}
-              source={require('../resources/logo.png')}
-            />
-            <Text style={styles.text}>{this.state.hot_coffee}</Text>
-            <Image
-              style={styles.image}
-              source={require('../resources/logo.png')}
-            />
-            <Text style={styles.text}>{this.state.frappuccino}</Text>
-            </Container>
-            <Container style={styles.box}>
-            <Image
-              style={styles.image}
-              source={require('../resources/logo.png')}
-            />
-            <Text style={styles.text}>{this.state.cold_tea}</Text>
-            <Image
-              style={styles.image}
-              source={require('../resources/logo.png')}
-            />
-            <Text style={styles.text}>{this.state.hot_tea}</Text>
-            <Image
-              style={styles.image}
-              source={require('../resources/logo.png')}
-            />
-            <Text style={styles.text}>{this.state.drinks}</Text>
-          </Container>
-        </Container>
-      </Container>
-    );
+  componentDidMount(){
+    this.callDisplayMenu();
   }
+
+  async callDisplayMenu(){
+    var result = await displayMenu();
+    this.setState({Types:result});
+}
+
+render () {
+  const Result = this.state.Types;
+  return(
+
+    <Container style={styles.container}>
+
+      <Header style={styles.header}>
+        <Left>
+          <Button transparent>
+            <Icon name='arrow-back' style={styles.icon}/>
+          </Button>
+        </Left>
+        <Body>
+          <Title>Menu</Title>
+        </Body>
+        <Right>
+          <Button transparent>
+            <Icon name='search'/>
+          </Button>
+        </Right>
+      </Header>
+
+
+
+
+      <Grid style={{flexWrap: 'wrap'}}>
+        {
+             Result.map((type,i) =>
+             <Col key={i} style={{height:'30%', width:'45%', alignItems: "center"}}>
+               <Row style={{height:'90%'}}>
+                 <Image style={styles.image}
+                        source={{uri: type[0]}} />
+               </Row>
+               <Row>
+                 <Text style={styles.text}>{type[1]}</Text>
+              </Row>
+            </Col>
+           )
+        }
+
+     </Grid>
+    </Container>
+  );
+}
 }
 export default MenuView;

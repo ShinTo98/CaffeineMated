@@ -30,7 +30,7 @@ export default class App extends React.Component {
       //   </Text>
       // </View>
       //<Root>
-        <PrimaryNav />
+        <LoginScreen />
       //</Root>
     );
   }
