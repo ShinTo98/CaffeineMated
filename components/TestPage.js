@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById} from './../database.js';
+import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, sortLocation} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -32,6 +32,10 @@ export class TestPage extends Component {
         console.log(test);
     }
 
+    async testGetDistance() {
+      var test = await sortLocation('Warren Lecture Hall');
+    } // TODO
+
      render(){
          return(
              <Container>
@@ -46,10 +50,28 @@ export class TestPage extends Component {
                     </Body>
                     <Right />
                 </Header>
-                
+
                 <Content>
                     <Text style={{fontSize:15, color:'#000000', fontFamily:'Hiragino Sans', margin:10}}>Functions that does not change value in database will have a test button here.
                         Return value will be printed to console</Text>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>getLocations</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: Location</Text>
+                                <Text>Output: json object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testGetDistance}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
                     <Card>
                         <CardItem header>
                           <Text>DisplayMenu</Text>
@@ -141,4 +163,3 @@ export class TestPage extends Component {
      };
 
 }
-
