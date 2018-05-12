@@ -325,14 +325,39 @@ export function getDistance(origin, destination, id) {
   xhr.send();
 }
 
+/*
+ *  Helper function used to compare two orders with ids.
+ */
+function compare (a, b){
+    if (a.dist > b.dist){
+        return 1;
+    }
+    else if (a.dist < b.dist){
+        return -1;
+    }
+    return 0;
+}
 
-
+/*
+ * Name: sortOrder
+ * Parameters: string: origin
+ * Return: array containing order ids
+ * Sort the pending order based on some rules (for now, we are only sorting it with
+ * distance from the origin)
+ */
 export async function sortOrder(origin) {
   let orders = await viewPendingOrders();
+  let ordersWithDistance = [];
   const loc = origin.split(' ').join('%20'); // initial location
   for (let i = 0; i < orders.length; i++) {
-    getDistance(loc, orders[i].location, orders[i]);
+    ordersWithDistance.push(getDistance(loc, orders[i].location, orders[i]));
   }
+  ordersWithDistance.sort(compare);
+  let ordersResult = [];
+  for (let j = 0; j < ordersWithDistance.length; j++){
+      ordersResult.push(ordersWithDistance[j].order_id);
+  }
+  return ordersResult;
 }
 
 export function changeDefaultMode(id) {
