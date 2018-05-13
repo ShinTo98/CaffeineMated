@@ -62,7 +62,7 @@ export class TestPage extends Component {
     }
 
     async testChangeProfilePhoto(){
-        var test = await changeDefaultMode('01', 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Lesser_Sooty_Owl_at_Bonadio%27s_Mabi_Wildlife_Reserve.jpg');
+        var test = await changeProfilePhoto('01', 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Lesser_Sooty_Owl_at_Bonadio%27s_Mabi_Wildlife_Reserve.jpg');
         console.log("profile photo has changed!");
     }
 
