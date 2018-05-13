@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders, changeDefaultMode} from './../database.js';
+import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders, changeDefaultMode} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
          super(props);
+
      }
 
      async testdisplayMenu(){
@@ -28,8 +29,8 @@ export class TestPage extends Component {
     }
 
     async testViewOrderDetailById(){
-        var test = await viewOrderDetailById("2");
-        console.log(test);
+        var result = await viewOrderDetailById("0");
+        console.log(result);
     }
 
     async testGetOrderLocationById(){
@@ -42,10 +43,19 @@ export class TestPage extends Component {
       console.log(test);
     }
 
+    async testgetProfileDetailById(){
+        var test = await getProfileDetailById('01');
+        console.log(test);
+    }
+
     async testChangeDefaultMode(id, mode){
         var test = await changeDefaultMode('01', 'carrier');
         console.log("default mode has changed!");
     }
+
+    
+
+
 
      render(){
          return(
@@ -62,9 +72,27 @@ export class TestPage extends Component {
                     <Right />
                 </Header>
 
+
                 <Content>
                     <Text style={{fontSize:15, color:'#000000', fontFamily:'Hiragino Sans', margin:10}}>Functions that does not change value in database will have a test button here.
                         Return value will be printed to console</Text>
+
+                        <Card>
+                        <CardItem header>
+                          <Text>getProfileDetialById</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: profile_id</Text>
+                                <Text>Output: Object that contains all details</Text>
+                                <Text />
+                                <Button small primary onPress={this.testgetProfileDetailById}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
 
                     <Card>
                         <CardItem header>
@@ -202,10 +230,13 @@ export class TestPage extends Component {
                         </CardItem>
                     </Card>
 
+                    
+                    
+
                 </Content>
 
               </Container>
          );
      };
-
+    
 }

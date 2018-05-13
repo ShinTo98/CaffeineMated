@@ -66,6 +66,18 @@ export async function userSignup (email, password) {
     return result;
 }
 
+export async function userPasswordChange(newPassword){
+  var user = firebase.auth().currentUser;
+  var newPassword = getASecureRandomPassword();
+
+ user.updatePassword(newPassword).then(function() {
+  // Update successful.
+}).catch(function(error) {
+  // An error happened.
+});
+ 
+}
+
 /*
  * Name: displayMenu
  * Parameters: None
@@ -268,8 +280,11 @@ export async function viewOrderDetailById (order_id) {
         orderInformation = snapshot.val();
     });
 
+
     return orderInformation;
 }
+
+
 
 export async function getOrderLocationById (order_id){
   // get the direction
@@ -282,6 +297,15 @@ export async function getOrderLocationById (order_id){
   return location;
 }
 
+export async function getProfileDetailById(profile_id){
+  dir = "Profile/" + profile_id;
+  var result;
+  await firebase.database().ref(dir).once("value", function(snapshot){
+    result = snapshot.val();
+  })
+
+  return result;
+}
 /*
  * Name: acceptOrder
  * Parameter: string:order_id  string:carrier_id
@@ -376,10 +400,9 @@ export async function sortOrders(origin) {
 
 /*
  * Name: changeDefaultMode
- * Parameters: string id, string 
- * Return: array containing order ids
- * Sort the pending order based on some rules (for now, we are only sorting it with
- * distance from the origin)
+ * Parameters: string id, string mode
+ * Return: N/A
+ * change the default mode to given mode.
  */
 export async function changeDefaultMode(id, mode) {
   let profileRef = firebase.database().ref("Profile/"+id);
@@ -394,3 +417,5 @@ export async function changeDefaultMode(id, mode) {
 export function changeProfilePhoto() {
 
 }
+
+
