@@ -259,7 +259,7 @@ export async function updateOrderStatus(order_id) {
       return;
     } else {
       status = dataSnapshot.val().status;
-      status = Math.min(++status, 4);
+      status = Math.min(++status, 3);
       orderRef.child("status").set(status);
     }
   });
@@ -473,6 +473,61 @@ export async function changeProfilePhoto(id, url) {
   await profileRef.once("value", dataSnapshot => {
     profileRef.child("photo").set(url);
   });
+}
+
+export async function logout() {
+  var result;
+    await firebase.auth().signOut().then(
+
+      function success(){
+        result = 0;
+      }
+    ).catch(
+      function failure(error){
+        var errorCode = error.code;
+        var errorMsg = error.message;
+
+        result = errorMsg;
+
+      }
+    );
+
+    return result;
+}
+
+export async function displayOrderHistory(user_id) {
+  // get the direction
+  let dir = "Profile/" + order_id + "/history";
+  let orderHis;
+  await firebase.database().ref(dir).once("value", function (snapshot) {
+      orderHis = snapshot.val();
+  });
+
+  return orderHis;
+}
+
+export async function getProfileById(user_id) {
+  // get the direction
+  let dir = "Profile/" + order_id;
+  let profile;
+  await firebase.database().ref(dir).once("value", function (snapshot) {
+      profile = snapshot.val();
+  });
+
+  return profile;
+}
+
+export function updateRate(user_id, rate, isBuyer) {
+  let dir; 
+  if (isBuyer) { // get direction
+    dir = "Profile/" + order_id + "/rate_as_buyer"; 
+  } else {
+    dir = "Profile/" + order_id + "/rate_as_carrier"; 
+  }
+
+  
+  let orderRef = firebase.database().ref(dir);
+  orderRef.set(rate);
 }
 
 /*
