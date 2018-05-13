@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders, changeUserName} from './../database.js';
+import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -45,6 +45,16 @@ export class TestPage extends Component {
     async testChangeUserName(){
          await changeUserName("01", "illustrious");
     }
+    async testCompleteOrders() {
+      completeOrder('3', '678');
+      //console.log(test);
+    }
+
+    async testChangeDefaultMode(id, mode){
+        var test = await changeDefaultMode('01', 'carrier');
+        console.log("default mode has changed!");
+    }
+
      render(){
          return(
              <Container>
@@ -198,6 +208,42 @@ export class TestPage extends Component {
                         </Body>
                     </CardItem>
                     </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>completeOrder</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: order id</Text>
+                                <Text>Output: json object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testCompleteOrders}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+
+                    <Card>
+                        <CardItem header>
+                          <Text>changeDefaultMode</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: user_id, mode as a string</Text>
+                                <Text>Output: database change</Text>
+                                <Text />
+                                <Button small primary onPress={this.testChangeDefaultMode}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
                 </Content>
 
               </Container>
