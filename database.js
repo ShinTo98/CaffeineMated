@@ -398,11 +398,47 @@ export async function sortOrders(origin) {
   return ordersResult;
 }
 
+export async function completeOrder(order_id, user_id) {
+
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  await orderRef.once("value", dataSnapshot => {
+      // console.log(user_id);
+      // console.log(dataSnapshot.val().carrier_id === user_id);
+      // console.log(dataSnapshot.val().status);
+      // console.log(dataSnapshot.val().buyer_id == user_id);
+      // console.log(dataSnapshot.val().buyer_id);
+      if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
+          orderRef.child("status").set(6);
+      }
+
+      else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
+          orderRef.child("status").set(6);
+      }
+
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
+          orderRef.child("status").set(4);
+          console.log("complete by buyer");
+      }
+
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
+          orderRef.child("status").set(5);
+          console.log("complete by carrier");
+      }
+  });
+}
+
 /*
  * Name: changeDefaultMode
+<<<<<<< HEAD
  * Parameters: string id, string mode
  * Return: N/A
  * change the default mode to given mode.
+=======
+ * Parameters: string id, string
+ * Return: array containing order ids
+ * Sort the pending order based on some rules (for now, we are only sorting it with
+ * distance from the origin)
+>>>>>>> 0e4edf37d8d4c5f90e8e7334055311cf810ae080
  */
 export async function changeDefaultMode(id, mode) {
   let profileRef = firebase.database().ref("Profile/"+id);
@@ -418,4 +454,19 @@ export function changeProfilePhoto() {
 
 }
 
-
+/*
+ * Name: changeUserName
+ * Parameters: string: user_id string:newName
+ * Return: none
+ * change the name of the user
+ */
+export async function changeUserName(user_id, newName){
+    let profileRef = firebase.database().ref("Profile/" + user_id);
+    await profileRef.once("value", dataSnapshot => {
+        if (!dataSnapshot) {
+            return;
+        } else {
+            profileRef.child("username").set(newName);
+        }
+    });
+}

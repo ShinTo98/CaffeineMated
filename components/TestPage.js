@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders, changeDefaultMode} from './../database.js';
+import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -46,6 +46,14 @@ export class TestPage extends Component {
     async testgetProfileDetailById(){
         var test = await getProfileDetailById('01');
         console.log(test);
+    }
+
+    async testChangeUserName(){
+         await changeUserName("01", "illustrious");
+    }
+    async testCompleteOrders() {
+      completeOrder('3', '678');
+      //console.log(test);
     }
 
     async testChangeDefaultMode(id, mode){
@@ -212,6 +220,40 @@ export class TestPage extends Component {
                             </Body>
                         </CardItem>
                     </Card>
+
+                    <Card>
+                    <CardItem header>
+                        <Text>changeUserName</Text>
+                    </CardItem>
+
+                    <CardItem>
+                        <Body>
+                        <Text>Input: user_id newName</Text>
+                        <Text />
+                        <Button small primary onPress={this.testChangeUserName}>
+                            <Text>Test</Text>
+                        </Button>
+                        </Body>
+                    </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>completeOrder</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: order id</Text>
+                                <Text>Output: json object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testCompleteOrders}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
 
                     <Card>
                         <CardItem header>
