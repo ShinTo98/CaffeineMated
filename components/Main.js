@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
 //} from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner } from 'native-base';
 import {viewPendingOrders, viewOrderDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 
@@ -22,11 +22,13 @@ export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seg: 1,
+      seg: 2,
       where: "",
       ids: [],
-      request_data: []
+      request_data: [],
+      loadFinished: false
     };
+
   }
 
   async saveRequestIds() {
@@ -44,11 +46,13 @@ export class Main extends Component {
     //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
     //console.log(d)
     //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
-    console.log(this.state.data);
+    console.log(this.state.request_data);
+    this.setState({loadFinished: true});
+
   }
 
 
-  async componentDidMount() {
+  async componentWillMount() {
     await this.saveRequestIds();
     await this.saveRequestDetails();
   }
@@ -56,6 +60,7 @@ export class Main extends Component {
 
 
   render() {
+    const loading = this.state.loadFinished;
     return (
       <Container style={styles.color_theme}>
         <Header hasSegment style={styles.header}>
@@ -145,21 +150,30 @@ export class Main extends Component {
             </Item >
 
 
+            <Item regular style={styles.requestTitleItem}>
+            <Label style = {styles.orderTitle}>
+              Requests
+            </Label>
+            </Item>
+
             <Item regular style={styles.requestItem}>
 
-              <Label style = {styles.orderTitle}>
-                Requests
-              </Label>
-
-              <List
-              dataArray={this.state.request_data}
-              renderRow={data =>
-                <ListItem>
-                  <Text>
-                    {data.location}
-                  </Text>
-                </ListItem>}
-              />
+              {loading &&
+                 <List
+                  dataArray={this.state.request_data}
+                  renderRow={data =>
+                    <ListItem>
+                      <Text>
+                        {data.location}
+                      </Text>
+                    </ListItem>}
+                  />
+              }
+              {
+                !loading && <Content>
+                  <Spinner color='#FF9052' />
+                  </Content>
+              }
 
             </Item>
 

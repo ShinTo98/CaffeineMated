@@ -111,6 +111,16 @@ export const styles = StyleSheet.create({
     top: 90,
     height: 350,
   },
+
+  requestTitleItem: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 280,
+    top: 70,
+    height: 40,
+  },
   requestItem:{
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -118,7 +128,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: 280,
     top: 70,
-    height: 415,
+    height: 375,
   },
 
   textView: {
