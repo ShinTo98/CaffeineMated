@@ -403,7 +403,20 @@ export async function completeOrder(order_id, user_id) {
   });
 }
 
-export function changeDefaultMode(id) {
+/*
+ * Name: changeDefaultMode
+ * Parameters: string id, string
+ * Return: array containing order ids
+ * Sort the pending order based on some rules (for now, we are only sorting it with
+ * distance from the origin)
+ */
+export async function changeDefaultMode(id, mode) {
+  let profileRef = firebase.database().ref("Profile/"+id);
+  let defaultMode;
+  await profileRef.once("value", dataSnapshot => {
+      profileRef.child("default_mode").set(mode);
+    }
+  );
 
 }
 
