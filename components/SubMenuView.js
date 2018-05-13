@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
+import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
 import {
   Container,
   Header,
@@ -31,19 +31,25 @@ export class SubMenuView extends Component {
     super(props);
     this.state = {
       menu: 'Coffee',
-      c1: 'Americano',
-      c2: 'Mocha',
-      c3: 'Latte',
-      c4: 'Cappuccino',
-      c5: 'Macchiato',
-      c6: 'Espresso',
+      items: [],
     };
 
     // Bind login related functions
-    //this. = this.login.bind(this);
+    this.getDrink = this.getDrink.bind(this);
+  }
+
+  async getDrink() {
+    var type = this.props.navigation.getParam('type');
+    var drinks = await displayType(type);
+    this.setState({items: drinks});
+  }
+
+  async componentDidMount() {
+    await this.getDrink();
   }
 
   render () {
+    var result = this.state.items;
     return(
 
       <Container style={styles.container}>
@@ -54,7 +60,7 @@ export class SubMenuView extends Component {
               <Icon
                 name='arrow-back'
                 style={styles.icon }
-                onPress={() => this.props.navigation.navigate('menu')}
+                onPress={() => this.props.navigation.goBack()}
               />
             </Button>
           </Left>
@@ -72,40 +78,28 @@ export class SubMenuView extends Component {
 
         <Container style={styles.back}>
 
-          <Container style={styles.box}>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c1}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c3}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c5}</Text>
-          </Container>
-          <Container style={styles.box}>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c2}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c4}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c6}</Text>
-          </Container>
+        <Container style={styles.box}>
+        {
+          result.map(function(item, i) {
+            return (
+              <Container>
+                <TouchableWithoutFeedback onPress={() =>{
+                  this.props.navigation.navigate('customization', {
+                    name: this.props.navigation.getParam('type'),
+                    id: item.id
+                  });
+                }}>
+                  <Image
+                    style={styles.image}
+                    source={{uri: item.image}}
+                  />
+                  <Text style={styles.text}>{item.name}</Text>
+                </TouchableWithoutFeedback>
+              </Container>
+            );
+          })
+        }
+        </Container>
         </Container>
       </Container>
     );

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-//import {
+// import {
 //  Button,
 //  StyleSheet,
 //  View,
@@ -8,9 +8,9 @@ import React, {Component} from 'react';
 //  TextInput,
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
-//} from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-
+// } from 'react-native';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner } from 'native-base';
+import {viewPendingOrders, viewOrderDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 
 export class Main extends Component {
@@ -22,15 +22,45 @@ export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seg: 1,
-      where: ""
+      seg: 2,
+      where: "",
+      ids: [],
+      request_data: [],
+      loadFinished: false
     };
+
+  }
+
+  async saveRequestIds() {
+    this.setState({ids: await viewPendingOrders()});
+    //console.log(this.state.ids);
+
+  }
+
+  async saveRequestDetails() {
+    var received = [];
+    for (id in this.state.ids) {
+      received.push(await viewOrderDetailById(id));
+    }
+    this.setState({request_data: received});
+    //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
+    //console.log(d)
+    //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
+    console.log(this.state.request_data);
+    this.setState({loadFinished: true});
+
+  }
+
+
+  async componentWillMount() {
+    await this.saveRequestIds();
+    await this.saveRequestDetails();
   }
 
 
 
-
   render() {
+    const loading = this.state.loadFinished;
     return (
       <Container style={styles.color_theme}>
         <Header hasSegment style={styles.header}>
@@ -81,7 +111,7 @@ export class Main extends Component {
             <Button
               style={styles.buttons_menu}
               color="#ffffff"
-              onPress={() => this.props.navigation.goBack()}
+              onPress={() => this.props.navigation.navigate('menu')}
             > <Text style={styles.menuText}> Menu </Text>
             </Button>
             </View>
@@ -120,11 +150,40 @@ export class Main extends Component {
             </Item >
 
 
+            <Item regular style={styles.requestTitleItem}>
+            <Label style = {styles.orderTitle}>
+              Requests
+            </Label>
+            </Item>
+
             <Item regular style={styles.requestItem}>
 
-              <Label style = {styles.orderTitle}>
-                Requests
-              </Label>
+              {loading &&
+                 <List
+                  dataArray={this.state.request_data}
+                  renderRow={data =>
+                    <ListItem>
+                      <Text>
+                        {data.location}
+                      </Text>
+                    </ListItem>}
+                  />
+              }
+              {
+                !loading && <Content>
+                  <Spinner color='#FF9052' />
+                  </Content>
+              }
+
+              <List
+              dataArray={this.state.request_data}
+              renderRow={data =>
+                <ListItem>
+                  <Text>
+                    {data.location}
+                  </Text>
+                </ListItem>}
+              />
 
             </Item>
 
