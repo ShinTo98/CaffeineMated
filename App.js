@@ -31,7 +31,8 @@ export default class App extends React.Component {
       //   </Text>
       // </View>
       //<Root>
-        <RootStack />
+      // <PrimaryNav />
+      <ZmqPageTest />
       //</Root>
     );
   }
@@ -138,6 +139,9 @@ const RootStack = StackNavigator(
 
 const ZmqPageTest = StackNavigator(
   {
+    main: {
+      screen: Main,
+    },
     start:{
       screen: Start,
     },
@@ -155,6 +159,9 @@ const ZmqPageTest = StackNavigator(
     },
     menu: {
       screen: MenuView
+    },
+    drawer: {
+      screen: Drawer,
     },
   },
   {

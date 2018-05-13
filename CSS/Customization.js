@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     flex: 3,
-    flexDirection: 'column',
+    flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
   },
@@ -61,6 +61,15 @@ export const styles = StyleSheet.create({
   },
   customizationTextboxContainer: {
     flex: 1,
+
+  },
+
+  textInput: {
+    height: 100,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#8190A5',
+    borderWidth: 0.5,
+    width: 350,
   },
 
 
@@ -73,11 +82,35 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     margin: 3,
     backgroundColor: 'transparent',
-    //flexDirection: 'row',
     justifyContent: 'center',
     borderRadius:1,
     borderWidth: 1,
-    //borderColor: '#FF9052',
+    borderColor: '#FF9052',
+    alignSelf: 'flex-start',
+  },
+
+  aspectFakeText: {
+    margin: 3,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    borderRadius:1,
+    borderWidth: 1,
+    borderColor: '#FAFAFA',
+    alignSelf: 'flex-start',
+  },
+
+  selected_button_text: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    alignSelf: 'flex-start',
+  },
+  selectedButtonStyle: {
+    margin: 3,
+    backgroundColor: '#FF9052',
+    justifyContent: 'center',
+    borderRadius:1,
+    borderWidth: 1,
+    borderColor: '#FF9052',
     alignSelf: 'flex-start',
   },
 
@@ -101,5 +134,6 @@ export const styles = StyleSheet.create({
     width: 80,
     height: 40,
   },
+
 
 });
