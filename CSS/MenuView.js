@@ -45,15 +45,26 @@ export const styles = StyleSheet.create({
   },
 
   image: {
-    width: 145,
-    height: 145,
-    top: '1%',
+    width: 140,
+    height: 140,
+    top: '15%',
+    borderRadius: 70,
+    transform: [
+    {scaleX: 1}
+    ]
+  },
+  list: {
+    //bottom: 140,
+  },
+  item: {
+    width: '100%',
+    height: 140,
   },
   text: {
     color: '#ff9052',
     fontSize: 20,
     paddingTop: '2%',
     paddingBottom: '2%',
-    top: '1%',
+    top: '15%',
   },
 });
