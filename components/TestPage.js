@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders} from './../database.js';
+import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
          super(props);
+
      }
 
      async testdisplayMenu(){
@@ -28,8 +29,8 @@ export class TestPage extends Component {
     }
 
     async testViewOrderDetailById(){
-        var test = await viewOrderDetailById("2");
-        console.log(test);
+        var result = await viewOrderDetailById("0");
+        console.log(result);
     }
 
     async testGetOrderLocationById(){
@@ -41,6 +42,28 @@ export class TestPage extends Component {
       var test = await sortOrders('Warren Lecture Hall');
       console.log(test);
     }
+
+    async testgetProfileDetailById(){
+        var test = await getProfileDetailById('01');
+        console.log(test);
+    }
+
+    async testChangeUserName(){
+         await changeUserName("01", "illustrious");
+    }
+    async testCompleteOrders() {
+      completeOrder('3', '678');
+      //console.log(test);
+    }
+
+    async testChangeDefaultMode(id, mode){
+        var test = await changeDefaultMode('01', 'carrier');
+        console.log("default mode has changed!");
+    }
+
+    
+
+
 
      render(){
          return(
@@ -57,9 +80,27 @@ export class TestPage extends Component {
                     <Right />
                 </Header>
 
+
                 <Content>
                     <Text style={{fontSize:15, color:'#000000', fontFamily:'Hiragino Sans', margin:10}}>Functions that does not change value in database will have a test button here.
                         Return value will be printed to console</Text>
+
+                        <Card>
+                        <CardItem header>
+                          <Text>getProfileDetialById</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: profile_id</Text>
+                                <Text>Output: Object that contains all details</Text>
+                                <Text />
+                                <Button small primary onPress={this.testgetProfileDetailById}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
 
                     <Card>
                         <CardItem header>
@@ -179,10 +220,65 @@ export class TestPage extends Component {
                             </Body>
                         </CardItem>
                     </Card>
+
+                    <Card>
+                    <CardItem header>
+                        <Text>changeUserName</Text>
+                    </CardItem>
+
+                    <CardItem>
+                        <Body>
+                        <Text>Input: user_id newName</Text>
+                        <Text />
+                        <Button small primary onPress={this.testChangeUserName}>
+                            <Text>Test</Text>
+                        </Button>
+                        </Body>
+                    </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>completeOrder</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: order id</Text>
+                                <Text>Output: json object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testCompleteOrders}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+
+                    <Card>
+                        <CardItem header>
+                          <Text>changeDefaultMode</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: user_id, mode as a string</Text>
+                                <Text>Output: database change</Text>
+                                <Text />
+                                <Button small primary onPress={this.testChangeDefaultMode}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    
+                    
+
                 </Content>
 
               </Container>
          );
      };
-
+    
 }
