@@ -66,7 +66,8 @@ const SettingsStack = StackNavigator(
 const Drawer = DrawerNavigator(
   {
     main: {screen: Main},
-    menu: { screen: SubMenuView },
+    menu: { screen: MenuView },
+    submenu: { screen: SubMenuView },
     customization: {screen: Customization},
     settings: {screen: SettingsStack},
     profile: {screen: Profile},

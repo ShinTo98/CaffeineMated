@@ -23,9 +23,15 @@ import {
   Input,
   Label,
   Icon,
+  List,
+  ListItem,
 } from 'native-base';
 
 export class MenuView extends Component {
+
+  static navigationOptions = {
+    header: null
+  }
 
   constructor(props) {
     super(props);
@@ -35,15 +41,14 @@ export class MenuView extends Component {
     };
 
     // Bind login related functions
-    this.getMenu = this.getMenu.bind(this);
+   // this.getMenu = this.getMenu.bind(this);
   }
 
   async getMenu() {
-    var drinks = await displayMenu();
-    this.setState({items: drinks});
+    this.setState({items: await displayMenu()});
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     await this.getMenu();
   }
 
@@ -72,25 +77,46 @@ export class MenuView extends Component {
         <Container style={styles.back}>
 
         <Container style={styles.box}>
-        {
+        {/*        
           result.map(function(item, i){
             return(
               <Container>
                 <TouchableWithoutFeedback onPress={() => {
                   this.props.navigation.navigate('submenu', {
-                    type: item[1],
+                    type: item[1][1],
                   });
                 }}>
+                <container>
                   <Image
                     style={styles.image}
-                    source={{uri: item[0]}}
+                    source={{url: item[0]}}
                   />
                   <Text style={styles.text}>{item[1]}</Text>
+                  </container>
                 </TouchableWithoutFeedback>
               </Container>
             );
           })
-        }
+       */}
+
+       <List
+       dataArray={this.state.items}
+       renderRow={data =>
+          <ListItem>
+                <Button transparent onPress={() => {
+                  this.props.navigation.navigate('submenu', {
+                    type: data[1],
+                  });
+                }}>
+                  <Image
+                    style={styles.image}
+                    source={{url: data[0]}}
+                  />
+                  <Text style={styles.text}>{data[1]}</Text>
+                  </Button>
+            </ListItem>
+       }
+       />
         </Container>
         </Container>
       </Container>

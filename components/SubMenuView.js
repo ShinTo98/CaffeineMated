@@ -21,35 +21,51 @@ import {
   Input,
   Label,
   Icon,
+  List,
+  ListItem,
   Left,
   Right,
+  Spinner,
 } from 'native-base';
 
 export class SubMenuView extends Component {
+
+  static navigationOptions = {
+    header: null
+  }
 
   constructor(props) {
     super(props);
     this.state = {
       menu: 'Coffee',
+      type: this.props.navigation.getParam('type'),
+      loadFinished: false,
       items: [],
     };
 
     // Bind login related functions
-    this.getDrink = this.getDrink.bind(this);
+    //this.getDrink = this.getDrink.bind(this);
   }
 
   async getDrink() {
-    var type = this.props.navigation.getParam('type');
-    var drinks = await displayType(type);
-    this.setState({items: drinks});
+    //var type = this.props.navigation.getParam('type');
+      this.setState({items: await displayType(this.state.type)}, () => {
+      this.setState({loadFinished: true});
+      });
+      console.log(this.state);
+    //var drinks = await displayType(type);
+    //this.setState({items: drinks});
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     await this.getDrink();
   }
 
+  async 
+
   render () {
-    var result = this.state.items;
+    //var result = this.state.items;
+    const loading = this.state.loadFinished;
     return(
 
       <Container style={styles.container}>
@@ -79,7 +95,7 @@ export class SubMenuView extends Component {
         <Container style={styles.back}>
 
         <Container style={styles.box}>
-        {
+        {console.log(this.state)/*
           result.map(function(item, i) {
             return (
               <Container>
@@ -98,6 +114,30 @@ export class SubMenuView extends Component {
               </Container>
             );
           })
+        */}
+        {loading &&
+        <List
+       dataArray={this.state.items}
+       renderRow={data =>
+          <ListItem>
+                <Button transparent onPress={() => {
+                  this.props.navigation.navigate('customization', {
+                    id: data.id,
+                  });
+                }}>
+                  <Image
+                    style={styles.image}
+                    source={{url: data.image}}
+                  />
+                  <Text style={styles.text}>{data.name}</Text>
+                  </Button>
+            </ListItem>
+       }
+       />
+        }
+        {!loading && <Content>
+                  <Spinner color='#FF9052' />
+                  </Content>
         }
         </Container>
         </Container>
