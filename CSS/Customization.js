@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     flex: 3,
-    flexDirection: 'column',
+    flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
   },
@@ -85,7 +85,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius:1,
     borderWidth: 1,
-    //borderColor: '#FF9052',
+    borderColor: '#FF9052',
+    alignSelf: 'flex-start',
+  },
+
+  aspectFakeText: {
+    margin: 3,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    borderRadius:1,
+    borderWidth: 1,
+    borderColor: '#FAFAFA',
     alignSelf: 'flex-start',
   },
 
@@ -100,7 +110,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius:1,
     borderWidth: 1,
-    //borderColor: '#FF9052',
+    borderColor: '#FF9052',
     alignSelf: 'flex-start',
   },
 
