@@ -75,7 +75,7 @@ export async function userPasswordChange(newPassword){
 }).catch(function(error) {
   // An error happened.
 });
- 
+
 }
 
 /*
@@ -285,7 +285,11 @@ export async function viewOrderDetailById (order_id) {
 }
 
 
-
+/*
+ * Name: getOrderLocationById
+ * Parameter: string:order_id
+ * Return: location of this order
+ */
 export async function getOrderLocationById (order_id){
   // get the direction
   dir = "Orders/items/" + order_id;
@@ -306,6 +310,8 @@ export async function getProfileDetailById(profile_id){
 
   return result;
 }
+
+
 /*
  * Name: acceptOrder
  * Parameter: string:order_id  string:carrier_id
@@ -331,9 +337,11 @@ export async function acceptOrder(order_id, carrier_id){
   });
 }
 
-// Helper
-// TODO
-// Return:
+/*
+ * Name: getDistance
+ * Parameter: string: origin  string: destination  string: id
+ * Return: the distance between origin location and destination
+ */
 export async function getDistance(origin, destination, id) {
   return new Promise(function(resolve,reject){
     const xhr = new XMLHttpRequest();
@@ -398,28 +406,38 @@ export async function sortOrders(origin) {
   return ordersResult;
 }
 
+
+/*
+ * Name: completeOrder
+ * Parameter: string: order_id  string: user_id
+ * Return: N/A
+ */
 export async function completeOrder(order_id, user_id) {
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
-      // console.log(user_id);
-      // console.log(dataSnapshot.val().carrier_id === user_id);
-      // console.log(dataSnapshot.val().status);
-      // console.log(dataSnapshot.val().buyer_id == user_id);
-      // console.log(dataSnapshot.val().buyer_id);
+
+      // current order status is 4: completedByBuyer, then carrier click complete
+      // update status to be 6: completed
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
       }
 
+      // current order status is 5: completedByCarrier, then buyer click complete
+      // update status to be 6: completed
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
       }
 
+      // current order status is 3: delivering, then buyer click complete
+      // update status to be 4: completedByBuyer
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
           orderRef.child("status").set(4);
           console.log("complete by buyer");
       }
 
+      // current order status is 3: delivering, then carrier click complete
+      // update status to be 5: completedByCarrier
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
           console.log("complete by carrier");
@@ -429,16 +447,9 @@ export async function completeOrder(order_id, user_id) {
 
 /*
  * Name: changeDefaultMode
-<<<<<<< HEAD
  * Parameters: string id, string mode
  * Return: N/A
  * change the default mode to given mode.
-=======
- * Parameters: string id, string
- * Return: array containing order ids
- * Sort the pending order based on some rules (for now, we are only sorting it with
- * distance from the origin)
->>>>>>> 0e4edf37d8d4c5f90e8e7334055311cf810ae080
  */
 export async function changeDefaultMode(id, mode) {
   let profileRef = firebase.database().ref("Profile/"+id);
@@ -450,8 +461,18 @@ export async function changeDefaultMode(id, mode) {
 
 }
 
-export function changeProfilePhoto() {
 
+/*
+ * Name: changeProfilePhoto
+ * Parameters: string id, string url
+ * Return: N/A
+ * update user profile photo
+ */
+export async function changeProfilePhoto(id, url) {
+  let profileRef = firebase.database().ref("Profile/"+id);
+  await profileRef.once("value", dataSnapshot => {
+    profileRef.child("photo").set(url);
+  });
 }
 
 /*

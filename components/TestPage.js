@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName} from './../database.js';
+import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -56,12 +56,15 @@ export class TestPage extends Component {
       //console.log(test);
     }
 
-    async testChangeDefaultMode(id, mode){
+    async testChangeDefaultMode(){
         var test = await changeDefaultMode('01', 'carrier');
         console.log("default mode has changed!");
     }
 
-    
+    async testChangeProfilePhoto(){
+        var test = await changeDefaultMode('01', 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Lesser_Sooty_Owl_at_Bonadio%27s_Mabi_Wildlife_Reserve.jpg');
+        console.log("profile photo has changed!");
+    }
 
 
 
@@ -272,13 +275,28 @@ export class TestPage extends Component {
                         </CardItem>
                     </Card>
 
-                    
-                    
+
+                    <Card>
+                        <CardItem header>
+                          <Text>changeProfilePhoto</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: profile_id, photo url as a string</Text>
+                                <Text>Output: database change</Text>
+                                <Text />
+                                <Button small primary onPress={this.testChangeProfilePhoto}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
 
                 </Content>
 
               </Container>
          );
      };
-    
+
 }
