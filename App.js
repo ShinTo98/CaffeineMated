@@ -32,7 +32,7 @@ export default class App extends React.Component {
       // </View>
       //<Root>
       // <PrimaryNav />
-      <MenuView />
+      <PrimaryNav />
       //</Root>
     );
   }

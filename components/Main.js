@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
 // } from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail } from 'native-base';
 import {viewPendingOrders, viewOrderDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 
@@ -71,7 +71,6 @@ export class Main extends Component {
           </Left>
           <Body>
 
-            //TODO: fix tint color
             <Segment >
               <Button
                 style={this.state.seg === 1 ? styles.button_header_on : styles.button_header_off}
@@ -163,9 +162,24 @@ export class Main extends Component {
                   dataArray={this.state.request_data}
                   renderRow={data =>
                     <ListItem>
-                      <Text>
+                      <Left style={styles.list_left_container}>
+                        <Thumbnail square small source={require('../resources/avatar.png')}/>
+                        <Text style={{fontSize: 12}}>
+                          {data.buyer_id}
+                        </Text>
+                      </Left>
+                      <Body style={styles.list_body_container}>
+                      <Text style={styles.list_text}>
+                        Coffee
+                      </Text>
+
+                      <Text style={styles.list_text}>
                         {data.location}
                       </Text>
+                      <Text style={styles.list_text}>
+                        {data.request_time}
+                      </Text>
+                      </Body>
                     </ListItem>}
                   />
               }
@@ -175,7 +189,7 @@ export class Main extends Component {
                   </Content>
               }
 
-          
+
 
             </Item>
 
