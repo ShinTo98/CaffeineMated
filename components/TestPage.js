@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, saveOrders} from './../database.js';
+import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -17,12 +17,30 @@ export class TestPage extends Component {
         console.log(test);
     }
 
-    async testsaveOrder(){
-        var test = await saveOrder({status: 1});
+    async testdisplayItem(){
+        var test = await displayItem("Hot Coffees", "HC02");
         console.log(test);
     }
 
+    async testviewPendingOrders(){
+        var test = await viewPendingOrders();
+        console.log(test);
+    }
 
+    async testViewOrderDetailById(){
+        var test = await viewOrderDetailById("2");
+        console.log(test);
+    }
+
+    async testGetOrderLocationById(){
+        var test = await getOrderLocationById("6");
+        console.log(test);
+    }
+
+    async testSortOrders() {
+      var test = await sortOrders('Warren Lecture Hall');
+      console.log(test);
+    }
 
      render(){
          return(
@@ -38,10 +56,11 @@ export class TestPage extends Component {
                     </Body>
                     <Right />
                 </Header>
-                
+
                 <Content>
-                    <Text style={{fontSize:15, color:'#000000', fontFamily:'Hiragino Sans', margin:10}}>All functions except login,signup related will have a test button here.
+                    <Text style={{fontSize:15, color:'#000000', fontFamily:'Hiragino Sans', margin:10}}>Functions that does not change value in database will have a test button here.
                         Return value will be printed to console</Text>
+
                     <Card>
                         <CardItem header>
                           <Text>DisplayMenu</Text>
@@ -78,22 +97,88 @@ export class TestPage extends Component {
 
                     <Card>
                         <CardItem header>
-                          <Text>saveOrder</Text>
+                          <Text>DisplayItem</Text>
                         </CardItem>
 
                         <CardItem>
                             <Body>
-                                <Text style={styles.parameter}>Input: String typeName (example input is "Hot Coffees")</Text>
-                                <Text style={styles.parameter}>Output: An array contains each item with image, id, and name.</Text>
+                                <Text>Input: String typeName, item_Id (example input is ("Hot Coffees", "HC02")</Text>
+                                <Text>Output: Item object</Text>
                                 <Text />
-                                <Button small primary onPress={this.testdisplayType}>
+                                <Button small primary onPress={this.testdisplayItem}>
                                     <Text>Test</Text>
                                 </Button>
                             </Body>
                         </CardItem>
                     </Card>
 
+                    <Card>
+                        <CardItem header>
+                          <Text>ViewPendingOrders</Text>
+                        </CardItem>
 
+                        <CardItem>
+                            <Body>
+                                <Text>Input: N/A</Text>
+                                <Text>Output: List of pending orders id</Text>
+                                <Text />
+                                <Button small primary onPress={this.testviewPendingOrders}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>ViewOrderDetailById</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: string orderId (example: "2")</Text>
+                                <Text>Output: Order object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testViewOrderDetailById}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>getOrderLocationById</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: Order_id</Text>
+                                <Text>Output: String Location</Text>
+                                <Text />
+                                <Button small primary onPress={this.testGetOrderLocationById}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>sortOrder</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: order id</Text>
+                                <Text>Output: json object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testSortOrders}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
                 </Content>
 
               </Container>
@@ -101,4 +186,3 @@ export class TestPage extends Component {
      };
 
 }
-

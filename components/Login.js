@@ -38,7 +38,7 @@ export class Login extends Component {
     var result = await userLogin(this.state.email, this.state.password);
     if(result === 0) {
       alert("Login Successful!");
-      this.props.navigation.navigate('root');
+      this.props.navigation.navigate('main');
     } else {
       alert(result);
     }
