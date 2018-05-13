@@ -74,8 +74,6 @@ export class MenuView extends Component {
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
-        <Container style={styles.back}>
-
         <Container style={styles.box}>
         {/*
           result.map(function(item, i){
@@ -118,7 +116,6 @@ export class MenuView extends Component {
             </ListItem>
        }
        />
-        </Container>
         </Container>
       </Container>
     );

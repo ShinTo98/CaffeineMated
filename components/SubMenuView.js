@@ -61,7 +61,7 @@ export class SubMenuView extends Component {
     await this.getDrink();
   }
 
-  async 
+  async
 
   render () {
     //var result = this.state.items;
@@ -119,7 +119,7 @@ export class SubMenuView extends Component {
         <List
        dataArray={this.state.items}
        renderRow={data =>
-          <ListItem>
+          <ListItem style={styles.item}>
                 <Button transparent onPress={() => {
                   this.props.navigation.navigate('customization', {
                     id: data.id,
