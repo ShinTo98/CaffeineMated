@@ -11,8 +11,24 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
-  segment:{
+  text_on:{
+    color: '#ffffff',
+  },
+  text_off:{
+    color: '#FF9052',
+  },
 
+  button_header_on: {
+    borderColor: '#FF9052',
+    backgroundColor: '#FF9052',
+
+  },
+  button_header_off: {
+    borderColor: '#FF9052',
+    backgroundColor: '#ffffff',
+  },
+  icon: {
+    color: '#FF9052',
   },
   white_banner: {
     flex: 0.15,
@@ -95,6 +111,16 @@ export const styles = StyleSheet.create({
     top: 90,
     height: 350,
   },
+
+  requestTitleItem: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 280,
+    top: 70,
+    height: 40,
+  },
   requestItem:{
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -102,7 +128,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: 280,
     top: 70,
-    height: 415,
+    height: 375,
   },
 
   textView: {

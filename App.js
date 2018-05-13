@@ -8,7 +8,9 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
-import {Settings} from './components/Settings.js'
+import {Settings} from './components/Settings.js';
+import {Profile} from './components/Profile.js';
+import {Feedback} from './components/Feedback.js';
 
 
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
@@ -29,7 +31,12 @@ export default class App extends React.Component {
       //   </Text>
       // </View>
       //<Root>
+<<<<<<< HEAD
         <RootStack />
+=======
+       <PrimaryNav />
+      //<ZmqPageTest />
+>>>>>>> d25d1cc8d3dfb347a0ecb68646ddf8dd554f58fb
       //</Root>
     );
   }
@@ -43,18 +50,40 @@ const noTransitionConfig = () => ({
   }
 })
 
+const SettingsStack = StackNavigator(
+  {
+
+    settings: {
+      screen: Settings,
+    },
+    feedback: {
+      screen: Feedback,
+    },
+  },
+  {
+
+    initialRouteName: 'settings',
+    headerMode: 'none',
+  }
+);
+
 
 const Drawer = DrawerNavigator(
   {
     main: {screen: Main},
     menu: { screen: SubMenuView },
     customization: {screen: Customization},
-    settings: {screen: Settings}
+    settings: {screen: SettingsStack},
+    profile: {screen: Profile},
 
     //menu: {screen: MenuView},
   },
   {
     initialRouteName: 'main',
+
+    navigationOptions: {
+      headerTintColor: 'red',
+    },
 
     //modify here to change the inital screen
 
@@ -92,19 +121,52 @@ const RootStack = StackNavigator(
     customization: {
       screen: Customization,
     },
+    subMenuView: {
+      screen: SubMenuView
+    },
     menu: {
       screen: MenuView
     },
   },
   {
+
     initialRouteName: 'drawer',
     headerMode: 'none',
     //transitionConfig: noTransitionConfig,
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
+      headerTintColor: 'red',
     }
   }
 );
+
+const ZmqPageTest = StackNavigator(
+  {
+    start:{
+      screen: Start,
+    },
+    login: {
+      screen: Login,
+    },
+    signup: {
+      screen: Signup,
+    },
+    customization: {
+      screen: Customization,
+    },
+    subMenuView: {
+      screen: SubMenuView
+    },
+    menu: {
+      screen: MenuView
+    },
+  },
+  {
+    initialRouteName: 'customization',
+    headerMode: 'none',
+  }
+)
+
 
 const PrimaryNav = StackNavigator({
   start: {
@@ -119,7 +181,8 @@ const PrimaryNav = StackNavigator({
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
+      headerTintColor: 'red',
     }
   }
 
