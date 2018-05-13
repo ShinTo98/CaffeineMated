@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders} from './../database.js';
+import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders, changeUserName} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -42,6 +42,9 @@ export class TestPage extends Component {
       console.log(test);
     }
 
+    async testChangeUserName(){
+         await changeUserName("01", "illustrious");
+    }
      render(){
          return(
              <Container>
@@ -178,6 +181,22 @@ export class TestPage extends Component {
                                 </Button>
                             </Body>
                         </CardItem>
+                    </Card>
+
+                    <Card>
+                    <CardItem header>
+                        <Text>changeUserName</Text>
+                    </CardItem>
+
+                    <CardItem>
+                        <Body>
+                        <Text>Input: user_id newName</Text>
+                        <Text />
+                        <Button small primary onPress={this.testChangeUserName}>
+                            <Text>Test</Text>
+                        </Button>
+                        </Body>
+                    </CardItem>
                     </Card>
                 </Content>
 

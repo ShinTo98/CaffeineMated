@@ -381,3 +381,20 @@ export function changeDefaultMode(id) {
 export function changeProfilePhoto() {
 
 }
+
+/*
+ * Name: changeUserName
+ * Parameters: string: user_id string:newName
+ * Return: none
+ * change the name of the user
+ */
+export async function changeUserName(user_id, newName){
+    let profileRef = firebase.database().ref("Profile/" + user_id);
+    await profileRef.once("value", dataSnapshot => {
+        if (!dataSnapshot) {
+            return;
+        } else {
+            profileRef.child("username").set(newName);
+        }
+    });
+}
