@@ -122,6 +122,7 @@ export class SubMenuView extends Component {
                 <Button transparent onPress={() => {
                   this.props.navigation.navigate('customization', {
                     id: data.id,
+                    type: this.state.type,
                   });
                 }}>
                   <Image
