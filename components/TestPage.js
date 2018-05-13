@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortLocation} from './../database.js';
+import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -32,13 +32,14 @@ export class TestPage extends Component {
         console.log(test);
     }
 
-    async testGetDistance() {
-      var test = await sortLocation('Warren Lecture Hall');
-    } // TODO
-
     async testGetOrderLocationById(){
         var test = await getOrderLocationById("6");
         console.log(test);
+    }
+
+    async testSortOrders() {
+      var test = await sortOrders('Warren Lecture Hall');
+      console.log(test);
     }
 
      render(){
@@ -59,23 +60,6 @@ export class TestPage extends Component {
                 <Content>
                     <Text style={{fontSize:15, color:'#000000', fontFamily:'Hiragino Sans', margin:10}}>Functions that does not change value in database will have a test button here.
                         Return value will be printed to console</Text>
-
-                    <Card>
-                        <CardItem header>
-                          <Text>getLocations</Text>
-                        </CardItem>
-
-                        <CardItem>
-                            <Body>
-                                <Text>Input: Location</Text>
-                                <Text>Output: json object</Text>
-                                <Text />
-                                <Button small primary onPress={this.testGetDistance}>
-                                    <Text>Test</Text>
-                                </Button>
-                            </Body>
-                        </CardItem>
-                    </Card>
 
                     <Card>
                         <CardItem header>
@@ -179,7 +163,22 @@ export class TestPage extends Component {
                         </CardItem>
                     </Card>
 
+                    <Card>
+                        <CardItem header>
+                          <Text>sortOrder</Text>
+                        </CardItem>
 
+                        <CardItem>
+                            <Body>
+                                <Text>Input: order id</Text>
+                                <Text>Output: json object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testSortOrders}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
                 </Content>
 
               </Container>

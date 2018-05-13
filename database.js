@@ -271,7 +271,7 @@ export async function viewOrderDetailById (order_id) {
     return orderInformation;
 }
 
-export async function getOrderLocationById ( order_id){
+export async function getOrderLocationById (order_id){
   // get the direction
   dir = "Orders/items/" + order_id;
   var location;
@@ -310,19 +310,30 @@ export async function acceptOrder(order_id, carrier_id){
 // Helper
 // TODO
 // Return:
-export function getDistance(origin, destination, id) {
-  const xhr = new XMLHttpRequest();
+export async function getDistance(origin, destination, id) {
+  return new Promise(function(resolve,reject){
+    const xhr = new XMLHttpRequest();
 
-  const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+loc+"&destination=peterson%20hall%20ucsd&mode=walking";
-  xhr.responseType = 'json';
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-		    console.log(xhr.response.routes[0].legs[0].distance.value);
-        return {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
+    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"%20ucsd&mode=walking";
+    xhr.responseType = 'json';
+    //let orderWithDist;
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+          console.log("getDistance: " + xhr.response.routes[0].legs[0].distance.value);
+          var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
+          //console.log("orderWithDist:" + JSON.stringify(orderWithDist));
+          resolve(orderWithDist);
+      }
+    };
+
+    xhr.ontimeout = function() {
+      reject("timeout");
     }
-  };
-  xhr.open('GET', url);
-  xhr.send();
+    xhr.open('GET', url);
+    xhr.send();
+    //return orderWithDist;
+  });
+
 }
 
 /*
@@ -345,14 +356,18 @@ function compare (a, b){
  * Sort the pending order based on some rules (for now, we are only sorting it with
  * distance from the origin)
  */
-export async function sortOrder(origin) {
+export async function sortOrders(origin) {
   let orders = await viewPendingOrders();
   let ordersWithDistance = [];
+  var current;
   const loc = origin.split(' ').join('%20'); // initial location
   for (let i = 0; i < orders.length; i++) {
-    ordersWithDistance.push(getDistance(loc, orders[i].location, orders[i]));
+    current = await getDistance(loc, await getOrderLocationById(orders[i]), orders[i]);
+    console.log("current: "+current);
+    await ordersWithDistance.push(current);
   }
-  ordersWithDistance.sort(compare);
+  await ordersWithDistance.sort(compare);
+  console.log(ordersWithDistance);
   let ordersResult = [];
   for (let j = 0; j < ordersWithDistance.length; j++){
       ordersResult.push(ordersWithDistance[j].order_id);
