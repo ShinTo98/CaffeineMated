@@ -175,15 +175,7 @@ export class Main extends Component {
                   </Content>
               }
 
-              <List
-              dataArray={this.state.request_data}
-              renderRow={data =>
-                <ListItem>
-                  <Text>
-                    {data.location}
-                  </Text>
-                </ListItem>}
-              />
+          
 
             </Item>
 
