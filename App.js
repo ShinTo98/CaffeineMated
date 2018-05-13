@@ -31,12 +31,7 @@ export default class App extends React.Component {
       //   </Text>
       // </View>
       //<Root>
-<<<<<<< HEAD
         <RootStack />
-=======
-       <PrimaryNav />
-      //<ZmqPageTest />
->>>>>>> d25d1cc8d3dfb347a0ecb68646ddf8dd554f58fb
       //</Root>
     );
   }

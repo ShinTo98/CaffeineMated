@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
+import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
 import {
   Container,
   Header,

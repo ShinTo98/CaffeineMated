@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
+import {userSignup, displayMenu, viewPendingOrders} from '../database.js';
 import {
   Container,
   Header,
@@ -47,11 +47,6 @@ export class MenuView extends Component {
     await this.getMenu();
   }
 
-  async getMenu() {
-    var drinks = displayMenu();
-    this.setState({items: drinks});
-  }
-
   render () {
     var result = this.state.items;
     return(
@@ -76,9 +71,8 @@ export class MenuView extends Component {
 
         <Container style={styles.back}>
 
-<<<<<<< HEAD
         <Container style={styles.box}>
-          {
+        {
           result.map(function(item, i){
             return(
               <Container>
@@ -97,25 +91,6 @@ export class MenuView extends Component {
             );
           })
         }
-
-=======
-        <Container style={styles.box}
-          items_array = {this.state.items}
-          items_array.map(function() {
-            return (
-              <Image
-                style={styles.image}
-                source={require('../resources/logo.png')}
-              />
-              <Text style={styles.text}>{this.state.cold_coffee}</Text>
-            )
-          })
-        />
-
-          <Container style={styles.box}>
->>>>>>> d25d1cc8d3dfb347a0ecb68646ddf8dd554f58fb
-
-
         </Container>
         </Container>
       </Container>

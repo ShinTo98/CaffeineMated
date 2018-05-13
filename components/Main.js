@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-//import {
+// import {
 //  Button,
 //  StyleSheet,
 //  View,
@@ -8,12 +8,8 @@ import React, {Component} from 'react';
 //  TextInput,
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
-//} from 'react-native';
-<<<<<<< HEAD
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem } from 'native-base';
-=======
+// } from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner } from 'native-base';
->>>>>>> d25d1cc8d3dfb347a0ecb68646ddf8dd554f58fb
 import {viewPendingOrders, viewOrderDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 
@@ -26,18 +22,11 @@ export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
-      seg: 1,
-      where: "",
-      ids: [],
-      request_data: []
-=======
       seg: 2,
       where: "",
       ids: [],
       request_data: [],
       loadFinished: false
->>>>>>> d25d1cc8d3dfb347a0ecb68646ddf8dd554f58fb
     };
 
   }
@@ -57,13 +46,6 @@ export class Main extends Component {
     //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
     //console.log(d)
     //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
-<<<<<<< HEAD
-    console.log(this.state.data);
-  }
-
-
-  async componentDidMount() {
-=======
     console.log(this.state.request_data);
     this.setState({loadFinished: true});
 
@@ -71,7 +53,6 @@ export class Main extends Component {
 
 
   async componentWillMount() {
->>>>>>> d25d1cc8d3dfb347a0ecb68646ddf8dd554f58fb
     await this.saveRequestIds();
     await this.saveRequestDetails();
   }
