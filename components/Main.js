@@ -9,8 +9,8 @@ import React, {Component} from 'react';
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
 //} from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem } from 'native-base';
+import {viewPendingOrders, viewOrderDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 
 export class Main extends Component {
@@ -23,10 +23,35 @@ export class Main extends Component {
     super(props);
     this.state = {
       seg: 1,
-      where: ""
+      where: "",
+      ids: [],
+      request_data: []
     };
   }
 
+  async saveRequestIds() {
+    this.setState({ids: await viewPendingOrders()});
+    //console.log(this.state.ids);
+
+  }
+
+  async saveRequestDetails() {
+    var received = [];
+    for (id in this.state.ids) {
+      received.push(await viewOrderDetailById(id));
+    }
+    this.setState({request_data: received});
+    //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
+    //console.log(d)
+    //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
+    console.log(this.state.data);
+  }
+
+
+  async componentDidMount() {
+    await this.saveRequestIds();
+    await this.saveRequestDetails();
+  }
 
 
 
@@ -125,6 +150,16 @@ export class Main extends Component {
               <Label style = {styles.orderTitle}>
                 Requests
               </Label>
+
+              <List
+              dataArray={this.state.request_data}
+              renderRow={data =>
+                <ListItem>
+                  <Text>
+                    {data.location}
+                  </Text>
+                </ListItem>}
+              />
 
             </Item>
 
