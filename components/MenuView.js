@@ -31,13 +31,13 @@ export class MenuView extends Component {
     super(props);
     this.state = {
       menu: 'Menu',
-      cold_coffee: 'Cold Coffee',
-      cold_tea: 'Cold Tea',
-      hot_coffee: 'Hot Coffee',
-      hot_tea: 'Hot Tea',
-      frappuccino: 'Frappuccino',
-      drinks: 'Drinks',
+      items: [],
     };
+  }
+
+  async getMenu() {
+    var drinks = displayMenu();
+    this.setState({items: drinks});
   }
 
   render () {
@@ -45,7 +45,7 @@ export class MenuView extends Component {
       <Container style={styles.container}>
         <Header style={styles.header}>
           <Left>
-            <Button transparent>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
@@ -56,13 +56,25 @@ export class MenuView extends Component {
           </Right>
         </Header>
 
-
         <Container style={styles.menu_container}>
           <Text style={styles.menu}>{this.state.menu}</Text>
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
         <Container style={styles.back}>
+
+        <Container style={styles.box}
+          items_array = {this.state.items}
+          items_array.map(function() {
+            return (
+              <Image
+                style={styles.image}
+                source={require('../resources/logo.png')}
+              />
+              <Text style={styles.text}>{this.state.cold_coffee}</Text>
+            )
+          })
+        />
 
           <Container style={styles.box}>
 
@@ -81,8 +93,8 @@ export class MenuView extends Component {
               source={require('../resources/logo.png')}
             />
             <Text style={styles.text}>{this.state.frappuccino}</Text>
-          </Container>
-          <Container style={styles.box}>
+            </Container>
+            <Container style={styles.box}>
             <Image
               style={styles.image}
               source={require('../resources/logo.png')}
