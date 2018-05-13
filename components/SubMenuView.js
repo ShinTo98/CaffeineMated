@@ -49,6 +49,7 @@ export class SubMenuView extends Component {
 
   async getDrink() {
     //var type = this.props.navigation.getParam('type');
+      this.setState({menu: this.state.type});
       this.setState({items: await displayType(this.state.type)}, () => {
       this.setState({loadFinished: true});
       });
@@ -91,8 +92,6 @@ export class SubMenuView extends Component {
           <Text style={styles.menu}>{this.state.menu}</Text>
           <View style={styles.coffeeNameUnderline} />
         </Container>
-
-        <Container style={styles.back}>
 
         <Container style={styles.box}>
         {console.log(this.state)/*
@@ -139,7 +138,6 @@ export class SubMenuView extends Component {
                   <Spinner color='#FF9052' />
                   </Content>
         }
-        </Container>
         </Container>
       </Container>
     );
