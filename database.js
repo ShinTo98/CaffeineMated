@@ -374,6 +374,35 @@ export async function sortOrders(origin) {
   return ordersResult;
 }
 
+export async function completeOrder(order_id, user_id) {
+
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  await orderRef.once("value", dataSnapshot => {
+      // console.log(user_id);
+      // console.log(dataSnapshot.val().carrier_id === user_id);
+      // console.log(dataSnapshot.val().status);
+      // console.log(dataSnapshot.val().buyer_id == user_id);
+      // console.log(dataSnapshot.val().buyer_id);
+      if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
+          orderRef.child("status").set(6);
+      }
+
+      else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
+          orderRef.child("status").set(6);
+      }
+
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
+          orderRef.child("status").set(4);
+          console.log("complete by buyer");
+      }
+
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
+          orderRef.child("status").set(5);
+          console.log("complete by carrier");
+      }
+  });
+}
+
 export function changeDefaultMode(id) {
 
 }

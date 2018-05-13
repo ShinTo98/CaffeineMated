@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById,sortOrders} from './../database.js';
+import {displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -40,6 +40,11 @@ export class TestPage extends Component {
     async testSortOrders() {
       var test = await sortOrders('Warren Lecture Hall');
       console.log(test);
+    }
+
+    async testCompleteOrders() {
+      completeOrder('3', '678');
+      //console.log(test);
     }
 
      render(){
@@ -179,6 +184,24 @@ export class TestPage extends Component {
                             </Body>
                         </CardItem>
                     </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>completeOrder</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: order id</Text>
+                                <Text>Output: json object</Text>
+                                <Text />
+                                <Button small primary onPress={this.testCompleteOrders}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
                 </Content>
 
               </Container>
