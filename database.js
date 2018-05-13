@@ -66,6 +66,13 @@ export async function userSignup (email, password) {
     return result;
 }
 
+/*
+* Name: userPasswordChange
+ * Parameters: string: newPassword
+ * Return: N/A
+ * Error Condition: errorMessage
+ * Success: Password sucessfully 
+ */
 export async function userPasswordChange(newPassword){
   var user = firebase.auth().currentUser;
   var newPassword = getASecureRandomPassword();
@@ -142,7 +149,6 @@ export async function displayType (type) {
  * Parameters: string: type, string: item_id
  * Return:
  * The array containing name, description, image.
- *
  */
 export async function displayItem (type, item_id) {
     // get the direction
@@ -208,9 +214,9 @@ export function cancelByCarrier(order_id) {
  * Name: viewPendingOrders
  * Description: This is for carrier to see all pending orders
  * Parameters: object: order
- * Return:
+ * Return: An array of order_id
  * Error Condition: none
- * Success: viewPendingOrders_cb
+ * Success: N/A
  */
 export async function viewPendingOrders() {
   // access the Menu field in firebase
@@ -285,7 +291,11 @@ export async function viewOrderDetailById (order_id) {
 }
 
 
-
+/*
+ * Name: getOrderLocationById
+ * Parameters: string: order_id
+ * Return: return location string,
+ */
 export async function getOrderLocationById (order_id){
   // get the direction
   dir = "Orders/items/" + order_id;
@@ -297,6 +307,12 @@ export async function getOrderLocationById (order_id){
   return location;
 }
 
+/*
+ * Name: getProfileDetailById
+ * Parameters: string: profile_id
+ * Return: object profile
+ *
+ */
 export async function getProfileDetailById(profile_id){
   dir = "Profile/" + profile_id;
   var result;
@@ -306,6 +322,8 @@ export async function getProfileDetailById(profile_id){
 
   return result;
 }
+
+
 /*
  * Name: acceptOrder
  * Parameter: string:order_id  string:carrier_id
@@ -331,9 +349,12 @@ export async function acceptOrder(order_id, carrier_id){
   });
 }
 
-// Helper
-// TODO
-// Return:
+/*
+ * Name: getDistance
+ * Parameters: string: starting location, string destination, order_id
+ * Return: a pair (location distance, order_id) 
+ *
+ */
 export async function getDistance(origin, destination, id) {
   return new Promise(function(resolve,reject){
     const xhr = new XMLHttpRequest();
@@ -344,7 +365,6 @@ export async function getDistance(origin, destination, id) {
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
           var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
-          //console.log("orderWithDist:" + JSON.stringify(orderWithDist));
           resolve(orderWithDist);
       }
     };
@@ -354,7 +374,6 @@ export async function getDistance(origin, destination, id) {
     }
     xhr.open('GET', url);
     xhr.send();
-    //return orderWithDist;
   });
 
 }
@@ -402,11 +421,6 @@ export async function completeOrder(order_id, user_id) {
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
-      // console.log(user_id);
-      // console.log(dataSnapshot.val().carrier_id === user_id);
-      // console.log(dataSnapshot.val().status);
-      // console.log(dataSnapshot.val().buyer_id == user_id);
-      // console.log(dataSnapshot.val().buyer_id);
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
       }
@@ -429,16 +443,9 @@ export async function completeOrder(order_id, user_id) {
 
 /*
  * Name: changeDefaultMode
-<<<<<<< HEAD
  * Parameters: string id, string mode
  * Return: N/A
  * change the default mode to given mode.
-=======
- * Parameters: string id, string
- * Return: array containing order ids
- * Sort the pending order based on some rules (for now, we are only sorting it with
- * distance from the origin)
->>>>>>> 0e4edf37d8d4c5f90e8e7334055311cf810ae080
  */
 export async function changeDefaultMode(id, mode) {
   let profileRef = firebase.database().ref("Profile/"+id);
