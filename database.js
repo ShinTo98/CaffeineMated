@@ -319,7 +319,6 @@ export async function getDistance(origin, destination, id) {
     //let orderWithDist;
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-          console.log("getDistance: " + xhr.response.routes[0].legs[0].distance.value);
           var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
           //console.log("orderWithDist:" + JSON.stringify(orderWithDist));
           resolve(orderWithDist);
@@ -363,9 +362,9 @@ export async function sortOrders(origin) {
   const loc = origin.split(' ').join('%20'); // initial location
   for (let i = 0; i < orders.length; i++) {
     current = await getDistance(loc, await getOrderLocationById(orders[i]), orders[i]);
-    console.log("current: "+current);
     await ordersWithDistance.push(current);
   }
+
   await ordersWithDistance.sort(compare);
   console.log(ordersWithDistance);
   let ordersResult = [];
