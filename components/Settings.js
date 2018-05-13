@@ -19,8 +19,11 @@ import {
   Form,
   Label,
   View,
-  ListItem
+  ListItem,
 } from 'native-base';
+import {
+  Picker,
+} from 'react-native';
 import {styles} from '../CSS/Settings.js';
 
 export class Settings extends Component {
@@ -32,8 +35,7 @@ export class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seg: 1,
-      where: ""
+      defaultMode: "buyer"
     };
   }
 
@@ -54,7 +56,6 @@ export class Settings extends Component {
           <Right></Right>
         </Header>
 
-        <Content >
 
           <Container>
             <List>
@@ -70,10 +71,9 @@ export class Settings extends Component {
             </List>
 
           </Container>
-        </Content>
         <Footer>
           <FooterTab>
-            <Button full="full" style={styles.signOut}>
+            <Button full style={styles.signOut}>
               <Text style={styles.signOutText}>Sign Out</Text>
             </Button>
           </FooterTab>
