@@ -61,6 +61,15 @@ export const styles = StyleSheet.create({
   },
   customizationTextboxContainer: {
     flex: 1,
+
+  },
+
+  textInput: {
+    height: 100,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#8190A5',
+    borderWidth: 0.5,
+    width: 350,
   },
 
 
@@ -73,7 +82,21 @@ export const styles = StyleSheet.create({
   buttonStyle: {
     margin: 3,
     backgroundColor: 'transparent',
-    //flexDirection: 'row',
+    justifyContent: 'center',
+    borderRadius:1,
+    borderWidth: 1,
+    //borderColor: '#FF9052',
+    alignSelf: 'flex-start',
+  },
+
+  selected_button_text: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    alignSelf: 'flex-start',
+  },
+  selectedButtonStyle: {
+    margin: 3,
+    backgroundColor: '#FF9052',
     justifyContent: 'center',
     borderRadius:1,
     borderWidth: 1,
@@ -101,5 +124,6 @@ export const styles = StyleSheet.create({
     width: 80,
     height: 40,
   },
+
 
 });

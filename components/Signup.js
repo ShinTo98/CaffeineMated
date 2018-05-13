@@ -124,8 +124,8 @@ export class Signup extends Component {
               style={styles.buttons}
               color="#ffffff"
               onPress={
-                this.validityCheck}
-            > <Text> Sign Up </Text>
+                this.validityCheck}>
+              <Text> Sign Up </Text>
             </Button>
 
             <View style={styles.textView}>

@@ -19,15 +19,17 @@ import {
   Textarea
 } from 'native-base';
 import {styles} from "../CSS/Customization.js";
+import {userLogin, userSignup, displayItem} from "../database";
 
 
 /* Class of Buttons */
 class SizeButtons extends Component {
   loopingFunction() {
     const fields = [];
-    for (let i=0; i < this.props.size.length; i++) {
+    for (let i = 0; i < this.props.size.length; i++) {
       fields.push(
-        <Button bordered style={styles.buttonStyle}>
+        <Button bordered disabled={this.props.hasSize ? true : false}
+                style={styles.buttonStyle}>
           <Text style={styles.button_text}>{this.props.size[i]}</Text>
         </Button>
       );
@@ -35,27 +37,48 @@ class SizeButtons extends Component {
     return fields;
   }
 
+  async populatesizeButtons() {
+
+    var coffeeObj = await displayItem("Cold Coffees", "CC01");
+
+
+    console.log(coffeeObj);
+    return coffeeObj;
+    }
+
   render() {
-    return (
-      this.loopingFunction()
-  );
+    var coffeeObj = this.populatesizeButtons();
+    let sizeButtons = [];
+
+    for (let cat in coffeeObj.price) {
+      // for each different type, get the value
+      sizeButtons.push(
+        <Button bordered style={styles.buttonStyle}>
+          <Text style={styles.button_text}>{cat}</Text>
+        </Button>
+      );
+    }
+
+    return sizeButtons;
   }
 }
-
 
 
 class IECButtons extends Component {
   loopingFunction() {
     const fields = [];
-    for (let i=0; i < this.props.choices.length; i++) {
+
+    for (let key in this.props.choices) {
       fields.push(
-        <Button bordered style={styles.buttonStyle}>
-          <Text style={styles.button_text}>{this.props.choices[i]}</Text>
+        <Button bordered style={styles.buttonStyle} key={this.props.choices[key]}>
+          <Text style={styles.button_text}>{this.props.choices[key]}</Text>
         </Button>
       );
     }
+
     return fields;
   }
+
 
   render() {
     return (
@@ -76,18 +99,45 @@ export class Customization extends Component {
   }
 
 
-
   constructor(props) {
     super(props);
+    this.state = {
+      icedState: [
+        {regularIced: false},
+        {lightIced: false},
+        {noIced: false}
+      ],
+      shotState: [{shot1: false}, {shot2: false}, {shot3: false}],
+      creamState: [{withCream: false}, {withoutCream: true}],
+      sugarState: [{regularSugar: true}, {lightSugar: false}, {overSugar: false}],
+      sizeState: [{Short: false}, {Tall: false}, {Grande: true}, {Venti: false}, {Tentra: false}],
+      //TODO hard code for now
+      customize: "...",
+
+      sizeCate: [],
+
+
+    };
+
+
   }
 
+
+
   render() {
+    this.state.sizeCate.forEach(key => {
+      console.log(key); // returns the keys in an object
+      console.log(a[key]);  // returns the appropriate value
+    });
+
+    console.log("dsfhjfd"); //TODO
+
+
     let ice = ['Regular', 'Light', 'None'];
     let shot = ['1 Shot', '2 Shots', '3 Shots'];
     let cream = ['With', 'Without'];
     let sugar = ['Regular', 'Light', 'Over'];
-
-    let sizes = ['Short', 'Tall', 'Grande', 'Venti', 'Tentra']
+    let sizes = ['Short', 'Tall', 'Grande', 'Venti', 'Tentra'];
 
     return (
       <Container style={styles.biggestContainer}>      /* biggest container */
@@ -131,13 +181,17 @@ export class Customization extends Component {
 
 
           <Container style={styles.customizationTextboxContainer}>
-              <Form>
-              <Textarea rowSpan={5}
-                        bordered
-                        placeholder="Other Customization..."/>
-              </Form>
-            </Container>
-        </Container>    /* end iecContainer */
+
+
+            <Form style={{top: 5}}>
+              <Item regular style={styles.textInput}>
+                <Input onChangeText={(text) => this.setState({customize: text})}
+                />
+              </Item>
+            </Form>
+
+          </Container>
+        </Container> /* end iecContainer */
 
 
         <Container style={styles.submitButtonContainer}>
