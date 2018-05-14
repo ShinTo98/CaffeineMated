@@ -8,16 +8,9 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
-<<<<<<< HEAD
-import {TestPage} from './components/TestPage.js';
-import {Settings} from './components/Settings.js'
-=======
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
 import {Feedback} from './components/Feedback.js';
-
-
->>>>>>> master
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
 
@@ -38,12 +31,8 @@ export default class App extends React.Component {
       //   </Text>
       // </View>
       //<Root>
-<<<<<<< HEAD
-        <LoginScreen />
-=======
       // <PrimaryNav />
       <RootStack />
->>>>>>> master
       //</Root>
     );
   }
@@ -57,6 +46,25 @@ const noTransitionConfig = () => ({
   }
 })
 
+const LoginScreen = StackNavigator(
+  {
+    start:{
+      screen: Start,
+    },
+    login: {
+      screen: Login,
+    },
+    signup: {
+      screen: Signup,
+    },
+  },
+  {
+    disableOpenGesture: true,
+    initialRouteName: 'start',
+    headerMode: 'none',
+  }
+);
+
 const SettingsStack = StackNavigator(
   {
 
@@ -66,6 +74,9 @@ const SettingsStack = StackNavigator(
     feedback: {
       screen: Feedback,
     },
+    start: {
+      screen: LoginScreen,
+    }
   },
   {
 
@@ -81,13 +92,8 @@ const Drawer = DrawerNavigator(
     menu: { screen: MenuView },
     submenu: { screen: SubMenuView },
     customization: {screen: Customization},
-<<<<<<< HEAD
-    settings: {screen: Settings},
-=======
     settings: {screen: SettingsStack},
     profile: {screen: Profile},
-
->>>>>>> master
     //menu: {screen: MenuView},
   },
   {
@@ -104,28 +110,6 @@ const Drawer = DrawerNavigator(
     contentComponent: props => <SideBar {...props} />
   }
 );
-
-const LoginScreen = StackNavigator(
-  {
-    start:{
-      screen: Start,
-    },
-    login: {
-      screen: Login,
-    },
-    signup: {
-      screen: Signup,
-    },
-    testPage:{
-      screen:TestPage,
-    }
-  },
-  {
-    disableOpenGesture: true,
-    initialRouteName: 'start',
-    headerMode: 'none',
-  }
-)
 
 const RootStack = StackNavigator(
   {
@@ -144,9 +128,6 @@ const RootStack = StackNavigator(
     },
     menu: {
       screen: MenuView
-    },
-    testPage:{
-      screen: TestPage,
     },
   },
   {

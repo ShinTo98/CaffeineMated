@@ -24,6 +24,7 @@ import {
 } from 'native-base';
 import {styles} from '../CSS/Profile.js';
 
+
 export class Profile extends Component {
 
   static navigationOptions = {
@@ -39,6 +40,7 @@ export class Profile extends Component {
       password: '666666',
       profilePic: "../resources/batman.jpg"
     };
+
   }
 
   render() {
