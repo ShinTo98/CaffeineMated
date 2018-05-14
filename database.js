@@ -131,7 +131,7 @@ export async function displayMenu () {
 export async function displayType (type) {
     let firebaseRef = firebase.database().ref('Menu');
     let drinks = [];
-    await firebaseRef.on('value', dataSnapshot => {
+    await firebaseRef.once('value', dataSnapshot => {
       let menu = dataSnapshot.val();
       var index;
       for (index in menu[type].items) {
@@ -153,9 +153,11 @@ export async function displayType (type) {
 export async function displayItem (type, item_id) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
+
     var coffee;
     await firebase.database().ref(dir).once("value", function (snapshot) {
         coffee = snapshot.val();
+
     });
     return coffee;
 }
@@ -212,7 +214,7 @@ export function cancelByCarrier(order_id) {
  * Name: viewPendingOrders
  * Description: This is for carrier to see all pending orders
  * Parameters: object: order
- * Return:
+ * Return: An array of order_id
  * Error Condition: none
  * Success: N/A
  */
@@ -272,7 +274,7 @@ export async function updateOrderStatus(order_id) {
 /*
  * Name: viewOrderDetailById
  * Parameters: string: order_id
- * Return:
+ * Return: object orderInformation
  * The json containing the information of the order corresponding to the order_id
  *
  */
