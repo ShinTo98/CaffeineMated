@@ -5,10 +5,15 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableHighlight,
+  ScrollView,
+  LinearLayout,
+  Dimensions,
+
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders} from '../database.js';
+import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
 import {
   Container,
   Header,
@@ -25,6 +30,11 @@ import {
   Icon,
   List,
   ListItem,
+  Card,
+  CardItem,
+  Grid,
+  Col,
+  Row
 } from 'native-base';
 
 export class MenuView extends Component {
@@ -41,11 +51,20 @@ export class MenuView extends Component {
     };
 
     // Bind login related functions
-   // this.getMenu = this.getMenu.bind(this);
+    this.getMenu = this.getMenu.bind(this);
+   this.getType = this.getType.bind(this);
   }
 
   async getMenu() {
     this.setState({items: await displayMenu()});
+    console.log(this.state.items);
+  }
+
+  async getType(e){
+    console.log(e);
+    var test = await displayType(e);
+    console.log(test);
+    return test;
   }
 
   async componentWillMount() {
@@ -74,49 +93,30 @@ export class MenuView extends Component {
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
-        <Container style={styles.box}>
-        {/*
-          result.map(function(item, i){
-            return(
-              <Container>
-                <TouchableWithoutFeedback onPress={() => {
-                  this.props.navigation.navigate('submenu', {
-                    type: item[1][1],
-                  });
-                }}>
-                <container>
-                  <Image
-                    style={styles.image}
-                    source={{url: item[0]}}
-                  />
-                  <Text style={styles.text}>{item[1]}</Text>
-                  </container>
-                </TouchableWithoutFeedback>
-              </Container>
-            );
-          })
-       */}
+        <ScrollView>
+          <Grid style={{flexWrap: 'wrap'}}>
+        {
+           result.map((type, key) =>
+             <Col key={key} style={{height:'30%', width:'45%', alignItems: "center"}}>
+             <Row>
+              <TouchableWithoutFeedback onPress={ ()=> {alert("clicked!")}}>
+                <Image style={styles.image}
+                        source={{uri: type[0]}} />
 
-       <List
-       style={styles.list}
-       dataArray={this.state.items}
-       renderRow={data =>
-          <ListItem style={styles.item}>
-                <Button transparent onPress={() => {
-                  this.props.navigation.navigate('submenu', {
-                    type: data[1],
-                  });
-                }}>
-                  <Image
-                    style={styles.image}
-                    source={{url: data[0]}}
-                  />
-                  <Text style={styles.text}>{data[1]}</Text>
-                  </Button>
-            </ListItem>
-       }
-       />
-        </Container>
+              </TouchableWithoutFeedback>
+              </Row>
+              <Row>
+              <TouchableWithoutFeedback onPress={ ()=> {alert("clicked!")}}>
+                <Text>{type[1]}</Text>
+              </TouchableWithoutFeedback>
+              </Row>
+            </Col>
+    
+          )          
+
+        }
+        </Grid>
+        </ScrollView>
       </Container>
     );
   }

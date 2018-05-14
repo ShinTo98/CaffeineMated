@@ -40,33 +40,17 @@ export class SubMenuView extends Component {
       menu: 'Coffee',
       type: this.props.navigation.getParam('type'),
       loadFinished: false,
-      items: [],
+      items: this.props.navigation.getParam('items')
     };
 
     // Bind login related functions
     //this.getDrink = this.getDrink.bind(this);
   }
 
-  async getDrink() {
-    //var type = this.props.navigation.getParam('type');
-      this.setState({menu: this.state.type});
-      this.setState({items: await displayType(this.state.type)}, () => {
-      this.setState({loadFinished: true});
-      });
-      //console.log(this.state);
-    //var drinks = await displayType(type);
-    //this.setState({items: drinks});
-  }
-
-  async componentWillMount() {
-    await this.getDrink();
-  }
-
-  async
 
   render () {
-    //var result = this.state.items;
-    const loading = this.state.loadFinished;
+    var result = this.state.items;
+    console.log(result);
     return(
 
       <Container style={styles.container}>
@@ -114,10 +98,10 @@ export class SubMenuView extends Component {
             );
           })
         */}
-        {loading &&
-        <List
-       dataArray={this.state.items}
-       renderRow={data =>
+        <List>
+       {
+       result.map(function (data){
+         return (
           <ListItem style={styles.item}>
                 <Button transparent onPress={() => {
                   this.props.navigation.navigate('customization', {
@@ -132,10 +116,12 @@ export class SubMenuView extends Component {
                   <Text style={styles.text}>{data.name}</Text>
                   </Button>
             </ListItem>
+       )})}
        }
-       />
+       </List>
+
         }
-        {!loading && <Content>
+        { <Content>
                   <Spinner color='#FF9052' />
                   </Content>
         }
