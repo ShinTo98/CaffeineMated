@@ -67,6 +67,25 @@ export async function userSignup (email, password) {
 }
 
 /*
+* Name: userPasswordChange
+ * Parameters: string: newPassword
+ * Return: N/A
+ * Error Condition: errorMessage
+ * Success: Password sucessfully
+ */
+export async function userPasswordChange(newPassword){
+  var user = firebase.auth().currentUser;
+  var newPassword = getASecureRandomPassword();
+
+ user.updatePassword(newPassword).then(function() {
+  // Update successful.
+}).catch(function(error) {
+  // An error happened.
+});
+
+}
+
+/*
  * Name: displayMenu
  * Parameters: None
  * Return: List of pairs. [[img, TypeName]...]
@@ -112,7 +131,11 @@ export async function displayMenu () {
 export async function displayType (type) {
     let firebaseRef = firebase.database().ref('Menu');
     let drinks = [];
+<<<<<<< HEAD
+    await firebaseRef.once('value', dataSnapshot => {
+=======
     await firebaseRef.on('value', dataSnapshot => {
+>>>>>>> master
       let menu = dataSnapshot.val();
       var index;
       for (index in menu[type].items) {
@@ -130,14 +153,21 @@ export async function displayType (type) {
  * Parameters: string: type, string: item_id
  * Return:
  * The array containing name, description, image.
- *
  */
 export async function displayItem (type, item_id) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
+<<<<<<< HEAD
+
     var coffee;
     await firebase.database().ref(dir).once("value", function (snapshot) {
         coffee = snapshot.val();
+
+=======
+    var coffee;
+    await firebase.database().ref(dir).once("value", function (snapshot) {
+        coffee = snapshot.val();
+>>>>>>> master
     });
     return coffee;
 }
@@ -194,9 +224,13 @@ export function cancelByCarrier(order_id) {
  * Name: viewPendingOrders
  * Description: This is for carrier to see all pending orders
  * Parameters: object: order
+<<<<<<< HEAD
+ * Return: An array of order_id
+=======
  * Return:
+>>>>>>> master
  * Error Condition: none
- * Success: viewPendingOrders_cb
+ * Success: N/A
  */
 export async function viewPendingOrders() {
   // access the Menu field in firebase
@@ -214,7 +248,7 @@ export async function viewPendingOrders() {
 
     // loop through all types in orders
     for( order_id in orders){
-      
+
       // check if it is a pending order
       let order = orders[order_id];
       if( order.status == 1){
@@ -238,23 +272,27 @@ export async function viewPendingOrders() {
  * Success: update the order status
  */
 export async function updateOrderStatus(order_id) {
-  let orderRef = firebase.database().ref("Orders/items/" + order_id); 
-  let status = -1; 
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  let status = -1;
   await orderRef.once("value", dataSnapshot => {
     if (!dataSnapshot) {
-      return; 
+      return;
     } else {
-      status = dataSnapshot.val().status; 
-      status = Math.min(++status, 4);
-      orderRef.child("status").set(status); 
+      status = dataSnapshot.val().status;
+      status = Math.min(++status, 3);
+      orderRef.child("status").set(status);
     }
-  }); 
+  });
 }
 
 /*
  * Name: viewOrderDetailById
  * Parameters: string: order_id
+<<<<<<< HEAD
+ * Return: object orderInformation
+=======
  * Return:
+>>>>>>> master
  * The json containing the information of the order corresponding to the order_id
  *
  */
@@ -266,5 +304,283 @@ export async function viewOrderDetailById (order_id) {
         orderInformation = snapshot.val();
     });
 
+<<<<<<< HEAD
+
     return orderInformation;
 }
+
+
+/*
+ * Name: getOrderLocationById
+ * Parameters: string: order_id
+ * Return: return location string,
+ * Parameter: string:order_id
+ * Return: location of this order
+ */
+export async function getOrderLocationById (order_id){
+  // get the direction
+  dir = "Orders/items/" + order_id;
+  var location;
+  await firebase.database().ref(dir).once("value", function (snapshot){
+    location = snapshot.val().location;
+    location = location.split(' ').join('%20');
+  });
+  return location;
+}
+
+/*
+ * Name: getProfileDetailById
+ * Parameters: string: profile_id
+ * Return: object profile
+ *
+ */
+export async function getProfileDetailById(profile_id){
+  dir = "Profile/" + profile_id;
+  var result;
+  await firebase.database().ref(dir).once("value", function(snapshot){
+    result = snapshot.val();
+  })
+
+  return result;
+}
+
+
+/*
+ * Name: acceptOrder
+ * Parameter: string:order_id  string:carrier_id
+ * Return: -1 if the order is not found or already accepted by others.
+ * If the current order is still pending, the carrier will take the order.
+ * The database will update the carrier_id entry with the current carrier_id.
+ * If the order is already taken by others, it will return -1.
+ */
+export async function acceptOrder(order_id, carrier_id){
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  let status = -1;
+  await orderRef.once("value", dataSnapshot => {
+      // the order is already accpeted by others if status is not 1
+      if (dataSnapshot.val().status != 1) {
+          alert("The order is already accepted by others. Try refresh!");
+      }
+
+      // update the carrier_id and status of the order.
+      else {
+          orderRef.child("carrier_id").set(carrier_id);
+          orderRef.child("status").set(2);
+      }
+  });
+}
+
+/*
+ * Name: getDistance
+ * Parameters: string: starting location, string destination, order_id
+ * Return: a pair (location distance, order_id)
+ *
+ * Parameter: string: origin  string: destination  string: id
+ * Return: the distance between origin location and destination
+ */
+export async function getDistance(origin, destination, id) {
+  return new Promise(function(resolve,reject){
+    const xhr = new XMLHttpRequest();
+
+    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"%20ucsd&mode=walking";
+    xhr.responseType = 'json';
+    //let orderWithDist;
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+          var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
+          resolve(orderWithDist);
+      }
+    };
+
+    xhr.ontimeout = function() {
+      reject("timeout");
+    }
+    xhr.open('GET', url);
+    xhr.send();
+  });
+
+}
+
+/*
+ *  Helper function used to compare two orders with ids.
+ */
+function compare (a, b){
+    if (a.dist > b.dist){
+        return 1;
+    }
+    else if (a.dist < b.dist){
+        return -1;
+    }
+    return 0;
+}
+
+/*
+ * Name: sortOrder
+ * Parameters: string: origin
+ * Return: array containing order ids
+ * Sort the pending order based on some rules (for now, we are only sorting it with
+ * distance from the origin)
+ */
+export async function sortOrders(origin) {
+  let orders = await viewPendingOrders();
+  let ordersWithDistance = [];
+  var current;
+  const loc = origin.split(' ').join('%20'); // initial location
+  for (let i = 0; i < orders.length; i++) {
+    current = await getDistance(loc, await getOrderLocationById(orders[i]), orders[i]);
+    await ordersWithDistance.push(current);
+  }
+
+  await ordersWithDistance.sort(compare);
+  console.log(ordersWithDistance);
+  let ordersResult = [];
+  for (let j = 0; j < ordersWithDistance.length; j++){
+      ordersResult.push(ordersWithDistance[j].order_id);
+  }
+  return ordersResult;
+}
+
+
+/*
+ * Name: completeOrder
+ * Parameter: string: order_id  string: user_id
+ * Return: N/A
+ */
+export async function completeOrder(order_id, user_id) {
+
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  await orderRef.once("value", dataSnapshot => {
+
+      // current order status is 4: completedByBuyer, then carrier click complete
+      // update status to be 6: completed
+      if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
+          orderRef.child("status").set(6);
+      }
+
+      // current order status is 5: completedByCarrier, then buyer click complete
+      // update status to be 6: completed
+      else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
+          orderRef.child("status").set(6);
+      }
+
+      // current order status is 3: delivering, then buyer click complete
+      // update status to be 4: completedByBuyer
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
+          orderRef.child("status").set(4);
+          console.log("complete by buyer");
+      }
+
+      // current order status is 3: delivering, then carrier click complete
+      // update status to be 5: completedByCarrier
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
+          orderRef.child("status").set(5);
+          console.log("complete by carrier");
+      }
+  });
+}
+
+/*
+ * Name: changeDefaultMode
+ * Parameters: string id, string mode
+ * Return: N/A
+ * change the default mode to given mode.
+ */
+export async function changeDefaultMode(id, mode) {
+  let profileRef = firebase.database().ref("Profile/"+id);
+  let defaultMode;
+  await profileRef.once("value", dataSnapshot => {
+      profileRef.child("default_mode").set(mode);
+    }
+  );
+
+}
+
+
+/*
+ * Name: changeProfilePhoto
+ * Parameters: string id, string url
+ * Return: N/A
+ * update user profile photo
+ */
+export async function changeProfilePhoto(id, url) {
+  let profileRef = firebase.database().ref("Profile/"+id);
+  await profileRef.once("value", dataSnapshot => {
+    profileRef.child("photo").set(url);
+  });
+}
+
+export async function logout() {
+  var result;
+    await firebase.auth().signOut().then(
+
+      function success(){
+        result = 0;
+      }
+    ).catch(
+      function failure(error){
+        var errorCode = error.code;
+        var errorMsg = error.message;
+
+        result = errorMsg;
+
+      }
+    );
+
+    return result;
+}
+
+export async function displayOrderHistory(user_id) {
+  // get the direction
+  let dir = "Profile/" + order_id + "/history";
+  let orderHis;
+  await firebase.database().ref(dir).once("value", function (snapshot) {
+      orderHis = snapshot.val();
+  });
+
+  return orderHis;
+}
+
+export async function getProfileById(user_id) {
+  // get the direction
+  let dir = "Profile/" + order_id;
+  let profile;
+  await firebase.database().ref(dir).once("value", function (snapshot) {
+      profile = snapshot.val();
+  });
+
+  return profile;
+}
+
+export function updateRate(user_id, rate, isBuyer) {
+  let dir;
+  if (isBuyer) { // get direction
+    dir = "Profile/" + order_id + "/rate_as_buyer";
+  } else {
+    dir = "Profile/" + order_id + "/rate_as_carrier";
+  }
+
+
+  let orderRef = firebase.database().ref(dir);
+  orderRef.set(rate);
+}
+
+/*
+ * Name: changeUserName
+ * Parameters: string: user_id string:newName
+ * Return: none
+ * change the name of the user
+ */
+export async function changeUserName(user_id, newName){
+    let profileRef = firebase.database().ref("Profile/" + user_id);
+    await profileRef.once("value", dataSnapshot => {
+        if (!dataSnapshot) {
+            return;
+        } else {
+            profileRef.child("username").set(newName);
+        }
+    });
+}
+=======
+    return orderInformation;
+}
+>>>>>>> master

@@ -8,13 +8,20 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
+<<<<<<< HEAD
+import {TestPage} from './components/TestPage.js';
+import {Settings} from './components/Settings.js'
+=======
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
 import {Feedback} from './components/Feedback.js';
 
 
+>>>>>>> master
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
+
+
 
 export default class App extends React.Component {
 
@@ -31,8 +38,12 @@ export default class App extends React.Component {
       //   </Text>
       // </View>
       //<Root>
+<<<<<<< HEAD
+        <LoginScreen />
+=======
       // <PrimaryNav />
       <RootStack />
+>>>>>>> master
       //</Root>
     );
   }
@@ -70,9 +81,13 @@ const Drawer = DrawerNavigator(
     menu: { screen: MenuView },
     submenu: { screen: SubMenuView },
     customization: {screen: Customization},
+<<<<<<< HEAD
+    settings: {screen: Settings},
+=======
     settings: {screen: SettingsStack},
     profile: {screen: Profile},
 
+>>>>>>> master
     //menu: {screen: MenuView},
   },
   {
@@ -101,6 +116,9 @@ const LoginScreen = StackNavigator(
     signup: {
       screen: Signup,
     },
+    testPage:{
+      screen:TestPage,
+    }
   },
   {
     disableOpenGesture: true,
@@ -127,12 +145,14 @@ const RootStack = StackNavigator(
     menu: {
       screen: MenuView
     },
+    testPage:{
+      screen: TestPage,
+    },
   },
   {
 
     initialRouteName: 'drawer',
     headerMode: 'none',
-    //transitionConfig: noTransitionConfig,
     navigationOptions: {
       gesturesEnabled: false,
       headerTintColor: 'red',
@@ -178,12 +198,12 @@ const PrimaryNav = StackNavigator({
   start: {
     screen: LoginScreen,
   },
-  root: {
+  main: {
     screen: RootStack,
   }
 },
   {
-    initialRouteName: 'root',
+    initialRouteName: 'start',
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {

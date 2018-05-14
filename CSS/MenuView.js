@@ -1,4 +1,5 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
 
 export const styles = StyleSheet.create({
   container: {
@@ -34,21 +35,38 @@ export const styles = StyleSheet.create({
     //left: '5%',
   },
   box: {
+<<<<<<< HEAD
+    margin: 5,
+    width: Dimensions.get('window').width / 2, //Device width divided in almost a half
+    justifyContent: 'center',
+    flexDirection:'column'
+  },
+  new:{
+    flexDirection:'row'
+=======
     flexDirection: 'column',
     backgroundColor: '#FAFAFA',
     //alignItems: 'center',
     //width: '100%',
     height: '100%',
+>>>>>>> master
   },
 
   back: {
     flex: 12,
     flexDirection: 'row',
+    height:'100%',
+    width:'100%'
   },
 
   image: {
     width: 140,
     height: 140,
+<<<<<<< HEAD
+    borderRadius: 70,
+    left: 10,
+    top: 20,
+=======
     top: 40,
     borderRadius: 70,
     // transform: [
@@ -62,12 +80,17 @@ export const styles = StyleSheet.create({
     //width: '100%',
     height: 150,
     //alignItems: 'center',
+>>>>>>> master
   },
   text: {
     color: '#ff9052',
     fontSize: 20,
+<<<<<<< HEAD
+
+=======
     paddingTop: '2%',
     paddingBottom: '2%',
     top: 40,
+>>>>>>> master
   },
 });
