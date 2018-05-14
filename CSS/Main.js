@@ -83,7 +83,6 @@ export const styles = StyleSheet.create({
     width: 200,
     padding: 5,
     top: 100,
-
   },
   buttonItem:{
     top: 70,
@@ -137,6 +136,10 @@ export const styles = StyleSheet.create({
   },
   menuText:{
     color: '#FF9052',
+    fontSize: 30,
+  },
+  menuText_disabled:{
+    color: 'gray',
     fontSize: 30,
   },
   subText: {
