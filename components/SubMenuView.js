@@ -52,7 +52,7 @@ export class SubMenuView extends Component {
       this.setState({items: await displayType(this.state.type)}, () => {
       this.setState({loadFinished: true});
       });
-      console.log(this.state);
+      //console.log(this.state);
     //var drinks = await displayType(type);
     //this.setState({items: drinks});
   }
@@ -95,7 +95,7 @@ export class SubMenuView extends Component {
         <Container style={styles.back}>
 
         <Container style={styles.box}>
-        {console.log(this.state)/*
+        {/*console.log(this.state)
           result.map(function(item, i) {
             return (
               <Container>

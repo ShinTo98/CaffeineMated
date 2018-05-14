@@ -46,7 +46,7 @@ export class Main extends Component {
     //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
     //console.log(d)
     //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
-    console.log(this.state.request_data);
+    //console.log(this.state.request_data);
     this.setState({loadFinished: true});
 
   }

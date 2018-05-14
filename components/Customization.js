@@ -22,48 +22,6 @@ import {styles} from "../CSS/Customization.js";
 import {displayItem} from "../database";
 
 
-/* Class of Buttons */
-class SizeButtons extends Component {
-  loopingFunction() {
-    const fields = [];
-    for (let i = 0; i < this.props.size.length; i++) {
-      fields.push(
-        <Button bordered disabled={this.props.hasSize ? true : false}
-                style={styles.buttonStyle}>
-          <Text style={styles.button_text}>{this.props.size[i]}</Text>
-        </Button>
-      );
-    }
-    return fields;
-  }
-
-  async populatesizeButtons() {
-
-    var coffeeObj = await displayItem("Cold Coffees", "CC01");
-
-
-    console.log(coffeeObj);
-    return coffeeObj;
-  }
-
-  render() {
-    var coffeeObj = this.populatesizeButtons();
-    let sizeButtons = [];
-
-    for (let cat in coffeeObj.price) {
-      // for each different type, get the value
-      sizeButtons.push(
-        <Button bordered style={styles.buttonStyle}>
-          <Text style={styles.button_text}>{cat}</Text>
-        </Button>
-      );
-    }
-
-    return sizeButtons;
-  }
-}
-
-
 export class Customization extends Component {
 
   static navigationOptions = {
@@ -74,7 +32,7 @@ export class Customization extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Mocha",
+      title: "",
       customize: "...",
 
       personalize: [
@@ -108,48 +66,47 @@ export class Customization extends Component {
       ],
 
       sizes: [
-        {tag: 'Short', status: false},
-        {tag: 'Tall', status: false},
-        {tag: 'Grande', status: true},
-        {tag: 'Venti', status: false},
-        {tag: 'Tentra', status: false}],
+        ], //testing purposes
 
 
       //TODO hard code for now
 
     };
 
-    //this.populateSizeButtons = this.populateSizeButtons.bind(this);
-    this.populateSizeButtonsTest = this.populateSizeButtonsTest.bind(this);
+    this.populateSizeArray = this.populateSizeArray.bind(this);
+    this.populateSizeButtons = this.populateSizeButtons.bind(this);
     this._onPressSingleSize = this._onPressSingleSize.bind(this);
     this.populateIEClines = this.populateIEClines.bind(this);
     this.populateIECbuttons = this.populateIECbuttons.bind(this);
-
-
   }
 
 
-  async populateSizeButtons() {
+  async populateSizeArray() {
 
-    var coffeeObj = await displayItem("Cold Coffees", "CC01");
+    var coffeeID = this.props.navigation.getParam('id');
+    var coffeeType = this.props.navigation.getParam('type');
+    var coffeeObj = await displayItem(coffeeType, coffeeID);
 
-    let buttons = [];
+    console.log(coffeeObj);
+    console.log("sdafsasf");
 
-    for (let cat in coffeeObj.price) {
-      // for each different type, get the value
-      buttons.push(
-        <Button bordered style={styles.buttonStyle}>
-          <Text style={styles.button_text}>{cat}</Text>
-        </Button>
-      );
+    var priceArr = coffeeObj.price;
+
+    this.setState({title: coffeeObj.description});
+
+    let sArr = [];
+
+    for (let s of priceArr) {
+      sArr.push({tag: s, status: false});
     }
 
-    console.log(sizeButtons);
+    sArr[0].status = true;
 
-    this.setState({sizeButtons: buttons});
+    this.setState({sizes: sArr});
   }
 
-  populateSizeButtonsTest() {
+
+  populateSizeButtons() {
 
     let buttons = [];
 
@@ -219,10 +176,11 @@ export class Customization extends Component {
     for (let i = 0; i < choices.length; i++) {
       var k = choices[i].tag + asp.aspect;
       thisLine.push(
-        <Button bordered style={this.state.personalize[aspectIndex].choices[i].status ?
-          styles.selectedButtonStyle : styles.buttonStyle}
+        <Button bordered
+                style={this.state.personalize[aspectIndex].choices[i].status ?
+                  styles.selectedButtonStyle : styles.buttonStyle}
                 key={k}
-          onPress={() => this._onPressSinglePersonalize(aspectIndex, i)}>
+                onPress={() => this._onPressSinglePersonalize(aspectIndex, i)}>
           <Text style={this.state.personalize[aspectIndex].choices[i].status ?
             styles.selected_button_text : styles.button_text}>{choices[i].tag}</Text>
         </Button>
@@ -254,8 +212,8 @@ export class Customization extends Component {
     let result = [];
 
     for (let i = 0; i < this.state.sizes.length; i++) {
-      if( this.state.sizes[i].status === true ) {
-        result.push( this.state.sizes[i].tag )
+      if (this.state.sizes[i].status === true) {
+        result.push(this.state.sizes[i].tag)
       }
     }
 
@@ -263,7 +221,7 @@ export class Customization extends Component {
 
     for (let i = 0; i < this.state.personalize.length; i++) {
       for (let j = 0; j < this.state.personalize[i].choices.length; j++) {
-        if( this.state.personalize[i].choices[j].status === true ) {
+        if (this.state.personalize[i].choices[j].status === true) {
           let cuz = this.state.personalize[i].aspect;
           let amt = this.state.personalize[i].choices[j].tag;
           item.push({choice: cuz, amount: amt, other: this.state.customize});
@@ -308,7 +266,7 @@ export class Customization extends Component {
 
 
         <Container style={styles.coffeeSizeContainer}>  /* Coffee Size */
-          {this.populateSizeButtonsTest()}
+          {this.populateSizeButtons()}
         </Container>
 
         <Container style={styles.iecContainer}>
@@ -333,7 +291,7 @@ export class Customization extends Component {
           <Button
             bordered
             style={styles.comfirmButton}
-            onPress={()=>this._onPressSubmit()}>
+            onPress={() => this._onPressSubmit()}>
             <Text style={styles.button_text}>Confirm</Text>
           </Button>
         </Container>
