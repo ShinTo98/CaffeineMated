@@ -32,7 +32,7 @@ export default class App extends React.Component {
       // </View>
       //<Root>
       // <PrimaryNav />
-      <ZmqPageTest />
+      <RootStack />
       //</Root>
     );
   }
@@ -79,8 +79,10 @@ const Drawer = DrawerNavigator(
     initialRouteName: 'main',
 
     navigationOptions: {
-      headerTintColor: 'red',
+      disableOpenGesture: true,
+      drawerLockMode: 'locked-closed',
     },
+
 
     //modify here to change the inital screen
 
@@ -101,6 +103,7 @@ const LoginScreen = StackNavigator(
     },
   },
   {
+    disableOpenGesture: true,
     initialRouteName: 'start',
     headerMode: 'none',
   }

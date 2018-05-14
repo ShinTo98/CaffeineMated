@@ -83,7 +83,6 @@ export const styles = StyleSheet.create({
     width: 200,
     padding: 5,
     top: 100,
-
   },
   buttonItem:{
     top: 70,
@@ -139,6 +138,10 @@ export const styles = StyleSheet.create({
     color: '#FF9052',
     fontSize: 30,
   },
+  menuText_disabled:{
+    color: 'gray',
+    fontSize: 30,
+  },
   subText: {
     color: 'gray',
     fontSize: 30,
@@ -159,4 +162,26 @@ export const styles = StyleSheet.create({
     height: 100,
     top: 70,
   },
+  buyerStarSection: {
+    flex: 0.25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  list_left_container: {
+    flex: 0.5,
+    //justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    //height: 35
+  },
+  list_body_container: {
+    flex: 2,
+    alignItems: 'flex-end',
+  },
+  list_text: {
+    fontSize: 12,
+    alignSelf: 'flex-end',
+  }
+
 });

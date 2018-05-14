@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
 // } from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail } from 'native-base';
 import {viewPendingOrders, viewOrderDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 
@@ -22,11 +22,12 @@ export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seg: 2,
+      seg: 1,
       where: "",
       ids: [],
       request_data: [],
-      loadFinished: false
+      loadFinished: false,
+      request_selected: false,
     };
 
   }
@@ -38,6 +39,7 @@ export class Main extends Component {
   }
 
   async saveRequestDetails() {
+    this.setState({loadFinished: false});
     var received = [];
     for (id in this.state.ids) {
       received.push(await viewOrderDetailById(id));
@@ -46,7 +48,7 @@ export class Main extends Component {
     //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
     //console.log(d)
     //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
-    console.log(this.state.request_data);
+    //console.log(this.state.request_data);
     this.setState({loadFinished: true});
 
   }
@@ -71,7 +73,6 @@ export class Main extends Component {
           </Left>
           <Body>
 
-            //TODO: fix tint color
             <Segment >
               <Button
                 style={this.state.seg === 1 ? styles.button_header_on : styles.button_header_off}
@@ -101,7 +102,7 @@ export class Main extends Component {
             <Container style = {styles.Container}>
             <View style= {styles.banner}>
             <Item regular style={styles.textInput}>
-              <Input placeholder='Where...' style={styles.subText} onChangeText={(text) => this.setState({where: text})}
+              <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
               />
               <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon style={styles.icon} name="clock" />
@@ -142,7 +143,7 @@ export class Main extends Component {
             this.state.seg === 2 && <Container style = {styles.Container}>
             <View style= {styles.banner}>
             <Item regular style={styles.textInput}>
-              <Input placeholder='Where...' style={styles.subText} onChangeText={(text) => this.setState({where: text})}
+              <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
               />
               <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon style={styles.icon} name="clock" />
@@ -163,9 +164,24 @@ export class Main extends Component {
                   dataArray={this.state.request_data}
                   renderRow={data =>
                     <ListItem>
-                      <Text>
+                      <Left style={styles.list_left_container}>
+                        <Thumbnail square small source={require('../resources/avatar.png')}/>
+                        <Text style={{fontSize: 12}}>
+                          {data.buyer_id}
+                        </Text>
+                      </Left>
+                      <Body style={styles.list_body_container}>
+                      <Text style={styles.list_text}>
+                        Coffee
+                      </Text>
+
+                      <Text style={styles.list_text}>
                         {data.location}
                       </Text>
+                      <Text style={styles.list_text}>
+                        {data.request_time}
+                      </Text>
+                      </Body>
                     </ListItem>}
                   />
               }
@@ -175,16 +191,20 @@ export class Main extends Component {
                   </Content>
               }
 
-          
+
 
             </Item>
 
             <View style={styles.buttonItem}>
             <Button
+              disabled = {!this.state.request_selected}
               style={styles.buttons_accept}
               color="#ffffff"
-              onPress={() => this.props.navigation.goBack()}
-            > <Text style={styles.menuText}> Accept </Text>
+              onPress={() => this.saveRequestDetails()}
+            >
+              <Text style={this.state.request_selected? styles.menuText: styles.menuText_disabled}>
+                Accept
+              </Text>
             </Button>
             </View>
 

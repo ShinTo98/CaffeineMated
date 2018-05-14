@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FAFAFA',
   },
   menu_container: {
+    flex: 0.075,
     marginLeft: '5%',
     marginRight: '5%',
   },
@@ -35,8 +36,9 @@ export const styles = StyleSheet.create({
   box: {
     flexDirection: 'column',
     backgroundColor: '#FAFAFA',
-    alignItems: 'center',
-    width: '50%',
+    //alignItems: 'center',
+    //width: '100%',
+    height: '100%',
   },
 
   back: {
@@ -45,15 +47,27 @@ export const styles = StyleSheet.create({
   },
 
   image: {
-    width: 145,
-    height: 145,
-    top: '1%',
+    width: 140,
+    height: 140,
+    top: 40,
+    borderRadius: 70,
+    // transform: [
+    // {scaleX: 1}
+    // ]
+  },
+  list: {
+    //bottom: 140,
+  },
+  item: {
+    //width: '100%',
+    height: 150,
+    //alignItems: 'center',
   },
   text: {
     color: '#ff9052',
     fontSize: 20,
     paddingTop: '2%',
     paddingBottom: '2%',
-    top: '1%',
+    top: 40,
   },
 });

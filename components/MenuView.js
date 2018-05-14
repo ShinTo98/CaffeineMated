@@ -74,10 +74,8 @@ export class MenuView extends Component {
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
-        <Container style={styles.back}>
-
         <Container style={styles.box}>
-        {/*        
+        {/*
           result.map(function(item, i){
             return(
               <Container>
@@ -100,9 +98,10 @@ export class MenuView extends Component {
        */}
 
        <List
+       style={styles.list}
        dataArray={this.state.items}
        renderRow={data =>
-          <ListItem>
+          <ListItem style={styles.item}>
                 <Button transparent onPress={() => {
                   this.props.navigation.navigate('submenu', {
                     type: data[1],
@@ -117,7 +116,6 @@ export class MenuView extends Component {
             </ListItem>
        }
        />
-        </Container>
         </Container>
       </Container>
     );
