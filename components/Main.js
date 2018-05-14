@@ -22,11 +22,12 @@ export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seg: 2,
+      seg: 1,
       where: "",
       ids: [],
       request_data: [],
-      loadFinished: false
+      loadFinished: false,
+      request_selected: true,
     };
 
   }
@@ -38,6 +39,7 @@ export class Main extends Component {
   }
 
   async saveRequestDetails() {
+    this.setState({loadFinished: false});
     var received = [];
     for (id in this.state.ids) {
       received.push(await viewOrderDetailById(id));
@@ -100,7 +102,7 @@ export class Main extends Component {
             <Container style = {styles.Container}>
             <View style= {styles.banner}>
             <Item regular style={styles.textInput}>
-              <Input placeholder='Where...' style={styles.subText} onChangeText={(text) => this.setState({where: text})}
+              <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
               />
               <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon style={styles.icon} name="clock" />
@@ -141,7 +143,7 @@ export class Main extends Component {
             this.state.seg === 2 && <Container style = {styles.Container}>
             <View style= {styles.banner}>
             <Item regular style={styles.textInput}>
-              <Input placeholder='Where...' style={styles.subText} onChangeText={(text) => this.setState({where: text})}
+              <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
               />
               <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon style={styles.icon} name="clock" />
@@ -195,10 +197,14 @@ export class Main extends Component {
 
             <View style={styles.buttonItem}>
             <Button
+              disabled = {!this.state.request_selected}
               style={styles.buttons_accept}
               color="#ffffff"
-              onPress={() => this.props.navigation.goBack()}
-            > <Text style={styles.menuText}> Accept </Text>
+              onPress={() => this.saveRequestDetails()}
+            >
+              <Text style={this.state.request_selected? styles.menuText: styles.menuText_disabled}>
+                Accept
+              </Text>
             </Button>
             </View>
 
