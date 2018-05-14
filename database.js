@@ -71,7 +71,7 @@ export async function userSignup (email, password) {
  * Parameters: string: newPassword
  * Return: N/A
  * Error Condition: errorMessage
- * Success: Password sucessfully 
+ * Success: Password sucessfully
  */
 export async function userPasswordChange(newPassword){
   var user = firebase.auth().currentUser;
@@ -352,7 +352,7 @@ export async function acceptOrder(order_id, carrier_id){
 /*
  * Name: getDistance
  * Parameters: string: starting location, string destination, order_id
- * Return: a pair (location distance, order_id) 
+ * Return: a pair (location distance, order_id)
  *
  */
 export async function getDistance(origin, destination, id) {
@@ -427,7 +427,6 @@ export async function completeOrder(order_id, user_id) {
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
-
 
       // current order status is 4: completedByBuyer, then carrier click complete
       // update status to be 6: completed
@@ -530,14 +529,14 @@ export async function getProfileById(user_id) {
 }
 
 export function updateRate(user_id, rate, isBuyer) {
-  let dir; 
+  let dir;
   if (isBuyer) { // get direction
-    dir = "Profile/" + order_id + "/rate_as_buyer"; 
+    dir = "Profile/" + order_id + "/rate_as_buyer";
   } else {
-    dir = "Profile/" + order_id + "/rate_as_carrier"; 
+    dir = "Profile/" + order_id + "/rate_as_carrier";
   }
 
-  
+
   let orderRef = firebase.database().ref(dir);
   orderRef.set(rate);
 }
