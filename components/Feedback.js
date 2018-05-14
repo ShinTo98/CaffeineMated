@@ -19,14 +19,14 @@ import {
   Form,
   Label,
   View,
-  ListItem,
+  ListItem
 } from 'native-base';
 import {
-  Picker,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {styles} from '../CSS/Settings.js';
 
-export class Settings extends Component {
+export class Feedback extends Component {
 
   static navigationOptions = {
     header: null
@@ -35,7 +35,8 @@ export class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultMode: "buyer"
+      seg: 1,
+      where: ""
     };
   }
 
@@ -44,42 +45,39 @@ export class Settings extends Component {
       <Container style={styles.color_theme}>
         <Header hasSegment="hasSegment">
           <Left>
-            <Button transparent onPress={() => this.props.navigation.navigate('main')}>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
           <Body>
 
-            <Title>Settings</Title>
+            <Title>Feedback</Title>
 
           </Body>
           <Right></Right>
         </Header>
 
-
+        <Content >
           <Container>
-            <List>
-              <ListItem>
-                <Text>Change Default Mode</Text>
-              </ListItem>
-              <ListItem onPress={() => this.props.navigation.navigate('feedback')}>
-                <Text>Feedback</Text>
-              </ListItem>
-              <ListItem>
-                <Text>About</Text>
-              </ListItem>
-            </List>
+
+            <Item regular style={styles.textBox}>
+              <Input style={styles.textInput}
+                multiline = {true} placeholder='Enter your Feedback...' />
+            </Item>
+            <Button block style={styles.signOut}>
+              <Text style={styles.signOutText}>Submit Feedback</Text>
+            </Button>
 
           </Container>
+        </Content>
         <Footer>
           <FooterTab>
-            <Button full style={styles.signOut}>
-              <Text style={styles.signOutText}>Sign Out</Text>
-            </Button>
+
           </FooterTab>
         </Footer>
+
       </Container>
     );
   }
 }
-export default Settings;
+export default Feedback;
