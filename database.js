@@ -293,13 +293,8 @@ export async function viewOrderDetailById (order_id) {
 
 /*
  * Name: getOrderLocationById
-<<<<<<< HEAD
  * Parameters: string: order_id
  * Return: return location string,
-=======
- * Parameter: string:order_id
- * Return: location of this order
->>>>>>> 098dd512fab85b5904fc4768abbb66891dd0384b
  */
 export async function getOrderLocationById (order_id){
   // get the direction
@@ -356,14 +351,9 @@ export async function acceptOrder(order_id, carrier_id){
 
 /*
  * Name: getDistance
-<<<<<<< HEAD
  * Parameters: string: starting location, string destination, order_id
  * Return: a pair (location distance, order_id) 
  *
-=======
- * Parameter: string: origin  string: destination  string: id
- * Return: the distance between origin location and destination
->>>>>>> 098dd512fab85b5904fc4768abbb66891dd0384b
  */
 export async function getDistance(origin, destination, id) {
   return new Promise(function(resolve,reject){
@@ -437,12 +427,10 @@ export async function completeOrder(order_id, user_id) {
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
-<<<<<<< HEAD
-=======
+
 
       // current order status is 4: completedByBuyer, then carrier click complete
       // update status to be 6: completed
->>>>>>> 098dd512fab85b5904fc4768abbb66891dd0384b
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
       }

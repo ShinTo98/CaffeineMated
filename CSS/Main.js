@@ -11,8 +11,24 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
-  segment:{
+  text_on:{
+    color: '#ffffff',
+  },
+  text_off:{
+    color: '#FF9052',
+  },
 
+  button_header_on: {
+    borderColor: '#FF9052',
+    backgroundColor: '#FF9052',
+
+  },
+  button_header_off: {
+    borderColor: '#FF9052',
+    backgroundColor: '#ffffff',
+  },
+  icon: {
+    color: '#FF9052',
   },
   white_banner: {
     flex: 0.15,
@@ -67,7 +83,6 @@ export const styles = StyleSheet.create({
     width: 200,
     padding: 5,
     top: 100,
-
   },
   buttonItem:{
     top: 70,
@@ -95,6 +110,16 @@ export const styles = StyleSheet.create({
     top: 90,
     height: 350,
   },
+
+  requestTitleItem: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 280,
+    top: 70,
+    height: 40,
+  },
   requestItem:{
     alignItems: 'flex-start',
     justifyContent: 'center',
@@ -102,7 +127,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: 280,
     top: 70,
-    height: 415,
+    height: 375,
   },
 
   textView: {
@@ -111,6 +136,10 @@ export const styles = StyleSheet.create({
   },
   menuText:{
     color: '#FF9052',
+    fontSize: 30,
+  },
+  menuText_disabled:{
+    color: 'gray',
     fontSize: 30,
   },
   subText: {
@@ -133,4 +162,26 @@ export const styles = StyleSheet.create({
     height: 100,
     top: 70,
   },
+  buyerStarSection: {
+    flex: 0.25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  list_left_container: {
+    flex: 0.5,
+    //justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    //height: 35
+  },
+  list_body_container: {
+    flex: 2,
+    alignItems: 'flex-end',
+  },
+  list_text: {
+    fontSize: 12,
+    alignSelf: 'flex-end',
+  }
+
 });
