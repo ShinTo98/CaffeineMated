@@ -27,7 +27,7 @@ export class Main extends Component {
       ids: [],
       request_data: [],
       loadFinished: false,
-      request_selected: true,
+      request_selected: false,
     };
 
   }
