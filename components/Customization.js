@@ -26,7 +26,7 @@ export class Customization extends Component {
 
   static navigationOptions = {
     header: null
-  }
+  };
 
 
   constructor(props) {
@@ -65,8 +65,7 @@ export class Customization extends Component {
         },
       ],
 
-      sizes: [
-        ], //testing purposes
+      sizes: [], //testing purposes
 
 
       //TODO hard code for now
@@ -81,22 +80,26 @@ export class Customization extends Component {
   }
 
 
+  async componentWillMount() {
+    await this.populateSizeArray();
+  }
+
+
+  //populate the sizes array in this.state according to database price array
   async populateSizeArray() {
 
     var coffeeID = this.props.navigation.getParam('id');
     var coffeeType = this.props.navigation.getParam('type');
     var coffeeObj = await displayItem(coffeeType, coffeeID);
 
-    console.log(coffeeObj);
-    console.log("sdafsasf");
 
     var priceArr = coffeeObj.price;
 
-    this.setState({title: coffeeObj.description});
+    this.setState({title: coffeeObj.name});
 
     let sArr = [];
 
-    for (let s of priceArr) {
+    for (s in priceArr) {
       sArr.push({tag: s, status: false});
     }
 
@@ -106,6 +109,8 @@ export class Customization extends Component {
   }
 
 
+  //populate the sizes buttons in on the screen according to sizes array in
+  // this.state
   populateSizeButtons() {
 
     let buttons = [];
@@ -129,6 +134,8 @@ export class Customization extends Component {
 
   }
 
+
+  //functions when pressing size button
   _onPressSingleSize(parameter, index) {
     var sizeArr = parameter;
     for (let i = 0; i < sizeArr.length; i++) {
@@ -142,6 +149,7 @@ export class Customization extends Component {
   }
 
 
+  //function to populate the ice/expresso/cream/sugar lines by lines
   populateIEClines() {
     var personalization = this.state.personalize;
 
@@ -155,20 +163,28 @@ export class Customization extends Component {
       );
     }
 
-
     return line;
-
   }
 
+
+  //function to populate a single ice/expresso/cream/sugar
   populateIECbuttons(asp, aspectIndex) {
 
     var choices = asp.choices;
 
+    var enableNoChoice = false;
 
+    if (asp.aspect === "shot") {
+      enableNoChoice = true;
+    }
     let thisLine = [];
 
     thisLine.push(
-      <Button disabled bordered key={'-1'} style={styles.aspectFakeText}>
+      <Button
+        disabled
+        bordered
+        key={'-1'}
+        style={styles.aspectFakeText}>
         <Text style={styles.button_text}>{asp.aspect}</Text>
       </Button>
     );
@@ -180,7 +196,7 @@ export class Customization extends Component {
                 style={this.state.personalize[aspectIndex].choices[i].status ?
                   styles.selectedButtonStyle : styles.buttonStyle}
                 key={k}
-                onPress={() => this._onPressSinglePersonalize(aspectIndex, i)}>
+                onPress={() => this._onPressSinglePersonalize(aspectIndex, i, enableNoChoice)}>
           <Text style={this.state.personalize[aspectIndex].choices[i].status ?
             styles.selected_button_text : styles.button_text}>{choices[i].tag}</Text>
         </Button>
@@ -191,10 +207,12 @@ export class Customization extends Component {
     return thisLine;
   }
 
-  _onPressSinglePersonalize(ind1, ind2) {
+
+  //functions when pressing ice/shots/cream/sugar button
+  _onPressSinglePersonalize(ind1, ind2, bool) {
     var pArr = this.state.personalize;
 
-    if (pArr[ind1].choices[ind2].status === true) {
+    if (pArr[ind1].choices[ind2].status === true && bool) {
       pArr[ind1].choices[ind2].status = false;
     }
     else {
@@ -208,6 +226,8 @@ export class Customization extends Component {
 
   }
 
+
+  //functions when pressing submit button, pass data to the next page
   _onPressSubmit() {
     let result = [];
 
@@ -230,8 +250,9 @@ export class Customization extends Component {
     }
 
     this.props.navigation.navigate('main', {order: result});
-
   }
+
+
 
   render() {
 
@@ -278,7 +299,11 @@ export class Customization extends Component {
 
             <Form style={{top: 5}}>
               <Item regular style={styles.textInput}>
-                <Input onChangeText={(text) => this.setState({customize: text})}
+                <Input
+                  style={styles.input_text}
+                  placeholder='Other customization...'
+                  placeholderStyle={styles.input_text}
+                  onChangeText={(text) => this.setState({customize: text})}
                 />
               </Item>
             </Form>
