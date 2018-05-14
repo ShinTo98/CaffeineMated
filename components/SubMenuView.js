@@ -49,6 +49,7 @@ export class SubMenuView extends Component {
 
   async getDrink() {
     //var type = this.props.navigation.getParam('type');
+      this.setState({menu: this.state.type});
       this.setState({items: await displayType(this.state.type)}, () => {
       this.setState({loadFinished: true});
       });
@@ -92,8 +93,6 @@ export class SubMenuView extends Component {
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
-        <Container style={styles.back}>
-
         <Container style={styles.box}>
         {/*console.log(this.state)
           result.map(function(item, i) {
@@ -123,6 +122,7 @@ export class SubMenuView extends Component {
                 <Button transparent onPress={() => {
                   this.props.navigation.navigate('customization', {
                     id: data.id,
+                    type: this.state.type,
                   });
                 }}>
                   <Image
@@ -139,7 +139,6 @@ export class SubMenuView extends Component {
                   <Spinner color='#FF9052' />
                   </Content>
         }
-        </Container>
         </Container>
       </Container>
     );
