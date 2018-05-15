@@ -43,6 +43,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
 
 
@@ -59,9 +61,9 @@ export const styles = StyleSheet.create({
     flexWrap: 'wrap',
     alignItems: 'flex-start',
   },
+
   customizationTextboxContainer: {
     flex: 1,
-
   },
 
   textInput: {
@@ -70,6 +72,12 @@ export const styles = StyleSheet.create({
     borderColor: '#8190A5',
     borderWidth: 0.5,
     width: 350,
+  },
+
+  input_text: {
+    color: '#8190A5',
+    fontSize: 15,
+    alignSelf: 'flex-start',
   },
 
 
@@ -86,18 +94,20 @@ export const styles = StyleSheet.create({
     borderRadius:1,
     borderWidth: 1,
     borderColor: '#FF9052',
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
+    height: 40,
   },
 
   aspectFakeText: {
     margin: 3,
     backgroundColor: 'transparent',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     borderRadius:1,
     borderWidth: 1,
     borderColor: '#FAFAFA',
     alignSelf: 'flex-start',
   },
+
 
   selected_button_text: {
     color: '#FFFFFF',
@@ -111,7 +121,8 @@ export const styles = StyleSheet.create({
     borderRadius:1,
     borderWidth: 1,
     borderColor: '#FF9052',
-    alignSelf: 'flex-start',
+    alignSelf: 'center',
+    height: 40,
   },
 
 
@@ -119,10 +130,11 @@ export const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     flex: 3,
-    flexDirection: 'column',
+    flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
+    top: 30,
   },
   comfirmButton: {
     margin: 3,
@@ -130,7 +142,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius:5,
     borderWidth: 1,
-    //borderColor: '#FF9052',
+    borderColor: '#FF9052',
     width: 80,
     height: 40,
   },

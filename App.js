@@ -11,10 +11,11 @@ import {SubMenuView} from './components/SubMenuView.js';
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
 import {Feedback} from './components/Feedback.js';
-
-
+import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
+
+
 
 export default class App extends React.Component {
 
@@ -79,8 +80,10 @@ const Drawer = DrawerNavigator(
     initialRouteName: 'main',
 
     navigationOptions: {
-      headerTintColor: 'red',
+      disableOpenGesture: true,
+      drawerLockMode: 'locked-closed',
     },
+
 
     //modify here to change the inital screen
 
@@ -99,8 +102,12 @@ const LoginScreen = StackNavigator(
     signup: {
       screen: Signup,
     },
+    testPage:{
+      screen:TestPage,
+    }
   },
   {
+    disableOpenGesture: true,
     initialRouteName: 'start',
     headerMode: 'none',
   }
@@ -124,12 +131,14 @@ const RootStack = StackNavigator(
     menu: {
       screen: MenuView
     },
+    testPage:{
+      screen: TestPage,
+    },
   },
   {
 
     initialRouteName: 'drawer',
     headerMode: 'none',
-    //transitionConfig: noTransitionConfig,
     navigationOptions: {
       gesturesEnabled: false,
       headerTintColor: 'red',
@@ -175,12 +184,12 @@ const PrimaryNav = StackNavigator({
   start: {
     screen: LoginScreen,
   },
-  root: {
+  main: {
     screen: RootStack,
   }
 },
   {
-    initialRouteName: 'root',
+    initialRouteName: 'start',
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {
