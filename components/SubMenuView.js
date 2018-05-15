@@ -26,6 +26,7 @@ import {
   Left,
   Right,
   Spinner,
+  Body
 } from 'native-base';
 
 export class SubMenuView extends Component {
@@ -37,9 +38,7 @@ export class SubMenuView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu: 'Coffee',
-      type: this.props.navigation.getParam('type'),
-      loadFinished: false,
+      type: this.props.navigation.getParam('name'),
       items: this.props.navigation.getParam('items')
     };
 
@@ -49,7 +48,7 @@ export class SubMenuView extends Component {
 
 
   render () {
-    var result = this.state.items;
+    var result = this.state.type;
     console.log(result);
     return(
 
@@ -65,15 +64,10 @@ export class SubMenuView extends Component {
               />
             </Button>
           </Left>
-          <Right>
-            <Button transparent>
-              <Icon name='search' style={styles.search}/>
-            </Button>
-          </Right>
         </Header>
 
         <Container style={styles.menu_container}>
-          <Text style={styles.menu}>{this.state.menu}</Text>
+          <Text style={styles.menu}>{this.state.type}</Text>
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
@@ -97,7 +91,7 @@ export class SubMenuView extends Component {
               </Container>
             );
           })
-        */}
+        }
         <List>
        {
        result.map(function (data){
@@ -120,11 +114,7 @@ export class SubMenuView extends Component {
        }
        </List>
 
-        }
-        { <Content>
-                  <Spinner color='#FF9052' />
-                  </Content>
-        }
+        }*/}
         </Container>
       </Container>
     );

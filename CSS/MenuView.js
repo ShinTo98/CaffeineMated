@@ -52,11 +52,16 @@ export const styles = StyleSheet.create({
   image: {
     width: 140,
     height: 140,
-    top: 40,
+    top: '3%',
     borderRadius: 70,
-    // transform: [
-    // {scaleX: 1}
-    // ]
+    /*borderWidth: 2,
+    borderColor:'#000',*/
+
+    //shadowColor:'#000',
+    //shadowOffset:{width:0,height:142},
+    //shadowOpacity:0.8,
+    //shadowRadius:2,
+
   },
   list: {
     //bottom: 140,
@@ -70,7 +75,7 @@ export const styles = StyleSheet.create({
     color: '#ff9052',
     fontSize: 20,
     paddingTop: '2%',
-    paddingBottom: '2%',
-    top: 40,
+    top: '2%',
+    marginBottom:'2%'
   },
 });
