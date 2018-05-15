@@ -25,7 +25,7 @@ import {
   Picker,
 } from 'react-native';
 import {styles} from '../CSS/Settings.js';
-import {logout} from './../database.js';
+import {logout, changeDefaultMode} from './../database.js';
 
 export class Settings extends Component {
 
