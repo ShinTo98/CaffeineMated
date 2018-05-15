@@ -25,6 +25,7 @@ import {
   Picker,
 } from 'react-native';
 import {styles} from '../CSS/Settings.js';
+import {logout, changeDefaultMode} from './../database.js';
 
 export class Settings extends Component {
 
@@ -37,6 +38,18 @@ export class Settings extends Component {
     this.state = {
       defaultMode: "buyer"
     };
+
+    //this.logOut = this.logOut.bind(this);
+  }
+
+  async logOut() {
+    var result = await logout();
+    if(result === 0) {
+      alert("Log Out Successful!");
+      this.props.navigation.navigate('start');
+    } else {
+      alert(result);
+    }
   }
 
   render() {
@@ -73,7 +86,8 @@ export class Settings extends Component {
           </Container>
         <Footer>
           <FooterTab>
-            <Button full style={styles.signOut}>
+            <Button full style={styles.signOut}
+              onPress={() => this.logOut()}>
               <Text style={styles.signOutText}>Sign Out</Text>
             </Button>
           </FooterTab>

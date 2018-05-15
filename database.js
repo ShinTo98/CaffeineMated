@@ -523,7 +523,7 @@ export async function displayOrderHistory(user_id) {
 
 export async function getProfileById(user_id) {
   // get the direction
-  let dir = "Profile/" + order_id;
+  let dir = "Profile/" + user_id;
   let profile;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       profile = snapshot.val();
@@ -553,11 +553,14 @@ export function updateRate(user_id, rate, isBuyer) {
  */
 export async function changeUserName(user_id, newName){
     let profileRef = firebase.database().ref("Profile/" + user_id);
+    var result;
     await profileRef.once("value", dataSnapshot => {
         if (!dataSnapshot) {
-            return;
+            result = -1;
         } else {
             profileRef.child("username").set(newName);
+            result = 0;
         }
     });
+    return result;
 }

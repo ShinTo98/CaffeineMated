@@ -23,6 +23,8 @@ import {
   Thumbnail
 } from 'native-base';
 import {styles} from '../CSS/Profile.js';
+import {getProfileById, changeUserName} from './../database.js';
+
 
 export class Profile extends Component {
 
@@ -33,12 +35,41 @@ export class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'John Appleseed',
+      placeName:'',
+      name: '',
       phone: '805-666-6666',
       email: '666@ucsd.edu',
-      password: '666666',
-      profilePic: "../resources/batman.jpg"
+      password: '••••••',
+      profilePic: "../resources/batman.jpg",
+      profileData: [],
     };
+
+    this.updateProfile = this.updateProfile.bind(this);
+
+  }
+
+  async getProfile() {
+    this.setState({profileData: await getProfileById("01")});
+    this.setState({
+      placeName: this.state.profileData["username"],
+    })
+    //console.log(this.state.profileData);
+  }
+
+  async componentWillMount() {
+    await this.getProfile();
+  }
+
+  async updateProfile() {
+    var result = await changeUserName("01", this.state.name);
+    this.setState({
+      placeName: this.state.name,
+    })
+    if(result == 0) {
+      alert("Update Successful!");
+    } else if (result == -1) {
+      alert("Update Failed");
+    }
   }
 
   render() {
@@ -81,7 +112,8 @@ export class Profile extends Component {
             <Form style={styles.detailSection}>
               <Item stackedLabel>
                 <Label>Name</Label>
-                <Input placeholder={this.state.name}/>
+                <Input onChangeText={(text) => this.setState({name: text})}
+                placeholder={this.state.placeName}/>
               </Item>
               <Item stackedLabel>
                 <Label>Phone Number</Label>
@@ -104,6 +136,14 @@ export class Profile extends Component {
 
           </Container>
 
+          <Footer>
+            <FooterTab>
+              <Button full style={styles.signOut}
+                onPress={() => this.updateProfile()}>
+                <Text style={styles.signOutText}>Update Profile</Text>
+              </Button>
+            </FooterTab>
+          </Footer>
 
       </Container>
     );

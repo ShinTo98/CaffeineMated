@@ -47,6 +47,25 @@ const noTransitionConfig = () => ({
   }
 })
 
+const LoginScreen = StackNavigator(
+  {
+    start:{
+      screen: Start,
+    },
+    login: {
+      screen: Login,
+    },
+    signup: {
+      screen: Signup,
+    },
+  },
+  {
+    disableOpenGesture: true,
+    initialRouteName: 'start',
+    headerMode: 'none',
+  }
+);
+
 const SettingsStack = StackNavigator(
   {
 
@@ -56,6 +75,9 @@ const SettingsStack = StackNavigator(
     feedback: {
       screen: Feedback,
     },
+    start: {
+      screen: LoginScreen,
+    }
   },
   {
 
@@ -73,7 +95,6 @@ const Drawer = DrawerNavigator(
     customization: {screen: Customization},
     settings: {screen: SettingsStack},
     profile: {screen: Profile},
-
     //menu: {screen: MenuView},
   },
   {
@@ -90,28 +111,6 @@ const Drawer = DrawerNavigator(
     contentComponent: props => <SideBar {...props} />
   }
 );
-
-const LoginScreen = StackNavigator(
-  {
-    start:{
-      screen: Start,
-    },
-    login: {
-      screen: Login,
-    },
-    signup: {
-      screen: Signup,
-    },
-    testPage:{
-      screen:TestPage,
-    }
-  },
-  {
-    disableOpenGesture: true,
-    initialRouteName: 'start',
-    headerMode: 'none',
-  }
-)
 
 const RootStack = StackNavigator(
   {
@@ -130,9 +129,6 @@ const RootStack = StackNavigator(
     },
     menu: {
       screen: MenuView
-    },
-    testPage:{
-      screen: TestPage,
     },
   },
   {
