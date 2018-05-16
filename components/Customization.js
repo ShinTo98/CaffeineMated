@@ -32,14 +32,15 @@ export class Customization extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemId: this.props.navigation.getParam('itemId')
+      itemType: "Hot Coffees" ,// change to this once submenuview done this.props.navigation.getParam('itemType'),
+      itemId: "HC01" //this.props.navigation.getParam('itemId')
     };
 
 
   }
 
   async componentWillMount(){
-    var currenItem = await displayItem("Hot Coffees", "HC01");
+    var currenItem = await displayItem(this.state.itemType, this.state.itemId);
     var datas = [];
     for( let data in currenItem){
        datas.push(currenItem[data]);
@@ -51,6 +52,7 @@ export class Customization extends Component {
     for( let price in datas[3]){
       prices.push(price);
     }
+
     this.setState({itemName: datas[2], size:prices, discription: datas[0], img: datas[1]});
   }
 
@@ -60,7 +62,6 @@ export class Customization extends Component {
   render() {
 
     var result = this.state.item;
-    //console.log("What are you at this moment?" + result[0]);
     return (
       <Container style={styles.biggestContainer}>      
 
