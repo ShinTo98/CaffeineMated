@@ -19,7 +19,7 @@ firebase.initializeApp(config);
  * Return:
  *  Error Condition: 1) Error Message indicates what went wrong
  *                   2) Error Inputs
- * Success: 1
+ * Success: 0
  */
 export async function userLogin (email, password) {
   var result;
