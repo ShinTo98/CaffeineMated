@@ -34,14 +34,12 @@ import {
   CardItem,
   Grid,
   Col,
-  Row
+  Row,
+  Body
 } from 'native-base';
 
 export class MenuView extends Component {
 
-  static navigationOptions = {
-    header: null
-  }
 
   constructor(props) {
     super(props);
@@ -63,7 +61,7 @@ export class MenuView extends Component {
   async getType(e){
     console.log(e);
     var test = await displayType(e);
-    console.log(test);
+    //console.log(test);
     return test;
   }
 
@@ -81,6 +79,8 @@ export class MenuView extends Component {
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
+
+
         </Header>
 
         <Container style={styles.menu_container}>

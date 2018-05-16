@@ -50,10 +50,10 @@ export const styles = StyleSheet.create({
   },
 
   image: {
-    width: 140,
-    height: 140,
+    width: Dimensions.get('window').width*0.36,
+    height: Dimensions.get('window').width*0.36,
     top: '3%',
-    borderRadius: 70,
+    borderRadius: Dimensions.get('window').width*0.18,
     /*borderWidth: 2,
     borderColor:'#000',*/
 

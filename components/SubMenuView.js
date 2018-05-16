@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
+import {userSignup, displayMenu, viewPendingOrders, displayType, displayItem} from '../database.js';
 import {
   Container,
   Header,
@@ -31,25 +31,31 @@ import {
 
 export class SubMenuView extends Component {
 
-  static navigationOptions = {
-    header: null
-  }
 
   constructor(props) {
     super(props);
     this.state = {
       type: this.props.navigation.getParam('name'),
-      items: this.props.navigation.getParam('items')
+      items: this.props.navigation.getParam('items'),
     };
-
     // Bind login related functions
-    //this.getDrink = this.getDrink.bind(this);
+    //this.getItem = this.getItem.bind(this);
   }
 
+  async componentWillMount(){
+    var test = await displayType(this.state.type);
+    this.setState({items:test});
+  }
+  async testdisplayItem(e,d){
+    let test = await displayItem(e,d);
+    this.setState({item:test});
+    console.log(test);
+    return test;
+}
 
   render () {
-    var result = this.state.type;
-    console.log(result);
+    var result = this.state.items;
+    console.log("this is result" + result);
     return(
 
       <Container style={styles.container}>
@@ -71,51 +77,7 @@ export class SubMenuView extends Component {
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
-        <Container style={styles.box}>
-        {/*console.log(this.state)
-          result.map(function(item, i) {
-            return (
-              <Container>
-                <TouchableWithoutFeedback onPress={() =>{
-                  this.props.navigation.navigate('customization', {
-                    name: this.props.navigation.getParam('type'),
-                    id: item.id
-                  });
-                }}>
-                  <Image
-                    style={styles.image}
-                    source={{uri: item.image}}
-                  />
-                  <Text style={styles.text}>{item.name}</Text>
-                </TouchableWithoutFeedback>
-              </Container>
-            );
-          })
-        }
-        <List>
-       {
-       result.map(function (data){
-         return (
-          <ListItem style={styles.item}>
-                <Button transparent onPress={() => {
-                  this.props.navigation.navigate('customization', {
-                    id: data.id,
-                    type: this.state.type,
-                  });
-                }}>
-                  <Image
-                    style={styles.image}
-                    source={{url: data.image}}
-                  />
-                  <Text style={styles.text}>{data.name}</Text>
-                  </Button>
-            </ListItem>
-       )})}
-       }
-       </List>
 
-        }*/}
-        </Container>
       </Container>
     );
   }
