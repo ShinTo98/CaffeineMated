@@ -13,7 +13,12 @@ import {
 
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
+import {
+  userSignup,
+  displayMenu,
+  viewPendingOrders,
+  displayType
+} from '../database.js';
 import {
   Container,
   Header,
@@ -52,7 +57,7 @@ export class MenuView extends Component {
 
     // Bind login related functions
     this.getMenu = this.getMenu.bind(this);
-   this.getType = this.getType.bind(this);
+    this.getType = this.getType.bind(this);
   }
 
   async getMenu() {
@@ -60,7 +65,7 @@ export class MenuView extends Component {
     console.log(this.state.items);
   }
 
-  async getType(e){
+  async getType(e) {
     console.log(e);
     var test = await displayType(e);
     console.log(test);
@@ -71,9 +76,9 @@ export class MenuView extends Component {
     await this.getMenu();
   }
 
-  render () {
+  render() {
     var result = this.state.items;
-    return(
+    return (
       <Container style={styles.container}>
         <Header style={styles.header}>
           <Left>
@@ -85,45 +90,51 @@ export class MenuView extends Component {
 
         <Container style={styles.menu_container}>
           <Text style={styles.menu}>{this.state.menu}</Text>
-          <View style={styles.coffeeNameUnderline} />
+          <View style={styles.coffeeNameUnderline}/>
         </Container>
 
         <ScrollView>
           <Grid style={{flexWrap: 'wrap'}}>
-        {
-           result.map((type, key) =>
-             <Col key={key} style={{height:'35%', width:'50%', alignItems: "center"}}>
-             <Row>
-              <TouchableWithoutFeedback onPress={ ()=> {
-                this.props.navigation.navigate('subMenuView', {
+            {
+              result.map((type, key) =>
+                <Col key={key} style={{
+                  height: '35%',
+                  width: '50%',
+                  alignItems: "center"
+                }}>
+                  <Row>
+                    <TouchableWithoutFeedback onPress={() => {
+                      this.props.navigation.navigate('subMenuView', {
 
-                    name: type[1],
-                    items: this.getType(type[1])
+                        name: type[1],
+                        items: this.getType(type[1])
 
-                  })}}>
-                <Image style={styles.image}
-                        source={{uri: type[0]}} />
+                      })
+                    }}>
+                      <Image style={styles.image}
+                             source={{uri: type[0]}}/>
 
-              </TouchableWithoutFeedback>
-              </Row>
-              <Row>
-              <TouchableWithoutFeedback onPress={ ()=> {
-                this.props.navigation.navigate('subMenuView', {
-                   name: type[1],
-                   items: this.getType(type[1])
-              })}}>
-                <Text style={styles.text}>{type[1]}</Text>
-              </TouchableWithoutFeedback>
-              </Row>
-            </Col>
-    
-          )          
+                    </TouchableWithoutFeedback>
+                  </Row>
+                  <Row>
+                    <TouchableWithoutFeedback onPress={() => {
+                      this.props.navigation.navigate('subMenuView', {
+                        name: type[1],
+                        items: this.getType(type[1])
+                      })
+                    }}>
+                      <Text style={styles.text}>{type[1]}</Text>
+                    </TouchableWithoutFeedback>
+                  </Row>
+                </Col>
+              )
 
-        }
-        </Grid>
+            }
+          </Grid>
         </ScrollView>
       </Container>
     );
   }
 }
+
 export default MenuView;
