@@ -13,7 +13,7 @@ function main() {
 function testUserSignup( ) {
   var email = "unittest@ucsd.edu";
   var password = "password";
-  var returned = await userSignup( email, password );
+  var returned = userSignup( email, password );
 
   console.log( "Testing function userSignup..." );
   console.log( "Expecting returned value:\t1" );
