@@ -81,11 +81,6 @@ export class MenuView extends Component {
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
-          <Right>
-            <Button transparent>
-              <Icon name='search' style={styles.search}/>
-            </Button>
-          </Right>
         </Header>
 
         <Container style={styles.menu_container}>
@@ -97,17 +92,27 @@ export class MenuView extends Component {
           <Grid style={{flexWrap: 'wrap'}}>
         {
            result.map((type, key) =>
-             <Col key={key} style={{height:'30%', width:'45%', alignItems: "center"}}>
+             <Col key={key} style={{height:'35%', width:'50%', alignItems: "center"}}>
              <Row>
-              <TouchableWithoutFeedback onPress={ ()=> {alert("clicked!")}}>
+              <TouchableWithoutFeedback onPress={ ()=> {
+                this.props.navigation.navigate('subMenuView', {
+
+                    name: type[1],
+                    items: this.getType(type[1])
+
+                  })}}>
                 <Image style={styles.image}
                         source={{uri: type[0]}} />
 
               </TouchableWithoutFeedback>
               </Row>
               <Row>
-              <TouchableWithoutFeedback onPress={ ()=> {alert("clicked!")}}>
-                <Text>{type[1]}</Text>
+              <TouchableWithoutFeedback onPress={ ()=> {
+                this.props.navigation.navigate('subMenuView', {
+                   name: type[1],
+                   items: this.getType(type[1])
+              })}}>
+                <Text style={styles.text}>{type[1]}</Text>
               </TouchableWithoutFeedback>
               </Row>
             </Col>

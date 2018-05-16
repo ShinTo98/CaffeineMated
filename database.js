@@ -512,7 +512,7 @@ export async function logout() {
 
 export async function displayOrderHistory(user_id) {
   // get the direction
-  let dir = "Profile/" + order_id + "/history";
+  let dir = "Profile/" + user_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
@@ -523,7 +523,7 @@ export async function displayOrderHistory(user_id) {
 
 export async function getProfileById(user_id) {
   // get the direction
-  let dir = "Profile/" + order_id;
+  let dir = "Profile/" + user_id;
   let profile;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       profile = snapshot.val();
@@ -535,9 +535,9 @@ export async function getProfileById(user_id) {
 export function updateRate(user_id, rate, isBuyer) {
   let dir;
   if (isBuyer) { // get direction
-    dir = "Profile/" + order_id + "/rate_as_buyer";
+    dir = "Profile/" + user_id + "/rate_as_buyer";
   } else {
-    dir = "Profile/" + order_id + "/rate_as_carrier";
+    dir = "Profile/" + user_id + "/rate_as_carrier";
   }
 
 
