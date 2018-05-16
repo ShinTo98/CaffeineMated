@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   icon: {
     color: '#FF9052',
@@ -35,5 +34,11 @@ export const styles = StyleSheet.create({
   },
   signOutText: {
     color: "#ffffff",
+  },
+  picker: {
+    alignSelf: 'stretch',
+  },
+  pickerContainer: {
+    flexDirection: "row",
   },
 });
