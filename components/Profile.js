@@ -42,6 +42,8 @@ export class Profile extends Component {
       password: '••••••',
       profilePic: "../resources/batman.jpg",
       profileData: [],
+      buyerRating: 0,
+      carrierRating: 0,
     };
 
     this.updateProfile = this.updateProfile.bind(this);
@@ -52,6 +54,8 @@ export class Profile extends Component {
     this.setState({profileData: await getProfileById("01")});
     this.setState({
       placeName: this.state.profileData["username"],
+      buyerRating: Math.round(this.state.profileData["rate_as_buyer"]*2)/2,
+      carrierRating: Math.round(this.state.profileData["rate_as_carrier"]*2)/2,
     })
     //console.log(this.state.profileData);
   }
@@ -72,7 +76,54 @@ export class Profile extends Component {
     }
   }
 
+
   render() {
+
+    let buyerStars = [];
+    let carrierStars = [];
+
+    let curr = this.state.buyerRating;
+    for (var i = 1; i <= 5; i++) {
+
+      let iosStar = 'ios-star';
+      let androidStar = 'md-star';
+
+      if (curr - 1 > 0) {
+        iosStar = 'ios-star';
+        androidStar = 'md-star';
+      } else if ( curr - 0.5 == 0) {
+        iosStar = 'ios-star-half';
+        androidStar = 'md-star-half';
+      } else {
+        iosStar = 'ios-star-outline';
+        androidStar = 'md-star-outline';
+      }
+
+			// Push the icon tag in the stars array
+			buyerStars.push((<Icon key={i} ios={iosStar} android={androidStar}/>));
+		}
+
+    curr = this.state.carrierRating;
+    for (var i = 1; i <= 5; i++) {
+
+      let iosStar = 'ios-star';
+      let androidStar = 'md-star';
+
+      if (curr - 1 > 0) {
+        iosStar = 'ios-star';
+        androidStar = 'md-star';
+      } else if ( curr - 0.5 == 0) {
+        iosStar = 'ios-star-half';
+        androidStar = 'md-star-half';
+      } else {
+        iosStar = 'ios-star-outline';
+        androidStar = 'md-star-outline';
+      }
+
+			// Push the icon tag in the stars array
+			carrierStars.push((<Icon key={i} ios={iosStar} android={androidStar}/>));
+		}
+
     return (
       <Container style={styles.color_theme}>
         <Header hasSegment="hasSegment">
@@ -94,18 +145,10 @@ export class Profile extends Component {
             <Container style={styles.profileSection}>
               <Thumbnail large source={ require('../resources/batman.jpg') } />
               <Container style={styles.buyerStarSection}>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star-half' android="md-star-half"/>
-                <Icon ios='ios-star-outline' android="md-star-outline"/>
+                {buyerStars}
               </Container>
               <Container style={styles.sellerStarSection}>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star-half' android="md-star-half"/>
-                <Icon ios='ios-star-outline' android="md-star-outline"/>
+                {carrierStars}
               </Container>
             </Container>
 
