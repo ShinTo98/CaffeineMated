@@ -68,12 +68,14 @@ export class Profile extends Component {
     var result = await changeUserName("01", this.state.name);
     this.setState({
       placeName: this.state.name,
+      name: '',
     })
     if(result == 0) {
       alert("Update Successful!");
     } else if (result == -1) {
       alert("Update Failed");
     }
+
   }
 
 
@@ -155,7 +157,8 @@ export class Profile extends Component {
             <Form style={styles.detailSection}>
               <Item stackedLabel>
                 <Label>Name</Label>
-                <Input onChangeText={(text) => this.setState({name: text})}
+                <Input value={this.state.name}
+                onChangeText={(text) => this.setState({name: text})}
                 placeholder={this.state.placeName}/>
               </Item>
               <Item stackedLabel>
