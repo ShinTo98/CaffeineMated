@@ -182,6 +182,20 @@ export const styles = StyleSheet.create({
   list_text: {
     fontSize: 12,
     alignSelf: 'flex-end',
-  }
+  },
+  floatView: {
+    position: 'absolute',
+    width: 230,
+    //height: 0,
+    top: 0,
+    left: 0,
+    backgroundColor: '#DDDDDD',
+  },
+  timeButton: {
+    position: 'absolute',
+    top: 6,
+    left: 240,
+    width: 30,
+  },
 
 });
