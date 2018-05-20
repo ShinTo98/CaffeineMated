@@ -3,15 +3,13 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
     backgroundColor: '#FAFAFA',
   },
-  menu_container: {
-    flex: 0.075,
+  content: {
     marginLeft: '5%',
     marginRight: '5%',
   },
+
   header: {
     backgroundColor: '#FAFAFA',
     borderBottomWidth: 0,
@@ -28,6 +26,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingLeft: '10%',
+    marginBottom: '5%'
   },
   menu: {
     color: '#47525E',
@@ -42,12 +41,6 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
 
-  back: {
-    flex: 12,
-    flexDirection: 'row',
-    height:'100%',
-    width:'100%'
-  },
 
   image: {
     width: Dimensions.get('window').width*0.36,
@@ -73,7 +66,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: '#ff9052',
-    fontSize: 20,
+    fontSize: 18,
     paddingTop: '2%',
     top: '2%',
     marginBottom:'2%'

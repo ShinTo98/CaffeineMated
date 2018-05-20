@@ -69,7 +69,7 @@ export class Main extends Component {
   async componentWillMount() {
     await this.saveRequestIds();
     await this.saveRequestDetails();
-    console.log(this.order_selected);
+    console.log("This is from main  " + this.props.navigation.getParam('selection'));
   }
 
   createStars = (num) => {
