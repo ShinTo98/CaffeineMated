@@ -88,7 +88,7 @@ export async function userPasswordChange(newPassword){
 /*
  * Name: displayMenu
  * Parameters: None
- * Return: List of pairs. [[img, TypeName]...]
+ * Return: List of pairs. [c...]
  * Error Condition: None
  */
 export async function displayMenu () {
