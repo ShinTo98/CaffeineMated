@@ -1,6 +1,21 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
+  card_title: {
+    color: '#FF9052',
+    fontSize: 20,
+  },
+  card: {
+    width: 5*deviceWidth/6,
+    height: 4*deviceHeight/6,
+
+  },
+  row_card_item: {
+    flexDirection: 'row',
+  },
   color_theme: {
     // TODO: correct color code
     backgroundColor: '#ffffff',
