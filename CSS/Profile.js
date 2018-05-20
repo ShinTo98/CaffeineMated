@@ -4,6 +4,9 @@ export const styles = StyleSheet.create({
   color_theme: {
     backgroundColor: '#FAFAFA',
   },
+  icon: {
+    color: '#FF9052',
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -50,5 +53,11 @@ export const styles = StyleSheet.create({
   },
   button_text: {
     color: '#ffffff',
-  }
+  },
+  signOut: {
+    backgroundColor: '#47525e',
+  },
+  signOutText: {
+    color: "#ffffff",
+  },
 });

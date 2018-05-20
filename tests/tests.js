@@ -1,7 +1,10 @@
 import {
   userSignup,
   userLogin,
+  userPasswordChange,
   getProfileDetailById,
+  logout,
+  getProfileById,
   displayMenu,
   displayType,
   displayItem,
@@ -17,6 +20,14 @@ import {
 } from '../database.js';
 
 //var _Example = require("../database.js\"");
+var config = {
+  apiKey: "AIzaSyAQSNocuGrjIBtwErRJeHV7nUsfQGZC_uE",
+  authDomain: "cmdatabase-c3084.firebaseapp.com",
+  databaseURL: "https://cmdatabase-c3084.firebaseio.com",
+  projectId: "cmdatabase-c3084",
+  storageBucket: "cmdatabase-c3084.appspot.com",
+  messagingSenderId: "964208744011"
+};
 
 main();
 
@@ -24,6 +35,9 @@ main();
 async function main() {
   await testuserSignup();
   await testuserLogin();
+  await testLogOut();
+  await testUserPasswordChange();
+  await testGetProfileById();
   await testdisplayMenu();
   await testdisplayType();
   await testdisplayItem();
@@ -65,6 +79,78 @@ async function testuserLogin( ) {
   console.log( "Actual returned value:\t" + returnederror );
   if( returnederror === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "PASSED!\n" ); }
 }
+
+async function testUserPasswordChange() {
+  var email = "unittest@ucsd.edu";
+  var password = "password";
+
+  // What's current user in this case?
+  await userPasswordChange("newPassword");
+
+  var returnederror = await userLogin( email, password );
+
+  console.log( "Testing function userPasswordChange with incorrect user" +
+    " credentials..." );
+  console.log( "Expecting to return an error message" );
+  console.log( "Actual returned value:\t" + returnederror );
+  if( returnederror === 0 ) { console.log( "FAILED!\n" ); } else { console.log( "PASSED!\n" ); }
+
+  var password = "newPassword";
+  var returned = await userLogin( email, password );
+
+  console.log( "Testing function userPasswordChange with correct user credentials..." );
+  console.log( "Expecting returned value:\t0" );
+  console.log( "Actual returned value:\t" + returned );
+  if( returned === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+}
+
+async function testChangeUserName () {
+  // The method will return false if the user put a same name?
+  var result = await changeUserName("id", "same name");
+
+  console.log( "Testing function changeUserName with incorrect user credentials..." );
+  console.log( "Expecting returned value:\t0" );
+  console.log( "Actual returned value:\t" + returned );
+  if( returned !== 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+
+  var result = await changeUserName("id", "new name");
+
+  console.log( "Testing function changeUserName with correct user credentials..." );
+  console.log( "Expecting returned value:\t0" );
+  console.log( "Actual returned value:\t" + returned );
+  if( returned === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+}
+
+async function testLogOut() {
+  var email = "unittest@ucsd.edu";
+  var password = "password";
+  await userLogin( email, password );
+  // Current user?
+  var returned = logout();
+
+  console.log( "Testing function logOut with correct user credentials..." );
+  console.log( "Expecting returned value:\t0" );
+  console.log( "Actual returned value:\t" + returned );
+  if( returned === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+}
+
+async function testCompleteOrder() {
+  await completeOrder("01", "666");
+}
+
+// async function testGetProfileById() {
+//   console.log( "Testing function getProfileById..." );
+//   var his = await getProfileById( "3" );
+//   console.log(his);
+//   var his = await getProfileById( "1" );
+//   console.log(his);
+//
+//   var his = await getProfileById( "2" );
+//   console.log(his);
+//
+//   var his = await getProfileById( "5" );
+//   console.log(his);
+// }
 
 async function testdisplayMenu( ) {
   var gotMenu = await displayMenu();
@@ -149,4 +235,3 @@ async function testdisplayOrderHistory( ) {
 async function testupdateRate( ) {
   //later depend on getProfileById
 }
-

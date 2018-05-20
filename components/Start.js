@@ -7,7 +7,8 @@ import {StackNavigator} from 'react-navigation'
 export class Start extends Component {
 
   static navigationOptions = {
-    header: null
+    header: null,
+    gesturesEnabled: false,
   }
 
   constructor(props) {
@@ -19,14 +20,6 @@ export class Start extends Component {
       <Container style={styles.container}>
 
         <Container style={styles.container}>
-        <Button
-            style={styles.buttons}
-            light
-            onPress={() => this.props.navigation.navigate('testPage')}>
-            <Text style = {{color: '#FF9052', fontSize: 20}}>
-              testPage
-            </Text>
-        </Button>
 
           <Image style={styles.logo} source={require('../resources/logo.png')}/>
           <Text style={styles.name}>
