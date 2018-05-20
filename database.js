@@ -130,17 +130,23 @@ export async function displayMenu () {
  */
 export async function displayType (type) {
     let firebaseRef = firebase.database().ref('Menu');
-    let drinks = [];
+    var drinks;
     await firebaseRef.once('value', dataSnapshot => {
+      let info = [];
+      let result = [];
       let menu = dataSnapshot.val();
       var index;
       for (index in menu[type].items) {
         let item = menu[type].items[index];
-        let drink = {image: item.image, id: index, name: item.name}
-        drinks.push(drink);
+        info = [];
+        //let drink = {image: item.image, id: index, name: item.name}
+        info.push(item.image);
+        info.push(index);
+        info.push(item.name);
+        result.push(info);
       }
+      drinks = result;
     });
-
     return drinks;
   }
 

@@ -59,9 +59,9 @@ export class MenuView extends Component {
   }
 
   async getType(e){
-    console.log(e);
+    //console.log(e);
     var test = await displayType(e);
-    //console.log(test);
+    console.log(test);
     return test;
   }
 
@@ -71,6 +71,7 @@ export class MenuView extends Component {
 
   render () {
     var result = this.state.items;
+    console.log("this is result in items: " + result);
     return(
       <Container style={styles.container}>
         <Header style={styles.header}>
@@ -116,8 +117,8 @@ export class MenuView extends Component {
               </TouchableWithoutFeedback>
               </Row>
             </Col>
-    
-          )          
+
+          )
 
         }
         </Grid>

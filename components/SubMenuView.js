@@ -5,7 +5,11 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableHighlight,
+  ScrollView,
+  LinearLayout,
+  Dimensions,
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
 import {userSignup, displayMenu, viewPendingOrders, displayType, displayItem} from '../database.js';
@@ -16,6 +20,8 @@ import {
   Button,
   Toast,
   Text,
+  Left,
+  Right,
   Form,
   Item,
   Input,
@@ -23,9 +29,11 @@ import {
   Icon,
   List,
   ListItem,
-  Left,
-  Right,
-  Spinner,
+  Card,
+  CardItem,
+  Grid,
+  Col,
+  Row,
   Body
 } from 'native-base';
 
@@ -36,30 +44,36 @@ export class SubMenuView extends Component {
     super(props);
     this.state = {
       type: this.props.navigation.getParam('name'),
-      items: this.props.navigation.getParam('items'),
+      items: [],
     };
     // Bind login related functions
-    //this.getItem = this.getItem.bind(this);
+    this.getType = this.getType.bind(this);
+    this.testdisplayItem = this.testdisplayItem.bind(this);
+    console.log('in constructor: ' + this.state.items);
+  }
+  async getType(){
+    //console.log(e);
+    var test = await displayType(this.state.type);
+    console.log(test);
+    this.setState({items: test});
+    console.log(this.state.items);
   }
 
   async componentWillMount(){
-    var test = await displayType(this.state.type);
-    this.setState({items:test});
+    await this.getType();
   }
+
   async testdisplayItem(e,d){
     let test = await displayItem(e,d);
-    this.setState({item:test});
-    console.log(test);
     return test;
 }
 
   render () {
     var result = this.state.items;
-    console.log("this is result" + result);
+    //console.log("this is result in items: " + result);
     return(
 
       <Container style={styles.container}>
-
         <Header style={styles.header}>
           <Left>
             <Button transparent>
@@ -77,7 +91,34 @@ export class SubMenuView extends Component {
           <View style={styles.coffeeNameUnderline} />
         </Container>
 
-
+        <ScrollView>
+          <Grid style={{flexWrap: 'wrap'}}>
+          {
+            result.map((type, key) =>
+            <Col key={key} style={{height:'35%', width:'50%', alignItems: 'center'}}>
+              <Row>
+              <TouchableWithoutFeedback onPress ={ () => {
+                this.props.navigation.navigate('Customization', {
+                   name: this.state.type,
+                   items: type[1]
+                 })}}>
+                 <Image style={styles.image} source={{uri: type[0]}}/>
+              </TouchableWithoutFeedback>
+              </Row>
+              <Row>
+              <TouchableWithoutFeedback onPress={ ()=> {
+                this.props.navigation.navigate('Customization', {
+                   name: this.state.type,
+                   items: type[1]
+              })}}>
+                <Text style={styles.text}>{type[2]}</Text>
+              </TouchableWithoutFeedback>
+              </Row>
+            </Col>
+            )
+          }
+          </Grid>
+        </ScrollView>
       </Container>
     );
   }
