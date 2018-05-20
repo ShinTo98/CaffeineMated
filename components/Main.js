@@ -214,7 +214,7 @@ export class Main extends Component {
               style={styles.buttons_menu}
               color="#ffffff"
               onPress={() => this.props.navigation.navigate('menu', {
-                'data': this.state.order_data,
+                data: this.state.order_data,
               })}
             > <Text style={styles.menuText}> Menu </Text>
             </Button>

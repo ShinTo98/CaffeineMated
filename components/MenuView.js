@@ -99,7 +99,8 @@ export class MenuView extends Component {
                 this.props.navigation.navigate('subMenuView', {
 
                     name: type[1],
-                    items: this.getType(type[1])
+                    items: this.getType(type[1]),
+                    data: this.state.data,
 
                   })}}>
                 <Image style={styles.image}
