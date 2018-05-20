@@ -31,6 +31,7 @@ import {
   Grid,
   Col,
   Row,
+  Spinner,
 } from 'native-base';
 import {styles} from "../CSS/Customization.js";
 import {displayItem} from "../database";
@@ -38,9 +39,6 @@ import {displayItem} from "../database";
 
 export class Customization extends Component {
 
-  static navigationOptions = {
-    header: null
-  };
 
 
   constructor(props) {
@@ -48,11 +46,13 @@ export class Customization extends Component {
     this.state = {
       itemType: this.props.navigation.getParam('itemType'),
       itemId: this.props.navigation.getParam('itemId'),
-      select: ["grande", "regular", "0 shot", "regular", "regular",""],
+      select: ["grande", "regular", "0 shot", "regular", "regular","regular",""],
       icewater: ["no", "light", "regular"],
       espresso: ["0 shot", "1 shot", "2 shot"],
       cream: ["no", "light", "regular"],
-      syrup: ["no", "light", "regular"]
+      syrup: ["no", "light", "regular"],
+      data: this.props.navigation.getParam('data'),
+      //topping: ["no", "light", "regular"]
       //itemImage: displayItem(this.state.itemType, this.state.itemId)
     };
 
@@ -116,6 +116,7 @@ export class Customization extends Component {
     choices.push(choiceEsp);
     choices.push(choiceCream);
     choices.push(choiceSyrup);
+    //choices.push(this.state.topping);
     if( itemImage != undefined && itemSize != undefined && itemName != undefined &&
         selections != undefined && headers != undefined){
     return (
@@ -206,13 +207,14 @@ export class Customization extends Component {
               
               </Grid>
               
-              <Textarea style={styles.textInput} placeholder= "Anything else you want?" onChangeText={(text) => this.changeChoice(5, text)}/>
+              <Textarea style={styles.textInput} placeholder= "Anything else you want?" onChangeText={(text) => this.changeChoice(selections.length-1, text)}/>
                 <Button style={styles.submitButton}>
                    <Text style={styles.submitText} onPress={ ()=> {
                 this.props.navigation.navigate('main', {
                    name: itemName,
                    image: itemImage,
-                   selection: this.state.select
+                   selection: this.state.select,
+                   data: this.state.data,
               })}}>Submit</Text>
                 </Button>
 
@@ -229,7 +231,9 @@ export class Customization extends Component {
     );
     }else{
       return(
-        <Container></Container>
+        <Container>
+          <Spinner color='red' />
+        </Container>
       );
     }
   }
