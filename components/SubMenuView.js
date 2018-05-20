@@ -45,6 +45,7 @@ export class SubMenuView extends Component {
     this.state = {
       type: this.props.navigation.getParam('name'),
       items: [],
+      data: this.props.navigation.getParam('data'),
     };
     // Bind login related functions
     this.getType = this.getType.bind(this);
