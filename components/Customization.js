@@ -84,7 +84,9 @@ export class Customization extends Component {
        headers[0]="Ice";
     }
 
-    this.setState({itemName: datas[2], itemSizes: prices, discription: datas[0], image: datas[1], header:headers});
+    var select = this.state.select;
+    select[0] = prices[0];
+    this.setState({itemName: datas[2], itemSizes: prices, discription: datas[0], image: datas[1], header:headers, select: select});
   }
 
   changeChoice(index, e){
