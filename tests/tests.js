@@ -95,9 +95,7 @@ async function testuserLogin() {
   }
 }
 
-<<<<<<< HEAD
-async function testdisplayMenu() {
-=======
+
 async function testUserPasswordChange() {
   var email = "unittest@ucsd.edu";
   var password = "password";
@@ -171,7 +169,6 @@ async function testCompleteOrder() {
 // }
 
 async function testdisplayMenu( ) {
->>>>>>> 641145d6f39bc5b332bc60b7c6e6b07cb2fe1169
   var gotMenu = await displayMenu();
 
   var expectedReturnedMenu = [
