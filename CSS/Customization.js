@@ -1,9 +1,10 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 export const styles = StyleSheet.create({
-  biggestContainer: {
-    backgroundColor: '#FAFAFA',
+  page:{
+      backgroundColor: '#FAFAFA'
   },
+
 
 
   header: {
@@ -18,134 +19,148 @@ export const styles = StyleSheet.create({
   },
 
 
-  coffeeTitleUnderlinedContainer: {
+  content: {
+    marginLeft: '5%',
+    marginRight: '5%',
+  },
+
+  itemName:{
+    color: '#47525E',
+    fontSize: 30,
+  },
+  
+  imageCol:{
+    width: Dimensions.get('window').width*0.4,
+    margin:0,
+    padding: 0
+  },
+
+  discriptionCol:{
+    width: Dimensions.get('window').width*0.6,
+    marginLeft: '-8%',
+    padding: 0
+  },
+
+
+  itemImage:{
+    width:Dimensions.get('window').width*0.36, 
+    height: Dimensions.get('window').width*0.36,
+    borderRadius: Dimensions.get('window').width*0.18
+  },
+
+
+  grid:{
+    flexWrap: 'wrap',
+  },
+
+  discription:{
+    fontSize: 16,
+    flexWrap: 'wrap',
+    fontFamily: 'Hiragino Sans',
+  },
+
+  line:{
     borderBottomColor: '#FF9052',
     borderBottomWidth: 0.5,
-    marginLeft: 30,
-    marginRight: 30,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    paddingLeft: '10%',
+    marginBottom: '5%'
   },
-  coffeeTitle: {
-    flex: 1.5,
+
+  subHeadersCol:{
+    width: Dimensions.get('window').width * 0.15,
+    alignItems: 'center'
+  },
+
+  subHeaders:{
+    fontSize: 20,
+    color: '#47525E',
+  },
+
+  buttonCol:{
+     width: Dimensions.get('window').width * 0.10,
+     marginRight: '1%'
+  },
+
+  buttonChoices:{
     backgroundColor: '#FAFAFA',
-    justifyContent: 'center',
-    height: Dimensions.get('window').height,
-    fontSize: 30,
-    color:'#47525E',
+    borderWidth: 0.5,
+    borderColor: '#FF9052',
+    width: '100%',
+    borderRadius: 0,
+    alignItems: 'center',
   },
 
-
-  coffeeSizeContainer: {
-    marginLeft: 30,
-    marginRight: 30,
-    flex: 3,
+  buttonChoiceSelect:{
+    backgroundColor: '#FF9052',
+    width: '100%',
+    borderRadius: 0,
+    alignItems: 'center',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    marginTop: 10,
   },
 
-
-  iecContainer: {
-    marginLeft: 30,
-    marginRight: 30,
-    flex: 12,
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
+  scrollView:{
+    marginBottom: '10%'
   },
-  iecSubContainer: {
-    flex: 1,
+
+  padding:{
+    height: Dimensions.get('window').height * 0.08
+  },
+
+  buttonText:{
+   color: '#47525E',
+   fontSize: 16,
+   width: '150%',
+   alignSelf: 'center'
+  },
+
+  buttonTextSelect:{
+    color: '#FAFAFA',
+    fontSize: 16,
+    width: '150%',
+  },
+
+  submitButton:{
+    backgroundColor: '#FAFAFA',
+    borderWidth: 0.5,
+    borderColor: '#FF9052',
+    width: '100%',
+    borderRadius: 0,
+    alignItems: 'center',
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
+    height: '8%',
   },
 
-  customizationTextboxContainer: {
-    flex: 1,
+  submitText:{
+    color: '#47525E',
+    fontSize: 20,
+    marginLeft: '40%',
+    marginTop: '2%',
+  },
+
+  choicesContainer:{
+    height: '100%'
+  },
+
+
+  row:{
+    alignItems: 'center',
+    marginBottom: '2%'
   },
 
   textInput: {
-    height: 100,
-    backgroundColor: '#FFFFFF',
-    borderColor: '#8190A5',
+    height: Dimensions.get('window').height * 0.25,
+    backgroundColor: '#FAFAFA',
+    borderColor: '#FF9052',
     borderWidth: 0.5,
-    width: 350,
-  },
-
-  input_text: {
+    width: '100%',
+    marginBottom: '3%',
+    fontSize: 18,
     color: '#8190A5',
-    fontSize: 15,
-    alignSelf: 'flex-start',
+    
   },
 
 
-  button_text: {
-    color: '#FF9052',
-    fontSize: 15,
-    alignSelf: 'flex-start',
-  },
-
-  buttonStyle: {
-    margin: 3,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    borderRadius:1,
-    borderWidth: 1,
-    borderColor: '#FF9052',
-    alignSelf: 'center',
-    height: 40,
-  },
-
-  aspectFakeText: {
-    margin: 3,
-    backgroundColor: 'transparent',
-    justifyContent: 'flex-start',
-    borderRadius:1,
-    borderWidth: 1,
-    borderColor: '#FAFAFA',
-    alignSelf: 'flex-start',
-  },
-
-
-  selected_button_text: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    alignSelf: 'flex-start',
-  },
-  selectedButtonStyle: {
-    margin: 3,
-    backgroundColor: '#FF9052',
-    justifyContent: 'center',
-    borderRadius:1,
-    borderWidth: 1,
-    borderColor: '#FF9052',
-    alignSelf: 'center',
-    height: 40,
-  },
-
-
-  submitButtonContainer: {
-    marginLeft: 30,
-    marginRight: 30,
-    flex: 3,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    top: 30,
-  },
-  comfirmButton: {
-    margin: 3,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    borderRadius:5,
-    borderWidth: 1,
-    borderColor: '#FF9052',
-    width: 80,
-    height: 40,
-  },
-
-
+  
 });
