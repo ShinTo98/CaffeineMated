@@ -59,9 +59,9 @@ export class MenuView extends Component {
   }
 
   async getType(e){
-    console.log(e);
+    //console.log(e);
     var test = await displayType(e);
-    //console.log(test);
+    console.log(test);
     return test;
   }
 
@@ -71,6 +71,7 @@ export class MenuView extends Component {
 
   render () {
     var result = this.state.items;
+    console.log("this is result in items: " + result);
     return(
       <Container style={styles.container}>
         <Header style={styles.header}>
@@ -83,12 +84,11 @@ export class MenuView extends Component {
 
         </Header>
 
-        <Container style={styles.menu_container}>
+        <Container style={styles.content}>
           <Text style={styles.menu}>{this.state.menu}</Text>
           <View style={styles.coffeeNameUnderline} />
-        </Container>
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Grid style={{flexWrap: 'wrap'}}>
         {
            result.map((type, key) =>
@@ -116,12 +116,13 @@ export class MenuView extends Component {
               </TouchableWithoutFeedback>
               </Row>
             </Col>
-    
-          )          
+
+          )
 
         }
         </Grid>
         </ScrollView>
+        </Container>
       </Container>
     );
   }

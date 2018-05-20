@@ -62,6 +62,8 @@ export class Main extends Component {
   async componentWillMount() {
     await this.saveRequestIds();
     await this.saveRequestDetails();
+    // get params here
+    console.log("This is from main  " + this.props.navigation.getParam('selection'));
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
