@@ -10,7 +10,7 @@ import React, {Component} from 'react';
 //  TouchableWithoutFeedback
 // } from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail } from 'native-base';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Image } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {viewPendingOrders, viewOrderDetailById} from './../database.js';
@@ -29,7 +29,9 @@ export class Main extends Component {
       where: "",
       ids: [],
       request_data: [],
+      order_data: [],
       loadFinished: false,
+      order_exists: false,
       request_selected: false,
       isDateTimePickerVisible: false,
       location: '',
@@ -63,7 +65,19 @@ export class Main extends Component {
     await this.saveRequestIds();
     await this.saveRequestDetails();
     // get params here
-    console.log("This is from main  " + this.props.navigation.getParam('selection'));
+    //console.log("This is from main  " + this.props.navigation.getParam('selection'));
+
+    if(this.props.navigation.getParam('selection') != undefined) {
+      var latest = this.props.navigation.getParam('data');
+      latest.push({
+        name: this.props.navigation.getParam('name'),
+        image: this.props.navigation.getParam('image'),
+        selection: this.props.navigation.getParam('selection'),
+      });
+      this.setState({order_data: latest});
+      this.setState({order_exists: true});
+      console.log(this.state.order_data);
+    }
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -79,6 +93,7 @@ export class Main extends Component {
 
   render() {
     const loading = this.state.loadFinished;
+    const order_exists = this.state.order_exists;
     return (
       <Container style={styles.color_theme}>
         <Header hasSegment style={styles.header}>
@@ -198,17 +213,44 @@ export class Main extends Component {
             <Button
               style={styles.buttons_menu}
               color="#ffffff"
-              onPress={() => this.props.navigation.navigate('menu')}
+              onPress={() => this.props.navigation.navigate('menu', {
+                'data': this.state.order_data,
+              })}
             > <Text style={styles.menuText}> Menu </Text>
             </Button>
             </View>
 
+            {/* ------------------------ Order item display section ------------------------ */}
+            <Item regular style={styles.orderTitleItem}>
+            <Label style = {styles.orderTitle}>
+              Orders
+            </Label>
+            </Item>
+
             <Item regular style={styles.orderItem}>
-
-              <Label style = {styles.orderTitle}>
-                Orders
-              </Label>
-
+              <Item>
+              {order_exists &&
+                 <List
+                  dataArray={this.state.order_data}
+                  renderRow={data =>
+                    <ListItem>
+                      <Left style={styles.list_left_container}>
+                        <Thumbnail source={{uri: data.image}}/>
+                      </Left>
+                      <Body style={styles.list_body_container}>
+                      <Text style={styles.list_text}>
+                        {data.name}
+                      </Text>
+                      </Body>
+                    </ListItem>}
+                  />
+              }{
+                !order_exists &&
+                  <Text style={styles.nothingText}>
+                    Nothing yet: ) {'\n'} Click menu to place your first order
+                    </Text>
+              }
+              </Item>
             </Item>
 
             <View style={styles.buttonItem}>
