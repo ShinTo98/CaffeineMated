@@ -43,9 +43,9 @@ export const styles = StyleSheet.create({
 
 
   itemImage:{
-    width:Dimensions.get('window').width*0.36, 
-    height: Dimensions.get('window').width*0.36,
-    borderRadius: Dimensions.get('window').width*0.18
+    width:Dimensions.get('window').width*0.32, 
+    height: Dimensions.get('window').width*0.32,
+    borderRadius: Dimensions.get('window').width*0.16,
   },
 
 

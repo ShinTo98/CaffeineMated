@@ -86,30 +86,30 @@ export class SubMenuView extends Component {
           </Left>
         </Header>
 
-        <Container style={styles.menu_container}>
+        <Container style={styles.content}>
           <Text style={styles.menu}>{this.state.type}</Text>
           <View style={styles.coffeeNameUnderline} />
-        </Container>
 
-        <ScrollView>
+
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Grid style={{flexWrap: 'wrap'}}>
           {
             result.map((type, key) =>
-            <Col key={key} style={{height:'35%', width:'50%', alignItems: 'center'}}>
+            <Col key={key} style={{ width:'50%', alignItems: 'center'}}>
               <Row>
               <TouchableWithoutFeedback onPress ={ () => {
-                this.props.navigation.navigate('Customization', {
-                   name: this.state.type,
-                   items: type[1]
+                this.props.navigation.navigate('customization', {
+                   itemType: this.state.type,
+                   itemId: type[1]
                  })}}>
                  <Image style={styles.image} source={{uri: type[0]}}/>
               </TouchableWithoutFeedback>
               </Row>
               <Row>
               <TouchableWithoutFeedback onPress={ ()=> {
-                this.props.navigation.navigate('Customization', {
-                   name: this.state.type,
-                   items: type[1]
+                this.props.navigation.navigate('customization', {
+                   itemType: this.state.type,
+                   itemId: type[1]
               })}}>
                 <Text style={styles.text}>{type[2]}</Text>
               </TouchableWithoutFeedback>
@@ -119,6 +119,7 @@ export class SubMenuView extends Component {
           }
           </Grid>
         </ScrollView>
+        </Container>
       </Container>
     );
   }

@@ -46,8 +46,8 @@ export class Customization extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemType: "Drinks" ,// change to this once submenuview done this.props.navigation.getParam('itemType'),
-      itemId: "D01", //this.props.navigation.getParam('itemId')
+      itemType: this.props.navigation.getParam('itemType'),
+      itemId: this.props.navigation.getParam('itemId'),
       select: ["grande", "regular", "0 shot", "regular", "regular",""],
       icewater: ["no", "light", "regular"],
       espresso: ["0 shot", "1 shot", "2 shot"],
@@ -210,7 +210,7 @@ export class Customization extends Component {
                 this.props.navigation.navigate('main', {
                    name: itemName,
                    image: itemImage,
-                   selection: select
+                   selection: this.state.select
               })}}>Submit</Text>
                 </Button>
 
