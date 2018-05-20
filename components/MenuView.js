@@ -49,6 +49,7 @@ export class MenuView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: this.props.navigation.getParam('data'),
       menu: 'Menu',
       items: [],
     };
@@ -167,7 +168,8 @@ export class MenuView extends Component {
               <TouchableWithoutFeedback onPress={ ()=> {
                 this.props.navigation.navigate('subMenuView', {
                    name: type[1],
-                   items: this.getType(type[1])
+                   items: this.getType(type[1]),
+                   data: this.state.data,
               })}}>
                 <Text style={styles.text}>{type[1]}</Text>
               </TouchableWithoutFeedback>

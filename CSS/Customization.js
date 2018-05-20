@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     color: '#47525E',
     fontSize: 30,
   },
-  
+
   imageCol:{
     width: Dimensions.get('window').width*0.4,
     margin:0,
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
 
 
   itemImage:{
-    width:Dimensions.get('window').width*0.32, 
+    width:Dimensions.get('window').width*0.32,
     height: Dimensions.get('window').width*0.32,
     borderRadius: Dimensions.get('window').width*0.16,
   },
@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
   submitText:{
     color: '#47525E',
     fontSize: 20,
-    marginLeft: '40%',
+    marginLeft: '36%',
     marginTop: '2%',
   },
 
@@ -158,9 +158,9 @@ export const styles = StyleSheet.create({
     marginBottom: '3%',
     fontSize: 18,
     color: '#8190A5',
-    
+
   },
 
 
-  
+
 });
