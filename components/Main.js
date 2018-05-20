@@ -12,7 +12,6 @@ import React, {Component} from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import {viewPendingOrders, viewOrderDetailById} from './../database.js';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail, RefreshControl,Card, CardItem } from 'native-base';
 import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus} from './../database.js';
 import {styles} from '../CSS/Main.js';
