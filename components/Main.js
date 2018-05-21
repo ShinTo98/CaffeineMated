@@ -9,6 +9,9 @@ import React, {Component} from 'react';
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
 // } from 'react-native';
+import { TouchableOpacity, Image } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail, RefreshControl,Card, CardItem } from 'native-base';
 import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus} from './../database.js';
 import {styles} from '../CSS/Main.js';
@@ -26,8 +29,13 @@ export class Main extends Component {
       where: "",
       ids: [],
       request_data: [],
+      order_data: [],
       loadFinished: false,
+      order_exists: false,
       request_selected: false,
+      isDateTimePickerVisible: false,
+      location: '',
+      time: '',
       refreshing: false,
       order_selecting: undefined,
       selecting_order: false,
@@ -65,12 +73,34 @@ export class Main extends Component {
     this.setState({loadFinished: true});
   }
 
-
   async componentWillMount() {
     await this.saveRequestIds();
     await this.saveRequestDetails();
-    console.log("This is from main  " + this.props.navigation.getParam('selection'));
+    // get params here
+    //console.log("This is from main  " + this.props.navigation.getParam('selection'));
+
+    if(this.props.navigation.getParam('selection') != undefined) {
+      var latest = this.props.navigation.getParam('data');
+      latest.push({
+        name: this.props.navigation.getParam('name'),
+        image: this.props.navigation.getParam('image'),
+        selection: this.props.navigation.getParam('selection'),
+      });
+      this.setState({order_data: latest});
+      this.setState({order_exists: true});
+      console.log(this.state.order_data);
+    }
   }
+
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (date) => {
+    console.log('A date has been picked: ', date);
+    this.setState({time: date});
+    this._hideDateTimePicker();
+  };
 
   createStars = (num) => {
     let stars = []
@@ -111,6 +141,7 @@ export class Main extends Component {
 
   render() {
     const loading = this.state.loadFinished;
+    const order_exists = this.state.order_exists;
     return (
       <Container style={styles.color_theme}>
         <Header hasSegment style={styles.header}>
@@ -150,27 +181,124 @@ export class Main extends Component {
             <Container style = {styles.Container}>
             <View style= {styles.banner}>
             <Item regular style={styles.textInput}>
-              <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
-              />
-              <Button transparent onPress={() => this.props.navigation.goBack()}>
+            {/*}  <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
+              /> */}
+
+              <View style={styles.floatView}> 
+                <GooglePlacesAutocomplete
+                  placeholder='Where...'
+                  minLength={1} // minimum length of text to search
+                  autoFocus={false}
+                  returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                  listViewDisplayed='auto'    // true/false/undefined
+                  fetchDetails={true}
+                  renderDescription={(row) => row.description} // custom description render
+                  onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                    console.log(data);
+                    this.setState({location: data.description});
+                    console.log(this.state);
+                    //console.log(details)
+                  }}
+                  getDefaultValue={() => {
+                    return ''; // text input default value
+                  }}
+                  query={{
+                    // available options: https://developers.google.com/places/web-service/autocomplete
+                    key: 'AIzaSyAfpH-uU6uH9r8pN4ye4jeunIDMavcxolo',
+                    language: 'en', // language of the results
+                    //types: '(cities)' // default: 'geocode'
+                  }}
+                  styles={{
+                    textInputContainer: {
+                      width: '100%'
+                    },
+                    description: {
+                      fontWeight: 'bold'
+                    },
+                    predefinedPlacesDescription: {
+                      color: '#1faadb'
+                    }
+                  }}
+            
+                  currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+                  currentLocationLabel="Current location"
+                  nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+                  GoogleReverseGeocodingQuery={{
+                    // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+                  }}
+                  GooglePlacesSearchQuery={{
+                    // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+                    rankby: 'distance',
+                    types: 'food'
+                  }}
+            
+                  filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+                  /*predefinedPlaces={[homePlace, workPlace]}
+            
+                  debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+                  renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
+                  renderRightButton={() => <Text>Custom text after the inputg</Text>} */
+                />
+              </View>
+
+              <View style={styles.timeButton}>
+                <TouchableOpacity onPress={this._showDateTimePicker}>
               <Icon style={styles.icon} name="clock" />
-              </Button>
+                </TouchableOpacity>
+                <DateTimePicker
+                  isVisible={this.state.isDateTimePickerVisible}
+                  onConfirm={this._handleDatePicked}
+                  onCancel={this._hideDateTimePicker}
+                  mode='time'
+                  titleIOS='Pick a time'
+                />
+              </View>
+              {/*<Button transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon style={styles.icon} name="clock" />
+              </Button> */}
             </Item >
             <View style={styles.buttonItem}>
             <Button
               style={styles.buttons_menu}
               color="#ffffff"
-              onPress={() => this.props.navigation.navigate('menu')}
+              onPress={() => this.props.navigation.navigate('menu', {
+                data: this.state.order_data,
+              })}
             > <Text style={styles.menuText}> Menu </Text>
             </Button>
             </View>
 
+            {/* ------------------------ Order item display section ------------------------ */}
+            <Item regular style={styles.orderTitleItem}>
+            <Label style = {styles.orderTitle}>
+              Orders
+            </Label>
+            </Item>
+
             <Item regular style={styles.orderItem}>
-
-              <Label style = {styles.orderTitle}>
-                Orders
-              </Label>
-
+              <Item>
+              {order_exists &&
+                 <List
+                  dataArray={this.state.order_data}
+                  renderRow={data =>
+                    <ListItem>
+                      <Left style={styles.list_left_container}>
+                        <Thumbnail source={{uri: data.image}}/>
+                      </Left>
+                      <Body style={styles.list_body_container}>
+                      <Text style={styles.list_text}>
+                        {data.name}
+                      </Text>
+                      </Body>
+                    </ListItem>}
+                  />
+              }{
+                !order_exists &&
+                  <Text style={styles.nothingText}>
+                    Nothing yet: ) {'\n'} Click menu to place your first order
+                    </Text>
+              }
+              </Item>
             </Item>
 
             <View style={styles.buttonItem}>

@@ -33,7 +33,7 @@ export default class App extends React.Component {
       // </View>
       //<Root>
       // <PrimaryNav />
-      <PrimaryNav />
+      <RootStack />
       //</Root>
     );
   }

@@ -19,7 +19,7 @@ firebase.initializeApp(config);
  * Return:
  *  Error Condition: 1) Error Message indicates what went wrong
  *                   2) Error Inputs
- * Success: 0
+ * Success: 1
  */
 export async function userLogin (email, password) {
   var result;
@@ -88,7 +88,7 @@ export async function userPasswordChange(newPassword){
 /*
  * Name: displayMenu
  * Parameters: None
- * Return: List of pairs. [c...]
+ * Return: List of pairs. [[img, TypeName]...]
  * Error Condition: None
  */
 export async function displayMenu () {
@@ -518,7 +518,7 @@ export async function logout() {
 
 export async function displayOrderHistory(user_id) {
   // get the direction
-  let dir = "Profile/" + user_id + "/history";
+  let dir = "Profile/" + order_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
@@ -541,9 +541,9 @@ export async function getProfileById(user_id) {
 export function updateRate(user_id, rate, isBuyer) {
   let dir;
   if (isBuyer) { // get direction
-    dir = "Profile/" + user_id + "/rate_as_buyer";
+    dir = "Profile/" + order_id + "/rate_as_buyer";
   } else {
-    dir = "Profile/" + user_id + "/rate_as_carrier";
+    dir = "Profile/" + order_id + "/rate_as_carrier";
   }
 
 
