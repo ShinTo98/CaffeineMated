@@ -101,7 +101,8 @@ export class SubMenuView extends Component {
               <TouchableWithoutFeedback onPress ={ () => {
                 this.props.navigation.navigate('customization', {
                    itemType: this.state.type,
-                   itemId: type[1]
+                   itemId: type[1],
+                   data: this.state.data,
                  })}}>
                  <Image style={styles.image} source={{uri: type[0]}}/>
               </TouchableWithoutFeedback>
@@ -110,7 +111,8 @@ export class SubMenuView extends Component {
               <TouchableWithoutFeedback onPress={ ()=> {
                 this.props.navigation.navigate('customization', {
                    itemType: this.state.type,
-                   itemId: type[1]
+                   itemId: type[1],
+                   data: this.state.data,
               })}}>
                 <Text style={styles.text}>{type[2]}</Text>
               </TouchableWithoutFeedback>

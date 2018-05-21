@@ -51,13 +51,14 @@ export class Profile extends Component {
   }
 
   async getProfile() {
-    this.setState({profileData: await getProfileById("01")});
+    this.setState({profileData: await getProfileById("02")});
     this.setState({
       placeName: this.state.profileData["username"],
       buyerRating: Math.round(this.state.profileData["rate_as_buyer"]*2)/2,
       carrierRating: Math.round(this.state.profileData["rate_as_carrier"]*2)/2,
     })
-    //console.log(this.state.profileData);
+    //console.log(this.state.buyerRating);
+    //console.log(this.state.carrierRating);
   }
 
   async componentWillMount() {
@@ -65,15 +66,17 @@ export class Profile extends Component {
   }
 
   async updateProfile() {
-    var result = await changeUserName("01", this.state.name);
+    var result = await changeUserName("02", this.state.name);
     this.setState({
       placeName: this.state.name,
+      name: '',
     })
     if(result == 0) {
       alert("Update Successful!");
     } else if (result == -1) {
       alert("Update Failed");
     }
+
   }
 
 
@@ -88,19 +91,22 @@ export class Profile extends Component {
       let iosStar = 'ios-star';
       let androidStar = 'md-star';
 
-      if (curr - 1 > 0) {
+      if (curr - 1 >= 0) {
         iosStar = 'ios-star';
         androidStar = 'md-star';
+        curr = curr - 1;
       } else if ( curr - 0.5 == 0) {
         iosStar = 'ios-star-half';
         androidStar = 'md-star-half';
+        curr = curr - 0.5;
       } else {
         iosStar = 'ios-star-outline';
         androidStar = 'md-star-outline';
       }
 
 			// Push the icon tag in the stars array
-			buyerStars.push((<Icon key={i} ios={iosStar} android={androidStar}/>));
+			buyerStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
+
 		}
 
     curr = this.state.carrierRating;
@@ -109,19 +115,21 @@ export class Profile extends Component {
       let iosStar = 'ios-star';
       let androidStar = 'md-star';
 
-      if (curr - 1 > 0) {
+      if (curr - 1 >= 0) {
         iosStar = 'ios-star';
         androidStar = 'md-star';
+        curr = curr - 1;
       } else if ( curr - 0.5 == 0) {
         iosStar = 'ios-star-half';
         androidStar = 'md-star-half';
+        curr = curr - 0.5;
       } else {
         iosStar = 'ios-star-outline';
         androidStar = 'md-star-outline';
       }
 
 			// Push the icon tag in the stars array
-			carrierStars.push((<Icon key={i} ios={iosStar} android={androidStar}/>));
+			carrierStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
 		}
 
     return (
@@ -155,7 +163,8 @@ export class Profile extends Component {
             <Form style={styles.detailSection}>
               <Item stackedLabel>
                 <Label>Name</Label>
-                <Input onChangeText={(text) => this.setState({name: text})}
+                <Input value={this.state.name}
+                onChangeText={(text) => this.setState({name: text})}
                 placeholder={this.state.placeName}/>
               </Item>
               <Item stackedLabel>

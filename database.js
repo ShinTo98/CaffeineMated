@@ -518,7 +518,7 @@ export async function logout() {
 
 export async function displayOrderHistory(user_id) {
   // get the direction
-  let dir = "Profile/" + order_id + "/history";
+  let dir = "Profile/" + user_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
@@ -538,14 +538,13 @@ export async function getProfileById(user_id) {
   return profile;
 }
 
-export function updateRate(user_id, rate, isBuyer) {
+export function updateOrderRate(order_id, rate, isBuyer) {
   let dir;
   if (isBuyer) { // get direction
-    dir = "Profile/" + order_id + "/rate_as_buyer";
+    dir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
-    dir = "Profile/" + order_id + "/rate_as_carrier";
+    dir = "Orders/items/" + order_id + "/carrier_rate";
   }
-
 
   let orderRef = firebase.database().ref(dir);
   orderRef.set(rate);
