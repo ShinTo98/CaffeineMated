@@ -34,18 +34,17 @@ import {
   CardItem,
   Grid,
   Col,
-  Row
+  Row,
+  Body
 } from 'native-base';
 
 export class MenuView extends Component {
 
-  static navigationOptions = {
-    header: null
-  }
 
   constructor(props) {
     super(props);
     this.state = {
+      data: this.props.navigation.getParam('data'),
       menu: 'Menu',
       items: [],
     };
@@ -61,7 +60,7 @@ export class MenuView extends Component {
   }
 
   async getType(e){
-    console.log(e);
+    //console.log(e);
     var test = await displayType(e);
     console.log(test);
     return test;
@@ -73,6 +72,7 @@ export class MenuView extends Component {
 
   render () {
     var result = this.state.items;
+    console.log("this is result in items: " + result);
     return(
       <Container style={styles.container}>
         <Header style={styles.header}>
@@ -81,14 +81,15 @@ export class MenuView extends Component {
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
+
+
         </Header>
 
-        <Container style={styles.menu_container}>
+        <Container style={styles.content}>
           <Text style={styles.menu}>{this.state.menu}</Text>
           <View style={styles.coffeeNameUnderline} />
-        </Container>
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Grid style={{flexWrap: 'wrap'}}>
         {
            result.map((type, key) =>
@@ -98,7 +99,8 @@ export class MenuView extends Component {
                 this.props.navigation.navigate('subMenuView', {
 
                     name: type[1],
-                    items: this.getType(type[1])
+                    items: this.getType(type[1]),
+                    data: this.state.data,
 
                   })}}>
                 <Image style={styles.image}
@@ -110,18 +112,20 @@ export class MenuView extends Component {
               <TouchableWithoutFeedback onPress={ ()=> {
                 this.props.navigation.navigate('subMenuView', {
                    name: type[1],
-                   items: this.getType(type[1])
+                   items: this.getType(type[1]),
+                   data: this.state.data,
               })}}>
                 <Text style={styles.text}>{type[1]}</Text>
               </TouchableWithoutFeedback>
               </Row>
             </Col>
-    
-          )          
+
+          )
 
         }
         </Grid>
         </ScrollView>
+        </Container>
       </Container>
     );
   }

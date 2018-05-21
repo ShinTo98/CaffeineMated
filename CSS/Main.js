@@ -1,6 +1,21 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
+  card_title: {
+    color: '#FF9052',
+    fontSize: 20,
+  },
+  card: {
+    width: 5*deviceWidth/6,
+    height: 4*deviceHeight/6,
+
+  },
+  row_card_item: {
+    flexDirection: 'row',
+  },
   color_theme: {
     // TODO: correct color code
     backgroundColor: '#ffffff',
@@ -62,7 +77,7 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     height:45,
     borderColor: 'gray',
-    top: 80,
+    top: 60,
   },
   buttons_accept: {
     backgroundColor: 'transparent',
@@ -108,7 +123,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: 280,
     top: 90,
-    height: 350,
+    height: 280,
   },
 
   requestTitleItem: {
@@ -118,6 +133,15 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: 280,
     top: 70,
+    height: 40,
+  },
+  orderTitleItem: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 280,
+    top: 90,
     height: 40,
   },
   requestItem:{
@@ -182,6 +206,27 @@ export const styles = StyleSheet.create({
   list_text: {
     fontSize: 12,
     alignSelf: 'flex-end',
+  },
+  floatView: {
+    flex: 2,
+    position: 'absolute',
+    width: 230,
+    //height: 0,
+    top: 0,
+    left: 0,
+    backgroundColor: '#DDDDDD',
+  },
+  timeButton: {
+    position: 'absolute',
+    top: 6,
+    left: 240,
+    width: 30,
+  },
+  nothingText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    color: '#8190A5',
+    fontSize: 12,
   }
 
 });

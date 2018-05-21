@@ -42,6 +42,8 @@ export class Profile extends Component {
       password: '••••••',
       profilePic: "../resources/batman.jpg",
       profileData: [],
+      buyerRating: 0,
+      carrierRating: 0,
     };
 
     this.updateProfile = this.updateProfile.bind(this);
@@ -49,11 +51,14 @@ export class Profile extends Component {
   }
 
   async getProfile() {
-    this.setState({profileData: await getProfileById("01")});
+    this.setState({profileData: await getProfileById("02")});
     this.setState({
       placeName: this.state.profileData["username"],
+      buyerRating: Math.round(this.state.profileData["rate_as_buyer"]*2)/2,
+      carrierRating: Math.round(this.state.profileData["rate_as_carrier"]*2)/2,
     })
-    //console.log(this.state.profileData);
+    //console.log(this.state.buyerRating);
+    //console.log(this.state.carrierRating);
   }
 
   async componentWillMount() {
@@ -61,18 +66,72 @@ export class Profile extends Component {
   }
 
   async updateProfile() {
-    var result = await changeUserName("01", this.state.name);
+    var result = await changeUserName("02", this.state.name);
     this.setState({
       placeName: this.state.name,
+      name: '',
     })
     if(result == 0) {
       alert("Update Successful!");
     } else if (result == -1) {
       alert("Update Failed");
     }
+
   }
 
+
   render() {
+
+    let buyerStars = [];
+    let carrierStars = [];
+
+    let curr = this.state.buyerRating;
+    for (var i = 1; i <= 5; i++) {
+
+      let iosStar = 'ios-star';
+      let androidStar = 'md-star';
+
+      if (curr - 1 >= 0) {
+        iosStar = 'ios-star';
+        androidStar = 'md-star';
+        curr = curr - 1;
+      } else if ( curr - 0.5 == 0) {
+        iosStar = 'ios-star-half';
+        androidStar = 'md-star-half';
+        curr = curr - 0.5;
+      } else {
+        iosStar = 'ios-star-outline';
+        androidStar = 'md-star-outline';
+      }
+
+			// Push the icon tag in the stars array
+			buyerStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
+
+		}
+
+    curr = this.state.carrierRating;
+    for (var i = 1; i <= 5; i++) {
+
+      let iosStar = 'ios-star';
+      let androidStar = 'md-star';
+
+      if (curr - 1 >= 0) {
+        iosStar = 'ios-star';
+        androidStar = 'md-star';
+        curr = curr - 1;
+      } else if ( curr - 0.5 == 0) {
+        iosStar = 'ios-star-half';
+        androidStar = 'md-star-half';
+        curr = curr - 0.5;
+      } else {
+        iosStar = 'ios-star-outline';
+        androidStar = 'md-star-outline';
+      }
+
+			// Push the icon tag in the stars array
+			carrierStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
+		}
+
     return (
       <Container style={styles.color_theme}>
         <Header hasSegment="hasSegment">
@@ -94,25 +153,18 @@ export class Profile extends Component {
             <Container style={styles.profileSection}>
               <Thumbnail large source={ require('../resources/batman.jpg') } />
               <Container style={styles.buyerStarSection}>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star-half' android="md-star-half"/>
-                <Icon ios='ios-star-outline' android="md-star-outline"/>
+                {buyerStars}
               </Container>
               <Container style={styles.sellerStarSection}>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star' android="md-star"/>
-                <Icon ios='ios-star-half' android="md-star-half"/>
-                <Icon ios='ios-star-outline' android="md-star-outline"/>
+                {carrierStars}
               </Container>
             </Container>
 
             <Form style={styles.detailSection}>
               <Item stackedLabel>
                 <Label>Name</Label>
-                <Input onChangeText={(text) => this.setState({name: text})}
+                <Input value={this.state.name}
+                onChangeText={(text) => this.setState({name: text})}
                 placeholder={this.state.placeName}/>
               </Item>
               <Item stackedLabel>
