@@ -135,7 +135,7 @@ export const styles = StyleSheet.create({
   submitText:{
     color: '#47525E',
     fontSize: 20,
-    marginLeft: '40%',
+    marginLeft: '36%',
     marginTop: '2%',
   },
 

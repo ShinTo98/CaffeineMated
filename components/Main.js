@@ -42,7 +42,7 @@ export class Main extends Component {
 
   async saveRequestIds() {
     this.setState({ids: await viewPendingOrders()});
-    //console.log(this.state.ids);
+      console.log(this.state.ids);
 
   }
 
