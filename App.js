@@ -11,7 +11,7 @@ import {SubMenuView} from './components/SubMenuView.js';
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
 import {Feedback} from './components/Feedback.js';
-import {OrderCompleted} from './components/OrderCompleted.js'; 
+import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
@@ -34,7 +34,7 @@ export default class App extends React.Component {
       // </View>
       //<Root>
       // <PrimaryNav />
-      <RootStack />
+      <Drawer />
       //</Root>
     );
   }
@@ -86,7 +86,21 @@ const SettingsStack = StackNavigator(
     headerMode: 'none',
   }
 );
+/*
+const MenuStack = StackNavigator(
+  {
 
+    menu: { screen: MenuView },
+    submenu: { screen: SubMenuView },
+    customization: {screen: Customization},
+  },
+  {
+
+    initialRouteName: 'menu',
+    headerMode: 'none',
+  }
+);
+*/
 
 const Drawer = DrawerNavigator(
   {
@@ -116,20 +130,13 @@ const Drawer = DrawerNavigator(
 const RootStack = StackNavigator(
   {
 
+    /*
     main: {
       screen: Main,
     },
+    */
     drawer: {
       screen: Drawer,
-    },
-    customization: {
-      screen: Customization,
-    },
-    subMenuView: {
-      screen: SubMenuView
-    },
-    menu: {
-      screen: MenuView
     },
   },
   {
@@ -143,38 +150,6 @@ const RootStack = StackNavigator(
   }
 );
 
-const ZmqPageTest = StackNavigator(
-  {
-    main: {
-      screen: Main,
-    },
-    start:{
-      screen: Start,
-    },
-    login: {
-      screen: Login,
-    },
-    signup: {
-      screen: Signup,
-    },
-    customization: {
-      screen: Customization,
-    },
-    subMenuView: {
-      screen: SubMenuView
-    },
-    menu: {
-      screen: MenuView
-    },
-    drawer: {
-      screen: Drawer,
-    },
-  },
-  {
-    initialRouteName: 'customization',
-    headerMode: 'none',
-  }
-)
 
 
 const PrimaryNav = StackNavigator({
