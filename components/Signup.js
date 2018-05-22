@@ -62,7 +62,7 @@ export class Signup extends Component {
     var result = await userSignup(this.state.email, this.state.password);
     if(result === 0) {
       alert("Signup Successful! Now you can log in with your newly created account.");
-      this.props.navigation.navigate('login');
+      this.props.navigation.navigate('main');
     } else {
       alert(result);
     }
