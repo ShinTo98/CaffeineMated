@@ -25,7 +25,7 @@ export default class App extends React.Component {
     return (
       //<Root>
       // <PrimaryNav />
-      <LoginScreen />
+      <PrimaryNav />
       //</Root>
     );
   }
