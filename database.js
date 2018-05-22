@@ -565,20 +565,31 @@ export async function getProfileById(user_id) {
 
 /*
  * Name: udpateOrderRate
- * Parameters: string order_id, string rate, boolean isBuyer
+ * Parameters: string order_id, string rate, boolean isBuyer, string user_id
  * Return: N/A
  * update rating in the given order
  */
-export function updateOrderRate(order_id, rate, isBuyer) {
-  let dir;
+export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
+  let orderDir;
+  let profileDir = "Profile/" + user_id; 
+  let totalNum; 
+  let prevRate; 
   if (isBuyer) { // check if user is buyer
-    dir = "Orders/items/" + order_id + "/buyer_rate";
+    orderDir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
-    dir = "Orders/items/" + order_id + "/carrier_rate";
+    orderDir = "Orders/items/" + order_id + "/carrier_rate";
   }
-
-  let orderRef = firebase.database().ref(dir);
+  let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
+
+  await firebase.database().ref(profileDir).once("value", function (snapshot) {
+    user = snapshot.val();
+    prevRate = user.rate; 
+    totalNum = user.history.total_num; 
+  }); 
+  let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum)); 
+  let rateRef = firebase.database().ref(profileDir + "/rate");
+  rateRef.set(newRate); 
 }
 
 /*
