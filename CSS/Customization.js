@@ -88,14 +88,14 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#FF9052',
     width: '100%',
-    borderRadius: 0,
+    //borderRadius: 0,
     alignItems: 'center',
   },
 
   buttonChoiceSelect:{
     backgroundColor: '#FF9052',
     width: '100%',
-    borderRadius: 0,
+    //borderRadius: 0,
     alignItems: 'center',
     flexDirection: 'row',
   },

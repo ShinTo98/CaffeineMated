@@ -69,7 +69,7 @@ export class Main extends Component {
     //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
     //console.log(d)
     //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
-    console.log(this.state.request_data);
+    //console.log(this.state.request_data);
     this.setState({loadFinished: true});
   }
 
@@ -81,11 +81,13 @@ export class Main extends Component {
 
     if(this.props.navigation.getParam('selection') != undefined) {
       var latest = this.props.navigation.getParam('data');
-      latest.push({
-        name: this.props.navigation.getParam('name'),
-        image: this.props.navigation.getParam('image'),
-        selection: this.props.navigation.getParam('selection'),
-      });
+      if (this.props.navigation.getParam('update') == true) {
+        latest.push({
+          name: this.props.navigation.getParam('name'),
+          image: this.props.navigation.getParam('image'),
+          selection: this.props.navigation.getParam('selection'),
+        });
+      }
       this.setState({order_data: latest});
       this.setState({order_exists: true});
       console.log(this.state.order_data);
@@ -184,7 +186,7 @@ export class Main extends Component {
             {/*}  <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
               /> */}
 
-              <View style={styles.floatView}> 
+              <View style={styles.floatView}>
                 <GooglePlacesAutocomplete
                   placeholder='Where...'
                   minLength={1} // minimum length of text to search
@@ -219,7 +221,7 @@ export class Main extends Component {
                       color: '#1faadb'
                     }
                   }}
-            
+
                   currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
                   currentLocationLabel="Current location"
                   nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
@@ -231,10 +233,10 @@ export class Main extends Component {
                     rankby: 'distance',
                     types: 'food'
                   }}
-            
+
                   filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
                   /*predefinedPlaces={[homePlace, workPlace]}
-            
+
                   debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
                   renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
                   renderRightButton={() => <Text>Custom text after the inputg</Text>} */
@@ -305,7 +307,7 @@ export class Main extends Component {
             <Button
               style={styles.buttons_submit}
               color="#ffffff"
-              onPress={() => this.props.navigation.goBack()}
+              //onPress={() => this.props.navigation.goBack()}
             > <Text style={styles.menuText}> Submit </Text>
             </Button>
             </View>
