@@ -434,7 +434,21 @@ export async function sortOrders(origin) {
   return ordersResult;
 }
 
+export async function getOrderRequestTime(order_id) {
+  let dir = "Orders/items/" + order_id;
+  var location;
+  await firebase.database().ref(dir).once("value", function (snapshot){
+    location = snapshot.val().location;
+    location = location.split(' ').join('%20');
+  });
+  return location;
+}
 
+export async function sortOrdersByRequestTime() {
+  let orders = await viewPendingOrders();
+  let ordersWithRequestTime = [];
+
+}
 /*
  * Name: completeOrder
  * Parameter: string: order_id  string: user_id
