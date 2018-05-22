@@ -664,3 +664,57 @@ export function getCurrentUserUID(){
     }
     return -1;
 }
+
+/*
+ *  Helper function used to compare two orders with time.
+ *  NOTICE: should be 24 hours format
+ */
+function compareByRequestTime (a, b){
+    // initialize array containing hours and minutes
+    var aTime = a.requestTime.split(":");
+    var bTime = b.requestTime.split(":");
+
+    // compare hours
+    if (aTime[0] > bTime[0]){
+        return 1;
+    }
+    else if (aTime[0] < bTime[0]){
+        return -1;
+    }
+
+    // compare minutes
+    else if (aTime[1] > bTime[1]){
+        return 1;
+    }
+    else if (aTime[1] < bTime[1]){
+        return -1;
+    }
+    return 0;
+}
+
+/*
+ * Name: sortOrder
+ * Return: array containing order ids sorted by request time
+ * Sort the pending order based on request time
+ */
+export async function sortOrdersByRequestTime() {
+    let orders = await viewPendingOrders();
+
+    // build array with each object containing id and request_time
+    let ordersWithRequestTime = [];
+    for (let i = 0; i < orders.length; i++) {
+        var orderRef = firebase.database().ref("Orders/items/"+orders[i]);
+        await orderRef.once("value", dataSnapshot => {
+            ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});
+        });
+    }
+
+    await ordersWithRequestTime.sort(compareByRequestTime);
+
+    // build the result array
+    let resList = [];
+    for (var j = 0; j < ordersWithRequestTime.length; j++){
+        resList.push(ordersWithRequestTime[j].orderId);
+    }
+    return resList;
+}
