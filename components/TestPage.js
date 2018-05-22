@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder} from './../database.js';
+import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder,
+        acceptOrder} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -75,6 +76,9 @@ export class TestPage extends Component {
         console.log("order id is " + test);
     }
 
+    async testAcceptOrder(){
+        var test = await acceptOrder("0", "1234567");
+    }
 
 
      render(){
@@ -313,6 +317,23 @@ export class TestPage extends Component {
                                 <Text>Output: database change</Text>
                                 <Text />
                                 <Button small primary onPress={this.testCreateOrder}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>acceptOrder</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: order_id, carrier id</Text>
+                                <Text>Output: database change</Text>
+                                <Text />
+                                <Button small primary onPress={this.testAcceptOrder}>
                                     <Text>Test</Text>
                                 </Button>
                             </Body>

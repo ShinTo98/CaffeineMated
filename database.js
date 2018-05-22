@@ -206,7 +206,7 @@ export async function saveOrder (order) {
  */
   export async function createOrder(orders, orderLocation, requestTime){
     var buyerId = await getCurrentUserUID();
-    var createTime = new Date().toLocaleString();
+    var createTime = new Date().toLocaleString('en-US', { hour12: false });
 
     var orderObject ={
         buyer_id: buyerId,
@@ -308,6 +308,8 @@ export async function updateOrderStatus(order_id) {
       status = Math.min(++status, 3);
       orderRef.child("status").set(status);
     }
+
+    updateLastTime(order_id);
   });
 }
 
@@ -388,6 +390,8 @@ export async function acceptOrder(order_id, carrier_id){
           orderRef.child("carrier_id").set(carrier_id);
           orderRef.child("status").set(2);
       }
+
+      updateLastTime(order_id);
   });
 }
 
@@ -509,6 +513,8 @@ export async function completeOrder(order_id, user_id) {
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("totalNum").set(++index);
       }
+
+      updateLastTime(order_id);
   });
 }
 
@@ -583,6 +589,22 @@ export async function getProfileById(user_id) {
 
   return profile;
 }
+
+/*
+ * Name: updateDelivery
+ * Parameters: order_id,
+ * Return: database change
+ * update user profile photo
+ */
+
+ export function updateLastTime(order_id){
+   let dir;
+   dir = "Orders/items/" + order_id + "/last_update_time";
+   let update_time = firebase.database().ref(dir);
+   var createTime = new Date().toLocaleString('en-US', { hour12: false });
+   update_time.set(createTime);
+
+ }
 
 export function updateOrderRate(order_id, rate, isBuyer) {
   let dir;
