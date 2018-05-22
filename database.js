@@ -496,6 +496,12 @@ export async function changeProfilePhoto(id, url) {
   });
 }
 
+/*
+ * Name: logout
+ * Parameters: N/A
+ * Return: 0 if success, otherwise return error message
+ * logout the user
+ */
 export async function logout() {
   var result;
     await firebase.auth().signOut().then(
@@ -516,8 +522,14 @@ export async function logout() {
     return result;
 }
 
+/*
+ * Name: displayOrderHistory
+ * Parameters: string user_id
+ * Return: order history
+ * return order history of the given user
+ */
 export async function displayOrderHistory(user_id) {
-  // get the direction
+  // get the directory
   let dir = "Profile/" + user_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
@@ -527,8 +539,14 @@ export async function displayOrderHistory(user_id) {
   return orderHis;
 }
 
+/*
+ * Name: getProfileById
+ * Parameters: string user_id
+ * Return: object profile
+ * return profile information of the given user
+ */
 export async function getProfileById(user_id) {
-  // get the direction
+  // get the directory
   let dir = "Profile/" + user_id;
   let profile;
   await firebase.database().ref(dir).once("value", function (snapshot) {
@@ -538,9 +556,15 @@ export async function getProfileById(user_id) {
   return profile;
 }
 
+/*
+ * Name: udpateOrderRate
+ * Parameters: string order_id, string rate, boolean isBuyer
+ * Return: N/A
+ * update rating in the given order
+ */
 export function updateOrderRate(order_id, rate, isBuyer) {
   let dir;
-  if (isBuyer) { // get direction
+  if (isBuyer) { // check if user is buyer
     dir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
     dir = "Orders/items/" + order_id + "/carrier_rate";
