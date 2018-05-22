@@ -191,11 +191,38 @@ export async function saveOrder (order) {
     if (!order_id) {
       order_id = 0;
     }
+    order.id = order_id;
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
   return order_id;
 }
+
+/*
+ * Name: createOrder
+ * Description: create buyer order 
+ * Parameters: Object items, string location, string request_time
+ * Return: order_id
+ */
+  export async function createOrder(orders, orderLocation, requestTime){
+    var buyerId = await getCurrentUserUID();
+    var createTime = new Date().toLocaleString();
+
+    var orderObject ={
+        buyer_id: buyerId,
+        buyer_rate: -1,
+        carrier_id: -1,
+        create_time: createTime,
+        items: orders,
+        last_update_time: createTime,
+        location: orderLocation,
+        request_time: requestTime,
+        status: 1
+    }
+    
+    var orderId = await saveOrder(orderObject);
+    return orderId;
+  }
 
 
 /*
@@ -441,6 +468,10 @@ export async function sortOrders(origin) {
  * Return: N/A
  */
 export async function completeOrder(order_id, user_id) {
+  let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
+  await profileRef.once("value", snapshot => {
+    index = snapshot.val().totalNum;
+  });
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
@@ -449,12 +480,16 @@ export async function completeOrder(order_id, user_id) {
       // update status to be 6: completed
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 5: completedByCarrier, then buyer click complete
       // update status to be 6: completed
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 3: delivering, then buyer click complete
@@ -462,6 +497,8 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
           orderRef.child("status").set(4);
           console.log("complete by buyer");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 3: delivering, then carrier click complete
@@ -469,6 +506,8 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
           console.log("complete by carrier");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
   });
 }
@@ -503,6 +542,12 @@ export async function changeProfilePhoto(id, url) {
   });
 }
 
+/*
+ * Name: logout
+ * Parameters: N/A
+ * Return: 0 if success, otherwise return error message
+ * logout the user
+ */
 export async function logout() {
   var result;
     await firebase.auth().signOut().then(
@@ -523,8 +568,14 @@ export async function logout() {
     return result;
 }
 
+/*
+ * Name: displayOrderHistory
+ * Parameters: string user_id
+ * Return: order history
+ * return order history of the given user
+ */
 export async function displayOrderHistory(user_id) {
-  // get the direction
+  // get the directory
   let dir = "Profile/" + user_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
@@ -534,8 +585,14 @@ export async function displayOrderHistory(user_id) {
   return orderHis;
 }
 
+/*
+ * Name: getProfileById
+ * Parameters: string user_id
+ * Return: object profile
+ * return profile information of the given user
+ */
 export async function getProfileById(user_id) {
-  // get the direction
+  // get the directory
   let dir = "Profile/" + user_id;
   let profile;
   await firebase.database().ref(dir).once("value", function (snapshot) {
@@ -545,16 +602,33 @@ export async function getProfileById(user_id) {
   return profile;
 }
 
-export function updateOrderRate(order_id, rate, isBuyer) {
-  let dir;
-  if (isBuyer) { // get direction
-    dir = "Orders/items/" + order_id + "/buyer_rate";
+/*
+ * Name: udpateOrderRate
+ * Parameters: string order_id, string rate, boolean isBuyer, string user_id
+ * Return: N/A
+ * update rating in the given order
+ */
+export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
+  let orderDir;
+  let profileDir = "Profile/" + user_id; 
+  let totalNum; 
+  let prevRate; 
+  if (isBuyer) { // check if user is buyer
+    orderDir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
-    dir = "Orders/items/" + order_id + "/carrier_rate";
+    orderDir = "Orders/items/" + order_id + "/carrier_rate";
   }
-
-  let orderRef = firebase.database().ref(dir);
+  let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
+
+  await firebase.database().ref(profileDir).once("value", function (snapshot) {
+    user = snapshot.val();
+    prevRate = user.rate; 
+    totalNum = user.history.total_num; 
+  }); 
+  let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum)); 
+  let rateRef = firebase.database().ref(profileDir + "/rate");
+  rateRef.set(newRate); 
 }
 
 /*
