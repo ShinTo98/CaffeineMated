@@ -62,7 +62,7 @@ export class Login extends Component {
             <Form >
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Email</Label>
-              <Input onChangeText={(text) => this.setState({email: text})}
+              <Input autoCapitalize = 'none' onChangeText={(text) => this.setState({email: text})}
               keyboardType='email-address'
               />
             </Item>
@@ -71,7 +71,7 @@ export class Login extends Component {
             <Form style = {{top: 8}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Password</Label>
-              <Input onChangeText={(text) => this.setState({password: text})}
+              <Input autoCapitalize = 'none' onChangeText={(text) => this.setState({password: text})}
               keyboardType='visible-password'
               secureTextEntry= {true}
               />

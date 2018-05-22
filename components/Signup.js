@@ -86,7 +86,7 @@ export class Signup extends Component {
             <Form >
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Name</Label>
-              <Input onChangeText={(text) => this.setState({name: text})}
+              <Input autoCapitalize = 'none' onChangeText={(text) => this.setState({name: text})}
               />
             </Item>
             </Form>
@@ -94,7 +94,7 @@ export class Signup extends Component {
             <Form style = {{top: 8}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Email</Label>
-              <Input onChangeText={(text) => this.setState({email: text})}
+              <Input autoCapitalize = 'none' onChangeText={(text) => this.setState({email: text})}
               keyboardType='email-address'
               />
             </Item>
@@ -103,7 +103,7 @@ export class Signup extends Component {
             <Form style = {{top: 16}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Password</Label>
-              <Input onChangeText={(text) => this.setState({password: text})}
+              <Input autoCapitalize = 'none' onChangeText={(text) => this.setState({password: text})}
               keyboardType='visible-password'
               secureTextEntry= {true}
               />
@@ -113,7 +113,7 @@ export class Signup extends Component {
             <Form style = {{top: 24}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Confirm</Label>
-              <Input onChangeText={(text) => this.setState({confirm: text})}
+              <TextInput autoCapitalize = 'none' onChangeText={(text) => this.setState({confirm: text})}
               keyboardType='visible-password'
               secureTextEntry= {true}
               />
