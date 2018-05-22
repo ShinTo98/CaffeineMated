@@ -48,7 +48,7 @@ export async function userLogin (email, password) {
  * Success: 1 represents sign in successfully
  * If sign up successfully, firebase will create a default profile related to that uid
  */
-export async function userSignup (email, password) {
+export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
 
@@ -57,7 +57,7 @@ export async function userSignup (email, password) {
           var newUID = getCurrentUserUID();
           var newProfileDirName = "Profile/" + newUID;
           var ref = firebase.database().ref(newProfileDirName);
-          ref.set({default_mode:"buyer", rate:5, username:"SYD",
+          ref.set({default_mode:"buyer", rate:5, username:name,
               history:{total_num:0}, photo:"www.baidu.com"});
       }
     ).catch(
