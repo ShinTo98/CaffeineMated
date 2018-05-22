@@ -27,6 +27,7 @@ export async function userLogin (email, password) {
     function success() {
       // callback with 0 indicating login success
       result = 0;
+
     }
   ).catch(
     function failure (error) {
@@ -45,6 +46,7 @@ export async function userLogin (email, password) {
  * Return:
  * Error Condition: errorMessage
  * Success: 1 represents sign in successfully
+ * If sign up successfully, firebase will create a default profile related to that uid
  */
 export async function userSignup (email, password) {
     var result;
@@ -52,6 +54,11 @@ export async function userSignup (email, password) {
 
       function success(){
         result = 0;
+          var newUID = getCurrentUserUID();
+          var newProfileDirName = "Profile/" + newUID;
+          var ref = firebase.database().ref(newProfileDirName);
+          ref.set({default_mode:"buyer", rate:5, username:"SYD",
+              history:{total_num:0}, photo:"www.baidu.com"});
       }
     ).catch(
       function failure(error){
@@ -592,4 +599,18 @@ export async function changeUserName(user_id, newName){
         }
     });
     return result;
+}
+
+/*
+ * Name: getCurrentUserUID
+ * Parameter: None
+ * Return: the uid of current user.
+ * get the current user uid
+ */
+export function getCurrentUserUID(){
+    var currentUser = firebase.auth().currentUser;
+    if (currentUser != null){
+        return currentUser.uid;
+    }
+    return -1;
 }
