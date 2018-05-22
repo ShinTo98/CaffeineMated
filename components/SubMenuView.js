@@ -81,7 +81,7 @@ export class SubMenuView extends Component {
               <Icon
                 name='arrow-back'
                 style={styles.icon }
-                onPress={() => this.props.navigation.goBack()}
+                onPress={() => this.props.navigation.navigate('menu')}
               />
             </Button>
           </Left>

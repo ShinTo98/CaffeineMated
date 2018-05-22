@@ -77,7 +77,9 @@ export class MenuView extends Component {
       <Container style={styles.container}>
         <Header style={styles.header}>
           <Left>
-            <Button transparent onPress={() => this.props.navigation.goBack()}>
+            <Button transparent onPress={() => this.props.navigation.navigate('main', {
+               update: false,
+          })}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
@@ -96,7 +98,7 @@ export class MenuView extends Component {
              <Col key={key} style={{height:'35%', width:'50%', alignItems: "center"}}>
              <Row>
               <TouchableWithoutFeedback onPress={ ()=> {
-                this.props.navigation.navigate('subMenuView', {
+                this.props.navigation.navigate('submenu', {
 
                     name: type[1],
                     items: this.getType(type[1]),
@@ -110,7 +112,7 @@ export class MenuView extends Component {
               </Row>
               <Row>
               <TouchableWithoutFeedback onPress={ ()=> {
-                this.props.navigation.navigate('subMenuView', {
+                this.props.navigation.navigate('submenu', {
                    name: type[1],
                    items: this.getType(type[1]),
                    data: this.state.data,
