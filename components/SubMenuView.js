@@ -5,10 +5,14 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  TouchableHighlight,
+  ScrollView,
+  LinearLayout,
+  Dimensions,
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
+import {userSignup, displayMenu, viewPendingOrders, displayType, displayItem} from '../database.js';
 import {
   Container,
   Header,
@@ -16,91 +20,108 @@ import {
   Button,
   Toast,
   Text,
+  Left,
+  Right,
   Form,
   Item,
   Input,
   Label,
   Icon,
-  Left,
-  Right,
+  List,
+  ListItem,
+  Card,
+  CardItem,
+  Grid,
+  Col,
+  Row,
+  Body
 } from 'native-base';
 
 export class SubMenuView extends Component {
 
+
   constructor(props) {
     super(props);
     this.state = {
-      menu: 'Coffee',
-      c1: 'Americano',
-      c2: 'Mocha',
-      c3: 'Latte',
-      c4: 'Cappuccino',
-      c5: 'Macchiato',
-      c6: 'Espresso',
+      type: this.props.navigation.getParam('name'),
+      items: [],
+      data: this.props.navigation.getParam('data'),
     };
+    // Bind login related functions
+    this.getType = this.getType.bind(this);
+    this.testdisplayItem = this.testdisplayItem.bind(this);
+    console.log('in constructor: ' + this.state.items);
+  }
+  async getType(){
+    //console.log(e);
+    var test = await displayType(this.state.type);
+    console.log(test);
+    this.setState({items: test});
+    console.log(this.state.items);
   }
 
+  async componentWillMount(){
+    await this.getType();
+  }
+
+  async testdisplayItem(e,d){
+    let test = await displayItem(e,d);
+    return test;
+}
+
   render () {
+    var result = this.state.items;
+    //console.log("this is result in items: " + result);
     return(
 
       <Container style={styles.container}>
-
         <Header style={styles.header}>
           <Left>
             <Button transparent>
-              <Icon name='arrow-back' style={styles.icon}/>
+              <Icon
+                name='arrow-back'
+                style={styles.icon }
+                onPress={() => this.props.navigation.navigate('menu')}
+              />
             </Button>
           </Left>
-          <Right>
-            <Button transparent>
-              <Icon name='search'/>
-            </Button>
-          </Right>
         </Header>
 
-        <Content>
-            <Text style={styles.menu}>{this.state.menu}</Text>
-        </Content>
+        <Container style={styles.content}>
+          <Text style={styles.menu}>{this.state.type}</Text>
+          <View style={styles.coffeeNameUnderline} />
 
-        <View style={styles.coffeeNameUnderline}>
-        </View>
 
-        <Container style={styles.back}>
-
-          <Container style={styles.box}>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c1}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c3}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c5}</Text>
-          </Container>
-          <Container style={styles.box}>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c2}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c4}</Text>
-          <Image
-            style={styles.image}
-            source={require('../resources/logo.png')}
-          />
-          <Text style={styles.text}>{this.state.c6}</Text>
-          </Container>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Grid style={{flexWrap: 'wrap'}}>
+          {
+            result.map((type, key) =>
+            <Col key={key} style={{ width:'50%', alignItems: 'center'}}>
+              <Row>
+              <TouchableWithoutFeedback onPress ={ () => {
+                this.props.navigation.navigate('customization', {
+                   itemType: this.state.type,
+                   itemId: type[1],
+                   data: this.state.data,
+                 })}}>
+                 <Image style={styles.image} source={{uri: type[0]}}/>
+              </TouchableWithoutFeedback>
+              </Row>
+              <Row>
+              <TouchableWithoutFeedback onPress={ ()=> {
+                this.props.navigation.navigate('customization', {
+                   itemType: this.state.type,
+                   itemId: type[1],
+                   data: this.state.data,
+              })}}>
+                <Text style={styles.text}>{type[2]}</Text>
+              </TouchableWithoutFeedback>
+              </Row>
+            </Col>
+            )
+          }
+          </Grid>
+        </ScrollView>
         </Container>
       </Container>
     );

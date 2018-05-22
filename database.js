@@ -130,17 +130,23 @@ export async function displayMenu () {
  */
 export async function displayType (type) {
     let firebaseRef = firebase.database().ref('Menu');
-    let drinks = [];
+    var drinks;
     await firebaseRef.once('value', dataSnapshot => {
+      let info = [];
+      let result = [];
       let menu = dataSnapshot.val();
       var index;
       for (index in menu[type].items) {
         let item = menu[type].items[index];
-        let drink = {image: item.image, id: index, name: item.name}
-        drinks.push(drink);
+        info = [];
+        //let drink = {image: item.image, id: index, name: item.name}
+        info.push(item.image);
+        info.push(index);
+        info.push(item.name);
+        result.push(info);
       }
+      drinks = result;
     });
-
     return drinks;
   }
 
@@ -512,7 +518,7 @@ export async function logout() {
 
 export async function displayOrderHistory(user_id) {
   // get the direction
-  let dir = "Profile/" + order_id + "/history";
+  let dir = "Profile/" + user_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
@@ -523,7 +529,7 @@ export async function displayOrderHistory(user_id) {
 
 export async function getProfileById(user_id) {
   // get the direction
-  let dir = "Profile/" + order_id;
+  let dir = "Profile/" + user_id;
   let profile;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       profile = snapshot.val();
@@ -532,14 +538,13 @@ export async function getProfileById(user_id) {
   return profile;
 }
 
-export function updateRate(user_id, rate, isBuyer) {
+export function updateOrderRate(order_id, rate, isBuyer) {
   let dir;
   if (isBuyer) { // get direction
-    dir = "Profile/" + order_id + "/rate_as_buyer";
+    dir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
-    dir = "Profile/" + order_id + "/rate_as_carrier";
+    dir = "Orders/items/" + order_id + "/carrier_rate";
   }
-
 
   let orderRef = firebase.database().ref(dir);
   orderRef.set(rate);
@@ -553,11 +558,14 @@ export function updateRate(user_id, rate, isBuyer) {
  */
 export async function changeUserName(user_id, newName){
     let profileRef = firebase.database().ref("Profile/" + user_id);
+    var result;
     await profileRef.once("value", dataSnapshot => {
         if (!dataSnapshot) {
-            return;
+            result = -1;
         } else {
             profileRef.child("username").set(newName);
+            result = 0;
         }
     });
+    return result;
 }

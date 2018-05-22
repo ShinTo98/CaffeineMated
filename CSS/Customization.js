@@ -1,92 +1,166 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 export const styles = StyleSheet.create({
-  coffeeTitle: {
-    flex: 1,
-    backgroundColor: '#FAFAFA',
-    justifyContent: 'center',
-    height: Dimensions.get('window').height,
-    marginLeft: 30,
-    marginRight: 30,
+  page:{
+      backgroundColor: '#FAFAFA'
+  },
 
-  },
-  bgColor: {
-    backgroundColor: '#FAFAFA',
-  },
+
+
   header: {
     backgroundColor: '#FAFAFA',
+    borderBottomWidth:0,
   },
-  icon: {
+  icon_BackArrow: {
     color: '#FF9052',
   },
-  coffeeName: {
+  icon_Search: {
+    color: '#47525E',
+  },
+
+
+  content: {
+    marginLeft: '5%',
+    marginRight: '5%',
+  },
+
+  itemName:{
+    color: '#47525E',
     fontSize: 30,
   },
-  coffeeNameUnderline: {
+
+  imageCol:{
+    width: Dimensions.get('window').width*0.4,
+    margin:0,
+    padding: 0
+  },
+
+  discriptionCol:{
+    width: Dimensions.get('window').width*0.6,
+    marginLeft: '-8%',
+    padding: 0
+  },
+
+
+  itemImage:{
+    width:Dimensions.get('window').width*0.32,
+    height: Dimensions.get('window').width*0.32,
+    borderRadius: Dimensions.get('window').width*0.16,
+  },
+
+
+  grid:{
+    flexWrap: 'wrap',
+  },
+
+  discription:{
+    fontSize: 16,
+    flexWrap: 'wrap',
+    fontFamily: 'Hiragino Sans',
+  },
+
+  line:{
     borderBottomColor: '#FF9052',
     borderBottomWidth: 0.5,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    //borderBottomStyle: 'dotted',
-  },
-  coffeeSizeContainer: {
-    marginLeft: 30,
-    marginRight: 30,
-
-    flex: 3,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
+    paddingLeft: '10%',
+    marginBottom: '5%'
   },
 
-  IECcontainer: {
-    marginLeft: 30,
-    marginRight: 30,
-
-    flex: 12,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-  },
-  buttons: {
-    backgroundColor: 'transparent',
-    borderRadius: 1,
-    borderWidth: 1,
-    borderColor: 'transparent',
-    //fontSize: 30,
-    width: 300,
-    padding: 0,
-    marginLeft: 10,
-    marginRight: 15,
+  subHeadersCol:{
+    width: Dimensions.get('window').width * 0.15,
+    alignItems: 'center'
   },
 
-  buttonStyle: {
-    margin: 3,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    borderRadius:1,
-    borderWidth: 1,
-    //borderColor: '#FF9052',
-    width: 80,
-    height: 40,
-  },
-
-
-  confirmButtom: {
-    margin: 3,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    borderRadius:5,
-    borderWidth: 1,
-    //borderColor: '#FF9052',
-    width: 80,
-    height: 40,
-  },
-
-  button_text: {
-    color: '#FF9052',
+  subHeaders:{
     fontSize: 20,
-  }
+    color: '#47525E',
+  },
+
+  buttonCol:{
+     width: Dimensions.get('window').width * 0.10,
+     marginRight: '1%'
+  },
+
+  buttonChoices:{
+    backgroundColor: '#FAFAFA',
+    borderWidth: 0.5,
+    borderColor: '#FF9052',
+    width: '100%',
+    //borderRadius: 0,
+    alignItems: 'center',
+  },
+
+  buttonChoiceSelect:{
+    backgroundColor: '#FF9052',
+    width: '100%',
+    //borderRadius: 0,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+
+  scrollView:{
+    marginBottom: '10%'
+  },
+
+  padding:{
+    height: Dimensions.get('window').height * 0.08
+  },
+
+  buttonText:{
+   color: '#47525E',
+   fontSize: 16,
+   width: '150%',
+   alignSelf: 'center'
+  },
+
+  buttonTextSelect:{
+    color: '#FAFAFA',
+    fontSize: 16,
+    width: '150%',
+  },
+
+  submitButton:{
+    backgroundColor: '#FAFAFA',
+    borderWidth: 0.5,
+    borderColor: '#FF9052',
+    width: '100%',
+    borderRadius: 0,
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: '8%',
+  },
+
+  submitText:{
+    color: '#47525E',
+    fontSize: 20,
+    marginLeft: '36%',
+    marginTop: '2%',
+  },
+
+  choicesContainer:{
+    height: '100%'
+  },
+
+
+  row:{
+    alignItems: 'center',
+    marginBottom: '2%'
+  },
+
+  textInput: {
+    height: Dimensions.get('window').height * 0.25,
+    backgroundColor: '#FAFAFA',
+    borderColor: '#FF9052',
+    borderWidth: 0.5,
+    width: '100%',
+    marginBottom: '3%',
+    fontSize: 18,
+    color: '#8190A5',
+
+  },
+
+
+
 });

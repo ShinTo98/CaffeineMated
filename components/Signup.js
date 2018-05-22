@@ -57,6 +57,7 @@ export class Signup extends Component {
       }
   }
 
+  
   async signup (){
     var result = await userSignup(this.state.email, this.state.password);
     if(result === 0) {
@@ -123,8 +124,8 @@ export class Signup extends Component {
               style={styles.buttons}
               color="#ffffff"
               onPress={
-                this.validityCheck}
-            > <Text> Sign Up </Text>
+                this.validityCheck}>
+              <Text> Sign Up </Text>
             </Button>
 
             <View style={styles.textView}>

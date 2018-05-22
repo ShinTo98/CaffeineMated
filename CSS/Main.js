@@ -1,6 +1,21 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
+  card_title: {
+    color: '#FF9052',
+    fontSize: 20,
+  },
+  card: {
+    width: 5*deviceWidth/6,
+    height: 4*deviceHeight/6,
+
+  },
+  row_card_item: {
+    flexDirection: 'row',
+  },
   color_theme: {
     // TODO: correct color code
     backgroundColor: '#ffffff',
@@ -11,8 +26,24 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
-  segment:{
+  text_on:{
+    color: '#ffffff',
+  },
+  text_off:{
+    color: '#FF9052',
+  },
 
+  button_header_on: {
+    borderColor: '#FF9052',
+    backgroundColor: '#FF9052',
+
+  },
+  button_header_off: {
+    borderColor: '#FF9052',
+    backgroundColor: '#ffffff',
+  },
+  icon: {
+    color: '#FF9052',
   },
   white_banner: {
     flex: 0.15,
@@ -46,7 +77,7 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     height:45,
     borderColor: 'gray',
-    top: 80,
+    top: 60,
   },
   buttons_accept: {
     backgroundColor: 'transparent',
@@ -67,7 +98,6 @@ export const styles = StyleSheet.create({
     width: 200,
     padding: 5,
     top: 100,
-
   },
   buttonItem:{
     top: 70,
@@ -93,7 +123,26 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: 280,
     top: 90,
-    height: 350,
+    height: 280,
+  },
+
+  requestTitleItem: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 280,
+    top: 70,
+    height: 40,
+  },
+  orderTitleItem: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 280,
+    top: 90,
+    height: 40,
   },
   requestItem:{
     alignItems: 'flex-start',
@@ -102,7 +151,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     width: 280,
     top: 70,
-    height: 415,
+    height: 375,
   },
 
   textView: {
@@ -111,6 +160,10 @@ export const styles = StyleSheet.create({
   },
   menuText:{
     color: '#FF9052',
+    fontSize: 30,
+  },
+  menuText_disabled:{
+    color: 'gray',
     fontSize: 30,
   },
   subText: {
@@ -133,4 +186,47 @@ export const styles = StyleSheet.create({
     height: 100,
     top: 70,
   },
+  buyerStarSection: {
+    flex: 0.25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  list_left_container: {
+    flex: 0.5,
+    //justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    //height: 35
+  },
+  list_body_container: {
+    flex: 2,
+    alignItems: 'flex-end',
+  },
+  list_text: {
+    fontSize: 12,
+    alignSelf: 'flex-end',
+  },
+  floatView: {
+    flex: 2,
+    position: 'absolute',
+    width: 230,
+    //height: 0,
+    top: 0,
+    left: 0,
+    backgroundColor: '#DDDDDD',
+  },
+  timeButton: {
+    position: 'absolute',
+    top: 6,
+    left: 240,
+    width: 30,
+  },
+  nothingText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    color: '#8190A5',
+    fontSize: 12,
+  }
+
 });

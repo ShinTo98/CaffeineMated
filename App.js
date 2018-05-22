@@ -8,8 +8,11 @@ import {SideBar} from './components/SideBar.js';
 import {Customization} from './components/Customization.js';
 import {MenuView} from './components/MenuView.js';
 import {SubMenuView} from './components/SubMenuView.js';
+import {Settings} from './components/Settings.js';
+import {Profile} from './components/Profile.js';
+import {Feedback} from './components/Feedback.js';
+import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
-import {Settings} from './components/Settings.js'
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
 
@@ -20,17 +23,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      // <View style={styles.container}>
-      //   <Image
-      //     style={styles.logo}
-      //     source={require('./resources/wei_logo.png')}
-      //   />
-      //   <Text style={styles.name}>
-      //     CaffeineMated
-      //   </Text>
-      // </View>
       //<Root>
-        <LoginScreen />
+      // <PrimaryNav />
+      <Drawer />
       //</Root>
     );
   }
@@ -44,24 +39,6 @@ const noTransitionConfig = () => ({
   }
 })
 
-
-const Drawer = DrawerNavigator(
-  {
-    main: {screen: Main},
-    menu: { screen: SubMenuView },
-    customization: {screen: Customization},
-    settings: {screen: Settings},
-    //menu: {screen: MenuView},
-  },
-  {
-    initialRouteName: 'main',
-
-    //modify here to change the inital screen
-
-    contentComponent: props => <SideBar {...props} />
-  }
-);
-
 const LoginScreen = StackNavigator(
   {
     start:{
@@ -73,41 +50,55 @@ const LoginScreen = StackNavigator(
     signup: {
       screen: Signup,
     },
-    testPage:{
-      screen:TestPage,
-    }
   },
   {
+    disableOpenGesture: true,
     initialRouteName: 'start',
     headerMode: 'none',
   }
-)
+);
 
-const RootStack = StackNavigator(
+const SettingsStack = StackNavigator(
   {
 
-    main: {
-      screen: Main,
+    settings: {
+      screen: Settings,
     },
-    drawer: {
-      screen: Drawer,
+    feedback: {
+      screen: Feedback,
     },
-    customization: {
-      screen: Customization,
-    },
-    menu: {
-      screen: MenuView
-    },
-    testPage:{
-      screen: TestPage,
-    },
+    start: {
+      screen: LoginScreen,
+    }
   },
   {
-    initialRouteName: 'drawer',
+
+    initialRouteName: 'settings',
     headerMode: 'none',
+  }
+);
+
+const Drawer = DrawerNavigator(
+  {
+    main: {screen: Main},
+    menu: { screen: MenuView },
+    submenu: { screen: SubMenuView },
+    customization: {screen: Customization},
+    settings: {screen: SettingsStack},
+    profile: {screen: Profile},
+    //menu: {screen: MenuView},
+  },
+  {
+    initialRouteName: 'main',
+
     navigationOptions: {
-      gesturesEnabled: false
-    }
+      disableOpenGesture: true,
+      drawerLockMode: 'locked-closed',
+    },
+
+    //modify here to change the inital screen
+
+    contentComponent: props => <SideBar {...props} />
   }
 );
 
@@ -116,7 +107,7 @@ const PrimaryNav = StackNavigator({
     screen: LoginScreen,
   },
   main: {
-    screen: RootStack,
+    screen: Drawer,
   }
 },
   {
@@ -124,7 +115,8 @@ const PrimaryNav = StackNavigator({
     headerMode: 'none',
     transitionConfig: noTransitionConfig,
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: false,
+      headerTintColor: 'red',
     }
   }
 
