@@ -434,6 +434,10 @@ export async function sortOrders(origin) {
  * Return: N/A
  */
 export async function completeOrder(order_id, user_id) {
+  let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
+  await profileRef.once("value", snapshot => {
+    index = snapshot.val().totalNum;
+  });
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
@@ -442,12 +446,16 @@ export async function completeOrder(order_id, user_id) {
       // update status to be 6: completed
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 5: completedByCarrier, then buyer click complete
       // update status to be 6: completed
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 3: delivering, then buyer click complete
@@ -455,6 +463,8 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
           orderRef.child("status").set(4);
           console.log("complete by buyer");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 3: delivering, then carrier click complete
@@ -462,6 +472,8 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
           console.log("complete by carrier");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
   });
 }
