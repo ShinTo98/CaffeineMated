@@ -48,7 +48,7 @@ export async function userLogin (email, password) {
  * Success: 1 represents sign in successfully
  * If sign up successfully, firebase will create a default profile related to that uid
  */
-export async function userSignup (email, password) {
+export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
 
@@ -57,7 +57,7 @@ export async function userSignup (email, password) {
           var newUID = getCurrentUserUID();
           var newProfileDirName = "Profile/" + newUID;
           var ref = firebase.database().ref(newProfileDirName);
-          ref.set({default_mode:"buyer", rate:5, username:"SYD",
+          ref.set({default_mode:"buyer", rate:5, username:name,
               history:{total_num:0}, photo:"www.baidu.com"});
       }
     ).catch(
@@ -200,7 +200,7 @@ export async function saveOrder (order) {
 
 /*
  * Name: createOrder
- * Description: create buyer order 
+ * Description: create buyer order
  * Parameters: Object items, string location, string request_time
  * Return: order_id
  */
@@ -219,7 +219,7 @@ export async function saveOrder (order) {
         request_time: requestTime,
         status: 1
     }
-    
+
     var orderId = await saveOrder(orderObject);
     return orderId;
   }
@@ -624,9 +624,9 @@ export async function getProfileById(user_id) {
  */
 export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
   let orderDir;
-  let profileDir = "Profile/" + user_id; 
-  let totalNum; 
-  let prevRate; 
+  let profileDir = "Profile/" + user_id;
+  let totalNum;
+  let prevRate;
   if (isBuyer) { // check if user is buyer
     orderDir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
@@ -637,12 +637,12 @@ export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
 
   await firebase.database().ref(profileDir).once("value", function (snapshot) {
     user = snapshot.val();
-    prevRate = user.rate; 
-    totalNum = user.history.total_num; 
-  }); 
-  let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum)); 
+    prevRate = user.rate;
+    totalNum = user.history.total_num;
+  });
+  let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum));
   let rateRef = firebase.database().ref(profileDir + "/rate");
-  rateRef.set(newRate); 
+  rateRef.set(newRate);
 }
 
 /*
@@ -677,4 +677,58 @@ export function getCurrentUserUID(){
         return currentUser.uid;
     }
     return -1;
+}
+
+/*
+ *  Helper function used to compare two orders with time.
+ *  NOTICE: should be 24 hours format
+ */
+function compareByRequestTime (a, b){
+    // initialize array containing hours and minutes
+    var aTime = a.requestTime.split(":");
+    var bTime = b.requestTime.split(":");
+
+    // compare hours
+    if (aTime[0] > bTime[0]){
+        return 1;
+    }
+    else if (aTime[0] < bTime[0]){
+        return -1;
+    }
+
+    // compare minutes
+    else if (aTime[1] > bTime[1]){
+        return 1;
+    }
+    else if (aTime[1] < bTime[1]){
+        return -1;
+    }
+    return 0;
+}
+
+/*
+ * Name: sortOrder
+ * Return: array containing order ids sorted by request time
+ * Sort the pending order based on request time
+ */
+export async function sortOrdersByRequestTime() {
+    let orders = await viewPendingOrders();
+
+    // build array with each object containing id and request_time
+    let ordersWithRequestTime = [];
+    for (let i = 0; i < orders.length; i++) {
+        var orderRef = firebase.database().ref("Orders/items/"+orders[i]);
+        await orderRef.once("value", dataSnapshot => {
+            ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});
+        });
+    }
+
+    await ordersWithRequestTime.sort(compareByRequestTime);
+
+    // build the result array
+    let resList = [];
+    for (var j = 0; j < ordersWithRequestTime.length; j++){
+        resList.push(ordersWithRequestTime[j].orderId);
+    }
+    return resList;
 }

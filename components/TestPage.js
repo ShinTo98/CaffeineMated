@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder} from './../database.js';
+import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder, sortOrdersByRequestTime} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -75,7 +75,9 @@ export class TestPage extends Component {
         console.log("order id is " + test);
     }
 
-
+    async testsortOrdersByRequestTime(){
+         console.log(JSON.stringify(await sortOrdersByRequestTime()));
+    }
 
      render(){
          return(
@@ -315,6 +317,22 @@ export class TestPage extends Component {
                                 <Button small primary onPress={this.testCreateOrder}>
                                     <Text>Test</Text>
                                 </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                            <Text>sortOrderByRequestTime</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                            <Text>Output: orders sorted by time</Text>
+                            <Text />
+                            <Button small primary onPress={this.testsortOrdersByRequestTime}>
+                                <Text>Test</Text>
+                            </Button>
                             </Body>
                         </CardItem>
                     </Card>
