@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
 import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder,
-        acceptOrder} from './../database.js';
+        acceptOrder, sortOrdersByRequestTime} from './../database.js';
+
 
 export class TestPage extends Component {
      constructor(props){
@@ -80,6 +81,9 @@ export class TestPage extends Component {
         var test = await acceptOrder("0", "1234567");
     }
 
+    async testsortOrdersByRequestTime(){
+         console.log(JSON.stringify(await sortOrdersByRequestTime()));
+    }
 
      render(){
          return(
@@ -326,6 +330,7 @@ export class TestPage extends Component {
                     <Card>
                         <CardItem header>
                           <Text>acceptOrder</Text>
+                            <Text>sortOrderByRequestTime</Text>
                         </CardItem>
 
                         <CardItem>
@@ -336,6 +341,11 @@ export class TestPage extends Component {
                                 <Button small primary onPress={this.testAcceptOrder}>
                                     <Text>Test</Text>
                                 </Button>
+                            <Text>Output: orders sorted by time</Text>
+                            <Text />
+                            <Button small primary onPress={this.testsortOrdersByRequestTime}>
+                                <Text>Test</Text>
+                            </Button>
                             </Body>
                         </CardItem>
                     </Card>
