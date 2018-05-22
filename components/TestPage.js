@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
-import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto} from './../database.js';
+import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder} from './../database.js';
 
 export class TestPage extends Component {
      constructor(props){
@@ -64,6 +64,15 @@ export class TestPage extends Component {
     async testChangeProfilePhoto(){
         var test = await changeProfilePhoto('01', 'https://upload.wikimedia.org/wikipedia/commons/4/4e/Lesser_Sooty_Owl_at_Bonadio%27s_Mabi_Wildlife_Reserve.jpg');
         console.log("profile photo has changed!");
+    }
+
+    async testCreateOrder(){
+        var items = {
+            HC01: {customization:"a drink"},
+            CC01: {customization: "lsdjf;saljdf;laskjdf;laskjfd;"},
+        }
+        var test = await createOrder(items, "Warren Lecture Hall", "08:00 AM");
+        console.log("order id is " + test);
     }
 
 
@@ -287,6 +296,23 @@ export class TestPage extends Component {
                                 <Text>Output: database change</Text>
                                 <Text />
                                 <Button small primary onPress={this.testChangeProfilePhoto}>
+                                    <Text>Test</Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>createOrder</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Input: Object items, location, request time</Text>
+                                <Text>Output: database change</Text>
+                                <Text />
+                                <Button small primary onPress={this.testCreateOrder}>
                                     <Text>Test</Text>
                                 </Button>
                             </Body>
