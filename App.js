@@ -23,15 +23,6 @@ export default class App extends React.Component {
 
   render() {
     return (
-      // <View style={styles.container}>
-      //   <Image
-      //     style={styles.logo}
-      //     source={require('./resources/wei_logo.png')}
-      //   />
-      //   <Text style={styles.name}>
-      //     CaffeineMated
-      //   </Text>
-      // </View>
       //<Root>
       // <PrimaryNav />
       <Drawer />
@@ -86,21 +77,6 @@ const SettingsStack = StackNavigator(
     headerMode: 'none',
   }
 );
-/*
-const MenuStack = StackNavigator(
-  {
-
-    menu: { screen: MenuView },
-    submenu: { screen: SubMenuView },
-    customization: {screen: Customization},
-  },
-  {
-
-    initialRouteName: 'menu',
-    headerMode: 'none',
-  }
-);
-*/
 
 const Drawer = DrawerNavigator(
   {
@@ -120,44 +96,18 @@ const Drawer = DrawerNavigator(
       drawerLockMode: 'locked-closed',
     },
 
-
     //modify here to change the inital screen
 
     contentComponent: props => <SideBar {...props} />
   }
 );
 
-const RootStack = StackNavigator(
-  {
-
-    /*
-    main: {
-      screen: Main,
-    },
-    */
-    drawer: {
-      screen: Drawer,
-    },
-  },
-  {
-
-    initialRouteName: 'drawer',
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-      headerTintColor: 'red',
-    }
-  }
-);
-
-
-
 const PrimaryNav = StackNavigator({
   start: {
     screen: LoginScreen,
   },
   main: {
-    screen: RootStack,
+    screen: Drawer,
   }
 },
   {
