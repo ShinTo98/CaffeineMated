@@ -99,8 +99,10 @@ export class Main extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
-    this.setState({time: date});
+    console.log('A date has been picked: ', date.toString());
+    // Extract the hr:min part
+    var time = date.toString().substring(16, 21);
+    this.setState({time: time});
     this._hideDateTimePicker();
   };
 
@@ -253,6 +255,8 @@ export class Main extends Component {
                   onCancel={this._hideDateTimePicker}
                   mode='time'
                   titleIOS='Pick a time'
+                  is24Hour={true}
+                  timeZoneOffsetInMinutes={-7 * 60}
                 />
               </View>
               {/*<Button transparent onPress={() => this.props.navigation.goBack()}>
