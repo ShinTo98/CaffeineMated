@@ -9,12 +9,14 @@ import React, {Component} from 'react';
 //  KeyboardAvoidingView,
 //  TouchableWithoutFeedback
 // } from 'react-native';
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity, Image, RefreshControl } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail, RefreshControl,Card, CardItem } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus} from './../database.js';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem } from 'native-base';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
+import IconVector from 'react-native-vector-icons/Entypo';
+
 
 export class Main extends Component {
 
@@ -25,7 +27,7 @@ export class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      seg: 1,
+      seg: 2,
       where: "",
       ids: [],
       request_data: [],
@@ -41,7 +43,7 @@ export class Main extends Component {
       selecting_order: false,
       selected_order: -1,
       accepted: false,
-      status: 1,
+      delivering: false,
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -55,9 +57,8 @@ export class Main extends Component {
   }
 
   async saveRequestDetails() {
-    this.setState({loadFinished: false});
     var received = [];
-    for (id in this.state.ids) {
+    for (let id of this.state.ids) {
       order = await viewOrderDetailById(id);
       order["id"] = id;
       received.push(order);
@@ -70,12 +71,49 @@ export class Main extends Component {
     //console.log(d)
     //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
     //console.log(this.state.request_data);
-    this.setState({loadFinished: true});
+  }
+
+  GetTime() {
+    var date, TimeType, hour, minutes, seconds, fullTime;
+    date = new Date();
+    hour = date.getHours();
+    if(hour <= 11)
+    {
+      TimeType = 'am';
+    }
+    else{
+      TimeType = 'pm';
+    }
+    if( hour > 12 )
+    {
+      hour = hour - 12;
+    }
+    if( hour == 0 )
+    {
+        hour = 12;
+    }
+    minutes = date.getMinutes();
+
+    if(minutes < 10)
+    {
+      minutes = '0' + minutes.toString();
+    }
+    fullTime = hour.toString() + ':' + minutes.toString() + ' ' + TimeType.toString();
+    return fullTime
+  }
+
+  async fetchData() {
+    await this.saveRequestIds();
+    await this.saveRequestDetails();
   }
 
   async componentWillMount() {
+    this.setState({loadFinished: false});
+
     await this.saveRequestIds();
     await this.saveRequestDetails();
+    this.setState({loadFinished: true});
+
     // get params here
     //console.log("This is from main  " + this.props.navigation.getParam('selection'));
 
@@ -121,13 +159,25 @@ export class Main extends Component {
         iosStar = 'ios-star-outline';
         androidStar = 'md-star-outline';
       }
-      stars.push((<Icon key={i} ios={iosStar} android={androidStar}/>));
+      stars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
 		}
     return stars
   }
+  createProcess = (num) => {
+    let dots = []
+    for (var i = 1; i <= 4; i++) {
 
+      if (num >= i) {
+        dots.push((<IconVector key={i} name='dot-single' style={styles.icon}/>));
+      } else {
+        dots.push((<IconVector key={i} name='dot-single'/>));
+      }
+
+		}
+    return dots
+  }
   accept = () => {
-    this.setState({accepted: true, status: 2});
+    this.setState({accepted: true});
     acceptOrder(this.state.selected_order, "01");
     console.log(this.state.accepted);
   }
@@ -135,10 +185,22 @@ export class Main extends Component {
   update = () => {
     console.log(this.state.selected_order);
     updateOrderStatus(this.state.selected_order);
-    cur = this.state.status + 1;
-    this.setState({state: cur});
+    this.setState({delivering: true})
   }
 
+  complete = () => {
+    completeOrder(this.state.selected_order, "01");
+    this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+
+    this.componentWillMount();
+  }
+
+  _onRefresh() {
+    this.setState({refreshing: true});
+    this.fetchData().then(() => {
+      this.setState({refreshing: false});
+    });
+  }
 
 
   render() {
@@ -321,7 +383,8 @@ export class Main extends Component {
             this.state.seg === 2 && <Container style = {styles.Container}>
 
             {this.state.selecting_order &&
-              <Card style={styles.card}>
+              <Content scrollEnabled={false}>
+              <Card>
                 <CardItem header>
                   <Button transparent onPress={() => this.setState({selecting_order: false})}>
                     <Icon name="arrow-back" style={styles.icon}/>
@@ -375,10 +438,10 @@ export class Main extends Component {
                   </CardItem>
                   ))
                 }
-
-                <View style={styles.buttonItem}>
+                <CardItem footer>
+                <Body>
                 <Button
-                  style={styles.buttons_accept}
+                  style={styles.buttons_confirm}
                   color="#ffffff"
                 >
                   <Text style={styles.menuText}
@@ -386,9 +449,11 @@ export class Main extends Component {
                     Comfirm
                   </Text>
                 </Button>
-                </View>
+                </Body>
+                </CardItem>
 
               </Card>
+              </Content>
             }
 
 
@@ -413,13 +478,16 @@ export class Main extends Component {
             <Item regular style={styles.requestItem}>
 
               {loading &&
+                <Content refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._onRefresh.bind(this)}
+                  />
+                }>
                  <List
                   dataArray={this.state.request_data}
-                  //refreshControl =
-                  // {<RefreshControl
-                  //   refreshing = {this.state.refreshing}
-                  //   onRefresh = {() => this.setState({refreshing: true}), console.log("hi")}
-                  // />}
+
+
                   renderRow={data =>
                     <ListItem
                     onPress={() => this.setState({order_selecting: data, selecting_order: true})}
@@ -446,7 +514,9 @@ export class Main extends Component {
 
 
                     </ListItem>}
-                  />
+                  >
+                  </List>
+                </Content>
               }
               {
                 !loading && <Content>
@@ -475,43 +545,99 @@ export class Main extends Component {
         <View style= {styles.banner}>
 
 
-        <Item regular style={styles.requestTitleItem}>
+        <Item regular style={styles.DiliverTitleItem}>
         <Label style = {styles.orderTitle}>
-          Request
+          {!this.state.delivering ? 'Way To Shop': 'Delivering'}
         </Label>
         </Item>
 
-        <Label style = {styles.orderTitle}>
-          {this.state.status}
-        </Label>
-        <Item regular style={styles.requestItem}>
+        <Item regular style={styles.DiliverItem}>
+        <View >
+          <View style={styles.deliverProfile}>
+            <Thumbnail square large source={require('../resources/avatar.png')}/>
+            <View>
+              <Label style={styles.DeliverProfileText}>
+                {this.state.order_selecting.buyer_id}
+              </Label>
+              <View style={styles.DeliverStarts}>
+                {this.createStars(this.state.order_selecting.buyer_rate)}
+              </View>
+            </View>
+          </View>
+          <View style={styles.deliverItems}>
+          {Object.values(this.state.order_selecting.items).map((item,key)=>
+            (
 
-        </Item>
-        <View style={styles.buttonItem}>
-        <Button
-          disabled = {!this.state.request_selected}
-          style={styles.buttons_accept}
-          color="#ffffff"
-          onPress={() => this.update() }
-        >
-          <Text style={styles.menuText}>
-            Update
-          </Text>
-        </Button>
+            <View key= {key} style={styles.deliverItem}>
+            <Text style={styles.card_title}>
+              {item.item_name}
+            </Text>
+            <Text>
+              {item.size}
+            </Text>
+            <Text>
+              {item.customization}
+            </Text>
+            </View>
+            ))
+          }
+          </View>
         </View>
+        </Item>
 
 
+        <Item regular style={styles.DiliverProcess}>
+          <View style={styles.deliverLocation}>
+            <View style={styles.process}>
+              <Text>
+                {this.GetTime()}
+              </Text>
+              <Text>
+                {this.state.order_selecting.location}
+              </Text>
+              <Text>
+                {this.state.order_selecting.request_time}
+              </Text>
+            </View>
+            <View style={styles.process}>
+              {this.state.delivering? this.createProcess(3):this.createProcess(2)}
+            </View>
+          </View>
+        </Item>
+
+
+        <View style={styles.updateButtonItem}>
+        {!this.state.delivering &&
+          <Button
+            style={styles.buttons_accept}
+            color="#ffffff"
+            onPress={() => this.update() }
+          >
+            <Text style={styles.menuText}>
+              Update
+            </Text>
+          </Button>
+        }
+        {this.state.delivering &&
+          <Button
+            style={styles.buttons_accept}
+            color="#ffffff"
+            onPress={() => this.complete() }
+          >
+            <Text style={styles.menuText}>
+              Complete
+            </Text>
+          </Button>
+        }
+        </View>
       </View>
     }
 
+    </Container>
+    }
 
-
-
-            </Container>
-          }
-
-        </Content>
-      </Container>
+    </Content>
+    </Container>
     );
   }
 }
