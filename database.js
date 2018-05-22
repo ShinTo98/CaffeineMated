@@ -191,11 +191,38 @@ export async function saveOrder (order) {
     if (!order_id) {
       order_id = 0;
     }
+    order.id = order_id;
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
   return order_id;
 }
+
+/*
+ * Name: createOrder
+ * Description: create buyer order 
+ * Parameters: Object items, string location, string request_time
+ * Return: order_id
+ */
+  export async function createOrder(orders, orderLocation, requestTime){
+    var buyerId = await getCurrentUserUID();
+    var createTime = new Date().toLocaleString();
+
+    var orderObject ={
+        buyer_id: buyerId,
+        buyer_rate: -1,
+        carrier_id: -1,
+        create_time: createTime,
+        items: orders,
+        last_update_time: createTime,
+        location: orderLocation,
+        request_time: requestTime,
+        status: 1
+    }
+    
+    var orderId = await saveOrder(orderObject);
+    return orderId;
+  }
 
 
 /*
