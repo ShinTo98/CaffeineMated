@@ -49,7 +49,10 @@ export class Main extends Component {
       // for toggleing places choosing popup
       choosePlaces: false,
       // for showing Toasts
-      showToast: false
+      showToast: false,
+      // for when & where logans
+      whenLogan: 'Pick a time',
+      whereLogan: 'Specify a place',
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -145,7 +148,11 @@ export class Main extends Component {
     // Extract the hr:min part
     var time = date.toString().substring(16, 21);
     this.setState({time: time});
+    this.setState({whenLogan: time});
     this._hideDateTimePicker();
+    Toast.show({
+      text: "Time choosing successfull!",
+    });
   };
 
   createStars = (num) => {
@@ -232,9 +239,11 @@ export class Main extends Component {
           fetchDetails={true}
           renderDescription={(row) => row.description} // custom description render
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-            console.log(data);
-            this.setState({location: data.description});
-            console.log(this.state);
+            //console.log(data);
+            // Get useful piece from data.description
+            this.setState({location: data.description.toString().substring(0, data.description.toString().indexOf(','))});
+            this.setState({whereLogan: data.description.toString().substring(0, data.description.toString().indexOf(','))});
+            //console.log(this.state);
             this.setState({choosePlaces: false});
             Toast.show({
               text: "Places choosing successfull!",
@@ -342,7 +351,7 @@ export class Main extends Component {
               <Item regular style={styles.textInput}>
                 <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
                   <Icon name='alarm' />
-                  <Text>When?</Text>
+                  <Text>{this.state.whenLogan}</Text>
                   </Button>
                   <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -353,8 +362,10 @@ export class Main extends Component {
                     is24Hour={true}
                     timeZoneOffsetInMinutes={-7 * 60}
                   />
+              </Item>
+              <Item regular style={styles.textInput}>
                 <Button iconRight style={styles.Wherebutton} onPress={() => this.setState({choosePlaces: true})}>
-                  <Text>Where?</Text>
+                  <Text>{this.state.whereLogan}</Text>
                   <Icon name='navigate' />
                   </Button>
               </Item>

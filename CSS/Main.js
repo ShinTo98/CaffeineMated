@@ -128,7 +128,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
-    height: 50,
+    height: 60,
     //color: 'gray',
     borderColor: '#f8f8f8',
     //borderWidth: 2,
@@ -312,15 +312,15 @@ export const styles = StyleSheet.create({
   },
   Whenbutton: {
     backgroundColor: '#47525e',
-    marginRight: '2%',
-    height: '100%',
-    width: '48%',
+    //marginRight: '2%',
+    height: '85%',
+    width: '100%',
   },
   Wherebutton: {
     backgroundColor: '#47525e',
-    marginLeft: '2%',
-    height: '100%',
-    width: '48%',
+    //marginLeft: '2%',
+    height: '85%',
+    width: '100%',
   },
   placeAutocomplete: {
     top: 50,
