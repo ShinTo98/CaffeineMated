@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   color_theme: {
     // TODO: correct color code
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F8F8F8',
   },
   container: {
     flex: 1,
@@ -32,7 +32,9 @@ export const styles = StyleSheet.create({
   text_off:{
     color: '#FF9052',
   },
-
+  header: {
+    top: 8,
+  },
   button_header_on: {
     borderColor: '#FF9052',
     backgroundColor: '#FF9052',
@@ -78,6 +80,7 @@ export const styles = StyleSheet.create({
     height:45,
     borderColor: 'gray',
     top: 60,
+    alignSelf: 'center',
   },
   buttons_accept: {
     backgroundColor: 'transparent',
@@ -91,6 +94,18 @@ export const styles = StyleSheet.create({
     borderColor: 'gray',
     top: 60,
   },
+  buttons_confirm: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    //fontSize: 30,
+    width: 3*deviceWidth/4,
+
+    borderWidth: 0.5,
+    height:45,
+    borderColor: 'gray',
+  },
   buttons: {
     backgroundColor: '#47525e',
     flexDirection: 'row',
@@ -100,7 +115,11 @@ export const styles = StyleSheet.create({
     top: 100,
   },
   buttonItem:{
+    //top: deviceHeight/60,
     top: 70,
+  },
+  updateButtonItem:{
+    top: deviceHeight/20,
   },
   textSection: {
     flex: 3,
@@ -109,12 +128,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
-    height: 45,
+    height: 50,
     //color: 'gray',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-    width: 280,
-    top: 50,
+    borderColor: '#f8f8f8',
+    //borderWidth: 2,
+    width: 300,
+    top: 30,
   },
   orderItem:{
     alignItems: 'flex-start',
@@ -134,6 +153,33 @@ export const styles = StyleSheet.create({
     width: 280,
     top: 70,
     height: 40,
+  },
+  DiliverTitleItem: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 1,
+    width: 3*deviceWidth/4,
+    top: deviceHeight/15,
+    height: deviceHeight/20,
+  },
+  DiliverItem: {
+    alignItems: 'flex-start',
+    borderColor: 'gray',
+    flexDirection: 'row',
+    borderWidth: 1,
+    width: 3*deviceWidth/4,
+    top: deviceHeight/15,
+    height: 5.5 * deviceHeight/11,
+  },
+  DiliverProcess: {
+    alignItems: 'flex-start',
+    borderColor: 'gray',
+    flexDirection: 'row',
+    borderWidth: 1,
+    width: 3*deviceWidth/4,
+    top: deviceHeight/15,
+    height: deviceHeight/15,
   },
   orderTitleItem: {
     alignItems: 'flex-start',
@@ -227,6 +273,58 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     color: '#8190A5',
     fontSize: 12,
-  }
+  },
+  deliverProfile: {
+    top: deviceWidth/15,
+    left: deviceWidth/20,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  DeliverProfileText: {
+    top: deviceWidth/20,
+    left: deviceWidth/20,
+  },
+  DeliverStarts: {
+    top: deviceWidth/15,
+    left: deviceWidth/25,
+    flexDirection: 'row',
+  },
+
+  deliverItems: {
+    top: deviceWidth/8,
+    left: deviceWidth/20,
+    //flexDirection: 'row',
+
+  },
+  deliverItem: {
+    marginBottom: deviceWidth/20,
+  },
+  deliverLocation: {
+    justifyContent: 'flex-end',
+  },
+  process: {
+    //alignSelf: 'flex-end',
+    top: deviceWidth/30,
+    width: 3*deviceWidth/4,
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    marginBottom: deviceWidth/80,
+  },
+  Whenbutton: {
+    backgroundColor: '#47525e',
+    marginRight: '2%',
+    height: '100%',
+    width: '48%',
+  },
+  Wherebutton: {
+    backgroundColor: '#47525e',
+    marginLeft: '2%',
+    height: '100%',
+    width: '48%',
+  },
+  placeAutocomplete: {
+    top: 50,
+  },
+
 
 });

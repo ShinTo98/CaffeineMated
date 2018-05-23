@@ -88,20 +88,20 @@ export const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#FF9052',
     width: '100%',
-    borderRadius: 0,
+    //borderRadius: 0,
     alignItems: 'center',
   },
 
   buttonChoiceSelect:{
     backgroundColor: '#FF9052',
     width: '100%',
-    borderRadius: 0,
+    //borderRadius: 0,
     alignItems: 'center',
     flexDirection: 'row',
   },
 
   scrollView:{
-    marginBottom: '10%'
+    //marginBottom: '10%'
   },
 
   padding:{
@@ -122,21 +122,24 @@ export const styles = StyleSheet.create({
   },
 
   submitButton:{
-    backgroundColor: '#FAFAFA',
-    borderWidth: 0.5,
-    borderColor: '#FF9052',
-    width: '100%',
-    borderRadius: 0,
+    backgroundColor: '#FF9052',
+    //borderWidth: 0.5,
+    //borderColor: '#FF9052',
+    //width: Dimensions.get('window').width,
+    //borderRadius: 0,
     alignItems: 'center',
-    flexDirection: 'row',
-    height: '8%',
+    //flexDirection: 'row',
+    //height: '8%',
   },
 
   submitText:{
-    color: '#47525E',
+    color: '#FAFAFA',
     fontSize: 20,
-    marginLeft: '36%',
-    marginTop: '2%',
+    //marginLeft: '36%',
+    //alignSelf
+    //marginTop: '2%',
+    //height: "100%",
+    padding: '4%'
   },
 
   choicesContainer:{

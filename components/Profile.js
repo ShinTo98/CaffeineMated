@@ -136,7 +136,9 @@ export class Profile extends Component {
       <Container style={styles.color_theme}>
         <Header hasSegment="hasSegment">
           <Left>
-            <Button transparent onPress={() => this.props.navigation.navigate('main')}>
+            <Button transparent onPress={() => this.props.navigation.navigate('main', {
+               update: false,
+          })}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
