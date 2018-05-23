@@ -78,6 +78,7 @@ export const styles = StyleSheet.create({
     height:45,
     borderColor: 'gray',
     top: 60,
+    alignSelf: 'center',
   },
   buttons_accept: {
     backgroundColor: 'transparent',
