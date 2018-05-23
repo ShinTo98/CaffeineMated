@@ -45,17 +45,17 @@ export class Main extends Component {
       selected_order: -1,
       accepted: false,
       delivering: false,
-      orderSubmitted: false
+      orderSubmitted: false,
+      // for toggleing places choosing popup
+      choosePlaces: false
     };
     this.order_selected = {};
     this.order_to_id = {};
-
   }
 
   async saveRequestIds() {
     this.setState({ids: await viewPendingOrders()});
     //console.log(this.state.ids);
-
   }
 
   async saveRequestDetails() {
@@ -167,6 +167,7 @@ export class Main extends Component {
 		}
     return stars
   }
+
   createProcess = (num) => {
     let dots = []
     for (var i = 1; i <= 4; i++) {
@@ -180,6 +181,7 @@ export class Main extends Component {
 		}
     return dots
   }
+
   accept = () => {
     this.setState({accepted: true});
     acceptOrder(this.state.selected_order, "01");
@@ -210,12 +212,79 @@ export class Main extends Component {
     this.setState({ orderSubmitted: val });
   }
 
-
   render() {
     const loading = this.state.loadFinished;
     const order_exists = this.state.order_exists;
+
     return (
       <Container style={styles.color_theme}>
+      {/* --------------------------------- Place choosing popup ------------------------------- */}
+      {this.state.choosePlaces &&
+        <Container style={styles.placeAutocomplete}>
+        <GooglePlacesAutocomplete
+          placeholder='Where...'
+          minLength={1} // minimum length of text to search
+          autoFocus={false}
+          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+          listViewDisplayed='auto'    // true/false/undefined
+          fetchDetails={true}
+          renderDescription={(row) => row.description} // custom description render
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+            console.log(data);
+            this.setState({location: data.description});
+            console.log(this.state);
+            this.setState({choosePlaces: false});
+            //console.log(details)
+          }}
+          getDefaultValue={() => {
+            return ''; // text input default value
+          }}
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: 'AIzaSyAfpH-uU6uH9r8pN4ye4jeunIDMavcxolo',
+            language: 'en', // language of the results
+            //types: '(cities)' // default: 'geocode'
+          }}
+          styles={{
+            textInputContainer: {
+              width: '100%'
+            },
+            description: {
+              fontWeight: 'bold'
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb'
+            },
+            listView: {
+              backgroundColor: '#FFFFFF',
+            }
+          }}
+          currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+          currentLocationLabel="Current location"
+          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          GoogleReverseGeocodingQuery={{
+            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+          }}
+          GooglePlacesSearchQuery={{
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: 'distance',
+            types: 'food'
+          }}
+          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+          /*predefinedPlaces={[homePlace, workPlace]}
+
+          debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+          renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
+          renderRightButton={() => <Text>Custom text after the inputg</Text>} */
+        />
+        </Container>
+      }
+
+      {/* ---------------------------------- Regular main page ---------------------------------- */}
+      {!this.state.choosePlaces &&
+        <Container>
+        
+        {/* ---------------------------------- Main page header ---------------------------------- */}
         <Header hasSegment style={styles.header}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.navigate('DrawerOpen')}>
@@ -223,7 +292,6 @@ export class Main extends Component {
             </Button>
           </Left>
           <Body>
-
             <Segment >
               <Button
                 style={this.state.seg === 1 ? styles.button_header_on : styles.button_header_off}
@@ -247,11 +315,14 @@ export class Main extends Component {
           </Right>
         </Header>
 
+        {/* ---------------------------------- Main page content ---------------------------------- */}
         <Content padder bounces={false} scrollEnabled={false}>
-          {this.state.seg === 1 &&
 
+          {/* ---------------------------------- Buyer segment ---------------------------------- */}
+          {this.state.seg === 1 &&
             <Container style = {styles.Container}>
 
+            {/* ------------------------------- Order submitted page ------------------------------- */}
             {this.state.orderSubmitted &&
               <SubmitOrder
               updateOrderSubmitted={this.updateOrderSubmitted}
@@ -259,75 +330,15 @@ export class Main extends Component {
               />
             }
 
-            {!this.state.orderSubmitted &&
-
-
+            {/* ---------------------------------- Ordering page ---------------------------------- */}
+            {!this.state.orderSubmitted && 
               <View style= {styles.banner}>
+              {/* When & Where section */}
               <Item regular style={styles.textInput}>
-              {/*}  <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
-                /> */}
-
-                <View style={styles.floatView}>
-                  <GooglePlacesAutocomplete
-                    placeholder='Where...'
-                    minLength={1} // minimum length of text to search
-                    autoFocus={false}
-                    returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-                    listViewDisplayed='auto'    // true/false/undefined
-                    fetchDetails={true}
-                    renderDescription={(row) => row.description} // custom description render
-                    onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                      console.log(data);
-                      this.setState({location: data.description});
-                      console.log(this.state);
-                      //console.log(details)
-                    }}
-                    getDefaultValue={() => {
-                      return ''; // text input default value
-                    }}
-                    query={{
-                      // available options: https://developers.google.com/places/web-service/autocomplete
-                      key: 'AIzaSyAfpH-uU6uH9r8pN4ye4jeunIDMavcxolo',
-                      language: 'en', // language of the results
-                      //types: '(cities)' // default: 'geocode'
-                    }}
-                    styles={{
-                      textInputContainer: {
-                        width: '100%'
-                      },
-                      description: {
-                        fontWeight: 'bold'
-                      },
-                      predefinedPlacesDescription: {
-                        color: '#1faadb'
-                      }
-                    }}
-
-                    currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-                    currentLocationLabel="Current location"
-                    nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                    GoogleReverseGeocodingQuery={{
-                      // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                    }}
-                    GooglePlacesSearchQuery={{
-                      // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                      rankby: 'distance',
-                      types: 'food'
-                    }}
-
-                    filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-                    /*predefinedPlaces={[homePlace, workPlace]}
-
-                    debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-                    renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
-                    renderRightButton={() => <Text>Custom text after the inputg</Text>} */
-                  />
-                </View>
-
-                <View style={styles.timeButton}>
-                  <TouchableOpacity onPress={this._showDateTimePicker}>
-                <Icon style={styles.icon} name="clock" />
-                  </TouchableOpacity>
+                <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
+                  <Icon name='alarm' />
+                  <Text>When?</Text>
+                  </Button>
                   <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
                     onConfirm={this._handleDatePicked}
@@ -337,11 +348,13 @@ export class Main extends Component {
                     is24Hour={true}
                     timeZoneOffsetInMinutes={-7 * 60}
                   />
-                </View>
-                {/*<Button transparent onPress={() => this.props.navigation.goBack()}>
-                <Icon style={styles.icon} name="clock" />
-                </Button> */}
-              </Item >
+                <Button iconRight style={styles.Wherebutton} onPress={() => this.setState({choosePlaces: true})}>
+                  <Text>Where?</Text>
+                  <Icon name='navigate' />
+                  </Button>
+              </Item>
+
+              {/* Menu button section */}
               <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_menu}
@@ -353,7 +366,7 @@ export class Main extends Component {
               </Button>
               </View>
 
-              {/* ------------------------ Order item display section ------------------------ */}
+              {/* Order item display section */}
               <Item regular style={styles.orderTitleItem}>
               <Label style = {styles.orderTitle}>
                 Orders
@@ -400,6 +413,7 @@ export class Main extends Component {
             </Container>
           }
 
+          {/* ---------------------------------- Requester segment ---------------------------------- */}
           {
             this.state.seg === 2 && <Container style = {styles.Container}>
 
@@ -658,6 +672,8 @@ export class Main extends Component {
     }
 
     </Content>
+    </Container>
+ }
     </Container>
     );
   }

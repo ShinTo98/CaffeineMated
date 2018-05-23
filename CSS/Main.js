@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   color_theme: {
     // TODO: correct color code
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F8F8F8',
   },
   container: {
     flex: 1,
@@ -32,7 +32,9 @@ export const styles = StyleSheet.create({
   text_off:{
     color: '#FF9052',
   },
-
+  header: {
+    top: 8,
+  },
   button_header_on: {
     borderColor: '#FF9052',
     backgroundColor: '#FF9052',
@@ -126,12 +128,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
-    height: 45,
+    height: 50,
     //color: 'gray',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-    width: 280,
-    top: 50,
+    borderColor: '#f8f8f8',
+    //borderWidth: 2,
+    width: 300,
+    top: 30,
   },
   orderItem:{
     alignItems: 'flex-start',
@@ -307,6 +309,21 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexDirection: 'row',
     marginBottom: deviceWidth/80,
+  },
+  Whenbutton: {
+    backgroundColor: '#47525e',
+    marginRight: '2%',
+    height: '100%',
+    width: '48%',
+  },
+  Wherebutton: {
+    backgroundColor: '#47525e',
+    marginLeft: '2%',
+    height: '100%',
+    width: '48%',
+  },
+  placeAutocomplete: {
+    top: 50,
   },
 
 
