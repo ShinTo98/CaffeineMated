@@ -12,7 +12,7 @@ import React, {Component} from 'react';
 import { TouchableOpacity, Image, RefreshControl } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
 import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
@@ -47,7 +47,9 @@ export class Main extends Component {
       delivering: false,
       orderSubmitted: false,
       // for toggleing places choosing popup
-      choosePlaces: false
+      choosePlaces: false,
+      // for showing Toasts
+      showToast: false
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -234,6 +236,9 @@ export class Main extends Component {
             this.setState({location: data.description});
             console.log(this.state);
             this.setState({choosePlaces: false});
+            Toast.show({
+              text: "Places choosing successfull!",
+            });
             //console.log(details)
           }}
           getDefaultValue={() => {

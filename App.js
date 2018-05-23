@@ -23,10 +23,10 @@ export default class App extends React.Component {
 
   render() {
     return (
-      //<Root>
-      // <PrimaryNav />
+      <Root>
+      {/*<PrimaryNav />*/}
       <Drawer />
-      //</Root>
+      </Root>
     );
   }
 }
