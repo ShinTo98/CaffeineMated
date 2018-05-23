@@ -49,10 +49,12 @@ export class SubmitOrder extends Component {
             />
           }>
             <View style = {styles.progress}>
+            {/*
               <Text style = {styles.progressSpinLabel}>
                 Waiting for carrier to accept...
               </Text>
               <Spinner color="#8E8E93" style = {styles.progressSpin}/>
+              */}
             </View>
             <Text style = {styles.orderTitle}>
               Orders Details
@@ -73,24 +75,29 @@ export class SubmitOrder extends Component {
               Items:
             </Text>
 
-            <Card>
-              <CardItem>
-                <Body>
-                  <Text>
-                     Hello
-                  </Text>
-                </Body>
-              </CardItem>
+            <Card style={styles.orderCard}>
+              {/*<CardItem>*/}
+                <View style = {{flexDirection: 'row'}}>
+                <Left>
+                  <Thumbnail style={{marginTop: 15, left: 10}} source={ require('../resources/batman.jpg') } />
+                </Left>
+
+                  <View style = {styles.cardTextView}>
+                    <Text style ={styles.cardPrimaryText}>
+                       Ice Coffee Latte
+                    </Text>
+                    <Text style ={styles.cardSecondaryText}>
+                       Grande
+                    </Text>
+
+                  </View>
+
+                </View>
+              {/*</CardItem>*/}
             </Card>
-            <Card>
-              <CardItem>
-                <Body>
-                  <Text>
-                     Hello
-                  </Text>
-                </Body>
-              </CardItem>
-            </Card>
+
+
+
           </Content>
         </View>
         <View>
@@ -98,7 +105,7 @@ export class SubmitOrder extends Component {
           style={styles.buttons_submit}
           color="#ffffff"
           onPress={() => this.props.updateOrderSubmitted(false)}
-          > <Text style={styles.menuText}> Submit </Text>
+          > <Text style={styles.menuText}> Cancel Order </Text>
           </Button>
         </View>
       </Container>

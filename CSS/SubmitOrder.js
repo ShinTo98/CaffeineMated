@@ -60,7 +60,26 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '300',
     left: 5,
-    marginTop: 10
+    marginTop: 10,
   },
+  orderCard: {
+    height: 90,
+  },
+  cardTextView:{
+    right: 7,
+    justifyContent: 'center',
+  },
+  cardPrimaryText: {
+    textAlign: 'right',
+    fontSize: 14,
+    alignSelf: 'flex-end'
+  },
+  cardSecondaryText: {
+    textAlign: 'right',
+    fontSize: 12,
+    fontWeight: '300',
+    fontStyle: 'italic',
+    alignSelf: 'flex-end'
+  }
 
 });
