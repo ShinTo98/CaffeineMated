@@ -56,6 +56,40 @@ export class SubmitOrder extends Component {
               <Spinner color="#8E8E93" style = {styles.progressSpin}/>
               */}
             </View>
+            <Text style = {styles.carrierTitle}>
+              Your Carrier
+            </Text>
+            <View  style= {styles.carrierView}>
+
+              <View style= {styles.carrierPic}>
+
+                <Thumbnail style={{alignSelf:'center'}} large source={ require('../resources/batman.jpg') } />
+
+                <View style= {styles.carrierStars}>
+                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
+                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
+                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
+                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
+                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
+                </View>
+              </View>
+
+              <View style= {styles.carrierText}>
+                <Text style = {styles.labelTextFirst}>
+                  Name:
+                </Text>
+                <Text style = {styles.labelContent}>
+                  John Appleseed
+                </Text>
+                <Text style = {styles.labelTextItems}>
+                  Phone Number:
+                </Text>
+                <Text style = {styles.labelContent}>
+                  619-358-6666
+                </Text>
+              </View>
+
+            </View>
             <Text style = {styles.orderTitle}>
               Orders Details
             </Text>
@@ -76,7 +110,6 @@ export class SubmitOrder extends Component {
             </Text>
 
             <Card style={styles.orderCard}>
-              {/*<CardItem>*/}
                 <View style = {{flexDirection: 'row'}}>
                 <Left>
                   <Thumbnail style={{marginTop: 15, left: 10}} source={ require('../resources/batman.jpg') } />
@@ -93,13 +126,31 @@ export class SubmitOrder extends Component {
                   </View>
 
                 </View>
-              {/*</CardItem>*/}
             </Card>
 
 
 
           </Content>
         </View>
+
+        <View style={styles.progressBarView}>
+
+          <View style= {styles.progressBar}>
+            <View style={styles.circleFilled}/>
+            <View style={styles.line}/>
+            <View style={styles.circleFilled}/>
+            <View style={styles.line}/>
+            <View style={styles.circle}/>
+            <View style={styles.line}/>
+            <View style={styles.circle}/>
+          </View>
+
+
+          <Text style = {styles.progressText}>
+            Order Progress: Carrier Confirmed
+          </Text>
+        </View>
+
         <View>
           <Button
           style={styles.buttons_submit}

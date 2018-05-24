@@ -10,29 +10,96 @@ export const styles = StyleSheet.create({
     flex: 0.7,
     width: 4*deviceWidth/5,
     alignSelf: 'center',
-    top: 10,
+    marginTop: 10,
+  },
+  progressBarView:{
+    borderColor: 'gray',
+    borderWidth: 1,
+    flex: 0.08,
+    width: 4*deviceWidth/5,
+    alignSelf: 'center',
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  progressBar: {
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  progressText: {
+    fontSize: 12,
+    fontWeight: '300',
+    alignSelf: 'center',
+    //marginTop: 10,
+  },
+  circle: {
+    width: 16,
+    height: 16,
+    borderRadius: 150/2,
+    borderWidth: 1,
+    borderColor: 'grey',
+    backgroundColor: '#D8D8D8'
+  },
+  circleFilled: {
+    width: 16,
+    height: 16,
+    borderRadius: 150/2,
+    borderWidth: 1,
+    borderColor: 'grey',
+    backgroundColor: '#FF9052'
+  },
+  line: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    width: 20,
+    marginBottom: 8,
+  },
+  carrierView: {
+    flexDirection: 'row',
+    marginTop: 10
+  },
+  carrierText: {
+    flex: 0.65
+  },
+  carrierPic: {
+    flex: 0.35,
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  carrierStars: {
+    justifyContent: 'center',
+    flexDirection: 'row'
   },
   buttons_submit: {
     backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'center',
-    //fontSize: 30,
     width: 280,
     padding: 5,
     borderWidth: 0.5,
     height:45,
     borderColor: 'gray',
-    top: 60,
+    marginTop: 10,
     alignSelf: 'center',
   },
   menuText:{
     color: '#FF9052',
     fontSize: 30,
   },
+  carrierTitle:{
+    color: '#FF9052',
+    fontSize: 24,
+    alignSelf: 'center',
+    marginTop: 5
+  },
+  icon: {
+    color: '#FF9052',
+    fontSize: 20,
+  },
   orderTitle:{
     color: '#FF9052',
     fontSize: 24,
     alignSelf: 'center',
+    marginTop: 20,
   },
   progressSpinLabel: {
     fontSize: 16,
