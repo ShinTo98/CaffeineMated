@@ -27,6 +27,7 @@ export async function userLogin (email, password) {
     function success() {
       // callback with 0 indicating login success
       result = 0;
+
     }
   ).catch(
     function failure (error) {
@@ -45,13 +46,19 @@ export async function userLogin (email, password) {
  * Return:
  * Error Condition: errorMessage
  * Success: 1 represents sign in successfully
+ * If sign up successfully, firebase will create a default profile related to that uid
  */
-export async function userSignup (email, password) {
+export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
 
       function success(){
         result = 0;
+          var newUID = getCurrentUserUID();
+          var newProfileDirName = "Profile/" + newUID;
+          var ref = firebase.database().ref(newProfileDirName);
+          ref.set({default_mode:"buyer", rate:5, username:name,
+              history:{total_num:0}, photo:"www.baidu.com"});
       }
     ).catch(
       function failure(error){
@@ -130,17 +137,23 @@ export async function displayMenu () {
  */
 export async function displayType (type) {
     let firebaseRef = firebase.database().ref('Menu');
-    let drinks = [];
+    var drinks;
     await firebaseRef.once('value', dataSnapshot => {
+      let info = [];
+      let result = [];
       let menu = dataSnapshot.val();
       var index;
       for (index in menu[type].items) {
         let item = menu[type].items[index];
-        let drink = {image: item.image, id: index, name: item.name}
-        drinks.push(drink);
+        info = [];
+        //let drink = {image: item.image, id: index, name: item.name}
+        info.push(item.image);
+        info.push(index);
+        info.push(item.name);
+        result.push(info);
       }
+      drinks = result;
     });
-
     return drinks;
   }
 
@@ -178,11 +191,38 @@ export async function saveOrder (order) {
     if (!order_id) {
       order_id = 0;
     }
+    order.id = order_id;
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
   return order_id;
 }
+
+/*
+ * Name: createOrder
+ * Description: create buyer order
+ * Parameters: Object items, string location, string request_time
+ * Return: order_id
+ */
+  export async function createOrder(orders, orderLocation, requestTime){
+    var buyerId = await getCurrentUserUID();
+    var createTime = new Date().toLocaleString('en-US', { hour12: false });
+
+    var orderObject ={
+        buyer_id: buyerId,
+        buyer_rate: -1,
+        carrier_id: -1,
+        create_time: createTime,
+        items: orders,
+        last_update_time: createTime,
+        location: orderLocation,
+        request_time: requestTime,
+        status: 1
+    }
+
+    var orderId = await saveOrder(orderObject);
+    return orderId;
+  }
 
 
 /*
@@ -268,6 +308,8 @@ export async function updateOrderStatus(order_id) {
       status = Math.min(++status, 3);
       orderRef.child("status").set(status);
     }
+
+    updateLastTime(order_id);
   });
 }
 
@@ -346,6 +388,8 @@ export async function acceptOrder(order_id, carrier_id){
           orderRef.child("carrier_id").set(carrier_id);
           orderRef.child("status").set(2);
       }
+
+      updateLastTime(order_id);
   });
 }
 
@@ -417,13 +461,31 @@ export async function sortOrders(origin) {
   return ordersResult;
 }
 
+export async function getOrderRequestTime(order_id) {
+  let dir = "Orders/items/" + order_id;
+  var location;
+  await firebase.database().ref(dir).once("value", function (snapshot){
+    location = snapshot.val().location;
+    location = location.split(' ').join('%20');
+  });
+  return location;
+}
 
+export async function sortOrdersByRequestTime() {
+  let orders = await viewPendingOrders();
+  let ordersWithRequestTime = [];
+
+}
 /*
  * Name: completeOrder
  * Parameter: string: order_id  string: user_id
  * Return: N/A
  */
 export async function completeOrder(order_id, user_id) {
+  let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
+  await profileRef.once("value", snapshot => {
+    index = snapshot.val().totalNum;
+  });
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
@@ -432,12 +494,16 @@ export async function completeOrder(order_id, user_id) {
       // update status to be 6: completed
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 5: completedByCarrier, then buyer click complete
       // update status to be 6: completed
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 3: delivering, then buyer click complete
@@ -445,6 +511,8 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
           orderRef.child("status").set(4);
           console.log("complete by buyer");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
 
       // current order status is 3: delivering, then carrier click complete
@@ -452,7 +520,11 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
           console.log("complete by carrier");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("totalNum").set(++index);
       }
+
+      updateLastTime(order_id);
   });
 }
 
@@ -486,6 +558,12 @@ export async function changeProfilePhoto(id, url) {
   });
 }
 
+/*
+ * Name: logout
+ * Parameters: N/A
+ * Return: 0 if success, otherwise return error message
+ * logout the user
+ */
 export async function logout() {
   var result;
     await firebase.auth().signOut().then(
@@ -506,9 +584,15 @@ export async function logout() {
     return result;
 }
 
+/*
+ * Name: displayOrderHistory
+ * Parameters: string user_id
+ * Return: order history
+ * return order history of the given user
+ */
 export async function displayOrderHistory(user_id) {
-  // get the direction
-  let dir = "Profile/" + order_id + "/history";
+  // get the directory
+  let dir = "Profile/" + user_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
@@ -517,9 +601,15 @@ export async function displayOrderHistory(user_id) {
   return orderHis;
 }
 
+/*
+ * Name: getProfileById
+ * Parameters: string user_id
+ * Return: object profile
+ * return profile information of the given user
+ */
 export async function getProfileById(user_id) {
-  // get the direction
-  let dir = "Profile/" + order_id;
+  // get the directory
+  let dir = "Profile/" + user_id;
   let profile;
   await firebase.database().ref(dir).once("value", function (snapshot) {
       profile = snapshot.val();
@@ -528,17 +618,40 @@ export async function getProfileById(user_id) {
   return profile;
 }
 
-export function updateRate(user_id, rate, isBuyer) {
+/*
+ * Name: updateDelivery
+ * Parameters: order_id,
+ * Return: database change
+ * update user profile photo
+ */
+
+ export async function updateLastTime(order_id){
+   let dir;
+   dir = "Orders/items/" + order_id + "/last_update_time";
+   let update_time = firebase.database().ref(dir);
+   var createTime = new Date().toLocaleString('en-US', { hour12: false });
+   update_time.set(createTime);
+
+ }
+
+export async function updateOrderRate(order_id, rate, isBuyer) {
   let dir;
   if (isBuyer) { // get direction
-    dir = "Profile/" + order_id + "/rate_as_buyer";
+    dir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
-    dir = "Profile/" + order_id + "/rate_as_carrier";
+    orderDir = "Orders/items/" + order_id + "/carrier_rate";
   }
-
-
-  let orderRef = firebase.database().ref(dir);
+  let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
+
+  await firebase.database().ref(profileDir).once("value", function (snapshot) {
+    user = snapshot.val();
+    prevRate = user.rate;
+    totalNum = user.history.total_num;
+  });
+  let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum));
+  let rateRef = firebase.database().ref(profileDir + "/rate");
+  rateRef.set(newRate);
 }
 
 /*
@@ -549,11 +662,57 @@ export function updateRate(user_id, rate, isBuyer) {
  */
 export async function changeUserName(user_id, newName){
     let profileRef = firebase.database().ref("Profile/" + user_id);
+    var result;
     await profileRef.once("value", dataSnapshot => {
         if (!dataSnapshot) {
-            return;
+            result = -1;
         } else {
             profileRef.child("username").set(newName);
+            result = 0;
         }
     });
+    return result;
 }
+
+/*
+ * Name: getCurrentUserUID
+ * Parameter: None
+ * Return: the uid of current user.
+ * get the current user uid
+ */
+export function getCurrentUserUID(){
+    var currentUser = firebase.auth().currentUser;
+    if (currentUser != null){
+        return currentUser.uid;
+    }
+    return -1;
+}
+
+/*
+ *  Helper function used to compare two orders with time.
+ *  NOTICE: should be 24 hours format
+ */
+function compareByRequestTime (a, b){
+    // initialize array containing hours and minutes
+    var aTime = a.requestTime.split(":");
+    var bTime = b.requestTime.split(":");
+
+    // compare hours
+    if (aTime[0] > bTime[0]){
+        return 1;
+    }
+    else if (aTime[0] < bTime[0]){
+        return -1;
+    }
+
+    // compare minutes
+    else if (aTime[1] > bTime[1]){
+        return 1;
+    }
+    else if (aTime[1] < bTime[1]){
+        return -1;
+    }
+    return 0;
+}
+
+

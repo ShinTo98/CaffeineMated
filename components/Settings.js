@@ -20,11 +20,13 @@ import {
   Label,
   View,
   ListItem,
-} from 'native-base';
-import {
   Picker,
-} from 'react-native';
+} from 'native-base';
+//import {
+  //Picker,
+//} from 'react-native';
 import {styles} from '../CSS/Settings.js';
+import {logout, changeDefaultMode, getProfileById} from './../database.js';
 
 export class Settings extends Component {
 
@@ -35,8 +37,47 @@ export class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      defaultMode: "buyer"
+      defaultMode: "",
     };
+
+    //this.logOut = this.logOut.bind(this);
+  }
+
+  async onValueChange(value: string) {
+    console.log(value);
+    this.setState({
+      defaultMode: value
+    },
+    () => {
+      // here is our callback that will be fired after state change.
+      console.log(this.state.defaultMode);
+      changeDefaultMode("01", this.state.defaultMode);
+      alert("Change Successful!");
+    }
+    );
+    //console.log(this.state.defaultMode);
+  }
+
+  async getProfile() {
+    this.setState({profileData: await getProfileById("01")});
+    this.setState({
+      defaultMode: this.state.profileData["default_mode"],
+    })
+    //console.log(this.state.profileData);
+  }
+
+  async componentDidMount() {
+    await this.getProfile();
+  }
+
+  async logOut() {
+    var result = await logout();
+    if(result === 0) {
+      alert("Log Out Successful!");
+      this.props.navigation.navigate('start');
+    } else {
+      alert(result);
+    }
   }
 
   render() {
@@ -44,7 +85,9 @@ export class Settings extends Component {
       <Container style={styles.color_theme}>
         <Header hasSegment="hasSegment">
           <Left>
-            <Button transparent onPress={() => this.props.navigation.navigate('main')}>
+            <Button transparent onPress={() => this.props.navigation.navigate('main', {
+               update: false,
+          })}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
           </Left>
@@ -60,20 +103,45 @@ export class Settings extends Component {
           <Container>
             <List>
               <ListItem>
-                <Text>Change Default Mode</Text>
+                <Left>
+                  <Text>Change Default Mode</Text>
+                </Left>
+                <Right>
+                  <Picker
+                    iosHeader="Select one"
+                    iosIcon={<Icon name="ios-arrow-down-outline" />}
+                    mode="dropdown"
+                    selectedValue={this.state.defaultMode}
+                    onValueChange={this.onValueChange.bind(this)}
+                  >
+                    <Picker.Item label="Buyer" value="buyer" />
+                    <Picker.Item label="Carrier" value="carrier" />
+                  </Picker>
+                </Right>
               </ListItem>
               <ListItem onPress={() => this.props.navigation.navigate('feedback')}>
-                <Text>Feedback</Text>
+                <Left>
+                  <Text>Feedback</Text>
+                </Left>
+                <Right>
+                  <Icon name="arrow-forward" />
+                </Right>
               </ListItem>
               <ListItem>
-                <Text>About</Text>
+                <Left>
+                  <Text>About</Text>
+                </Left>
+                <Right>
+                  <Icon name="arrow-forward" />
+                </Right>
               </ListItem>
             </List>
 
           </Container>
         <Footer>
           <FooterTab>
-            <Button full style={styles.signOut}>
+            <Button full style={styles.signOut}
+              onPress={() => this.logOut()}>
               <Text style={styles.signOutText}>Sign Out</Text>
             </Button>
           </FooterTab>

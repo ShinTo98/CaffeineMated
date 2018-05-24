@@ -3,15 +3,13 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
     backgroundColor: '#FAFAFA',
   },
-  menu_container: {
-    flex: 0.075,
+  content: {
     marginLeft: '5%',
     marginRight: '5%',
   },
+
   header: {
     backgroundColor: '#FAFAFA',
     borderBottomWidth: 0,
@@ -28,6 +26,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingLeft: '10%',
+    marginBottom: '5%'
   },
   menu: {
     color: '#47525E',
@@ -42,14 +41,9 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
 
-  back: {
-    flex: 12,
-    flexDirection: 'row',
-    height:'100%',
-    width:'100%'
-  },
 
   image: {
+<<<<<<< HEAD
     width: 140,
     height: 140,
     top: 40,
@@ -57,6 +51,20 @@ export const styles = StyleSheet.create({
     // transform: [
     // {scaleX: 1}
     // ]
+=======
+    width: Dimensions.get('window').width*0.36,
+    height: Dimensions.get('window').width*0.36,
+    top: '3%',
+    borderRadius: Dimensions.get('window').width*0.18,
+    /*borderWidth: 2,
+    borderColor:'#000',*/
+
+    //shadowColor:'#000',
+    //shadowOffset:{width:0,height:142},
+    //shadowOpacity:0.8,
+    //shadowRadius:2,
+
+>>>>>>> f0d21da08513681bdd8711e745fd669793c967b9
   },
   list: {
     //bottom: 140,
@@ -68,9 +76,16 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: '#ff9052',
+<<<<<<< HEAD
     fontSize: 20,
     paddingTop: '2%',
     paddingBottom: '2%',
     top: 40,
+=======
+    fontSize: 18,
+    paddingTop: '2%',
+    top: '2%',
+    marginBottom:'2%'
+>>>>>>> f0d21da08513681bdd8711e745fd669793c967b9
   },
 });

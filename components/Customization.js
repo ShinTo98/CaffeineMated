@@ -1,11 +1,24 @@
 import React, {Component} from 'react';
 import {
+  StyleSheet,
+  TextInput,
+  View,
+  Image,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  TouchableHighlight,
+  ScrollView,
+  LinearLayout,
+  Dimensions,
+
+} from 'react-native';
+import {
   Container,
   Header,
+  Button,
   Left,
   Body,
   Right,
-  Button,
   Icon,
   Segment,
   Content,
@@ -13,10 +26,12 @@ import {
   Title,
   Item,
   Input,
-  View,
-  StyleSheet,
   Form,
-  Textarea
+  Textarea,
+  Grid,
+  Col,
+  Row,
+  Spinner,
 } from 'native-base';
 import {styles} from "../CSS/Customization.js";
 import {displayItem} from "../database";
@@ -24,305 +39,203 @@ import {displayItem} from "../database";
 
 export class Customization extends Component {
 
-  static navigationOptions = {
-    header: null
-  };
 
 
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      customize: "...",
-
-      personalize: [
-        {
-          aspect: "ice",
-          choices: [
-            {tag: 'Regular', status: true},
-            {tag: 'Light', status: false},
-            {tag: 'None', status: false}]
-        },
-        {
-          aspect: "shot",
-          choices: [
-            {tag: '1 Shot', status: false},
-            {tag: '2 Shots', status: false},
-            {tag: '3 Shots', status: false}]
-        },
-        {
-          aspect: "cream",
-          choices: [
-            {tag: 'With', status: true},
-            {tag: 'Without', status: false}]
-        },
-        {
-          aspect: "sugar",
-          choices: [
-            {tag: 'Regular', status: true},
-            {tag: 'Light', status: false},
-            {tag: 'Over', status: false}]
-        },
-      ],
-
-      sizes: [], //testing purposes
-
-
-      //TODO hard code for now
-
+      itemType: this.props.navigation.getParam('itemType'),
+      itemId: this.props.navigation.getParam('itemId'),
+      select: ["grande", "regular", "0 shot", "regular", "regular","regular",""],
+      icewater: ["no", "light", "regular"],
+      espresso: ["0 shot", "1 shot", "2 shot"],
+      cream: ["no", "light", "regular"],
+      syrup: ["no", "light", "regular"],
+      data: this.props.navigation.getParam('data'),
+      //topping: ["no", "light", "regular"]
+      //itemImage: displayItem(this.state.itemType, this.state.itemId)
     };
 
-    this.populateSizeArray = this.populateSizeArray.bind(this);
-    this.populateSizeButtons = this.populateSizeButtons.bind(this);
-    this._onPressSingleSize = this._onPressSingleSize.bind(this);
-    this.populateIEClines = this.populateIEClines.bind(this);
-    this.populateIECbuttons = this.populateIECbuttons.bind(this);
+    this.findPrices = this.findPrices.bind(this);
+    this.changeChoice = this.changeChoice.bind(this);
   }
 
-
-  async componentWillMount() {
-    await this.populateSizeArray();
+  async findPrices(e,d){
+    for( let price in e){
+      d.push(price);
+    }
+    return d;
   }
 
+  async componentWillMount(){
+    var currenItem = await displayItem(this.state.itemType, this.state.itemId);
+    var datas = [];
+    for( let data in currenItem){
+       datas.push(currenItem[data]);
+    }
+    console.log(currenItem);
+    console.log(datas);
 
-  //populate the sizes array in this.state according to database price array
-  async populateSizeArray() {
-
-    var coffeeID = this.props.navigation.getParam('id');
-    var coffeeType = this.props.navigation.getParam('type');
-    var coffeeObj = await displayItem(coffeeType, coffeeID);
-
-
-    var priceArr = coffeeObj.price;
-
-    this.setState({title: coffeeObj.name});
-
-    let sArr = [];
-
-    for (s in priceArr) {
-      sArr.push({tag: s, status: false});
+    var prices = await this.findPrices(datas[3], []);
+    var headers = ["check", "Espresso", "Cream","Syrup"];
+    if( this.state.itemType.substring(0,3) == "Hot"){
+       headers[0] = "Water";
+    }else{
+       headers[0]="Ice";
     }
 
-    sArr[0].status = true;
-
-    this.setState({sizes: sArr});
+    var select = this.state.select;
+    select[0] = prices[0];
+    this.setState({itemName: datas[2], itemSizes: prices, discription: datas[0], image: datas[1], header:headers, select: select});
   }
 
-
-  //populate the sizes buttons in on the screen according to sizes array in
-  // this.state
-  populateSizeButtons() {
-
-    let buttons = [];
-
-    var sizeList = this.state.sizes;
-
-    for (let i = 0; i < sizeList.length; i++) {
-      //console.log( sizeList[i].tag);
-      buttons.push(
-        <Button bordered style={
-          this.state.sizes[i].status ? styles.selectedButtonStyle : styles.buttonStyle}
-                key={sizeList[i].tag}
-                onPress={() => this._onPressSingleSize(sizeList, i)}>
-          <Text style={
-            this.state.sizes[i].status ? styles.selected_button_text : styles.button_text}
-          >{sizeList[i].tag}</Text>
-        </Button>
-      );
-    }
-    return buttons;
-
+  changeChoice(index, e){
+    console.log("selected:" + e);
+    var selections = this.state.select;
+    selections[index] = e;
+    this.setState({select : selections});
+    console.log(this.state.select);
   }
 
-
-  //functions when pressing size button
-  _onPressSingleSize(parameter, index) {
-    var sizeArr = parameter;
-    for (let i = 0; i < sizeArr.length; i++) {
-      sizeArr[i].status = false;
-    }
-    sizeArr[index].status = true;
-    this.setState({sizes: sizeArr});
-    for (let i = 0; i < sizeArr.length; i++) {
-      console.log(this.state.sizes[i].status);
-    }
-  }
-
-
-  //function to populate the ice/expresso/cream/sugar lines by lines
-  populateIEClines() {
-    var personalization = this.state.personalize;
-
-    let line = [];
-
-    for (let j = 0; j < personalization.length; j++) {
-      line.push(
-        <Container style={styles.iecSubContainer} key={j}>
-          {this.populateIECbuttons(personalization[j], j)}
-        </Container>
-      );
-    }
-
-    return line;
-  }
-
-
-  //function to populate a single ice/expresso/cream/sugar
-  populateIECbuttons(asp, aspectIndex) {
-
-    var choices = asp.choices;
-
-    var enableNoChoice = false;
-
-    if (asp.aspect === "shot") {
-      enableNoChoice = true;
-    }
-    let thisLine = [];
-
-    thisLine.push(
-      <Button
-        disabled
-        bordered
-        key={'-1'}
-        style={styles.aspectFakeText}>
-        <Text style={styles.button_text}>{asp.aspect}</Text>
-      </Button>
-    );
-
-    for (let i = 0; i < choices.length; i++) {
-      var k = choices[i].tag + asp.aspect;
-      thisLine.push(
-        <Button bordered
-                style={this.state.personalize[aspectIndex].choices[i].status ?
-                  styles.selectedButtonStyle : styles.buttonStyle}
-                key={k}
-                onPress={() => this._onPressSinglePersonalize(aspectIndex, i, enableNoChoice)}>
-          <Text style={this.state.personalize[aspectIndex].choices[i].status ?
-            styles.selected_button_text : styles.button_text}>{choices[i].tag}</Text>
-        </Button>
-      );
-
-    }
-
-    return thisLine;
-  }
-
-
-  //functions when pressing ice/shots/cream/sugar button
-  _onPressSinglePersonalize(ind1, ind2, bool) {
-    var pArr = this.state.personalize;
-
-    if (pArr[ind1].choices[ind2].status === true && bool) {
-      pArr[ind1].choices[ind2].status = false;
-    }
-    else {
-      for (let i = 0; i < pArr[ind1].choices.length; i++) {
-        pArr[ind1].choices[i].status = false;
-      }
-      pArr[ind1].choices[ind2].status = true;
-    }
-
-    this.setState({personalize: pArr});
-
-  }
-
-
-  //functions when pressing submit button, pass data to the next page
-  _onPressSubmit() {
-    let result = [];
-
-    for (let i = 0; i < this.state.sizes.length; i++) {
-      if (this.state.sizes[i].status === true) {
-        result.push(this.state.sizes[i].tag)
-      }
-    }
-
-    let item = [];
-
-    for (let i = 0; i < this.state.personalize.length; i++) {
-      for (let j = 0; j < this.state.personalize[i].choices.length; j++) {
-        if (this.state.personalize[i].choices[j].status === true) {
-          let cuz = this.state.personalize[i].aspect;
-          let amt = this.state.personalize[i].choices[j].tag;
-          item.push({choice: cuz, amount: amt, other: this.state.customize});
-        }
-      }
-    }
-
-    this.props.navigation.navigate('main', {order: result});
-  }
 
 
 
   render() {
-
+    var itemImage = this.state.image;
+    var itemSize = this.state.itemSizes;
+    var itemName = this.state.itemName;
+    var selections = this.state.select;
+    var changeChoicef = this.changeChoice;
+    var choiceIce = this.state.icewater;
+    var choiceEsp = this.state.espresso;
+    var choiceCream = this.state.cream;
+    var choiceSyrup = this.state.syrup;
+    var headers = this.state.header;
+    var choices = [];
+    choices.push(choiceIce);
+    choices.push(choiceEsp);
+    choices.push(choiceCream);
+    choices.push(choiceSyrup);
+    //choices.push(this.state.topping);
+    if( itemImage != undefined && itemSize != undefined && itemName != undefined &&
+        selections != undefined && headers != undefined){
     return (
-      <Container style={styles.biggestContainer}>      /* biggest container */
 
+      <Container style={styles.page}>
 
-        <Header style={styles.header}>            /* Header */
+        <Header style={styles.header}>
           <Left>
             <Button
               transparent
-              onPress={() => this.props.navigation.goBack()}>
+              onPress={ ()=> this.props.navigation.navigate('submenu')}>
               <Icon name='arrow-back' style={styles.icon_BackArrow}/>
             </Button>
           </Left>
-          <Right>
-            <Button transparent>
-              <Icon name='search' style={styles.icon_Search}/>
-            </Button>
-          </Right>
         </Header>
 
+        <Container style={styles.content}>
+            <Text style={styles.itemName}>{this.state.itemName}</Text>
+            <View style={styles.line} />
 
-        <Container
-          style={styles.coffeeTitleUnderlinedContainer}> /* Coffee Title */
-          <Content>
-            <Text style={styles.coffeeTitle}>
-              {this.state.title}
-            </Text>
-          </Content>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
+          <Grid style={styles.grid}>
+            <Col style={styles.imageCol}>
+                <Image style={styles.itemImage} source={{uri:itemImage}} />
+            </Col>
+            <Col style={styles.discriptionCol}>
+                <Text style={styles.discription}>{this.state.discription}</Text>
+            </Col>
+          </Grid>
+
+          <View style={styles.line}/>
+
+          <Container style={styles.choicesContainer}>
+              <Grid style={styles.grid}>
+                <Row style={styles.row}>
+
+              {
+                itemSize.map(function (size, i){
+                  if(size!=selections[0]){
+                    return (<Col key= {i} style={styles.buttonCol}>
+                        <Button style={styles.buttonChoices} onPress={()=> {changeChoicef(0,size)}}>
+                          <Text style={styles.buttonText}>{size}</Text>
+                        </Button>
+                    </Col>)
+                  }else{
+                    return (<Col key={i} style={styles.buttonCol}>
+                        <Button style={styles.buttonChoiceSelect} onPress={() => {changeChoicef(0,size)}}>
+                          <Text style={styles.buttonTextSelect}>{size}</Text>
+                        </Button>
+                    </Col>)
+                  }
+                  }
+                )
+              }
+              </Row>
+
+              {
+                headers.map(function (header, i){
+                    var choice = choices[i];
+                    var z = i + 1;
+                    return (
+                      <Row key={i} style={styles.row}>
+                      <Col style={styles.subHeadersCol}>
+                      <Text style={styles.subHeaders}>{header}</Text>
+                      </Col>
+                      {
+                        choice.map(function (size, j){
+                          if(size != selections[z]){
+                            return (<Col key= {j} style={styles.buttonCol}>
+                              <Button style={styles.buttonChoices} onPress={()=> {changeChoicef(z,size)}}>
+                                <Text style={styles.buttonText}>{size}</Text>
+                              </Button>
+                                   </Col>)
+                          } else{
+                          return (<Col key={j} style={styles.buttonCol}>
+                              <Button style={styles.buttonChoiceSelect} onPress={() => {changeChoicef(z,size)}}>
+                                <Text style={styles.buttonTextSelect}>{size}</Text>
+                              </Button>
+                          </Col>)
+                        }})})
+                        })
+                      }
+
+                      </Row>
+
+                    )}
+                  )}
+
+              </Grid>
+
+              <Textarea style={styles.textInput} placeholder= "Anything else you want?" onChangeText={(text) => this.changeChoice(selections.length-1, text)}/>
+                <Button style={styles.submitButton}>
+                   <Text style={styles.submitText} onPress={ ()=> {
+                this.props.navigation.navigate('main', {
+                   name: itemName,
+                   image: itemImage,
+                   selection: this.state.select,
+                   data: this.state.data,
+                   update: true,
+              })}}>Submit</Text>
+                </Button>
+
+                <Container style={styles.padding}></Container>
+
+              </Container>
+
+          </ScrollView>
+
+
         </Container>
 
-
-        <Container style={styles.coffeeSizeContainer}>  /* Coffee Size */
-          {this.populateSizeButtons()}
-        </Container>
-
-        <Container style={styles.iecContainer}>
-          {this.populateIEClines()}
-
-
-          <Container style={styles.customizationTextboxContainer}>
-
-
-            <Form style={{top: 5}}>
-              <Item regular style={styles.textInput}>
-                <Input
-                  style={styles.input_text}
-                  placeholder='Other customization...'
-                  placeholderStyle={styles.input_text}
-                  onChangeText={(text) => this.setState({customize: text})}
-                />
-              </Item>
-            </Form>
-
-          </Container>
-        </Container> /* end iecContainer */
-
-
-        <Container style={styles.submitButtonContainer}>
-          <Button
-            bordered
-            style={styles.comfirmButton}
-            onPress={() => this._onPressSubmit()}>
-            <Text style={styles.button_text}>Confirm</Text>
-          </Button>
-        </Container>
-
-      </Container>    /* biggest container */
+      </Container>
     );
-
+    }else{
+      return(
+        <Container>
+          <Spinner color='red' />
+        </Container>
+      );
+    }
   }
 }
