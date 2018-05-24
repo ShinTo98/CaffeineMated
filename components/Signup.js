@@ -113,7 +113,7 @@ export class Signup extends Component {
             <Form style = {{top: 24}}>
             <Item regular style={styles.textInput}>
               <Label style={styles.labelText}>Confirm</Label>
-              <TextInput autoCapitalize = 'none' onChangeText={(text) => this.setState({confirm: text})}
+              <Input autoCapitalize = 'none' onChangeText={(text) => this.setState({confirm: text})}
               keyboardType='visible-password'
               secureTextEntry= {true}
               />

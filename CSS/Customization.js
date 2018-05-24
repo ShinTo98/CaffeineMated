@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
 
   buttonChoices:{
     backgroundColor: '#FAFAFA',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: '#FF9052',
     width: '100%',
     //borderRadius: 0,
@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
 
   submitButton:{
     backgroundColor: '#FAFAFA',
-    borderWidth: 0.5,
+    borderWidth: 1,
     borderColor: '#FF9052',
     width: '100%',
     borderRadius: 0,
@@ -153,7 +153,7 @@ export const styles = StyleSheet.create({
     height: Dimensions.get('window').height * 0.25,
     backgroundColor: '#FAFAFA',
     borderColor: '#FF9052',
-    borderWidth: 0.5,
+    borderWidth: 1,
     width: '100%',
     marginBottom: '3%',
     fontSize: 18,

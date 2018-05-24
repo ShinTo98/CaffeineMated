@@ -629,7 +629,7 @@ export async function getProfileById(user_id) {
  * update user profile photo
  */
 
- export function updateLastTime(order_id){
+ export async function updateLastTime(order_id){
    let dir;
    dir = "Orders/items/" + order_id + "/last_update_time";
    let update_time = firebase.database().ref(dir);
@@ -638,7 +638,7 @@ export async function getProfileById(user_id) {
 
  }
 
-export function updateOrderRate(order_id, rate, isBuyer) {
+export async function updateOrderRate(order_id, rate, isBuyer) {
   let dir;
   if (isBuyer) { // get direction
     dir = "Orders/items/" + order_id + "/buyer_rate";
@@ -719,29 +719,4 @@ function compareByRequestTime (a, b){
     return 0;
 }
 
-/*
- * Name: sortOrder
- * Return: array containing order ids sorted by request time
- * Sort the pending order based on request time
- */
-export async function sortOrdersByRequestTime() {
-    let orders = await viewPendingOrders();
 
-    // build array with each object containing id and request_time
-    let ordersWithRequestTime = [];
-    for (let i = 0; i < orders.length; i++) {
-        var orderRef = firebase.database().ref("Orders/items/"+orders[i]);
-        await orderRef.once("value", dataSnapshot => {
-            ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});
-        });
-    }
-
-    await ordersWithRequestTime.sort(compareByRequestTime);
-
-    // build the result array
-    let resList = [];
-    for (var j = 0; j < ordersWithRequestTime.length; j++){
-        resList.push(ordersWithRequestTime[j].orderId);
-    }
-    return resList;
-}
