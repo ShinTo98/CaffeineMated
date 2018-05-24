@@ -350,8 +350,8 @@ export class Main extends Component {
               {/* When & Where section */}
               <Item regular style={styles.textInput}>
                 <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
-                  <Icon name='alarm' />
-                  <Text>{this.state.whenLogan}</Text>
+                  <Icon style={styles.Whenwheretext} name='alarm' />
+                  <Text style={styles.Whenwheretext}>{this.state.whenLogan}</Text>
                   </Button>
                   <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -365,8 +365,8 @@ export class Main extends Component {
               </Item>
               <Item regular style={styles.textInput}>
                 <Button iconRight style={styles.Wherebutton} onPress={() => this.setState({choosePlaces: true})}>
-                  <Text>{this.state.whereLogan}</Text>
-                  <Icon name='navigate' />
+                  <Text style={styles.Whenwheretext}>{this.state.whereLogan}</Text>
+                  <Icon style={styles.Whenwheretext} name='navigate' />
                   </Button>
               </Item>
 
@@ -383,11 +383,11 @@ export class Main extends Component {
               </View>
 
               {/* Order item display section */}
-              <Item regular style={styles.orderTitleItem}>
+              {/*<Item regular style={styles.orderTitleItem}>
               <Label style = {styles.orderTitle}>
-                Orders
+                Order Details
               </Label>
-              </Item>
+              </Item>*/}
 
               <Item regular style={styles.orderItem}>
                 <Item>
@@ -420,7 +420,7 @@ export class Main extends Component {
                 style={styles.buttons_submit}
                 color="#ffffff"
                 onPress={() => this.setState({orderSubmitted: true})}
-              > <Text style={styles.menuText}> Submit </Text>
+              > <Text style={styles.submitText}> Submit </Text>
               </Button>
               </View>
 

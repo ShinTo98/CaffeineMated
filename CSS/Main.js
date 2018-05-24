@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   color_theme: {
     // TODO: correct color code
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#f8f8f8',
   },
   container: {
     flex: 1,
@@ -30,22 +30,22 @@ export const styles = StyleSheet.create({
     color: '#ffffff',
   },
   text_off:{
-    color: '#FF9052',
+    color: '#ffffff',
   },
   header: {
     top: 8,
   },
   button_header_on: {
-    borderColor: '#FF9052',
-    backgroundColor: '#FF9052',
+    borderColor: '#ff9052',
+    backgroundColor: '#ff9052',
 
   },
   button_header_off: {
-    borderColor: '#FF9052',
-    backgroundColor: '#ffffff',
+    borderColor: '#d8d8d8',
+    backgroundColor: '#d8d8d8',
   },
   icon: {
-    color: '#FF9052',
+    color: '#ff9052',
   },
   white_banner: {
     flex: 0.15,
@@ -63,22 +63,22 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 280,
+    width: 300,
     padding: 5,
-    borderWidth: 0.5,
-    height:45,
-    borderColor: 'gray',
+    borderWidth: 2,
+    height:50,
+    borderColor: '#c8c8c8',
   },
   buttons_submit: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#ff9052',
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 280,
+    width: 300,
     padding: 5,
-    borderWidth: 0.5,
+    borderWidth: 2,
     height:45,
-    borderColor: 'gray',
+    borderColor: '#ff9052',
     top: 60,
     alignSelf: 'center',
   },
@@ -116,7 +116,7 @@ export const styles = StyleSheet.create({
   },
   buttonItem:{
     //top: deviceHeight/60,
-    top: 70,
+    top: 50,
   },
   updateButtonItem:{
     top: deviceHeight/20,
@@ -140,7 +140,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'gray',
     borderWidth: 1,
-    width: 280,
+    width: 300,
     top: 90,
     height: 280,
   },
@@ -205,8 +205,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuText:{
-    color: '#FF9052',
-    fontSize: 30,
+    color: '#ff9052',
+    fontSize: 24,
+  },
+  submitText:{
+    color: '#ffffff',
+    fontSize: 24,
   },
   menuText_disabled:{
     color: 'gray',
@@ -311,20 +315,24 @@ export const styles = StyleSheet.create({
     marginBottom: deviceWidth/80,
   },
   Whenbutton: {
-    backgroundColor: '#47525e',
-    //marginRight: '2%',
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
     height: '85%',
     width: '100%',
   },
   Wherebutton: {
-    backgroundColor: '#47525e',
-    //marginLeft: '2%',
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
     height: '85%',
     width: '100%',
   },
   placeAutocomplete: {
     top: 50,
   },
-
-
+  Whenwheretext: {
+    color: '#ff9052',
+    fontSize: 22,
+  },
 });
