@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     //activeColor: '#FF9052',
   },
   buttons_menu: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
@@ -137,12 +137,14 @@ export const styles = StyleSheet.create({
   },
   orderItem:{
     alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
+    //justifyContent: 'center',
+    borderColor: '#c8c8c8',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 2,
+    borderRadius: 6,
     width: 300,
-    top: 90,
-    height: 280,
+    top: 80,
+    height: 320,
   },
 
   requestTitleItem: {
@@ -207,6 +209,12 @@ export const styles = StyleSheet.create({
   menuText:{
     color: '#ff9052',
     fontSize: 24,
+  },
+  orderDetailText:{
+    color: '#ff9052',
+    fontSize: 24,
+    marginTop: 8,
+    marginLeft: 72,
   },
   submitText:{
     color: '#ffffff',
@@ -275,8 +283,9 @@ export const styles = StyleSheet.create({
   nothingText: {
     textAlign: 'center',
     justifyContent: 'center',
-    color: '#8190A5',
-    fontSize: 12,
+    color: '#a8a8a8',
+    fontSize: 18.2,
+    marginTop: 10,
   },
   deliverProfile: {
     top: deviceWidth/15,
@@ -334,5 +343,12 @@ export const styles = StyleSheet.create({
   Whenwheretext: {
     color: '#ff9052',
     fontSize: 22,
+  },
+  line: {
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    width: 260,
+    marginTop: 6,
+    marginLeft: 20,
   },
 });

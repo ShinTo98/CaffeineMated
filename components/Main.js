@@ -221,9 +221,20 @@ export class Main extends Component {
     this.setState({ orderSubmitted: val });
   }
 
+  dataList = () => {
+
+    return this.state.order_data.map((data) => {
+      return (
+        <View><Text>{data}</Text></View>
+      )
+    })
+
+}
+
   render() {
     const loading = this.state.loadFinished;
     const order_exists = this.state.order_exists;
+    var order_data = this.state.order_data;
 
     return (
       <Container style={styles.color_theme}>
@@ -389,10 +400,24 @@ export class Main extends Component {
               </Label>
               </Item>*/}
 
-              <Item regular style={styles.orderItem}>
-                <Item>
+
+
+
+
+
+
+
+
+
+
+
+
+              <View regular style={styles.orderItem}>
+                <Text style={styles.orderDetailText}> Order Details </Text>
+                <View style={styles.line}/>
+                <View>
                 {order_exists &&
-                   <List
+                   {/*<List
                     dataArray={this.state.order_data}
                     renderRow={data =>
                       <ListItem>
@@ -405,16 +430,26 @@ export class Main extends Component {
                         </Text>
                         </Body>
                       </ListItem>}
-                    />
+                    /> */}
                 }{
                   !order_exists &&
                     <Text style={styles.nothingText}>
                       Nothing yet: ) {'\n'} Click menu to place your first order
                       </Text>
                 }
-                </Item>
-              </Item>
+                </View>
+              </View>
 
+
+
+
+
+
+
+
+
+
+              {/* Submit button section */}
               <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_submit}
