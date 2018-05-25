@@ -417,7 +417,7 @@ export class Main extends Component {
                 <View style={styles.line}/>
                 <View>
                 {order_exists &&
-                   {/*<List
+                   <List
                     dataArray={this.state.order_data}
                     renderRow={data =>
                       <ListItem>
@@ -430,8 +430,8 @@ export class Main extends Component {
                         </Text>
                         </Body>
                       </ListItem>}
-                    /> */}
-                }{
+                    /> }
+                {
                   !order_exists &&
                     <Text style={styles.nothingText}>
                       Nothing yet: ) {'\n'} Click menu to place your first order
