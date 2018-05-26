@@ -20,6 +20,7 @@ import {
   changeProfilePhoto,
   displayOrderHistory
 } from '../database.js';
+import {saveOrder, viewAllOrders} from "../database";
 
 //var _Example = require("../database.js\"");
 var config = {
@@ -34,22 +35,24 @@ var config = {
 // Firebase initialization
 firebase.initializeApp(config);
 
-main();
-
-
+//npx babel-node tests.js
 async function main() {
+  /*
   await testuserSignup();
   await testuserLogin();
-  await testLogOut();
-  await testUserPasswordChange();
-  await testGetProfileById();
   await testdisplayMenu();
   await testdisplayType();
   await testdisplayItem();
-  await testviewPendingOrders();
-  await testviewOrderDetailById();
-  await testgetOrderLocationById()
-  await testdisplayOrderHistory();
+  */
+  //await testviewPendingOrders();
+
+
+  //await testLogOut();
+  //await testUserPasswordChange();
+  //await testGetProfileById();
+   //await testviewOrderDetailById();
+  await testgetOrderLocationById();
+  //await testdisplayOrderHistory();
 }
 
 
@@ -73,10 +76,17 @@ async function testuserLogin( ) {
   password = "badpassword";
   var returnederror = await userLogin( email, password );
 
-  console.log( "Testing function userLogin with correct user credentials..." );
-  console.log( "Expecting returned value:\t0" );
-  console.log( "Actual returned value:\t" + returned );
-  if( returned === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+  console.log("Testing function userLogin with incorrect user" +
+    " credentials...");
+  console.log("Expecting to return an error message");
+  console.log("Actual returned value:\t" + returnederror);
+
+  if (returnederror !== 0) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("PASSED!\n");
+  }
+}
 
   console.log( "Testing function userLogin with incorrect user" +
     " credentials..." );
@@ -206,33 +216,177 @@ async function testdisplayItem( ) {
   console.log( "PASSED!\n" );
 }
 
-async function testviewPendingOrders( ) {
-  var got = await viewPendingOrders();
-  console.log( "Testing function viewPendingOrders..." );
-  console.log( "Expecting returned list of order id" );
-  console.log( "Actual returned value:" );
-  for( index in got){
-    console.log(got[index]);
+async function helpaddingOrder(ord, callback) {
+  setTimeout(function () {
+    var addedOrderId = saveOrder(ord);
+    callback();
+    return addedOrderId;
+  }, 1000);
+}
+
+async function helpviewpending(callback) {
+  setTimeout(function () {
+    var got = viewPendingOrders();
+    callback();
+    return got;
+  }, 1000);
+
+}
+
+async function testviewPendingOrders() {
+/*
+  var add = {
+    buyer_id: "001",
+    buyer_rate: "4.5",
+    carrier_id: "002",
+    carrier_rate: "4",
+    create_time: "12:55 pm, Friday, May 22, 2021",
+    items: {
+      customization: "lol",
+      item_name: "pink drink",
+      size: "grande"
+    },
+    last_update_time: "13:01 pm",
+    location: "Warren Lecture Hall",
+    request_time: "1:08 pm",
+    status: 1
+
+  };
+
+    let gotPendingId;
+
+    let addedOrderId = helpaddingOrder( add, function () {
+      gotPendingId = helpviewpending( function () {
+
+      });
+    });*/
+
+  var gotPendingId = await viewPendingOrders();
+  var gotAllId = await viewAllOrders();
+  var noProblem1 = true;
+
+
+  console.log("Testing function viewPendingOrders...");
+
+  console.log("Comparing if all fetched orders are of pending status");
+
+
+  for ( index in gotPendingId) {
+    let order = await viewOrderDetailById( gotPendingId[index] );
+    //console.log(gotPendingId[index]);
+    if( order.status != 1){
+      noProblem1 = false;
+    }
+  }
+  if (noProblem1) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED! Not all fetched orders are pending orders\n");
+  }
+
+
+
+console.log("Comparing if all pending orders fetched");
+  var noProblem2 = true;
+
+
+  for ( index in gotAllId) {
+
+    let order = await viewOrderDetailById( gotAllId[index] );
+
+    if( order.status == 1 && !gotPendingId.includes( gotAllId[index] ) ){
+      noProblem2 = false;
+    }
+  }
+
+  if (noProblem2) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED! Not all pending orders are fetched\n");
+  }
+
+
+  if (noProblem1 && noProblem2) {
+    console.log("Both tests PASSED!\n");
+  } else {
+    console.log("FAILED!\n");
   }
   console.log( "PASSED!\n" );
 }
+/*
+async function testviewOrderDetailById() {
+  var got = await viewOrderDetailById("3");
+  console.log("Testing function viewOrderDetailById...");
 
-async function testviewOrderDetailById( ) {
-  var got = await viewOrderDetailById( "3" );
-  console.log( "Testing function viewOrderDetailById..." );
-  console.log( "Expecting returned detail of order" );
-  console.log( "Actual returned value:" );
-  console.log(got);
-  console.log( "PASSED!\n" );
-}
 
-async function testgetOrderLocationById( ) {
-  var got = await getOrderLocationById( "3" );
-  console.log( "Testing function getOrderLocationById..." );
-  console.log( "Expecting returned location of order" );
-  console.log( "Actual returned value: Atkinson Hall" );
+  var expectedItem = {
+    buyer_id: "678",
+    buyer_rate: "3.3",
+    carrier_id: "234567",
+    carrier_rate: "0.5",
+    create_time: "9:30 am, Monday, March 29, 2018",
+    items:
+      { FR02:
+          { customization: 'wulalalalalililalalilalidalidalidayou',
+            item_name: 'Caramel Cocoa Cluster Frappuccino',
+            size: 'tall' } },
+    last_update_time: '9:50 am',
+    location: 'Atkinson Hall',
+    request_time: '10:20 am',
+    status: 1
+};
+
+  var noProblem = true;
   console.log(got);
-  console.log( "PASSED!\n" );
+  for (pair in got) {
+    if (pair !== "items" && got[pair] != expectedItem[pair]) {
+      noProblem = false;
+      console.log(got[pair]);
+      console.log(expectedItem[pair]);
+    }
+    else if (pair === "items") {
+      /*for (tag in got[items]) {
+        for (item in tag) {
+          if (got.price[tag] !== expectedItem.price[tag]) {
+            noProblem = false;
+          }
+        }
+      }
+    }
+  }
+  if (noProblem) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED!\n");
+  }
+
+}*/
+
+async function testgetOrderLocationById() {
+  var gotAllId = await viewAllOrders();
+
+  console.log("Testing function getOrderLocationById...");
+
+  console.log("Comparing location got with location stored in order object");
+  var noProblem = true;
+
+
+  for ( index in gotAllId) {
+
+    let order = await viewOrderDetailById( gotAllId[index] );
+    let loc = await getOrderLocationById( gotAllId[index] );
+
+    if( order.location.split(' ').join('%20') != loc ){
+      noProblem = false;
+    }
+  }
+
+  if (noProblem) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED!\n");
+  }
+
 }
 
 async function testsortOrders( ) {
