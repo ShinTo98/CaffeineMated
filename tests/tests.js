@@ -34,14 +34,13 @@ main();
 
 //npx babel-node tests.js
 async function main() {
-  /*
+
   await testuserSignup();
   await testuserLogin();
   await testdisplayMenu();
   await testdisplayType();
   await testdisplayItem();
-  */
-  //await testviewPendingOrders();
+  await testviewPendingOrders();
 
 
   //await testLogOut();
@@ -210,19 +209,23 @@ async function testdisplayMenu( ) {
 async function testdisplayType() {
   var gotSubMenu = await displayType('Drinks');
   var expectedReturnedDrinks = [
-    {
-      image: 'https://globalassets.starbucks.com/assets/3056aa7849a0477ea4ed137b66910324.jpg',
-      id: 'D01',
-      name: 'Pink Drink'
-    },
-    {
-      image: 'https://globalassets.starbucks.com/assets/452d9229393844b9b57263a7d0d9cf1e.jpg',
-      id: 'D02',
-      name: 'Hot Chocolate'
-    }
+    [
+      'https://globalassets.starbucks.com/assets/3056aa7849a0477ea4ed137b66910324.jpg',
+      'D01',
+      'Pink Drink'
+    ],
+    [
+      'https://globalassets.starbucks.com/assets/452d9229393844b9b57263a7d0d9cf1e.jpg',
+      'D02',
+      'Hot Chocolate'
+    ],
+    [
+      'https://globalassets.starbucks.com/assets/cff93f212cda4cd09e7dfa5a358caeed.jpg',
+      'D03',
+      'Strawberry Acai Starbucks Refreshers™ Beverage'
+    ]
   ];
 
-  console.log("Testing function displayType...");
   //console.log( "Expecting returned list of pairs of [img, id, name]" );
   //console.log( "Actual returned value:" );
   var noProblem = true;
