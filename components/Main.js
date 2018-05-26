@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder} from './../database.js';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -40,11 +40,16 @@ export class Main extends Component {
       orderSubmitted: false,
       // for toggleing places choosing popup
       choosePlaces: false,
+      carrier_choosePlaces: false,
       // for showing Toasts
       showToast: false,
       // for when & where logans
       whenLogan: 'Pick a time',
       whereLogan: 'Specify a place',
+      carrier_whenLogan: 'Pick a time',
+      carrier_whereLogan: 'Specify a place',
+      carrier_time: '',
+      carrier_location: '',
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -121,6 +126,8 @@ export class Main extends Component {
     await this.saveRequestDetails();
     this.setState({loadFinished: true});
 
+    console.log(this.state.request_data)
+
     // get params here
     //console.log("This is from main  " + this.props.navigation.getParam('selection'));
 
@@ -149,6 +156,18 @@ export class Main extends Component {
     var time = date.toString().substring(16, 21);
     this.setState({time: time});
     this.setState({whenLogan: time});
+    this._hideDateTimePicker();
+    Toast.show({
+      text: "Time choosing successfull!",
+    });
+  };
+
+  _handleCarrierDatePicked = (date) => {
+    console.log('A date has been picked: ', date.toString());
+    // Extract the hr:min part
+    var time = date.toString().substring(16, 21);
+    this.setState({carrier_time: time});
+    this.setState({carrier_whenLogan: time});
     this._hideDateTimePicker();
     Toast.show({
       text: "Time choosing successfull!",
@@ -229,7 +248,12 @@ export class Main extends Component {
       )
     })
 
-}
+  }
+
+  cancelCarrier = () => {
+    cancelByCarrier(this.state.selected_order);
+    this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+  }
 
   render() {
     // For swipable list
@@ -309,11 +333,76 @@ export class Main extends Component {
         />
         </Container>
       }
+      {this.state.carrier_choosePlaces &&
+        <Container style={styles.placeAutocomplete}>
+        <GooglePlacesAutocomplete
+          placeholder='Where...'
+          minLength={1} // minimum length of text to search
+          autoFocus={false}
+          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+          listViewDisplayed='auto'    // true/false/undefined
+          fetchDetails={true}
+          renderDescription={(row) => row.description} // custom description render
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+            //console.log(data);
+            // Get useful piece from data.description
+            this.setState({carrier_location: data.description.toString().substring(0, data.description.toString().indexOf(','))});
+            this.setState({carrier_whereLogan: data.description.toString().substring(0, data.description.toString().indexOf(','))});
+            //console.log(this.state);
+            this.setState({carrier_choosePlaces: false});
+            Toast.show({
+              text: "Places choosing successfull!",
+            });
+            //console.log(details)
+          }}
+          getDefaultValue={() => {
+            return ''; // text input default value
+          }}
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: 'AIzaSyAfpH-uU6uH9r8pN4ye4jeunIDMavcxolo',
+            language: 'en', // language of the results
+            //types: '(cities)' // default: 'geocode'
+          }}
+          styles={{
+            textInputContainer: {
+              width: '100%'
+            },
+            description: {
+              fontWeight: 'bold'
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb'
+            },
+            listView: {
+              backgroundColor: '#FFFFFF',
+            }
+          }}
+          currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+          currentLocationLabel="Current location"
+          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          GoogleReverseGeocodingQuery={{
+            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+          }}
+          GooglePlacesSearchQuery={{
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: 'distance',
+            types: 'food'
+          }}
+          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+          /*predefinedPlaces={[homePlace, workPlace]}
+
+          debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+          renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
+          renderRightButton={() => <Text>Custom text after the inputg</Text>} */
+        />
+        </Container>
+      }
 
       {/* ---------------------------------- Regular main page ---------------------------------- */}
-      {!this.state.choosePlaces &&
+      {(!this.state.choosePlaces & !this.state.carrier_choosePlaces) &&
         <Container>
-        
+
         {/* ---------------------------------- Main page header ---------------------------------- */}
         <Header hasSegment style={styles.header}>
           <Left>
@@ -361,7 +450,7 @@ export class Main extends Component {
             }
 
             {/* ---------------------------------- Ordering page ---------------------------------- */}
-            {!this.state.orderSubmitted && 
+            {!this.state.orderSubmitted &&
               <View style= {styles.banner}>
               {/* When & Where section */}
               <Item regular style={styles.textInput}>
@@ -439,17 +528,7 @@ export class Main extends Component {
                 }
                 </View>
               </View>
-
-
-
-
-
-
-
-
-
-
-              {/* Submit button section */}
+            {/* Submit button section */}
               <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_submit}
@@ -532,7 +611,7 @@ export class Main extends Component {
                 >
                   <Text style={styles.menuText}
                   onPress={() => this.setState({selected_order: this.state.order_selecting.id, selecting_order: false, request_selected: true})}>
-                    Comfirm
+                    Confirm
                   </Text>
                 </Button>
                 </Body>
@@ -545,24 +624,39 @@ export class Main extends Component {
 
             {!this.state.selecting_order & !this.state.accepted &&
             <View style= {styles.banner}>
+
             <Item regular style={styles.textInput}>
-              <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
-              />
-              <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon style={styles.icon} name="clock" />
-              </Button>
-            </Item >
-
-
-            <Item regular style={styles.requestTitleItem}>
-            <Label style = {styles.orderTitle}>
-              Requests
-            </Label>
+              <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
+                <Icon style={styles.Whenwheretext} name='alarm' />
+                <Text style={styles.Whenwheretext}>{this.state.carrier_whenLogan}</Text>
+                </Button>
+                <DateTimePicker
+                  isVisible={this.state.isDateTimePickerVisible}
+                  onConfirm={this._handleCarrierDatePicked}
+                  onCancel={this._hideDateTimePicker}
+                  mode='time'
+                  titleIOS='Pick a time'
+                  is24Hour={true}
+                  timeZoneOffsetInMinutes={-7 * 60}
+                />
+            </Item>
+            <Item regular style={styles.textInput}>
+              <Button iconRight style={styles.Wherebutton} onPress={() => this.setState({carrier_choosePlaces: true})}>
+                <Text style={styles.Whenwheretext}>{this.state.carrier_whereLogan}</Text>
+                <Icon style={styles.Whenwheretext} name='navigate' />
+                </Button>
             </Item>
 
 
-            <Item regular style={styles.requestItem}>
+            <View regular style={styles.requestTitleItem}>
+            <Label style = {styles.orderTitle}>
+              Requests
+            </Label>
+            </View>
 
+
+            <View  style={styles.requestView}>
+              <Item regular style={styles.requestItem}>
               {loading &&
                 <Content refreshControl={
                   <RefreshControl
@@ -609,9 +703,10 @@ export class Main extends Component {
                   <Spinner color='#FF9052' />
                   </Content>
               }
+              </Item>
 
-            </Item>
-            <View style={styles.buttonItem}>
+            </View>
+            <View style={styles.acceptButtonItem}>
             <Button
               disabled = {!this.state.request_selected}
               style={styles.buttons_accept}
@@ -701,6 +796,17 @@ export class Main extends Component {
           >
             <Text style={styles.menuText}>
               Update
+            </Text>
+          </Button>
+        }
+        {!this.state.delivering &&
+          <Button
+            style={styles.buttons_cancel}
+            color="#ffffff"
+            onPress={() => this.cancelCarrier() }
+          >
+            <Text style={styles.cancelText}>
+              Cancel
             </Text>
           </Button>
         }
