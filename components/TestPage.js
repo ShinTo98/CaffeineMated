@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
 import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder,
-        acceptOrder, sortOrdersByRequestTime, getItemDetailWithOnlyId} from './../database.js';
+        acceptOrder, sortOrdersByRequestTime, getItemDetailWithOnlyId, addOrderStatusChangeListener, removeOrderStatusChangeListener} from './../database.js';
 
 
 export class TestPage extends Component {
@@ -87,6 +87,14 @@ export class TestPage extends Component {
 
     async testgetItemDetailWithOnlyId(){
         console.log(JSON.stringify(await getItemDetailWithOnlyId("HC01")));
+    }
+
+    testorderStatusChangeListener(){
+         addOrderStatusChangeListener("0");
+    }
+
+    testremoveOrderStatusChangeListener(){
+        removeOrderStatusChangeListener("0");
     }
 
      render(){
@@ -365,6 +373,36 @@ export class TestPage extends Component {
                             <Text>Output: itemDetail</Text>
                             <Text />
                             <Button small primary onPress={this.testgetItemDetailWithOnlyId}>
+                                <Text>Test</Text>
+                            </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                            <Text>testorderStatusChangeListener</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                            <Text />
+                            <Button small primary onPress={this.testorderStatusChangeListener}>
+                                <Text>Test</Text>
+                            </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                            <Text>testremoveOrderStatusChangeListener</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                            <Text />
+                            <Button small primary onPress={this.testremoveOrderStatusChangeListener}>
                                 <Text>Test</Text>
                             </Button>
                             </Body>

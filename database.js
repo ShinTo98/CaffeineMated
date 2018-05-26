@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
@@ -195,6 +196,7 @@ export async function saveOrder (order) {
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
+
   return order_id;
 }
 
@@ -723,7 +725,7 @@ function compareByRequestTime (a, b){
  * Name: getItemDetailWithOnlyId
  * Parameter: itemId
  * Return: the json containing item details
- * this function allows us to get item details with only id 
+ * this function allows us to get item details with only id
  */
 export async function getItemDetailWithOnlyId(itemId) {
     var dict = {HC:"Hot Coffees",
@@ -737,4 +739,22 @@ export async function getItemDetailWithOnlyId(itemId) {
     return itemDetail;
 }
 
+export function addOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.on('value', statusUpdated);
+}
 
+export function removeOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.off('value', statusUpdated);
+}
+
+function statusUpdated(snapshot) {
+    var changedChild = snapshot.val();
+    if (changedChild === 2) {
+        Alert.alert("Notification", "Someone just accepted your order!\n Please refresh the page!");
+    }
+    else if (changedChild != 1) {
+        Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
+    }
+}
