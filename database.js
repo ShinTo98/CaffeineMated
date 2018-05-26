@@ -719,4 +719,22 @@ function compareByRequestTime (a, b){
     return 0;
 }
 
+/*
+ * Name: getItemDetailWithOnlyId
+ * Parameter: itemId
+ * Return: the json containing item details
+ * this function allows us to get item details with only id 
+ */
+export async function getItemDetailWithOnlyId(itemId) {
+    var dict = {HC:"Hot Coffees",
+                DR:"Drinks",
+                FR:"Frappuccino",
+                CC:"Cold Coffees",
+                HT:"Hot Teas",
+                IT:"Iced Teas"};
+    var type = dict[itemId.substring(0,2)];
+    var itemDetail = await displayItem(type, itemId);
+    return itemDetail;
+}
+
 
