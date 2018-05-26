@@ -1,15 +1,5 @@
 import React, {Component} from 'react';
-// import {
-//  Button,
-//  StyleSheet,
-//  View,
-//  Text,
-//  Image,
-//  TextInput,
-//  KeyboardAvoidingView,
-//  TouchableWithoutFeedback
-// } from 'react-native';
-import { TouchableOpacity, Image, RefreshControl } from 'react-native';
+import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
@@ -27,6 +17,8 @@ export class Main extends Component {
 
   constructor(props) {
     super(props);
+    // For swipable list
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       seg: 1,
       where: "",
@@ -56,6 +48,14 @@ export class Main extends Component {
     };
     this.order_selected = {};
     this.order_to_id = {};
+  }
+
+  // For swipable list delete one row
+  deleteRow(secId, rowId, rowMap) {
+    rowMap[`${secId}${rowId}`].props.closeRow();
+    const newData = [...this.state.order_data];
+    newData.splice(rowId, 1);
+    this.setState({ order_data: newData });
   }
 
   async saveRequestIds() {
@@ -232,9 +232,14 @@ export class Main extends Component {
 }
 
   render() {
+    // For swipable list
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     const loading = this.state.loadFinished;
     const order_exists = this.state.order_exists;
-    var order_data = this.state.order_data;
+    const order_data = this.state.order_data;
+    const dloop = this.state.dloop;
+    console.log(this.state.order_data);
+    console.log(this.state.dloop);
 
     return (
       <Container style={styles.color_theme}>
@@ -393,46 +398,41 @@ export class Main extends Component {
               </Button>
               </View>
 
-              {/* Order item display section */}
-              {/*<Item regular style={styles.orderTitleItem}>
-              <Label style = {styles.orderTitle}>
-                Order Details
-              </Label>
-              </Item>*/}
-
-
-
-
-
-
-
-
-
-
-
-
 
               <View regular style={styles.orderItem}>
                 <Text style={styles.orderDetailText}> Order Details </Text>
                 <View style={styles.line}/>
                 <View>
                 {order_exists &&
-                   {/*<List
-                    dataArray={this.state.order_data}
+                  <List
+                    dataSource={this.ds.cloneWithRows(this.state.order_data)}
                     renderRow={data =>
-                      <ListItem>
-                        <Left style={styles.list_left_container}>
-                          <Thumbnail source={{uri: data.image}}/>
-                        </Left>
-                        <Body style={styles.list_body_container}>
-                        <Text style={styles.list_text}>
-                          {data.name}
-                        </Text>
-                        </Body>
+                      <ListItem style={{borderColor: '#FFFFFF', marginLeft: 20, marginTop: -10, marginBottom: -10}}>
+                        <Card style={styles.orderCard}>
+                          <View style = {{flexDirection: 'row'}}>
+                          <Left>
+                            <Thumbnail style={{marginTop: 8, marginBottom: 8, left: 10}} source={{uri: data.image}} />
+                          </Left>
+
+                          <View style = {styles.cardTextView}>
+                            <Text style ={styles.cardPrimaryText}>
+                              {data.name}
+                            </Text>
+                            <Text style ={styles.cardSecondaryText}>
+                              {data.selection[0]}
+                            </Text>
+                          </View>
+                          </View>
+                        </Card>
                       </ListItem>}
-                    /> */}
-                }{
-                  !order_exists &&
+                    renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+                      <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                        <Icon active name="trash" />
+                      </Button>}
+                    rightOpenValue={-75}
+                  />
+                }
+                {!order_exists &&
                     <Text style={styles.nothingText}>
                       Nothing yet: ) {'\n'} Click menu to place your first order
                       </Text>

@@ -136,7 +136,7 @@ export const styles = StyleSheet.create({
     top: 30,
   },
   orderItem:{
-    alignItems: 'flex-start',
+    //alignItems: 'flex-start',
     //justifyContent: 'center',
     borderColor: '#c8c8c8',
     backgroundColor: '#FFFFFF',
@@ -350,5 +350,28 @@ export const styles = StyleSheet.create({
     width: 260,
     marginTop: 6,
     marginLeft: 20,
+  },
+  // For each card in order details
+  orderCard: {
+    //height: 30,
+    //width: 90,
+    borderColor: '#f8f8f8',
+    backgroundColor: '#f8f8f8',
+  },
+  cardTextView:{
+    right: 7,
+    justifyContent: 'center',
+  },
+  cardPrimaryText: {
+    textAlign: 'right',
+    fontSize: 14,
+    alignSelf: 'flex-end'
+  },
+  cardSecondaryText: {
+    textAlign: 'right',
+    fontSize: 12,
+    fontWeight: '300',
+    fontStyle: 'italic',
+    alignSelf: 'flex-end'
   },
 });
