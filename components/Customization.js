@@ -63,7 +63,7 @@ export class Customization extends Component {
   async findPrices(e,d){
     for( let price in e){
       d.push(price);
-    } 
+    }
     return d;
   }
 
@@ -121,19 +121,19 @@ export class Customization extends Component {
         selections != undefined && headers != undefined){
     return (
 
-      <Container style={styles.page}>      
+      <Container style={styles.page}>
 
-        <Header style={styles.header}>            
+        <Header style={styles.header}>
           <Left>
             <Button
               transparent
-              onPress={() => this.props.navigation.goBack()}>
+              onPress={ ()=> this.props.navigation.navigate('submenu')}>
               <Icon name='arrow-back' style={styles.icon_BackArrow}/>
             </Button>
           </Left>
         </Header>
-        
-        <Container style={styles.content}> 
+
+        <Container style={styles.content}>
             <Text style={styles.itemName}>{this.state.itemName}</Text>
             <View style={styles.line} />
 
@@ -152,20 +152,20 @@ export class Customization extends Component {
           <Container style={styles.choicesContainer}>
               <Grid style={styles.grid}>
                 <Row style={styles.row}>
-    
+
               {
                 itemSize.map(function (size, i){
                   if(size!=selections[0]){
                     return (<Col key= {i} style={styles.buttonCol}>
                         <Button style={styles.buttonChoices} onPress={()=> {changeChoicef(0,size)}}>
                           <Text style={styles.buttonText}>{size}</Text>
-                        </Button> 
+                        </Button>
                     </Col>)
                   }else{
                     return (<Col key={i} style={styles.buttonCol}>
                         <Button style={styles.buttonChoiceSelect} onPress={() => {changeChoicef(0,size)}}>
                           <Text style={styles.buttonTextSelect}>{size}</Text>
-                        </Button> 
+                        </Button>
                     </Col>)
                   }
                   }
@@ -188,13 +188,13 @@ export class Customization extends Component {
                             return (<Col key= {j} style={styles.buttonCol}>
                               <Button style={styles.buttonChoices} onPress={()=> {changeChoicef(z,size)}}>
                                 <Text style={styles.buttonText}>{size}</Text>
-                              </Button> 
+                              </Button>
                                    </Col>)
                           } else{
                           return (<Col key={j} style={styles.buttonCol}>
                               <Button style={styles.buttonChoiceSelect} onPress={() => {changeChoicef(z,size)}}>
                                 <Text style={styles.buttonTextSelect}>{size}</Text>
-                              </Button> 
+                              </Button>
                           </Col>)
                         }})})
                         })
@@ -204,9 +204,9 @@ export class Customization extends Component {
 
                     )}
                   )}
-              
+
               </Grid>
-              
+
               <Textarea style={styles.textInput} placeholder= "Anything else you want?" onChangeText={(text) => this.changeChoice(selections.length-1, text)}/>
                 <Button style={styles.submitButton}>
                    <Text style={styles.submitText} onPress={ ()=> {
@@ -215,19 +215,20 @@ export class Customization extends Component {
                    image: itemImage,
                    selection: this.state.select,
                    data: this.state.data,
+                   update: true,
               })}}>Submit</Text>
                 </Button>
 
                 <Container style={styles.padding}></Container>
 
               </Container>
-              
+
           </ScrollView>
 
-             
+
         </Container>
 
-      </Container>    
+      </Container>
     );
     }else{
       return(

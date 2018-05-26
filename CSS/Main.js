@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   color_theme: {
     // TODO: correct color code
-    backgroundColor: '#ffffff',
+    backgroundColor: '#D9D9D6',
   },
   container: {
     flex: 1,

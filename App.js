@@ -11,6 +11,7 @@ import {SubMenuView} from './components/SubMenuView.js';
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
 import {Feedback} from './components/Feedback.js';
+import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
@@ -22,18 +23,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      // <View style={styles.container}>
-      //   <Image
-      //     style={styles.logo}
-      //     source={require('./resources/wei_logo.png')}
-      //   />
-      //   <Text style={styles.name}>
-      //     CaffeineMated
-      //   </Text>
-      // </View>
       //<Root>
       // <PrimaryNav />
-      <RootStack />
+      <PrimaryNav />
       //</Root>
     );
   }
@@ -58,6 +50,7 @@ const LoginScreen = StackNavigator(
     signup: {
       screen: Signup,
     },
+
   },
   {
     disableOpenGesture: true,
@@ -86,7 +79,6 @@ const SettingsStack = StackNavigator(
   }
 );
 
-
 const Drawer = DrawerNavigator(
   {
     main: {screen: Main},
@@ -105,83 +97,21 @@ const Drawer = DrawerNavigator(
       drawerLockMode: 'locked-closed',
     },
 
-
     //modify here to change the inital screen
 
     contentComponent: props => <SideBar {...props} />
   }
 );
 
-const RootStack = StackNavigator(
-  {
-
-    main: {
-      screen: Main,
-    },
-    drawer: {
-      screen: Drawer,
-    },
-    customization: {
-      screen: Customization,
-    },
-    subMenuView: {
-      screen: SubMenuView
-    },
-    menu: {
-      screen: MenuView
-    },
-  },
-  {
-
-    initialRouteName: 'drawer',
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-      headerTintColor: 'red',
-    }
-  }
-);
-
-const ZmqPageTest = StackNavigator(
-  {
-    main: {
-      screen: Main,
-    },
-    start:{
-      screen: Start,
-    },
-    login: {
-      screen: Login,
-    },
-    signup: {
-      screen: Signup,
-    },
-    customization: {
-      screen: Customization,
-    },
-    subMenuView: {
-      screen: SubMenuView
-    },
-    menu: {
-      screen: MenuView
-    },
-    drawer: {
-      screen: Drawer,
-    },
-  },
-  {
-    initialRouteName: 'customization',
-    headerMode: 'none',
-  }
-)
-
-
 const PrimaryNav = StackNavigator({
   start: {
     screen: LoginScreen,
   },
   main: {
-    screen: RootStack,
+    screen: Drawer,
+  },
+  testPage: {
+    screen: TestPage,
   }
 },
   {
