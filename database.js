@@ -3,12 +3,12 @@ import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-  apiKey: "AIzaSyAQSNocuGrjIBtwErRJeHV7nUsfQGZC_uE",
-  authDomain: "cmdatabase-c3084.firebaseapp.com",
-  databaseURL: "https://cmdatabase-c3084.firebaseio.com",
-  projectId: "cmdatabase-c3084",
-  storageBucket: "cmdatabase-c3084.appspot.com",
-  messagingSenderId: "964208744011"
+  apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
+    authDomain: "caffeinemated-90dda.firebaseapp.com",
+    databaseURL: "https://caffeinemated-90dda.firebaseio.com",
+    projectId: "caffeinemated-90dda",
+    storageBucket: "caffeinemated-90dda.appspot.com",
+    messagingSenderId: "329358763029"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -640,22 +640,25 @@ export async function getProfileById(user_id) {
 
  }
 
-export async function updateOrderRate(order_id, rate, isBuyer) {
-  let dir;
+export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
+  let orderDir;
   if (isBuyer) { // get direction
-    dir = "Orders/items/" + order_id + "/buyer_rate";
+    orderDir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
     orderDir = "Orders/items/" + order_id + "/carrier_rate";
   }
   let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
 
+  let profileDir = "Profile/" + user_id; 
+  let prevRate; 
+  let totalNum; 
   await firebase.database().ref(profileDir).once("value", function (snapshot) {
     user = snapshot.val();
     prevRate = user.rate;
     totalNum = user.history.total_num;
   });
-  let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum));
+  let newRate = (parseFloat(prevRate) * (parseInt(totalNum)-1) + parseFloat(rate)) / (parseInt(totalNum));
   let rateRef = firebase.database().ref(profileDir + "/rate");
   rateRef.set(newRate);
 }
