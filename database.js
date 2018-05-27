@@ -2,12 +2,12 @@ import firebase from 'firebase';
 
 // Firebase configuration
 var config = {
-  apiKey: "AIzaSyAQSNocuGrjIBtwErRJeHV7nUsfQGZC_uE",
-  authDomain: "cmdatabase-c3084.firebaseapp.com",
-  databaseURL: "https://cmdatabase-c3084.firebaseio.com",
-  projectId: "cmdatabase-c3084",
-  storageBucket: "cmdatabase-c3084.appspot.com",
-  messagingSenderId: "964208744011"
+  apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
+      authDomain: "caffeinemated-90dda.firebaseapp.com",
+      databaseURL: "https://caffeinemated-90dda.firebaseio.com",
+      projectId: "caffeinemated-90dda",
+      storageBucket: "caffeinemated-90dda.appspot.com",
+      messagingSenderId: "329358763029"
 };
 // Firebase initialization
 firebase.initializeApp(config);

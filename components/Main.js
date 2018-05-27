@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier} from './../database.js';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -50,6 +50,10 @@ export class Main extends Component {
       carrier_whereLogan: 'Specify a place',
       carrier_time: '',
       carrier_location: '',
+      curname: 'Username',
+      carrier_accept_hour: 0,
+      carrier_accept_minute: 0,
+      carrier_accept_second: 0,
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -65,7 +69,7 @@ export class Main extends Component {
 
   async saveRequestIds() {
     this.setState({ids: await viewPendingOrders()});
-    //console.log(this.state.ids);
+    console.log(this.state.ids);
   }
 
   async saveRequestDetails() {
@@ -73,6 +77,20 @@ export class Main extends Component {
     for (let id of this.state.ids) {
       order = await viewOrderDetailById(id);
       order["id"] = id;
+      profile = await getProfileDetailById(order.buyer_id)
+      console.log(profile)
+      if (profile.username) {
+        order["buyer_name"] = profile.username;
+      }
+      else {
+        order["buyer_name"] = "Username";
+      }
+      if (profile.photo) {
+        order["avatar"] = profile.photo;
+      }
+      else {
+        order["avatar"] = undefined;
+      }
       received.push(order);
       if (this.order_selected[id] == undefined) {
         this.order_selected[id] =  false;
@@ -142,7 +160,7 @@ export class Main extends Component {
       }
       this.setState({order_data: latest});
       this.setState({order_exists: true});
-      console.log(this.state.order_data);
+      //console.log(this.state.order_data);
     }
   }
 
@@ -176,7 +194,7 @@ export class Main extends Component {
 
   createStars = (num) => {
     let stars = []
-    for (var i = 1; i <= 5; i++) {
+    for (var i = 0; i <= 4; i++) {
 
       let iosStar = 'ios-star';
       let androidStar = 'md-star';
@@ -184,13 +202,15 @@ export class Main extends Component {
       if (num - 1 > 0) {
         iosStar = 'ios-star';
         androidStar = 'md-star';
-      } else if ( num - 0.5 == 0) {
+      } else if ( num - 0.5 >= 0) {
         iosStar = 'ios-star-half';
         androidStar = 'md-star-half';
       } else {
         iosStar = 'ios-star-outline';
         androidStar = 'md-star-outline';
       }
+
+      num -= 1
       stars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
 		}
     return stars
@@ -211,13 +231,14 @@ export class Main extends Component {
   }
 
   accept = () => {
-    this.setState({accepted: true});
+    date = new Date();
+    this.setState({accepted: true, carrier_accept_hour: date.getHours(), carrier_accept_minute: date.getMinutes(), carrier_accept_second: date.getSeconds()});
     acceptOrder(this.state.selected_order, "01");
-    console.log(this.state.accepted);
+    //console.log(this.state.accepted);
   }
 
   update = () => {
-    console.log(this.state.selected_order);
+    //console.log(this.state.selected_order);
     updateOrderStatus(this.state.selected_order);
     this.setState({delivering: true})
   }
@@ -251,8 +272,20 @@ export class Main extends Component {
   }
 
   cancelCarrier = () => {
-    cancelByCarrier(this.state.selected_order);
-    this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+    date = new Date();
+    if(date.getHours() != this.state.carrier_accept_hour && this.state.carrier_accept_minute != 59) {
+      console.log("can not cancel")
+    }
+    else if (date.getMinutes() != this.state.carrier_accept_minute && this.state.carrier_accept_second != 30){
+      console.log("can not cancel")
+    }
+    else if (date.getSeconds() - this.state.carrier_accept_second >= 30) {
+      console.log("can not cancel")
+    }
+    else {
+      cancelByCarrier(this.state.selected_order);
+      this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+    }
   }
 
   render() {
@@ -262,8 +295,8 @@ export class Main extends Component {
     const order_exists = this.state.order_exists;
     const order_data = this.state.order_data;
     const dloop = this.state.dloop;
-    console.log(this.state.order_data);
-    console.log(this.state.dloop);
+    //console.log(this.state.order_data);
+    //console.log(this.state.dloop);
 
     return (
       <Container style={styles.color_theme}>
@@ -551,22 +584,37 @@ export class Main extends Component {
               <Content scrollEnabled={false}>
               <Card>
                 <CardItem header>
+
                   <Button transparent onPress={() => this.setState({selecting_order: false})}>
                     <Icon name="arrow-back" style={styles.icon}/>
-                    </Button>
-                </CardItem>
-                <CardItem>
-                  <Thumbnail square large source={require('../resources/avatar.png')}/>
+                  </Button>
 
-                  <Text>
-                    {this.state.order_selecting.buyer_id}
-                  </Text>
                 </CardItem>
+
+                <View style={styles.cardLine}/>
                 <CardItem>
+                <Left>
+                  {!this.state.order_selecting.avatar &&
+                    <Thumbnail large source={require('../resources/avatar.png')}/>
+                  }
+                  {this.state.order_selecting.avatar &&
+                    <Thumbnail large source={{uri: this.state.order_selecting.avatar}}/>
+                  }
+                  <Body>
+                  <CardItem>
+                  <Text style={styles.cardBuyerName}>
+                    {this.state.order_selecting.buyer_name}
+                  </Text>
+                  </CardItem>
+                  <CardItem>
                   {
                     this.createStars(this.state.order_selecting.buyer_rate)
                   }
+                  </CardItem>
+                  </Body>
+                </Left>
                 </CardItem>
+                <View style={styles.cardLine}/>
                 <CardItem>
                   <Text style={styles.card_title}>
                     Location:
@@ -673,9 +721,14 @@ export class Main extends Component {
                     onPress={() => this.setState({order_selecting: data, selecting_order: true})}
                     selected = {data.id == this.state.selected_order}>
                       <Left style={styles.list_left_container}>
-                        <Thumbnail square small source={require('../resources/avatar.png')}/>
+                        { !data.avatar &&
+                          <Thumbnail  source={require('../resources/avatar.png')}/>
+                        }
+                        { data.avatar &&
+                          <Thumbnail  source={{uri: data.avatar}}/>
+                        }
                         <Text style={{fontSize: 12}}>
-                          {data.buyer_id}
+                          {data.buyer_name}
                         </Text>
                       </Left>
                       <Body style={styles.list_body_container}>
@@ -735,10 +788,15 @@ export class Main extends Component {
         <Item regular style={styles.DiliverItem}>
         <View >
           <View style={styles.deliverProfile}>
-            <Thumbnail square large source={require('../resources/avatar.png')}/>
+            {!this.state.order_selecting.avatar &&
+              <Thumbnail large source={require('../resources/avatar.png')}/>
+            }
+            {this.state.order_selecting.avatar &&
+              <Thumbnail large source={{uri: this.state.order_selecting.avatar}}/>
+            }
             <View>
               <Label style={styles.DeliverProfileText}>
-                {this.state.order_selecting.buyer_id}
+                {this.state.order_selecting.buyer_name}
               </Label>
               <View style={styles.DeliverStarts}>
                 {this.createStars(this.state.order_selecting.buyer_rate)}

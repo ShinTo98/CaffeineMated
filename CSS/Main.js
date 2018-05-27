@@ -385,6 +385,13 @@ export const styles = StyleSheet.create({
     marginTop: 6,
     marginLeft: 20,
   },
+  cardLine: {
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    width: 5*deviceWidth/6,
+    marginTop: 6,
+    marginLeft: 20,
+  },
   // For each card in order details
   orderCard: {
     //height: 30,
@@ -408,4 +415,11 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
     alignSelf: 'flex-end'
   },
+  bodyCenter: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  cardBuyerName: {
+    fontSize: 24,
+  }
 });
