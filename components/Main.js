@@ -29,8 +29,8 @@ export class Main extends Component {
       order_exists: false,
       request_selected: false,
       isDateTimePickerVisible: false,
-      location: '',
-      time: '',
+      location: 'Specify a place',
+      time: 'Pick a time',
       refreshing: false,
       order_selecting: undefined,
       selecting_order: false,
@@ -139,6 +139,8 @@ export class Main extends Component {
           image: this.props.navigation.getParam('image'),
           selection: this.props.navigation.getParam('selection'),
         });
+        this.setState({time: this.props.navigation.getParam('time')});
+        this.setState({location: this.props.navigation.getParam('location')});
       }
       this.setState({order_data: latest});
       this.setState({order_exists: true});
@@ -253,6 +255,20 @@ export class Main extends Component {
   cancelCarrier = () => {
     cancelByCarrier(this.state.selected_order);
     this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+  }
+
+  submitValidityCheck = () => {
+    if(this.state.location == '' || this.state.time == '') {
+      Toast.show({
+        text: 'Please fill out location & time!'
+      });
+    } else if(this.state.order_data.length == 0) {
+      Toast.show({
+        text: 'Please order at least one drink!'
+      });
+    } else {
+      this.setState({orderSubmitted: true});
+    }
   }
 
   render() {
@@ -456,7 +472,7 @@ export class Main extends Component {
               <Item regular style={styles.textInput}>
                 <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
                   <Icon style={styles.Whenwheretext} name='alarm' />
-                  <Text style={styles.Whenwheretext}>{this.state.whenLogan}</Text>
+                  <Text style={styles.Whenwheretext}>{this.state.time}</Text>
                   </Button>
                   <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -470,7 +486,7 @@ export class Main extends Component {
               </Item>
               <Item regular style={styles.textInput}>
                 <Button iconRight style={styles.Wherebutton} onPress={() => this.setState({choosePlaces: true})}>
-                  <Text style={styles.Whenwheretext}>{this.state.whereLogan}</Text>
+                  <Text style={styles.Whenwheretext}>{this.state.location}</Text>
                   <Icon style={styles.Whenwheretext} name='navigate' />
                   </Button>
               </Item>
@@ -482,6 +498,8 @@ export class Main extends Component {
                 color="#ffffff"
                 onPress={() => this.props.navigation.navigate('menu', {
                   data: this.state.order_data,
+                  location: this.state.location,
+                  time: this.state.time,
                 })}
               > <Text style={styles.menuText}> Menu </Text>
               </Button>
@@ -533,7 +551,7 @@ export class Main extends Component {
               <Button
                 style={styles.buttons_submit}
                 color="#ffffff"
-                onPress={() => this.setState({orderSubmitted: true})}
+                onPress={this.submitValidityCheck}
               > <Text style={styles.submitText}> Submit </Text>
               </Button>
               </View>
