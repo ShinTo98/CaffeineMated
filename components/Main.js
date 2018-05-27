@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById} from './../database.js';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -29,8 +29,8 @@ export class Main extends Component {
       order_exists: false,
       request_selected: false,
       isDateTimePickerVisible: false,
-      location: '',
-      time: '',
+      location: 'Specify a place',
+      time: 'Pick a time',
       refreshing: false,
       order_selecting: undefined,
       selecting_order: false,
@@ -54,6 +54,8 @@ export class Main extends Component {
       carrier_accept_hour: 0,
       carrier_accept_minute: 0,
       carrier_accept_second: 0,
+      // order id after order submission
+      orderId: '',
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -158,6 +160,8 @@ export class Main extends Component {
           selection: this.props.navigation.getParam('selection'),
         });
       }
+      this.setState({location: this.props.navigation.getParam('location')});
+      this.setState({time: this.props.navigation.getParam('time')});
       this.setState({order_data: latest});
       this.setState({order_exists: true});
       //console.log(this.state.order_data);
@@ -287,7 +291,24 @@ export class Main extends Component {
       this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
     }
   }
-  
+
+  submitValidityCheck = () => {
+    if(this.state.location == '' || this.state.time == '') {
+      Toast.show({
+        text: 'Please fill out location & time!'
+      });
+    } else if(this.state.order_data.length == 0) {
+      Toast.show({
+        text: 'Please order at least one drink!'
+      });
+    } else {
+      var id = createOrder(this.state.order_data, this.state.location, this.state.time);
+      this.setState({orderId: id});
+      this.setState({orderSubmitted: true});
+    }
+  }
+
+
   render() {
     // For swipable list
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -479,6 +500,7 @@ export class Main extends Component {
         order_data={this.state.order_data}
         />
       }
+
       
       {/* ---------------------------------- Ordering page ---------------------------------- */}
       {!this.state.orderSubmitted &&

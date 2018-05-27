@@ -25,8 +25,7 @@ export default class App extends React.Component {
     return (
 
       <Root>
-      {/*<PrimaryNav />*/}
-      <Drawer />
+      <PrimaryNav />
       </Root>
     );
   }
