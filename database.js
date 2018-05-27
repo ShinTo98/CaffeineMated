@@ -68,7 +68,7 @@ export async function userSignup (email, password, name) {
           var newProfileDirName = "Profile/" + newUID;
           var ref = firebase.database().ref(newProfileDirName);
           ref.set({default_mode:"buyer", rate:5, username:name,
-              history:{total_num:0}, photo:"www.baidu.com"});
+              history:{total_num:0}, photo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-LV4tX2VqMy115iZNiIgowzRQ2UXWWBAqCfh5GoSIvyrzgD32"});
       }
     ).catch(
       function failure(error){
@@ -232,6 +232,9 @@ export async function saveOrder (order) {
     }
 
     var orderId = await saveOrder(orderObject);
+    profileRef = firebase.database().ref("Profile/" + buyerId);
+    profileRef.child("current_order_as_buyer").set(orderId);
+    addOrderStatusChangeListener(orderId);
     return orderId;
   }
 
@@ -519,6 +522,10 @@ export async function completeOrder(order_id, user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("totalNum").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then buyer click complete
@@ -528,6 +535,10 @@ export async function completeOrder(order_id, user_id) {
           console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("totalNum").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then carrier click complete
