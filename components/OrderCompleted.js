@@ -44,7 +44,7 @@ export class OrderCompleted extends Component {
   }
 
   updateRating() {
-    updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer);
+    updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer, this.state.user_id);
   }
 
 
