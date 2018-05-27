@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById} from './../database.js';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -54,6 +54,8 @@ export class Main extends Component {
       carrier_accept_hour: 0,
       carrier_accept_minute: 0,
       carrier_accept_second: 0,
+      // order id after order submission
+      orderId: '',
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -300,6 +302,8 @@ export class Main extends Component {
         text: 'Please order at least one drink!'
       });
     } else {
+      var id = createOrder(this.state.order_data, this.state.location, this.state.time);
+      this.setState({orderId: id});
       this.setState({orderSubmitted: true});
     }
   }
@@ -495,6 +499,7 @@ export class Main extends Component {
               <SubmitOrder
               updateOrderSubmitted={this.updateOrderSubmitted}
               order_data={this.state.order_data}
+              orderId={this.state.orderId}
               />
             }
 
