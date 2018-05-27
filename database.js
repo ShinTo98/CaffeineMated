@@ -1,13 +1,14 @@
 import firebase from 'firebase';
+import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-  apiKey: "AIzaSyAQSNocuGrjIBtwErRJeHV7nUsfQGZC_uE",
-  authDomain: "cmdatabase-c3084.firebaseapp.com",
-  databaseURL: "https://cmdatabase-c3084.firebaseio.com",
-  projectId: "cmdatabase-c3084",
-  storageBucket: "cmdatabase-c3084.appspot.com",
-  messagingSenderId: "964208744011"
+    apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
+    authDomain: "caffeinemated-90dda.firebaseapp.com",
+    databaseURL: "https://caffeinemated-90dda.firebaseio.com",
+    projectId: "caffeinemated-90dda",
+    storageBucket: "caffeinemated-90dda.appspot.com",
+    messagingSenderId: "329358763029"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -195,6 +196,7 @@ export async function saveOrder (order) {
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
+
   return order_id;
 }
 
@@ -759,4 +761,40 @@ function compareByRequestTime (a, b){
     return 0;
 }
 
+/*
+ * Name: getItemDetailWithOnlyId
+ * Parameter: itemId
+ * Return: the json containing item details
+ * this function allows us to get item details with only id
+ */
+export async function getItemDetailWithOnlyId(itemId) {
+    var dict = {HC:"Hot Coffees",
+                DR:"Drinks",
+                FR:"Frappuccino",
+                CC:"Cold Coffees",
+                HT:"Hot Teas",
+                IT:"Iced Teas"};
+    var type = dict[itemId.substring(0,2)];
+    var itemDetail = await displayItem(type, itemId);
+    return itemDetail;
+}
 
+export function addOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.on('value', statusUpdated);
+}
+
+export function removeOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.off('value', statusUpdated);
+}
+
+function statusUpdated(snapshot) {
+    var changedChild = snapshot.val();
+    if (changedChild === 2) {
+        Alert.alert("Notification", "Someone just accepted your order!\n Please refresh the page!");
+    }
+    else if (changedChild != 1) {
+        Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
+    }
+}
