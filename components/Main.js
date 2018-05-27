@@ -417,20 +417,9 @@ export class Main extends Component {
                 <View style={styles.line}/>
                 <View>
                 {order_exists &&
-                   <List
-                    dataArray={this.state.order_data}
-                    renderRow={data =>
-                      <ListItem>
-                        <Left style={styles.list_left_container}>
-                          <Thumbnail source={{uri: data.image}}/>
-                        </Left>
-                        <Body style={styles.list_body_container}>
-                        <Text style={styles.list_text}>
-                          {data.name}
-                        </Text>
-                        </Body>
-                      </ListItem>}
-                    /> }
+                 order_data.map((entry)=>
+                 <View></View>)
+                }
                 {
                   !order_exists &&
                     <Text style={styles.nothingText}>
