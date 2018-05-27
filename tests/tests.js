@@ -35,21 +35,23 @@ main();
 //npx babel-node tests.js
 async function main() {
 
-  await testuserSignup();
-  await testuserLogin();
-  await testdisplayMenu();
+  //await testuserSignup();
+  //await testuserLogin();
+  //await testdisplayMenu();
   await testdisplayType();
-  await testdisplayItem();
-  await testviewPendingOrders();
+  //await testdisplayItem();
+  //await testviewPendingOrders();
+  //await testgetOrderLocationById();
+  //await testdisplayOrderHistory();
+  //await testupdateRate();
+
+  console.log("ALL TESTED... Ctrl+C to exit the test program...");
 
 
   //await testLogOut();
   //await testUserPasswordChange();
   //await testGetProfileById();
-   //await testviewOrderDetailById();
- await testgetOrderLocationById();
-  await testdisplayOrderHistory();
-  await testupdateRate();
+ // await testviewOrderDetailById();
 }
 
 
@@ -223,9 +225,11 @@ async function testdisplayType() {
     [
       'https://globalassets.starbucks.com/assets/cff93f212cda4cd09e7dfa5a358caeed.jpg',
       'D03',
-      'Strawberry Acai Starbucks Refreshers™ Beverage'
+      'Strawberry Acai Refreshers™'
     ]
-  ];
+];
+
+  console.log("Testing function displayType...");
 
   //console.log( "Expecting returned list of pairs of [img, id, name]" );
   //console.log( "Actual returned value:" );
@@ -306,32 +310,6 @@ async function helpviewpending(callback) {
 }
 
 async function testviewPendingOrders() {
-/*
-  var add = {
-    buyer_id: "001",
-    buyer_rate: "4.5",
-    carrier_id: "002",
-    carrier_rate: "4",
-    create_time: "12:55 pm, Friday, May 22, 2021",
-    items: {
-      customization: "lol",
-      item_name: "pink drink",
-      size: "grande"
-    },
-    last_update_time: "13:01 pm",
-    location: "Warren Lecture Hall",
-    request_time: "1:08 pm",
-    status: 1
-
-  };
-
-    let gotPendingId;
-
-    let addedOrderId = helpaddingOrder( add, function () {
-      gotPendingId = helpviewpending( function () {
-
-      });
-    });*/
 
   var gotPendingId = await viewPendingOrders();
   var gotAllId = await viewAllOrders();
@@ -465,8 +443,8 @@ async function testsortOrders() {
 }
 
 async function testdisplayOrderHistory() {
-  var prof = await getProfileDetailById( "test1" );
-  var his = await displayOrderHistory("test1");
+  var prof = await getProfileDetailById( "testzmq" );
+  var his = await displayOrderHistory("testzmq");
 
   var noProblem = true;
 
@@ -489,5 +467,5 @@ async function testdisplayOrderHistory() {
 }
 
 async function testupdateRate() {
-  updateOrderRate( 0, 0, true );
+  updateOrderRate( 0, 0, true, "PTsXQrkNIkV2MJcSp12t80FmzSC2" );
 }
