@@ -1,19 +1,9 @@
 import React, {Component} from 'react';
-// import {
-//  Button,
-//  StyleSheet,
-//  View,
-//  Text,
-//  Image,
-//  TextInput,
-//  KeyboardAvoidingView,
-//  TouchableWithoutFeedback
-// } from 'react-native';
-import { TouchableOpacity, Image, RefreshControl } from 'react-native';
+import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder} from './../database.js';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -27,6 +17,8 @@ export class Main extends Component {
 
   constructor(props) {
     super(props);
+    // For swipable list
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       seg: 1,
       where: "",
@@ -48,19 +40,36 @@ export class Main extends Component {
       orderSubmitted: false,
       // for toggleing places choosing popup
       choosePlaces: false,
+      carrier_choosePlaces: false,
       // for showing Toasts
       showToast: false,
       // for when & where logans
       whenLogan: 'Pick a time',
       whereLogan: 'Specify a place',
+      carrier_whenLogan: 'Pick a time',
+      carrier_whereLogan: 'Specify a place',
+      carrier_time: '',
+      carrier_location: '',
+      curname: 'Username',
+      carrier_accept_hour: 0,
+      carrier_accept_minute: 0,
+      carrier_accept_second: 0,
     };
     this.order_selected = {};
     this.order_to_id = {};
   }
 
+  // For swipable list delete one row
+  deleteRow(secId, rowId, rowMap) {
+    rowMap[`${secId}${rowId}`].props.closeRow();
+    const newData = [...this.state.order_data];
+    newData.splice(rowId, 1);
+    this.setState({ order_data: newData });
+  }
+
   async saveRequestIds() {
     this.setState({ids: await viewPendingOrders()});
-    //console.log(this.state.ids);
+    console.log(this.state.ids);
   }
 
   async saveRequestDetails() {
@@ -68,6 +77,20 @@ export class Main extends Component {
     for (let id of this.state.ids) {
       order = await viewOrderDetailById(id);
       order["id"] = id;
+      profile = await getProfileDetailById(order.buyer_id)
+      console.log(profile)
+      if (profile.username) {
+        order["buyer_name"] = profile.username;
+      }
+      else {
+        order["buyer_name"] = "Username";
+      }
+      if (profile.photo) {
+        order["avatar"] = profile.photo;
+      }
+      else {
+        order["avatar"] = undefined;
+      }
       received.push(order);
       if (this.order_selected[id] == undefined) {
         this.order_selected[id] =  false;
@@ -121,6 +144,8 @@ export class Main extends Component {
     await this.saveRequestDetails();
     this.setState({loadFinished: true});
 
+    console.log(this.state.request_data)
+
     // get params here
     //console.log("This is from main  " + this.props.navigation.getParam('selection'));
 
@@ -135,7 +160,7 @@ export class Main extends Component {
       }
       this.setState({order_data: latest});
       this.setState({order_exists: true});
-      console.log(this.state.order_data);
+      //console.log(this.state.order_data);
     }
   }
 
@@ -155,9 +180,21 @@ export class Main extends Component {
     });
   };
 
+  _handleCarrierDatePicked = (date) => {
+    console.log('A date has been picked: ', date.toString());
+    // Extract the hr:min part
+    var time = date.toString().substring(16, 21);
+    this.setState({carrier_time: time});
+    this.setState({carrier_whenLogan: time});
+    this._hideDateTimePicker();
+    Toast.show({
+      text: "Time choosing successfull!",
+    });
+  };
+
   createStars = (num) => {
     let stars = []
-    for (var i = 1; i <= 5; i++) {
+    for (var i = 0; i <= 4; i++) {
 
       let iosStar = 'ios-star';
       let androidStar = 'md-star';
@@ -165,13 +202,15 @@ export class Main extends Component {
       if (num - 1 > 0) {
         iosStar = 'ios-star';
         androidStar = 'md-star';
-      } else if ( num - 0.5 == 0) {
+      } else if ( num - 0.5 >= 0) {
         iosStar = 'ios-star-half';
         androidStar = 'md-star-half';
       } else {
         iosStar = 'ios-star-outline';
         androidStar = 'md-star-outline';
       }
+
+      num -= 1
       stars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
 		}
     return stars
@@ -192,20 +231,21 @@ export class Main extends Component {
   }
 
   accept = () => {
-    this.setState({accepted: true});
+    date = new Date();
+    this.setState({accepted: true, carrier_accept_hour: date.getHours(), carrier_accept_minute: date.getMinutes(), carrier_accept_second: date.getSeconds()});
     acceptOrder(this.state.selected_order, "01");
-    console.log(this.state.accepted);
+    //console.log(this.state.accepted);
   }
 
   update = () => {
-    console.log(this.state.selected_order);
+    //console.log(this.state.selected_order);
     updateOrderStatus(this.state.selected_order);
     this.setState({delivering: true})
   }
 
   complete = () => {
     completeOrder(this.state.selected_order, "01");
-    this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+    this.setState({request_selected: false, accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
 
     this.componentWillMount();
   }
@@ -229,12 +269,34 @@ export class Main extends Component {
       )
     })
 
-}
+  }
+
+  cancelCarrier = () => {
+    date = new Date();
+    if(date.getHours() != this.state.carrier_accept_hour && this.state.carrier_accept_minute != 59) {
+      console.log("can not cancel")
+    }
+    else if (date.getMinutes() != this.state.carrier_accept_minute && this.state.carrier_accept_second != 30){
+      console.log("can not cancel")
+    }
+    else if (date.getSeconds() - this.state.carrier_accept_second >= 30) {
+      console.log("can not cancel")
+    }
+    else {
+      cancelByCarrier(this.state.selected_order);
+      this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+    }
+  }
 
   render() {
+    // For swipable list
+    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     const loading = this.state.loadFinished;
     const order_exists = this.state.order_exists;
-    var order_data = this.state.order_data;
+    const order_data = this.state.order_data;
+    const dloop = this.state.dloop;
+    //console.log(this.state.order_data);
+    //console.log(this.state.dloop);
 
     return (
       <Container style={styles.color_theme}>
@@ -297,7 +359,70 @@ export class Main extends Component {
           }}
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
           /*predefinedPlaces={[homePlace, workPlace]}
-
+          debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+          renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
+          renderRightButton={() => <Text>Custom text after the inputg</Text>} */
+        />
+        </Container>
+      }
+      {this.state.carrier_choosePlaces &&
+        <Container style={styles.placeAutocomplete}>
+        <GooglePlacesAutocomplete
+          placeholder='Where...'
+          minLength={1} // minimum length of text to search
+          autoFocus={false}
+          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+          listViewDisplayed='auto'    // true/false/undefined
+          fetchDetails={true}
+          renderDescription={(row) => row.description} // custom description render
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+            //console.log(data);
+            // Get useful piece from data.description
+            this.setState({carrier_location: data.description.toString().substring(0, data.description.toString().indexOf(','))});
+            this.setState({carrier_whereLogan: data.description.toString().substring(0, data.description.toString().indexOf(','))});
+            //console.log(this.state);
+            this.setState({carrier_choosePlaces: false});
+            Toast.show({
+              text: "Places choosing successfull!",
+            });
+            //console.log(details)
+          }}
+          getDefaultValue={() => {
+            return ''; // text input default value
+          }}
+          query={{
+            // available options: https://developers.google.com/places/web-service/autocomplete
+            key: 'AIzaSyAfpH-uU6uH9r8pN4ye4jeunIDMavcxolo',
+            language: 'en', // language of the results
+            //types: '(cities)' // default: 'geocode'
+          }}
+          styles={{
+            textInputContainer: {
+              width: '100%'
+            },
+            description: {
+              fontWeight: 'bold'
+            },
+            predefinedPlacesDescription: {
+              color: '#1faadb'
+            },
+            listView: {
+              backgroundColor: '#FFFFFF',
+            }
+          }}
+          currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
+          currentLocationLabel="Current location"
+          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+          GoogleReverseGeocodingQuery={{
+            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
+          }}
+          GooglePlacesSearchQuery={{
+            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
+            rankby: 'distance',
+            types: 'food'
+          }}
+          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+          /*predefinedPlaces={[homePlace, workPlace]}
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
           renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
           renderRightButton={() => <Text>Custom text after the inputg</Text>} */
@@ -306,9 +431,9 @@ export class Main extends Component {
       }
 
       {/* ---------------------------------- Regular main page ---------------------------------- */}
-      {!this.state.choosePlaces &&
+      {(!this.state.choosePlaces & !this.state.carrier_choosePlaces) &&
         <Container>
-        
+
         {/* ---------------------------------- Main page header ---------------------------------- */}
         <Header hasSegment style={styles.header}>
           <Left>
@@ -356,7 +481,7 @@ export class Main extends Component {
             }
 
             {/* ---------------------------------- Ordering page ---------------------------------- */}
-            {!this.state.orderSubmitted && 
+            {!this.state.orderSubmitted &&
               <View style= {styles.banner}>
               {/* When & Where section */}
               <Item regular style={styles.textInput}>
@@ -393,52 +518,48 @@ export class Main extends Component {
               </Button>
               </View>
 
-              {/* Order item display section */}
-              {/*<Item regular style={styles.orderTitleItem}>
-              <Label style = {styles.orderTitle}>
-                Order Details
-              </Label>
-              </Item>*/}
-
-
-
-
-
-
-
-
-
-
-
-
 
               <View regular style={styles.orderItem}>
                 <Text style={styles.orderDetailText}> Order Details </Text>
                 <View style={styles.line}/>
                 <View>
                 {order_exists &&
-                 order_data.map((entry)=>
-                 <View></View>)
+                  <List
+                    dataSource={this.ds.cloneWithRows(this.state.order_data)}
+                    renderRow={data =>
+                      <ListItem style={{borderColor: '#FFFFFF', marginLeft: 20, marginTop: -10, marginBottom: -10}}>
+                        <Card style={styles.orderCard}>
+                          <View style = {{flexDirection: 'row'}}>
+                          <Left>
+                            <Thumbnail style={{marginTop: 8, marginBottom: 8, left: 10}} source={{uri: data.image}} />
+                          </Left>
+
+                          <View style = {styles.cardTextView}>
+                            <Text style ={styles.cardPrimaryText}>
+                              {data.name}
+                            </Text>
+                            <Text style ={styles.cardSecondaryText}>
+                              {data.selection[0]}
+                            </Text>
+                          </View>
+                          </View>
+                        </Card>
+                      </ListItem>}
+                    renderRightHiddenRow={(data, secId, rowId, rowMap) =>
+                      <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
+                        <Icon active name="trash" />
+                      </Button>}
+                    rightOpenValue={-75}
+                  />
                 }
-                {
-                  !order_exists &&
+                {!order_exists &&
                     <Text style={styles.nothingText}>
                       Nothing yet: ) {'\n'} Click menu to place your first order
                       </Text>
                 }
                 </View>
               </View>
-
-
-
-
-
-
-
-
-
-
-              {/* Submit button section */}
+            {/* Submit button section */}
               <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_submit}
@@ -457,26 +578,43 @@ export class Main extends Component {
           {
             this.state.seg === 2 && <Container style = {styles.Container}>
 
+            {/* ---------------------------------- Order Card ---------------------------------- */}
+
             {this.state.selecting_order &&
               <Content scrollEnabled={false}>
               <Card>
                 <CardItem header>
+
                   <Button transparent onPress={() => this.setState({selecting_order: false})}>
                     <Icon name="arrow-back" style={styles.icon}/>
-                    </Button>
-                </CardItem>
-                <CardItem>
-                  <Thumbnail square large source={require('../resources/avatar.png')}/>
+                  </Button>
 
-                  <Text>
-                    {this.state.order_selecting.buyer_id}
-                  </Text>
                 </CardItem>
+
+                <View style={styles.cardLine}/>
                 <CardItem>
+                <Left>
+                  {!this.state.order_selecting.avatar &&
+                    <Thumbnail large source={require('../resources/avatar.png')}/>
+                  }
+                  {this.state.order_selecting.avatar &&
+                    <Thumbnail large source={{uri: this.state.order_selecting.avatar}}/>
+                  }
+                  <Body>
+                  <CardItem>
+                  <Text style={styles.cardBuyerName}>
+                    {this.state.order_selecting.buyer_name}
+                  </Text>
+                  </CardItem>
+                  <CardItem>
                   {
                     this.createStars(this.state.order_selecting.buyer_rate)
                   }
+                  </CardItem>
+                  </Body>
+                </Left>
                 </CardItem>
+                <View style={styles.cardLine}/>
                 <CardItem>
                   <Text style={styles.card_title}>
                     Location:
@@ -521,7 +659,7 @@ export class Main extends Component {
                 >
                   <Text style={styles.menuText}
                   onPress={() => this.setState({selected_order: this.state.order_selecting.id, selecting_order: false, request_selected: true})}>
-                    Comfirm
+                    Confirm
                   </Text>
                 </Button>
                 </Body>
@@ -531,27 +669,43 @@ export class Main extends Component {
               </Content>
             }
 
+            {/* ---------------------------------- Regular Request Page ---------------------------------- */}
 
             {!this.state.selecting_order & !this.state.accepted &&
             <View style= {styles.banner}>
+
             <Item regular style={styles.textInput}>
-              <Input placeholder='Where...' placeholderTextColor="gray" style={styles.subText} onChangeText={(text) => this.setState({where: text})}
-              />
-              <Button transparent onPress={() => this.props.navigation.goBack()}>
-              <Icon style={styles.icon} name="clock" />
-              </Button>
-            </Item >
+              <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
+                <Icon style={styles.Whenwheretext} name='alarm' />
+                <Text style={styles.Whenwheretext}>{this.state.carrier_whenLogan}</Text>
+                </Button>
+                <DateTimePicker
+                  isVisible={this.state.isDateTimePickerVisible}
+                  onConfirm={this._handleCarrierDatePicked}
+                  onCancel={this._hideDateTimePicker}
+                  mode='time'
+                  titleIOS='Pick a time'
+                  is24Hour={true}
+                  timeZoneOffsetInMinutes={-7 * 60}
+                />
+            </Item>
+            <Item regular style={styles.textInput}>
+              <Button iconRight style={styles.Wherebutton} onPress={() => this.setState({carrier_choosePlaces: true})}>
+                <Text style={styles.Whenwheretext}>{this.state.carrier_whereLogan}</Text>
+                <Icon style={styles.Whenwheretext} name='navigate' />
+                </Button>
+            </Item>
 
+            {/* ---------------------------------- Request List ---------------------------------- */}
 
-            <Item regular style={styles.requestTitleItem}>
+            <View regular style={styles.requestTitleItem}>
             <Label style = {styles.orderTitle}>
               Requests
             </Label>
-            </Item>
+            </View>
 
 
-            <Item regular style={styles.requestItem}>
-
+            <View scrollEnabled={false} style={styles.requestView}>
               {loading &&
                 <Content refreshControl={
                   <RefreshControl
@@ -560,7 +714,9 @@ export class Main extends Component {
                   />
                 }>
                  <List
+                 scrollEnabled={false}
                   dataArray={this.state.request_data}
+                  style= {styles.requestList}
 
 
                   renderRow={data =>
@@ -568,9 +724,14 @@ export class Main extends Component {
                     onPress={() => this.setState({order_selecting: data, selecting_order: true})}
                     selected = {data.id == this.state.selected_order}>
                       <Left style={styles.list_left_container}>
-                        <Thumbnail square small source={require('../resources/avatar.png')}/>
-                        <Text style={{fontSize: 12}}>
-                          {data.buyer_id}
+                        { !data.avatar &&
+                          <Thumbnail  source={require('../resources/avatar.png')}/>
+                        }
+                        { data.avatar &&
+                          <Thumbnail  source={{uri: data.avatar}}/>
+                        }
+                        <Text numberOfLines={1} style={{flex: 1, fontSize: 12}}>
+                          {data.buyer_name}
                         </Text>
                       </Left>
                       <Body style={styles.list_body_container}>
@@ -579,7 +740,7 @@ export class Main extends Component {
                             {item.item_name}
                           </Text>)
                         }
-                      <Text style={styles.list_text}>
+                      <Text numberOfLines={1} style={styles.list_text}>
                         {data.location}
                       </Text>
                       <Text style={styles.list_text}>
@@ -598,9 +759,12 @@ export class Main extends Component {
                   <Spinner color='#FF9052' />
                   </Content>
               }
+            </View>
 
-            </Item>
-            <View style={styles.buttonItem}>
+
+            {/* ---------------------------------- Accept Button ---------------------------------- */}
+
+            <View style={styles.acceptButtonItem}>
             <Button
               disabled = {!this.state.request_selected}
               style={styles.buttons_accept}
@@ -616,6 +780,9 @@ export class Main extends Component {
 
           </View>
         }
+
+        {/* ---------------------------------- Delivering Page ---------------------------------- */}
+
         {this.state.accepted &&
         <View style= {styles.banner}>
 
@@ -629,10 +796,15 @@ export class Main extends Component {
         <Item regular style={styles.DiliverItem}>
         <View >
           <View style={styles.deliverProfile}>
-            <Thumbnail square large source={require('../resources/avatar.png')}/>
+            {!this.state.order_selecting.avatar &&
+              <Thumbnail large source={require('../resources/avatar.png')}/>
+            }
+            {this.state.order_selecting.avatar &&
+              <Thumbnail large source={{uri: this.state.order_selecting.avatar}}/>
+            }
             <View>
               <Label style={styles.DeliverProfileText}>
-                {this.state.order_selecting.buyer_id}
+                {this.state.order_selecting.buyer_name}
               </Label>
               <View style={styles.DeliverStarts}>
                 {this.createStars(this.state.order_selecting.buyer_rate)}
@@ -690,6 +862,17 @@ export class Main extends Component {
           >
             <Text style={styles.menuText}>
               Update
+            </Text>
+          </Button>
+        }
+        {!this.state.delivering &&
+          <Button
+            style={styles.buttons_cancel}
+            color="#ffffff"
+            onPress={() => this.cancelCarrier() }
+          >
+            <Text style={styles.cancelText}>
+              Cancel
             </Text>
           </Button>
         }

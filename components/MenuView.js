@@ -45,6 +45,8 @@ export class MenuView extends Component {
     super(props);
     this.state = {
       data: this.props.navigation.getParam('data'),
+      location: this.props.navigation.getParam('location'),
+      time: this.props.navigation.getParam('time'),
       menu: 'Menu',
       items: [],
     };
@@ -99,11 +101,11 @@ export class MenuView extends Component {
              <Row>
               <TouchableWithoutFeedback onPress={ ()=> {
                 this.props.navigation.navigate('submenu', {
-
                     name: type[1],
                     items: this.getType(type[1]),
                     data: this.state.data,
-
+                   location: this.state.location,
+                   time: this.state.time,
                   })}}>
                 <Image style={styles.image}
                         source={{uri: type[0]}} />
@@ -116,6 +118,8 @@ export class MenuView extends Component {
                    name: type[1],
                    items: this.getType(type[1]),
                    data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
               })}}>
                 <Text style={styles.text}>{type[1]}</Text>
               </TouchableWithoutFeedback>

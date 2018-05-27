@@ -54,6 +54,8 @@ export class Customization extends Component {
       cream: ["no", "light", "regular"],
       syrup: ["no", "light", "regular"],
       data: this.props.navigation.getParam('data'),
+      location: this.props.navigation.getParam('location'),
+      time: this.props.navigation.getParam('time'),
       //topping: ["no", "light", "regular"]
       //itemImage: displayItem(this.state.itemType, this.state.itemId)
     };
@@ -232,6 +234,8 @@ export class Customization extends Component {
                    image: itemImage,
                    selection: this.state.select,
                    data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
                    update: true,
               })}}>Submit</Text>
                 </Button>

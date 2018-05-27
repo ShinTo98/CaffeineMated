@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { TouchableOpacity, Image, RefreshControl } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, List, ListItem, View, Spinner, Thumbnail,Card, CardItem } from 'native-base';
 import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder} from './../database.js';
 import {styles} from '../CSS/SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -21,6 +21,61 @@ export class SubmitOrder extends Component {
     };
 
   }
+
+  updateProgressBar = (num) => {
+    let curr = num;
+    let progressArr = [];
+
+    for (var i = 1; i <= 4; i++) {
+
+
+      if (curr - 1 >= 0) {
+        progressArr.push((<View key={i} style={styles.circleFilled}/>));
+        curr = curr - 1;
+      } else {
+        progressArr.push((<View key={i} style={styles.circle}/>));
+      }
+
+      if (i != 4) {
+        progressArr.push((<View key={4+i} style={styles.line}/>));
+      }
+		}
+
+    return progressArr;
+
+  };
+
+  updateStars = (num) => {
+    let carrierStars = [];
+
+    let curr = Math.round(num*2)/2;
+    console.log(curr);
+    for (var i = 1; i <= 5; i++) {
+
+      let iosStar = 'ios-star';
+      let androidStar = 'md-star';
+
+      if (curr - 1 >= 0) {
+        iosStar = 'ios-star';
+        androidStar = 'md-star';
+        curr = curr - 1;
+      } else if ( curr - 0.5 == 0) {
+        iosStar = 'ios-star-half';
+        androidStar = 'md-star-half';
+        curr = curr - 0.5;
+      } else {
+        iosStar = 'ios-star-outline';
+        androidStar = 'md-star-outline';
+      }
+
+			// Push the icon tag in the stars array
+			carrierStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
+
+		}
+
+    return carrierStars;
+
+  };
 
 
   componentDidMount() {
@@ -66,11 +121,7 @@ export class SubmitOrder extends Component {
                 <Thumbnail style={{alignSelf:'center'}} large source={ require('../resources/batman.jpg') } />
 
                 <View style= {styles.carrierStars}>
-                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
-                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
-                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
-                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
-                  <Icon ios='ios-star' android='md-star' style={styles.icon}/>
+                  {this.updateStars(4.6)}
                 </View>
               </View>
 
@@ -136,13 +187,7 @@ export class SubmitOrder extends Component {
         <View style={styles.progressBarView}>
 
           <View style= {styles.progressBar}>
-            <View style={styles.circleFilled}/>
-            <View style={styles.line}/>
-            <View style={styles.circleFilled}/>
-            <View style={styles.line}/>
-            <View style={styles.circle}/>
-            <View style={styles.line}/>
-            <View style={styles.circle}/>
+            {this.updateProgressBar(4)}
           </View>
 
 

@@ -46,6 +46,8 @@ export class SubMenuView extends Component {
       type: this.props.navigation.getParam('name'),
       items: [],
       data: this.props.navigation.getParam('data'),
+      location: this.props.navigation.getParam('location'),
+      time: this.props.navigation.getParam('time'),
     };
     // Bind login related functions
     this.getType = this.getType.bind(this);
@@ -103,6 +105,8 @@ export class SubMenuView extends Component {
                    itemType: this.state.type,
                    itemId: type[1],
                    data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
                  })}}>
                  <Image style={styles.image} source={{uri: type[0]}}/>
               </TouchableWithoutFeedback>
@@ -113,6 +117,8 @@ export class SubMenuView extends Component {
                    itemType: this.state.type,
                    itemId: type[1],
                    data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
               })}}>
                 <Text style={styles.text}>{type[2]}</Text>
               </TouchableWithoutFeedback>
