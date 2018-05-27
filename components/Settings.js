@@ -27,6 +27,7 @@ import {
 //} from 'react-native';
 import {styles} from '../CSS/Settings.js';
 import {logout, changeDefaultMode, getProfileById} from './../database.js';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 export class Settings extends Component {
 
@@ -42,6 +43,7 @@ export class Settings extends Component {
 
     //this.logOut = this.logOut.bind(this);
   }
+
 
   async onValueChange(value: string) {
     console.log(value);
@@ -74,7 +76,12 @@ export class Settings extends Component {
     var result = await logout();
     if(result === 0) {
       alert("Log Out Successful!");
-      this.props.navigation.navigate('start');
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [NavigationActions.navigate({ routeName: 'start' })],
+      });
+      this.props.navigation.dispatch(resetAction);
     } else {
       alert(result);
     }
