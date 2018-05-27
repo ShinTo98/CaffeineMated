@@ -1,13 +1,14 @@
 import firebase from 'firebase';
+import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-  apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
-  authDomain: "caffeinemated-90dda.firebaseapp.com",
-  databaseURL: "https://caffeinemated-90dda.firebaseio.com",
-  projectId: "caffeinemated-90dda",
-  storageBucket: "caffeinemated-90dda.appspot.com",
-  messagingSenderId: "329358763029"
+    apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
+    authDomain: "caffeinemated-90dda.firebaseapp.com",
+    databaseURL: "https://caffeinemated-90dda.firebaseio.com",
+    projectId: "caffeinemated-90dda",
+    storageBucket: "caffeinemated-90dda.appspot.com",
+     messagingSenderId: "329358763029"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -27,6 +28,10 @@ export async function userLogin (email, password) {
     function success() {
       // callback with 0 indicating login success
       result = 0;
+
+
+
+
     }
   ).catch(
     function failure (error) {
@@ -36,6 +41,12 @@ export async function userLogin (email, password) {
     result = errorMessage;
   });
 
+  if (result === 0) {
+      var curUser = getCurrentUserUID();
+      var Profile = await getProfileById(curUser);
+      if (Profile.current_order_as_buyer)
+          addOrderStatusChangeListener(Profile.current_order_as_buyer);
+  }
   return result;
 }
 
@@ -45,13 +56,19 @@ export async function userLogin (email, password) {
  * Return:
  * Error Condition: errorMessage
  * Success: 1 represents sign in successfully
+ * If sign up successfully, firebase will create a default profile related to that uid
  */
-export async function userSignup (email, password) {
+export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
 
       function success(){
         result = 0;
+          var newUID = getCurrentUserUID();
+          var newProfileDirName = "Profile/" + newUID;
+          var ref = firebase.database().ref(newProfileDirName);
+          ref.set({default_mode:"buyer", rate:5, username:name,
+              history:{total_num:0}, photo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-LV4tX2VqMy115iZNiIgowzRQ2UXWWBAqCfh5GoSIvyrzgD32"});
       }
     ).catch(
       function failure(error){
@@ -184,11 +201,42 @@ export async function saveOrder (order) {
     if (!order_id) {
       order_id = 0;
     }
+    order.id = order_id;
     orderRef.child("items").child(order_id).set(order);
     orderRef.child("size").set(++order_id);
   });
+
   return order_id;
 }
+
+/*
+ * Name: createOrder
+ * Description: create buyer order
+ * Parameters: Object items, string location, string request_time
+ * Return: order_id
+ */
+  export async function createOrder(orders, orderLocation, requestTime){
+    var buyerId = await getCurrentUserUID();
+    var createTime = new Date().toLocaleString('en-US', { hour12: false });
+
+    var orderObject ={
+        buyer_id: buyerId,
+        buyer_rate: -1,
+        carrier_id: -1,
+        create_time: createTime,
+        items: orders,
+        last_update_time: createTime,
+        location: orderLocation,
+        request_time: requestTime,
+        status: 1
+    }
+
+    var orderId = await saveOrder(orderObject);
+    profileRef = firebase.database().ref("Profile/" + buyerId);
+    profileRef.child("current_order_as_buyer").set(orderId);
+    addOrderStatusChangeListener(orderId - 1);
+    return orderId;
+  }
 
 
 /*
@@ -256,6 +304,45 @@ export async function viewPendingOrders() {
 }
 
 /*
+ * Name: viewAllOrders
+ * Description: This is for carrier to see all pending orders
+ * Parameters: object: order
+ * Return: An array of order_id
+ * Error Condition: none
+ * Success: N/A
+ */
+export async function viewAllOrders() {
+  // access the Menu field in firebase
+  const firebaseRef = firebase.database().ref("Orders");
+
+  var allOrders;
+  await firebaseRef.once('value', function(snapshot) {
+
+    // Find the value of Orders field
+    let orders = snapshot.val();
+    orders = orders.items;
+
+    allOrders=[];
+    var order_id;
+
+    // loop through all types in orders
+    for( order_id in orders){
+
+      // check if it is a pending order
+      let order = orders[order_id];
+        allOrders.push(order_id);
+
+    }
+
+  }, function(errorObject){
+      alert("failed:" + errorObject.code);
+    });
+
+  return allOrders;
+
+}
+
+/*
  * Name: updateOrderStatus
  * Description: update order status
  * Parameters: string: order_id
@@ -274,6 +361,8 @@ export async function updateOrderStatus(order_id) {
       status = Math.min(++status, 3);
       orderRef.child("status").set(status);
     }
+
+    updateLastTime(order_id);
   });
 }
 
@@ -340,7 +429,8 @@ export async function getProfileDetailById(profile_id){
  * The database will update the carrier_id entry with the current carrier_id.
  * If the order is already taken by others, it will return -1.
  */
-export async function acceptOrder(order_id, carrier_id){
+export async function acceptOrder(order_id){
+    var carrier_id = getCurrentUserUID();
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   let status = -1;
   await orderRef.once("value", dataSnapshot => {
@@ -354,6 +444,8 @@ export async function acceptOrder(order_id, carrier_id){
           orderRef.child("carrier_id").set(carrier_id);
           orderRef.child("status").set(2);
       }
+
+      updateLastTime(order_id);
   });
 }
 
@@ -427,13 +519,31 @@ export async function sortOrders(origin) {
   return ordersResult;
 }
 
+export async function getOrderRequestTime(order_id) {
+  let dir = "Orders/items/" + order_id;
+  var location;
+  await firebase.database().ref(dir).once("value", function (snapshot){
+    location = snapshot.val().location;
+    location = location.split(' ').join('%20');
+  });
+  return location;
+}
 
+export async function sortOrdersByRequestTime() {
+  let orders = await viewPendingOrders();
+  let ordersWithRequestTime = [];
+
+}
 /*
  * Name: completeOrder
  * Parameter: string: order_id  string: user_id
  * Return: N/A
  */
 export async function completeOrder(order_id, user_id) {
+  let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
+  await profileRef.once("value", snapshot => {
+    index = snapshot.val().total_num;
+  });
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   await orderRef.once("value", dataSnapshot => {
@@ -442,12 +552,20 @@ export async function completeOrder(order_id, user_id) {
       // update status to be 6: completed
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("total_num").set(++index);
       }
 
       // current order status is 5: completedByCarrier, then buyer click complete
       // update status to be 6: completed
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("total_num").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then buyer click complete
@@ -455,6 +573,12 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
           orderRef.child("status").set(4);
           console.log("complete by buyer");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("total_num").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then carrier click complete
@@ -462,7 +586,11 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
           console.log("complete by carrier");
+          profileRef.child("orders").child(index).set(order_id);
+          profileRef.child("total_num").set(++index);
       }
+
+      updateLastTime(order_id);
   });
 }
 
@@ -496,7 +624,19 @@ export async function changeProfilePhoto(id, url) {
   });
 }
 
+/*
+ * Name: logout
+ * Parameters: N/A
+ * Return: 0 if success, otherwise return error message
+ * logout the user
+ */
 export async function logout() {
+
+    var curUser = getCurrentUserUID();
+    var Profile = await getProfileById(curUser);
+    if (Profile.current_order_as_buyer != null && Profile.current_order_as_buyer != -1)
+        removeOrderStatusChangeListener(Profile.current_order_as_buyer);
+
   var result;
     await firebase.auth().signOut().then(
 
@@ -516,8 +656,14 @@ export async function logout() {
     return result;
 }
 
+/*
+ * Name: displayOrderHistory
+ * Parameters: string user_id
+ * Return: order history
+ * return order history of the given user
+ */
 export async function displayOrderHistory(user_id) {
-  // get the direction
+  // get the directory
   let dir = "Profile/" + user_id + "/history";
   let orderHis;
   await firebase.database().ref(dir).once("value", function (snapshot) {
@@ -527,8 +673,14 @@ export async function displayOrderHistory(user_id) {
   return orderHis;
 }
 
+/*
+ * Name: getProfileById
+ * Parameters: string user_id
+ * Return: object profile
+ * return profile information of the given user
+ */
 export async function getProfileById(user_id) {
-  // get the direction
+  // get the directory
   let dir = "Profile/" + user_id;
   let profile;
   await firebase.database().ref(dir).once("value", function (snapshot) {
@@ -538,16 +690,49 @@ export async function getProfileById(user_id) {
   return profile;
 }
 
-export function updateOrderRate(order_id, rate, isBuyer) {
-  let dir;
-  if (isBuyer) { // get direction
-    dir = "Orders/items/" + order_id + "/buyer_rate";
-  } else {
-    dir = "Orders/items/" + order_id + "/carrier_rate";
-  }
+/*
+ * Name: updateDelivery
+ * Parameters: order_id,
+ * Return: database change
+ * update user profile photo
+ */
 
-  let orderRef = firebase.database().ref(dir);
+ export async function updateLastTime(order_id){
+   let dir;
+   dir = "Orders/items/" + order_id + "/last_update_time";
+   let update_time = firebase.database().ref(dir);
+   var createTime = new Date().toLocaleString('en-US', { hour12: false });
+   update_time.set(createTime);
+
+ }
+
+ /*
+ * Name: updateOrderRate
+ * Parameters: string order_id, string rate, boolean isBuyer, string user_id
+ * Return: N/A
+ * update rate in order and rate in given user
+ */
+export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
+  let orderDir;
+  if (isBuyer) { // get direction
+    orderDir = "Orders/items/" + order_id + "/buyer_rate";
+  } else {
+    orderDir = "Orders/items/" + order_id + "/carrier_rate";
+  }
+  let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
+
+  let profileDir = "Profile/" + user_id;
+  let prevRate;
+  let totalNum;
+  await firebase.database().ref(profileDir).once("value", function (snapshot) {
+    user = snapshot.val();
+    prevRate = user.rate;
+    totalNum = user.history.total_num;
+  });
+  let newRate = (parseFloat(prevRate) * (parseInt(totalNum)-1) + parseFloat(rate)) / (parseInt(totalNum));
+  let rateRef = firebase.database().ref(profileDir + "/rate");
+  rateRef.set(newRate);
 }
 
 /*
@@ -568,4 +753,83 @@ export async function changeUserName(user_id, newName){
         }
     });
     return result;
+}
+
+/*
+ * Name: getCurrentUserUID
+ * Parameter: None
+ * Return: the uid of current user.
+ * get the current user uid
+ */
+export function getCurrentUserUID(){
+    var currentUser = firebase.auth().currentUser;
+    if (currentUser != null){
+        return currentUser.uid;
+    }
+    return -1;
+}
+
+/*
+ *  Helper function used to compare two orders with time.
+ *  NOTICE: should be 24 hours format
+ */
+function compareByRequestTime (a, b){
+    // initialize array containing hours and minutes
+    var aTime = a.requestTime.split(":");
+    var bTime = b.requestTime.split(":");
+
+    // compare hours
+    if (aTime[0] > bTime[0]){
+        return 1;
+    }
+    else if (aTime[0] < bTime[0]){
+        return -1;
+    }
+
+    // compare minutes
+    else if (aTime[1] > bTime[1]){
+        return 1;
+    }
+    else if (aTime[1] < bTime[1]){
+        return -1;
+    }
+    return 0;
+}
+
+/*
+ * Name: getItemDetailWithOnlyId
+ * Parameter: itemId
+ * Return: the json containing item details
+ * this function allows us to get item details with only id
+ */
+export async function getItemDetailWithOnlyId(itemId) {
+    var dict = {HC:"Hot Coffees",
+                DR:"Drinks",
+                FR:"Frappuccino",
+                CC:"Cold Coffees",
+                HT:"Hot Teas",
+                IT:"Iced Teas"};
+    var type = dict[itemId.substring(0,2)];
+    var itemDetail = await displayItem(type, itemId);
+    return itemDetail;
+}
+
+export function addOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.on('value', statusUpdated);
+}
+
+export function removeOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.off('value', statusUpdated);
+}
+
+function statusUpdated(snapshot) {
+    var changedChild = snapshot.val();
+    if (changedChild === 2) {
+        Alert.alert("Notification", "Someone just accepted your order!\n Please refresh the page!");
+    }
+    else if (changedChild != 1) {
+        Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
+    }
 }
