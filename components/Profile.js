@@ -64,17 +64,21 @@ export class Profile extends Component {
   }
 
   async updateProfile() {
-    var result = await changeUserName("02", this.state.name);
-    this.setState({
-      placeName: this.state.name,
-      name: '',
-    })
-    if(result == 0) {
-      alert("Update Successful!");
-    } else if (result == -1) {
-      alert("Update Failed");
-    }
 
+    if (this.state.name == '') {
+      alert('You cannot update an empty name!');
+    } else {
+      var result = await changeUserName("02", this.state.name);
+      this.setState({
+        placeName: this.state.name,
+        name: '',
+      })
+      if(result == 0) {
+        alert("Update Successful!");
+      } else if (result == -1) {
+        alert("Update Failed");
+      }
+    }  
   }
 
 
