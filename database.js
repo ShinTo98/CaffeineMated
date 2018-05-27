@@ -8,7 +8,7 @@ var config = {
     databaseURL: "https://caffeinemated-90dda.firebaseio.com",
     projectId: "caffeinemated-90dda",
     storageBucket: "caffeinemated-90dda.appspot.com",
-    messagingSenderId: "329358763029"
+     messagingSenderId: "329358763029"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -29,6 +29,9 @@ export async function userLogin (email, password) {
       // callback with 0 indicating login success
       result = 0;
 
+
+
+
     }
   ).catch(
     function failure (error) {
@@ -38,6 +41,12 @@ export async function userLogin (email, password) {
     result = errorMessage;
   });
 
+  if (result === 0) {
+      var curUser = getCurrentUserUID();
+      var Profile = await getProfileById(curUser);
+      if (Profile.current_order_as_buyer)
+          addOrderStatusChangeListener(Profile.current_order_as_buyer);
+  }
   return result;
 }
 
@@ -611,6 +620,12 @@ export async function changeProfilePhoto(id, url) {
  * logout the user
  */
 export async function logout() {
+
+    var curUser = getCurrentUserUID();
+    var Profile = await getProfileById(curUser);
+    if (Profile.current_order_as_buyer)
+        removeOrderStatusChangeListener(Profile.current_order_as_buyer);
+
   var result;
     await firebase.auth().signOut().then(
 
@@ -680,6 +695,12 @@ export async function getProfileById(user_id) {
 
  }
 
+ /*
+ * Name: updateOrderRate
+ * Parameters: string order_id, string rate, boolean isBuyer, string user_id
+ * Return: N/A
+ * update rate in order and rate in given user
+ */
 export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
   let orderDir;
   if (isBuyer) { // get direction
