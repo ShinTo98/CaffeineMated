@@ -211,7 +211,7 @@ export const styles = StyleSheet.create({
     height: 40,
   },
   requestView:{
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
     borderColor: '#c8c8c8',
     borderWidth: 2,
@@ -219,6 +219,13 @@ export const styles = StyleSheet.create({
     top: 50,
     height: 375,
     borderRadius: 6,
+    backgroundColor: '#FFFFFF',
+  },
+  requestList:{
+    // alignItems: 'flex-start',
+    // justifyContent: 'center',
+    width: 290,
+    height: 375,
     backgroundColor: '#FFFFFF',
   },
   requestItem:{

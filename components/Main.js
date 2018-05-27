@@ -29,8 +29,8 @@ export class Main extends Component {
       order_exists: false,
       request_selected: false,
       isDateTimePickerVisible: false,
-      location: 'Specify a place',
-      time: 'Pick a time',
+      location: '',
+      time: '',
       refreshing: false,
       order_selecting: undefined,
       selecting_order: false,
@@ -157,8 +157,6 @@ export class Main extends Component {
           image: this.props.navigation.getParam('image'),
           selection: this.props.navigation.getParam('selection'),
         });
-        this.setState({time: this.props.navigation.getParam('time')});
-        this.setState({location: this.props.navigation.getParam('location')});
       }
       this.setState({order_data: latest});
       this.setState({order_exists: true});
@@ -247,7 +245,7 @@ export class Main extends Component {
 
   complete = () => {
     completeOrder(this.state.selected_order, "01");
-    this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
+    this.setState({request_selected: false, accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
 
     this.componentWillMount();
   }
@@ -287,20 +285,6 @@ export class Main extends Component {
     else {
       cancelByCarrier(this.state.selected_order);
       this.setState({accepted: false, delivering: false,order_selecting: undefined,selecting_order: false,selected_order: -1});
-    }
-  }
-
-  submitValidityCheck = () => {
-    if(this.state.location == '' || this.state.time == '') {
-      Toast.show({
-        text: 'Please fill out location & time!'
-      });
-    } else if(this.state.order_data.length == 0) {
-      Toast.show({
-        text: 'Please order at least one drink!'
-      });
-    } else {
-      this.setState({orderSubmitted: true});
     }
   }
 
@@ -375,7 +359,6 @@ export class Main extends Component {
           }}
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
           /*predefinedPlaces={[homePlace, workPlace]}
-
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
           renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
           renderRightButton={() => <Text>Custom text after the inputg</Text>} */
@@ -440,7 +423,6 @@ export class Main extends Component {
           }}
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
           /*predefinedPlaces={[homePlace, workPlace]}
-
           debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
           renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
           renderRightButton={() => <Text>Custom text after the inputg</Text>} */
@@ -505,7 +487,7 @@ export class Main extends Component {
               <Item regular style={styles.textInput}>
                 <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
                   <Icon style={styles.Whenwheretext} name='alarm' />
-                  <Text style={styles.Whenwheretext}>{this.state.time}</Text>
+                  <Text style={styles.Whenwheretext}>{this.state.whenLogan}</Text>
                   </Button>
                   <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -519,7 +501,7 @@ export class Main extends Component {
               </Item>
               <Item regular style={styles.textInput}>
                 <Button iconRight style={styles.Wherebutton} onPress={() => this.setState({choosePlaces: true})}>
-                  <Text style={styles.Whenwheretext}>{this.state.location}</Text>
+                  <Text style={styles.Whenwheretext}>{this.state.whereLogan}</Text>
                   <Icon style={styles.Whenwheretext} name='navigate' />
                   </Button>
               </Item>
@@ -531,8 +513,6 @@ export class Main extends Component {
                 color="#ffffff"
                 onPress={() => this.props.navigation.navigate('menu', {
                   data: this.state.order_data,
-                  location: this.state.location,
-                  time: this.state.time,
                 })}
               > <Text style={styles.menuText}> Menu </Text>
               </Button>
@@ -584,7 +564,7 @@ export class Main extends Component {
               <Button
                 style={styles.buttons_submit}
                 color="#ffffff"
-                onPress={this.submitValidityCheck}
+                onPress={() => this.setState({orderSubmitted: true})}
               > <Text style={styles.submitText}> Submit </Text>
               </Button>
               </View>
@@ -597,6 +577,8 @@ export class Main extends Component {
           {/* ---------------------------------- Requester segment ---------------------------------- */}
           {
             this.state.seg === 2 && <Container style = {styles.Container}>
+
+            {/* ---------------------------------- Order Card ---------------------------------- */}
 
             {this.state.selecting_order &&
               <Content scrollEnabled={false}>
@@ -687,6 +669,7 @@ export class Main extends Component {
               </Content>
             }
 
+            {/* ---------------------------------- Regular Request Page ---------------------------------- */}
 
             {!this.state.selecting_order & !this.state.accepted &&
             <View style= {styles.banner}>
@@ -713,6 +696,7 @@ export class Main extends Component {
                 </Button>
             </Item>
 
+            {/* ---------------------------------- Request List ---------------------------------- */}
 
             <View regular style={styles.requestTitleItem}>
             <Label style = {styles.orderTitle}>
@@ -721,8 +705,7 @@ export class Main extends Component {
             </View>
 
 
-            <View  style={styles.requestView}>
-              <Item regular style={styles.requestItem}>
+            <View scrollEnabled={false} style={styles.requestView}>
               {loading &&
                 <Content refreshControl={
                   <RefreshControl
@@ -731,7 +714,9 @@ export class Main extends Component {
                   />
                 }>
                  <List
+                 scrollEnabled={false}
                   dataArray={this.state.request_data}
+                  style= {styles.requestList}
 
 
                   renderRow={data =>
@@ -745,7 +730,7 @@ export class Main extends Component {
                         { data.avatar &&
                           <Thumbnail  source={{uri: data.avatar}}/>
                         }
-                        <Text style={{fontSize: 12}}>
+                        <Text numberOfLines={1} style={{flex: 1, fontSize: 12}}>
                           {data.buyer_name}
                         </Text>
                       </Left>
@@ -755,7 +740,7 @@ export class Main extends Component {
                             {item.item_name}
                           </Text>)
                         }
-                      <Text style={styles.list_text}>
+                      <Text numberOfLines={1} style={styles.list_text}>
                         {data.location}
                       </Text>
                       <Text style={styles.list_text}>
@@ -774,9 +759,11 @@ export class Main extends Component {
                   <Spinner color='#FF9052' />
                   </Content>
               }
-              </Item>
-
             </View>
+
+
+            {/* ---------------------------------- Accept Button ---------------------------------- */}
+
             <View style={styles.acceptButtonItem}>
             <Button
               disabled = {!this.state.request_selected}
@@ -793,6 +780,9 @@ export class Main extends Component {
 
           </View>
         }
+
+        {/* ---------------------------------- Delivering Page ---------------------------------- */}
+
         {this.state.accepted &&
         <View style= {styles.banner}>
 
