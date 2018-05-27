@@ -594,7 +594,7 @@ export async function logout() {
 
     var curUser = getCurrentUserUID();
     var Profile = await getProfileById(curUser);
-    if (Profile.current_order_as_buyer)
+    if (Profile.current_order_as_buyer != null && Profile.current_order_as_buyer != -1)
         removeOrderStatusChangeListener(Profile.current_order_as_buyer);
 
   var result;
