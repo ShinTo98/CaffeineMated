@@ -3,7 +3,7 @@ import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-  apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
+    apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
     authDomain: "caffeinemated-90dda.firebaseapp.com",
     databaseURL: "https://caffeinemated-90dda.firebaseio.com",
     projectId: "caffeinemated-90dda",
