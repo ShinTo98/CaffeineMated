@@ -514,7 +514,7 @@ export async function completeOrder(order_id, user_id) {
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       // current order status is 5: completedByCarrier, then buyer click complete
@@ -522,7 +522,7 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
 
           ref = firebase.database().ref("Profile/" + user_id);
           ref.child("current_order_as_buyer").set('-1');
@@ -535,7 +535,7 @@ export async function completeOrder(order_id, user_id) {
           orderRef.child("status").set(4);
           console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
 
           ref = firebase.database().ref("Profile/" + user_id);
           ref.child("current_order_as_buyer").set('-1');
@@ -548,7 +548,7 @@ export async function completeOrder(order_id, user_id) {
           orderRef.child("status").set(5);
           console.log("complete by carrier");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       updateLastTime(order_id);
@@ -683,9 +683,9 @@ export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
   let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
 
-  let profileDir = "Profile/" + user_id; 
-  let prevRate; 
-  let totalNum; 
+  let profileDir = "Profile/" + user_id;
+  let prevRate;
+  let totalNum;
   await firebase.database().ref(profileDir).once("value", function (snapshot) {
     user = snapshot.val();
     prevRate = user.rate;
