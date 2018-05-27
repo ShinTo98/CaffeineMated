@@ -68,7 +68,7 @@ export async function userSignup (email, password, name) {
           var newProfileDirName = "Profile/" + newUID;
           var ref = firebase.database().ref(newProfileDirName);
           ref.set({default_mode:"buyer", rate:5, username:name,
-              history:{total_num:0}, photo:"www.baidu.com"});
+              history:{total_num:0}, photo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-LV4tX2VqMy115iZNiIgowzRQ2UXWWBAqCfh5GoSIvyrzgD32"});
       }
     ).catch(
       function failure(error){
@@ -232,6 +232,9 @@ export async function saveOrder (order) {
     }
 
     var orderId = await saveOrder(orderObject);
+    profileRef = firebase.database().ref("Profile/" + buyerId);
+    profileRef.child("current_order_as_buyer").set(orderId);
+    addOrderStatusChangeListener(orderId - 1);
     return orderId;
   }
 
@@ -550,7 +553,7 @@ export async function completeOrder(order_id, user_id) {
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       // current order status is 5: completedByCarrier, then buyer click complete
@@ -558,7 +561,11 @@ export async function completeOrder(order_id, user_id) {
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then buyer click complete
@@ -567,7 +574,11 @@ export async function completeOrder(order_id, user_id) {
           orderRef.child("status").set(4);
           console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then carrier click complete
@@ -576,7 +587,7 @@ export async function completeOrder(order_id, user_id) {
           orderRef.child("status").set(5);
           console.log("complete by carrier");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       updateLastTime(order_id);
@@ -623,7 +634,7 @@ export async function logout() {
 
     var curUser = getCurrentUserUID();
     var Profile = await getProfileById(curUser);
-    if (Profile.current_order_as_buyer)
+    if (Profile.current_order_as_buyer != null && Profile.current_order_as_buyer != -1)
         removeOrderStatusChangeListener(Profile.current_order_as_buyer);
 
   var result;
@@ -711,9 +722,9 @@ export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
   let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
 
-  let profileDir = "Profile/" + user_id; 
-  let prevRate; 
-  let totalNum; 
+  let profileDir = "Profile/" + user_id;
+  let prevRate;
+  let totalNum;
   await firebase.database().ref(profileDir).once("value", function (snapshot) {
     user = snapshot.val();
     prevRate = user.rate;
