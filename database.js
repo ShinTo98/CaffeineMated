@@ -429,7 +429,8 @@ export async function getProfileDetailById(profile_id){
  * The database will update the carrier_id entry with the current carrier_id.
  * If the order is already taken by others, it will return -1.
  */
-export async function acceptOrder(order_id, carrier_id){
+export async function acceptOrder(order_id){
+    var carrier_id = getCurrentUserUID();
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   let status = -1;
   await orderRef.once("value", dataSnapshot => {
