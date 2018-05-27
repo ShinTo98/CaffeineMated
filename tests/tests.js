@@ -18,7 +18,7 @@ import {
   changeProfilePhoto,
   displayOrderHistory
 } from '../database.js';
-import {saveOrder, viewAllOrders} from "../database";
+import {saveOrder, updateOrderRate, viewAllOrders} from "../database";
 
 //var _Example = require("../database.js\"");
 var config = {
@@ -47,8 +47,9 @@ async function main() {
   //await testUserPasswordChange();
   //await testGetProfileById();
    //await testviewOrderDetailById();
-  await testgetOrderLocationById();
-  //await testdisplayOrderHistory();
+ await testgetOrderLocationById();
+  await testdisplayOrderHistory();
+  await testupdateRate();
 }
 
 
@@ -464,10 +465,29 @@ async function testsortOrders() {
 }
 
 async function testdisplayOrderHistory() {
-  var his = await displayOrderHistory("234567");
-  console.log(his);
+  var prof = await getProfileDetailById( "test1" );
+  var his = await displayOrderHistory("test1");
+
+  var noProblem = true;
+
+  if( prof.history.length != his.length ){
+    noProblem = false;
+  }
+
+  for ( index in his) {
+
+    if( his[index] != prof.history[index] ){
+      noProblem = false;
+    }
+  }
+
+  if (noProblem) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED!\n");
+  }
 }
 
 async function testupdateRate() {
-  //later depend on getProfileById
+  updateOrderRate( 0, 0, true );
 }

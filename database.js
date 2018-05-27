@@ -504,6 +504,7 @@ export async function sortOrders(origin) {
   return ordersResult;
 }
 
+
 export async function getOrderRequestTime(order_id) {
   let dir = "Orders/items/" + order_id;
   var location;
