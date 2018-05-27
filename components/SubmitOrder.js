@@ -187,7 +187,7 @@ export class SubmitOrder extends Component {
         <View style={styles.progressBarView}>
 
           <View style= {styles.progressBar}>
-            {this.updateProgressBar(3)}
+            {this.updateProgressBar(4)}
           </View>
 
 

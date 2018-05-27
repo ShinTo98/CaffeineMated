@@ -70,20 +70,21 @@ export const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   buttons_submit: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#ff9052',
     flexDirection: 'row',
     justifyContent: 'center',
-    width: 280,
+    //fontSize: 30,
+    width: 300,
     padding: 5,
-    borderWidth: 0.5,
+    borderWidth: 2,
     height:45,
-    borderColor: 'gray',
+    borderColor: '#ff9052',
     marginTop: 10,
     alignSelf: 'center',
   },
   menuText:{
-    color: '#FF9052',
-    fontSize: 30,
+    color: '#ffffff',
+    fontSize: 24,
   },
   carrierTitle:{
     color: '#FF9052',
