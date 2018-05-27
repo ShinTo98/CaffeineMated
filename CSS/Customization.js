@@ -86,11 +86,7 @@ export const styles = StyleSheet.create({
 
   buttonChoices:{
     backgroundColor: '#FAFAFA',
-<<<<<<< HEAD
-    borderWidth: 1,
-=======
     borderWidth: 1.5,
->>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
     borderColor: '#FF9052',
     width: '100%',
     //borderRadius: 0,
@@ -127,19 +123,11 @@ export const styles = StyleSheet.create({
   },
 
   submitButton:{
-<<<<<<< HEAD
     backgroundColor: '#FAFAFA',
     borderWidth: 1,
     borderColor: '#FF9052',
     width: '100%',
     borderRadius: 0,
-=======
-    backgroundColor: '#FF9052',
-    //borderWidth: 0.5,
-    //borderColor: '#FF9052',
-    //width: Dimensions.get('window').width,
-    //borderRadius: 0,
->>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
     alignItems: 'center',
     //flexDirection: 'row',
     //height: '8%',
@@ -169,11 +157,7 @@ export const styles = StyleSheet.create({
     height: Dimensions.get('window').height * 0.25,
     backgroundColor: '#FAFAFA',
     borderColor: '#FF9052',
-<<<<<<< HEAD
-    borderWidth: 1,
-=======
     borderWidth: 1.5,
->>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
     width: '100%',
     marginBottom: '3%',
     fontSize: 18,
