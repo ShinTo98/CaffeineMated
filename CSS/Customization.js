@@ -46,6 +46,7 @@ export const styles = StyleSheet.create({
     width:Dimensions.get('window').width*0.32,
     height: Dimensions.get('window').width*0.32,
     borderRadius: Dimensions.get('window').width*0.16,
+    marginBottom: '4%'
   },
 
 
@@ -61,7 +62,7 @@ export const styles = StyleSheet.create({
 
   line:{
     borderBottomColor: '#FF9052',
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1.5,
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingLeft: '10%',
@@ -85,7 +86,11 @@ export const styles = StyleSheet.create({
 
   buttonChoices:{
     backgroundColor: '#FAFAFA',
+<<<<<<< HEAD
     borderWidth: 1,
+=======
+    borderWidth: 1.5,
+>>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
     borderColor: '#FF9052',
     width: '100%',
     //borderRadius: 0,
@@ -101,7 +106,7 @@ export const styles = StyleSheet.create({
   },
 
   scrollView:{
-    marginBottom: '10%'
+    //marginBottom: '10%'
   },
 
   padding:{
@@ -122,21 +127,32 @@ export const styles = StyleSheet.create({
   },
 
   submitButton:{
+<<<<<<< HEAD
     backgroundColor: '#FAFAFA',
     borderWidth: 1,
     borderColor: '#FF9052',
     width: '100%',
     borderRadius: 0,
+=======
+    backgroundColor: '#FF9052',
+    //borderWidth: 0.5,
+    //borderColor: '#FF9052',
+    //width: Dimensions.get('window').width,
+    //borderRadius: 0,
+>>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
     alignItems: 'center',
-    flexDirection: 'row',
-    height: '8%',
+    //flexDirection: 'row',
+    //height: '8%',
   },
 
   submitText:{
-    color: '#47525E',
+    color: '#FAFAFA',
     fontSize: 20,
-    marginLeft: '36%',
-    marginTop: '2%',
+    //marginLeft: '36%',
+    //alignSelf
+    //marginTop: '2%',
+    //height: "100%",
+    padding: '4%'
   },
 
   choicesContainer:{
@@ -146,14 +162,18 @@ export const styles = StyleSheet.create({
 
   row:{
     alignItems: 'center',
-    marginBottom: '2%'
+    marginBottom: '2%',
   },
 
   textInput: {
     height: Dimensions.get('window').height * 0.25,
     backgroundColor: '#FAFAFA',
     borderColor: '#FF9052',
+<<<<<<< HEAD
     borderWidth: 1,
+=======
+    borderWidth: 1.5,
+>>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
     width: '100%',
     marginBottom: '3%',
     fontSize: 18,

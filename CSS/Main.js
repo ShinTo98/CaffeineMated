@@ -18,7 +18,11 @@ export const styles = StyleSheet.create({
   },
   color_theme: {
     // TODO: correct color code
+<<<<<<< HEAD
     backgroundColor: '#D9D9D6',
+=======
+    backgroundColor: '#f8f8f8',
+>>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
   },
   container: {
     flex: 1,
@@ -30,20 +34,22 @@ export const styles = StyleSheet.create({
     color: '#ffffff',
   },
   text_off:{
-    color: '#FF9052',
+    color: '#ffffff',
   },
-
+  header: {
+    top: 8,
+  },
   button_header_on: {
-    borderColor: '#FF9052',
-    backgroundColor: '#FF9052',
+    borderColor: '#ff9052',
+    backgroundColor: '#ff9052',
 
   },
   button_header_off: {
-    borderColor: '#FF9052',
-    backgroundColor: '#ffffff',
+    borderColor: '#d8d8d8',
+    backgroundColor: '#d8d8d8',
   },
   icon: {
-    color: '#FF9052',
+    color: '#ff9052',
   },
   white_banner: {
     flex: 0.15,
@@ -57,39 +63,64 @@ export const styles = StyleSheet.create({
     //activeColor: '#FF9052',
   },
   buttons_menu: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 280,
+    width: 300,
     padding: 5,
-    borderWidth: 0.5,
-    height:45,
-    borderColor: 'gray',
+    borderWidth: 2,
+    height:50,
+    borderColor: '#c8c8c8',
   },
   buttons_submit: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#ff9052',
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 280,
+    width: 300,
     padding: 5,
-    borderWidth: 0.5,
+    borderWidth: 2,
     height:45,
-    borderColor: 'gray',
+    borderColor: '#ff9052',
     top: 60,
+    alignSelf: 'center',
   },
   buttons_accept: {
     backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 280,
+    width: 300,
     padding: 5,
+    borderWidth: 2,
+    height:45,
+    borderColor: '#c8c8c8',
+    top: 60,
+  },
+  buttons_cancel: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    //fontSize: 30,
+    width: 300,
+    padding: 5,
+    borderWidth: 2,
+    height:45,
+    borderColor: '#c8c8c8',
+    top: 70,
+  },
+  buttons_confirm: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    //fontSize: 30,
+    width: 5*deviceWidth/6,
+
     borderWidth: 0.5,
     height:45,
     borderColor: 'gray',
-    top: 60,
   },
   buttons: {
     backgroundColor: '#47525e',
@@ -100,7 +131,14 @@ export const styles = StyleSheet.create({
     top: 100,
   },
   buttonItem:{
-    top: 70,
+    //top: deviceHeight/60,
+    top: 50,
+  },
+  acceptButtonItem: {
+    top: 20,
+  },
+  updateButtonItem:{
+    top: deviceHeight/30,
   },
   textSection: {
     flex: 3,
@@ -109,31 +147,63 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
-    height: 45,
+    height: 60,
     //color: 'gray',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-    width: 280,
-    top: 50,
+    borderColor: '#f8f8f8',
+    //borderWidth: 2,
+    width: 300,
+    top: 30,
   },
   orderItem:{
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: 280,
-    top: 90,
-    height: 280,
+    //alignItems: 'flex-start',
+    //justifyContent: 'center',
+    borderColor: '#c8c8c8',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 2,
+    borderRadius: 6,
+    width: 300,
+    top: 80,
+    height: 320,
   },
 
   requestTitleItem: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    width: 300,
+    top: 40,
+    height: 40,
+    borderColor: '#c8c8c8',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 6,
+
+  },
+  DiliverTitleItem: {
     alignItems: 'flex-start',
     justifyContent: 'center',
     borderColor: 'gray',
     borderWidth: 1,
-    width: 280,
-    top: 70,
-    height: 40,
+    width: 5*deviceWidth/6,
+    top: deviceHeight/15,
+    height: deviceHeight/20,
+  },
+  DiliverItem: {
+    alignItems: 'flex-start',
+    borderColor: 'gray',
+    flexDirection: 'row',
+    borderWidth: 1,
+    width: 5*deviceWidth/6,
+    top: deviceHeight/15,
+    height: 5.5 * deviceHeight/11,
+  },
+  DiliverProcess: {
+    alignItems: 'flex-start',
+    borderColor: 'gray',
+    flexDirection: 'row',
+    borderWidth: 1,
+    width: 5*deviceWidth/6,
+    top: deviceHeight/15,
+    height: deviceHeight/15,
   },
   orderTitleItem: {
     alignItems: 'flex-start',
@@ -144,14 +214,32 @@ export const styles = StyleSheet.create({
     top: 90,
     height: 40,
   },
+  requestView:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#c8c8c8',
+    borderWidth: 2,
+    width: 300,
+    top: 50,
+    height: 375,
+    borderRadius: 6,
+    backgroundColor: '#FFFFFF',
+  },
+  requestList:{
+    // alignItems: 'flex-start',
+    // justifyContent: 'center',
+    width: 290,
+    backgroundColor: '#FFFFFF',
+  },
   requestItem:{
     alignItems: 'flex-start',
     justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: 280,
-    top: 70,
+    borderColor: '#c8c8c8',
+    width: 300,
     height: 375,
+    left: -10,
+    borderWidth: 0,
+    borderColor: 'transparent'
   },
 
   textView: {
@@ -159,8 +247,22 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuText:{
-    color: '#FF9052',
-    fontSize: 30,
+    color: '#ff9052',
+    fontSize: 24,
+  },
+  cancelText:{
+    color: 'red',
+    fontSize: 24,
+  },
+  orderDetailText:{
+    color: '#ff9052',
+    fontSize: 24,
+    marginTop: 8,
+    marginLeft: 72,
+  },
+  submitText:{
+    color: '#ffffff',
+    fontSize: 24,
   },
   menuText_disabled:{
     color: 'gray',
@@ -225,8 +327,109 @@ export const styles = StyleSheet.create({
   nothingText: {
     textAlign: 'center',
     justifyContent: 'center',
-    color: '#8190A5',
-    fontSize: 12,
-  }
+    color: '#a8a8a8',
+    fontSize: 18.2,
+    marginTop: 10,
+  },
+  deliverProfile: {
+    top: deviceWidth/15,
+    left: deviceWidth/20,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  DeliverProfileText: {
+    top: deviceWidth/20,
+    left: deviceWidth/20,
+  },
+  DeliverStarts: {
+    top: deviceWidth/15,
+    left: deviceWidth/25,
+    flexDirection: 'row',
+  },
 
+  deliverItems: {
+    top: deviceWidth/8,
+    left: deviceWidth/20,
+    //flexDirection: 'row',
+
+  },
+  deliverItem: {
+    marginBottom: deviceWidth/20,
+  },
+  deliverLocation: {
+    justifyContent: 'flex-end',
+  },
+  process: {
+    //alignSelf: 'flex-end',
+    top: deviceWidth/30,
+    width: 5*deviceWidth/6,
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    marginBottom: deviceWidth/80,
+  },
+  Whenbutton: {
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
+    height: '85%',
+    width: '100%',
+  },
+  Wherebutton: {
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
+    height: '85%',
+    width: '100%',
+  },
+  placeAutocomplete: {
+    top: 50,
+  },
+  Whenwheretext: {
+    color: '#ff9052',
+    fontSize: 22,
+  },
+  line: {
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    width: 260,
+    marginTop: 6,
+    marginLeft: 20,
+  },
+  cardLine: {
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    width: 5*deviceWidth/6,
+    marginTop: 6,
+    marginLeft: 20,
+  },
+  // For each card in order details
+  orderCard: {
+    //height: 30,
+    //width: 90,
+    borderColor: '#f8f8f8',
+    backgroundColor: '#f8f8f8',
+  },
+  cardTextView:{
+    right: 7,
+    justifyContent: 'center',
+  },
+  cardPrimaryText: {
+    textAlign: 'right',
+    fontSize: 14,
+    alignSelf: 'flex-end'
+  },
+  cardSecondaryText: {
+    textAlign: 'right',
+    fontSize: 12,
+    fontWeight: '300',
+    fontStyle: 'italic',
+    alignSelf: 'flex-end'
+  },
+  bodyCenter: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  cardBuyerName: {
+    fontSize: 24,
+  }
 });

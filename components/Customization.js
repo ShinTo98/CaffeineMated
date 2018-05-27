@@ -32,6 +32,8 @@ import {
   Col,
   Row,
   Spinner,
+  FooterTab,
+  Footer,
 } from 'native-base';
 import {styles} from "../CSS/Customization.js";
 import {displayItem} from "../database";
@@ -52,6 +54,8 @@ export class Customization extends Component {
       cream: ["no", "light", "regular"],
       syrup: ["no", "light", "regular"],
       data: this.props.navigation.getParam('data'),
+      location: this.props.navigation.getParam('location'),
+      time: this.props.navigation.getParam('time'),
       //topping: ["no", "light", "regular"]
       //itemImage: displayItem(this.state.itemType, this.state.itemId)
     };
@@ -208,16 +212,8 @@ export class Customization extends Component {
               </Grid>
 
               <Textarea style={styles.textInput} placeholder= "Anything else you want?" onChangeText={(text) => this.changeChoice(selections.length-1, text)}/>
-                <Button style={styles.submitButton}>
-                   <Text style={styles.submitText} onPress={ ()=> {
-                this.props.navigation.navigate('main', {
-                   name: itemName,
-                   image: itemImage,
-                   selection: this.state.select,
-                   data: this.state.data,
-                   update: true,
-              })}}>Submit</Text>
-                </Button>
+                
+
 
                 <Container style={styles.padding}></Container>
 
@@ -227,6 +223,24 @@ export class Customization extends Component {
 
 
         </Container>
+
+
+                                <Footer>
+                  <FooterTab>
+                <Button full style={styles.submitButton}>
+                   <Text style={styles.submitText} onPress={ ()=> {
+                this.props.navigation.navigate('main', {
+                   name: itemName,
+                   image: itemImage,
+                   selection: this.state.select,
+                   data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
+                   update: true,
+              })}}>Submit</Text>
+                </Button>
+                </FooterTab>
+                </Footer>
 
       </Container>
     );

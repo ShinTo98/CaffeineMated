@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   },
   coffeeNameUnderline: {
     borderBottomColor: '#FF9052',
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1.5,
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingLeft: '10%',
@@ -65,10 +65,10 @@ export const styles = StyleSheet.create({
     //alignItems: 'center',
   },
   text: {
-    color: '#ff9052',
+    color: '#47525E',
     fontSize: 18,
     paddingTop: '2%',
     top: '2%',
-    marginBottom:'2%'
+    marginBottom:'5%'
   },
 });
