@@ -640,6 +640,12 @@ export async function getProfileById(user_id) {
 
  }
 
+ /*
+ * Name: updateOrderRate
+ * Parameters: string order_id, string rate, boolean isBuyer, string user_id
+ * Return: N/A
+ * update rate in order and rate in given user
+ */
 export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
   let orderDir;
   if (isBuyer) { // get direction
