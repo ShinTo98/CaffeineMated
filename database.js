@@ -655,22 +655,25 @@ export async function getProfileById(user_id) {
 
  }
 
-export async function updateOrderRate(order_id, rate, isBuyer) {
-  let dir;
+export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
+  let orderDir;
   if (isBuyer) { // get direction
-    dir = "Orders/items/" + order_id + "/buyer_rate";
+    orderDir = "Orders/items/" + order_id + "/buyer_rate";
   } else {
     orderDir = "Orders/items/" + order_id + "/carrier_rate";
   }
   let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
 
+  let profileDir = "Profile/" + user_id; 
+  let prevRate; 
+  let totalNum; 
   await firebase.database().ref(profileDir).once("value", function (snapshot) {
     user = snapshot.val();
     prevRate = user.rate;
     totalNum = user.history.total_num;
   });
-  let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum));
+  let newRate = (parseFloat(prevRate) * (parseInt(totalNum)-1) + parseFloat(rate)) / (parseInt(totalNum));
   let rateRef = firebase.database().ref(profileDir + "/rate");
   rateRef.set(newRate);
 }
