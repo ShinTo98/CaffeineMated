@@ -225,7 +225,6 @@ export const styles = StyleSheet.create({
     // alignItems: 'flex-start',
     // justifyContent: 'center',
     width: 290,
-    height: 375,
     backgroundColor: '#FFFFFF',
   },
   requestItem:{
