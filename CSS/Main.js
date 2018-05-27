@@ -18,11 +18,7 @@ export const styles = StyleSheet.create({
   },
   color_theme: {
     // TODO: correct color code
-<<<<<<< HEAD
-    backgroundColor: '#D9D9D6',
-=======
     backgroundColor: '#f8f8f8',
->>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
   },
   container: {
     flex: 1,
