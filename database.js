@@ -3,11 +3,19 @@ import firebase from 'firebase';
 // Firebase configuration
 var config = {
   apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
+<<<<<<< HEAD
   authDomain: "caffeinemated-90dda.firebaseapp.com",
   databaseURL: "https://caffeinemated-90dda.firebaseio.com",
   projectId: "caffeinemated-90dda",
   storageBucket: "caffeinemated-90dda.appspot.com",
   messagingSenderId: "329358763029"
+=======
+      authDomain: "caffeinemated-90dda.firebaseapp.com",
+      databaseURL: "https://caffeinemated-90dda.firebaseio.com",
+      projectId: "caffeinemated-90dda",
+      storageBucket: "caffeinemated-90dda.appspot.com",
+      messagingSenderId: "329358763029"
+>>>>>>> 919c806a6a868485493ff67424a89497c7d14c85
 };
 // Firebase initialization
 firebase.initializeApp(config);
