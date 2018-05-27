@@ -290,7 +290,6 @@ export class Main extends Component {
     }
   }
 
-<<<<<<< HEAD
   submitValidityCheck = () => {
     if(this.state.location == '' || this.state.time == '') {
       Toast.show({
@@ -307,8 +306,6 @@ export class Main extends Component {
     }
   }
 
-=======
->>>>>>> 1ad07141aa889bbf76c79e5a0857c348eb75e421
   render() {
     // For swipable list
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
