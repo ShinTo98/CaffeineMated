@@ -20,10 +20,11 @@ import {
   Label,
   View,
   ListItem,
-  Thumbnail
+  Thumbnail,
+  Spinner
 } from 'native-base';
 import {styles} from '../CSS/Profile.js';
-import {getProfileById, changeUserName} from './../database.js';
+import {getProfileById, changeUserName, getCurrentUserUID} from './../database.js';
 
 
 export class Profile extends Component {
@@ -43,6 +44,8 @@ export class Profile extends Component {
       profilePic: "../resources/batman.jpg",
       profileData: [],
       rating: 0,
+      user_id: '',
+      loaded: false,
     };
 
     this.updateProfile = this.updateProfile.bind(this);
@@ -50,10 +53,12 @@ export class Profile extends Component {
   }
 
   async getProfile() {
-    this.setState({profileData: await getProfileById("02")});
+    this.setState({user_id: await getCurrentUserUID()});
+    this.setState({profileData: await getProfileById(this.state.user_id)});
     this.setState({
       placeName: this.state.profileData["username"],
       rating: Math.round(this.state.profileData["rate"]*2)/2,
+      loaded: true,
     })
     //console.log(this.state.buyerRating);
     //console.log(this.state.carrierRating);
@@ -68,7 +73,7 @@ export class Profile extends Component {
     if (this.state.name == '') {
       alert('You cannot update an empty name!');
     } else {
-      var result = await changeUserName("02", this.state.name);
+      var result = await changeUserName(this.state.user_id, this.state.name);
       this.setState({
         placeName: this.state.name,
         name: '',
@@ -78,7 +83,7 @@ export class Profile extends Component {
       } else if (result == -1) {
         alert("Update Failed");
       }
-    }  
+    }
   }
 
 
@@ -128,42 +133,50 @@ export class Profile extends Component {
           <Right></Right>
         </Header>
 
-         <Container style={styles.container}>
-
-            <Container style={styles.profileSection}>
-              <Thumbnail large source={ require('../resources/batman.jpg') } />
-              <Container style={styles.starSection}>
-                {rateStars}
+          {this.state.loaded &&
+            <Container style={styles.container}>
+              <Container style={styles.profileSection}>
+                <Thumbnail large source={ require('../resources/batman.jpg') } />
+                <Container style={styles.starSection}>
+                  {rateStars}
+                </Container>
               </Container>
+
+              <Form style={styles.detailSection}>
+                <Item stackedLabel>
+                  <Label>Name</Label>
+                  <Input value={this.state.name}
+                  onChangeText={(text) => this.setState({name: text})}
+                  placeholder={this.state.placeName}/>
+                </Item>
+                <Item stackedLabel>
+                  <Label>Phone Number</Label>
+                  <Input placeholder={this.state.phone}/>
+                </Item>
+                <Item stackedLabel>
+                  <Label>Email</Label>
+                  <Input disabled placeholder={this.state.email}
+                  keyboardType='email-address'
+                  />
+                </Item>
+                <Item stackedLabel last>
+                  <Label>Password</Label>
+                  <Input placeholder={this.state.password}
+                  keyboardType='visible-password'
+                  secureTextEntry= {true}
+                  />
+                </Item>
+              </Form>
+            </Container>
+          }
+
+          {!this.state.loaded &&
+            <Container>
+              <Spinner color="#FF9052" />
             </Container>
 
-            <Form style={styles.detailSection}>
-              <Item stackedLabel>
-                <Label>Name</Label>
-                <Input value={this.state.name}
-                onChangeText={(text) => this.setState({name: text})}
-                placeholder={this.state.placeName}/>
-              </Item>
-              <Item stackedLabel>
-                <Label>Phone Number</Label>
-                <Input placeholder={this.state.phone}/>
-              </Item>
-              <Item stackedLabel>
-                <Label>Email</Label>
-                <Input disabled placeholder={this.state.email}
-                keyboardType='email-address'
-                />
-              </Item>
-              <Item stackedLabel last>
-                <Label>Password</Label>
-                <Input placeholder={this.state.password}
-                keyboardType='visible-password'
-                secureTextEntry= {true}
-                />
-              </Item>
-            </Form>
+          }
 
-          </Container>
 
           <Footer>
             <FooterTab>
