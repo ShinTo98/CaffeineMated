@@ -12,20 +12,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   profileSection: {
-    flex: 0.3,
+    flex: 0.35,
     justifyContent: 'center',
     alignItems: 'center',
   },
   detailSection: {
-    flex: 0.7,
+    flex: 0.55,
   },
-  buyerStarSection: {
-    flex: 0.25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  sellerStarSection: {
+  starSection: {
     flex: 0.25,
     justifyContent: 'center',
     alignItems: 'center',

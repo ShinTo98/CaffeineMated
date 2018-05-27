@@ -37,12 +37,13 @@ const datas = [
     route: "report",
     icon: 'menu',
   },
-  */
+
   {
     name: "Settings",
     route: "settings",
     icon: 'menu',
   },
+  */
 ];
 
 export class SideBar extends Component {

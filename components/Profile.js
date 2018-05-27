@@ -42,8 +42,7 @@ export class Profile extends Component {
       password: '••••••',
       profilePic: "../resources/batman.jpg",
       profileData: [],
-      buyerRating: 0,
-      carrierRating: 0,
+      rating: 0,
     };
 
     this.updateProfile = this.updateProfile.bind(this);
@@ -54,8 +53,7 @@ export class Profile extends Component {
     this.setState({profileData: await getProfileById("02")});
     this.setState({
       placeName: this.state.profileData["username"],
-      buyerRating: Math.round(this.state.profileData["rate_as_buyer"]*2)/2,
-      carrierRating: Math.round(this.state.profileData["rate_as_carrier"]*2)/2,
+      rating: Math.round(this.state.profileData["rate"]*2)/2,
     })
     //console.log(this.state.buyerRating);
     //console.log(this.state.carrierRating);
@@ -82,10 +80,9 @@ export class Profile extends Component {
 
   render() {
 
-    let buyerStars = [];
-    let carrierStars = [];
+    let rateStars = [];
 
-    let curr = this.state.buyerRating;
+    let curr = this.state.rating;
     for (var i = 1; i <= 5; i++) {
 
       let iosStar = 'ios-star';
@@ -105,31 +102,8 @@ export class Profile extends Component {
       }
 
 			// Push the icon tag in the stars array
-			buyerStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
+			rateStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
 
-		}
-
-    curr = this.state.carrierRating;
-    for (var i = 1; i <= 5; i++) {
-
-      let iosStar = 'ios-star';
-      let androidStar = 'md-star';
-
-      if (curr - 1 >= 0) {
-        iosStar = 'ios-star';
-        androidStar = 'md-star';
-        curr = curr - 1;
-      } else if ( curr - 0.5 == 0) {
-        iosStar = 'ios-star-half';
-        androidStar = 'md-star-half';
-        curr = curr - 0.5;
-      } else {
-        iosStar = 'ios-star-outline';
-        androidStar = 'md-star-outline';
-      }
-
-			// Push the icon tag in the stars array
-			carrierStars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
 		}
 
     return (
@@ -154,11 +128,8 @@ export class Profile extends Component {
 
             <Container style={styles.profileSection}>
               <Thumbnail large source={ require('../resources/batman.jpg') } />
-              <Container style={styles.buyerStarSection}>
-                {buyerStars}
-              </Container>
-              <Container style={styles.sellerStarSection}>
-                {carrierStars}
+              <Container style={styles.starSection}>
+                {rateStars}
               </Container>
             </Container>
 
