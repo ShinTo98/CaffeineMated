@@ -304,45 +304,6 @@ export async function viewPendingOrders() {
 }
 
 /*
- * Name: viewAllOrders
- * Description: This is for carrier to see all pending orders
- * Parameters: object: order
- * Return: An array of order_id
- * Error Condition: none
- * Success: N/A
- */
-export async function viewAllOrders() {
-  // access the Menu field in firebase
-  const firebaseRef = firebase.database().ref("Orders");
-
-  var allOrders;
-  await firebaseRef.once('value', function(snapshot) {
-
-    // Find the value of Orders field
-    let orders = snapshot.val();
-    orders = orders.items;
-
-    allOrders=[];
-    var order_id;
-
-    // loop through all types in orders
-    for( order_id in orders){
-
-      // check if it is a pending order
-      let order = orders[order_id];
-        allOrders.push(order_id);
-
-    }
-
-  }, function(errorObject){
-      alert("failed:" + errorObject.code);
-    });
-
-  return allOrders;
-
-}
-
-/*
  * Name: updateOrderStatus
  * Description: update order status
  * Parameters: string: order_id
@@ -518,7 +479,6 @@ export async function sortOrders(origin) {
   }
   return ordersResult;
 }
-
 
 export async function getOrderRequestTime(order_id) {
   let dir = "Orders/items/" + order_id;
