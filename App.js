@@ -15,6 +15,8 @@ import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
+import {BuyerMain} from './components/BuyerMain.js';
+import {CarrierMain} from './components/CarrierMain.js';
 
 
 
@@ -25,7 +27,7 @@ export default class App extends React.Component {
     return (
 
       <Root>
-      <PrimaryNav />
+      <CarrierMain />
       </Root>
     );
   }
@@ -87,6 +89,8 @@ const Drawer = DrawerNavigator(
     customization: {screen: Customization},
     settings: {screen: SettingsStack},
     profile: {screen: Profile},
+    buyermain: {screen: BuyerMain},
+    carrierMain: {screen: CarrierMain}
     //menu: {screen: MenuView},
   },
   {
