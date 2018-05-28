@@ -37,13 +37,13 @@ const datas = [
     route: "report",
     icon: 'menu',
   },
-
+*/
   {
     name: "Settings",
     route: "settings",
     icon: 'menu',
   },
-  */
+
 ];
 
 export class SideBar extends Component {
@@ -118,6 +118,7 @@ export class SideBar extends Component {
                   </Right>}
               </ListItem>}
           />
+          {/*
           <List>
             <ListItem button
             noBorder
@@ -134,6 +135,7 @@ export class SideBar extends Component {
             </Left>
             </ListItem>
           </List>
+          */}
         </Content>
       </Container>
     );

@@ -64,15 +64,14 @@ export class Feedback extends Component {
               <Input style={styles.textInput}
                 multiline = {true} placeholder='Enter your Feedback...' />
             </Item>
-            <Button block style={styles.signOut}>
-              <Text style={styles.signOutText}>Submit Feedback</Text>
-            </Button>
 
           </Container>
         </Content>
         <Footer>
           <FooterTab>
-
+            <Button full style={styles.signOut}>
+              <Text style={styles.signOutText}>Submit Feedback</Text>
+            </Button>
           </FooterTab>
         </Footer>
 
