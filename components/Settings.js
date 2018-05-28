@@ -26,7 +26,8 @@ import {
   //Picker,
 //} from 'react-native';
 import {styles} from '../CSS/Settings.js';
-import {logout, changeDefaultMode, getProfileById} from './../database.js';
+import {logout, changeDefaultMode, getProfileById, getCurrentUserUID} from './../database.js';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 export class Settings extends Component {
 
@@ -38,10 +39,12 @@ export class Settings extends Component {
     super(props);
     this.state = {
       defaultMode: "",
+      user_id: "",
     };
 
     //this.logOut = this.logOut.bind(this);
   }
+
 
   async onValueChange(value: string) {
     console.log(value);
@@ -51,7 +54,7 @@ export class Settings extends Component {
     () => {
       // here is our callback that will be fired after state change.
       console.log(this.state.defaultMode);
-      changeDefaultMode("01", this.state.defaultMode);
+      changeDefaultMode(this.state.user_id, this.state.defaultMode);
       alert("Change Successful!");
     }
     );
@@ -59,7 +62,8 @@ export class Settings extends Component {
   }
 
   async getProfile() {
-    this.setState({profileData: await getProfileById("01")});
+    this.setState({user_id: await getCurrentUserUID()});
+    this.setState({profileData: await getProfileById(this.state.user_id)});
     this.setState({
       defaultMode: this.state.profileData["default_mode"],
     })
@@ -74,7 +78,12 @@ export class Settings extends Component {
     var result = await logout();
     if(result === 0) {
       alert("Log Out Successful!");
-      this.props.navigation.navigate('start');
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [NavigationActions.navigate({ routeName: 'start' })],
+      });
+      this.props.navigation.dispatch(resetAction);
     } else {
       alert(result);
     }

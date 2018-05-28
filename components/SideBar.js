@@ -3,6 +3,7 @@ import { Image } from "react-native";
 
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, List, ListItem, Badge } from 'native-base';
 import {styles} from '../CSS/SideBar.js';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 //const drawerCover = require("../resources/newlogo.png");
 //const drawerImage = require("../resources/newlogo.png");
@@ -36,12 +37,13 @@ const datas = [
     route: "report",
     icon: 'menu',
   },
-  */
+*/
   {
     name: "Settings",
     route: "settings",
     icon: 'menu',
   },
+
 ];
 
 export class SideBar extends Component {
@@ -51,6 +53,15 @@ export class SideBar extends Component {
       shadowOffsetWidth: 1,
       shadowRadius: 4
     };
+  }
+
+  settings() {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      key: null,
+      actions: [NavigationActions.navigate({ routeName: 'settings' })],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
   render() {
@@ -107,6 +118,24 @@ export class SideBar extends Component {
                   </Right>}
               </ListItem>}
           />
+          {/*
+          <List>
+            <ListItem button
+            noBorder
+            onPress={() => this.settings()}>
+            <Left>
+              <Icon
+                active
+                name='menu'
+                style={{ color: "#777", fontSize: 26, width: 30 }}
+              />
+              <Text style={styles.text}>
+                Settings
+              </Text>
+            </Left>
+            </ListItem>
+          </List>
+          */}
         </Content>
       </Container>
     );
