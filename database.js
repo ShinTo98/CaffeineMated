@@ -520,7 +520,7 @@ export async function sortOrdersByRequestTime() {
 export async function completeOrder(order_id, user_id) {
   let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
   await profileRef.once("value", snapshot => {
-    index = snapshot.val().totalNum;
+    index = snapshot.val().total_num;
   });
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);

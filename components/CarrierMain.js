@@ -44,22 +44,86 @@ export class CarrierMain extends Component {
     accept = () => {
         date = new Date();
         this.changeStates(["accepted", "carrier_accept_hour","carrier_accept_minute", "carrier_accept_second"], [true,date.getHours(),date.getMinutes(),date.getSeconds()]);
-        acceptOrder(this.state.selected_order, "01");
-        //console.log(this.state.accepted);
+        acceptOrder(this.props.get('selected_order'));
+        console.log("this is from carrierMain about selected_order" + this.props.get('selected_order'));
+      }
+
+      createProcess = (num) => {
+        let dots = []
+        for (var i = 1; i <= 4; i++) {
+    
+          if (num >= i) {
+            dots.push((<IconVector key={i} name='dot-single' style={styles.icon}/>));
+          } else {
+            dots.push((<IconVector key={i} name='dot-single'/>));
+          }
+    
+        }
+        return dots
+      }
+
+
+      cancelCarrier = () => {
+        date = new Date();
+        if(date.getHours() != this.props.get('carrier_accept_hour') && this.props.get('carrier_accept_minute') != 59) {
+          console.log("can not cancel")
+        }
+        else if (date.getMinutes() != this.props.get('carrier_accept_minute') && this.props.get('carrier_accept_second') != 30){
+          console.log("can not cancel")
+        }
+        else if (date.getSeconds() - this.props.get('carrier_accept_second') >= 30) {
+          console.log("can not cancel")
+        }
+        else {
+          cancelByCarrier(this.props.get('selected_order'));
+          this.changeStates(['accepted','delivering','order_selecting','selecting_order','selected_order'], [false, false,undefined, false, -1]);
+        }
+      }
+
+
+
+
+      GetTime() {
+        var date, TimeType, hour, minutes, seconds, fullTime;
+        date = new Date();
+        hour = date.getHours();
+        if(hour <= 11)
+        {
+          TimeType = 'am';
+        }
+        else{
+          TimeType = 'pm';
+        }
+        if( hour > 12 )
+        {
+          hour = hour - 12;
+        }
+        if( hour == 0 )
+        {
+            hour = 12;
+        }
+        minutes = date.getMinutes();
+    
+        if(minutes < 10)
+        {
+          minutes = '0' + minutes.toString();
+        }
+        fullTime = hour.toString() + ':' + minutes.toString() + ' ' + TimeType.toString();
+        return fullTime
       }
 
 
       update = () => {
         //console.log(this.state.selected_order);
-        updateOrderStatus(this.state.selected_order);
+        updateOrderStatus(this.props.get('selected_order'));
         this.props.change("delivering", true);
       }
     
-      complete = () => {
-        completeOrder(this.state.selected_order, "01");
+      complete = () => {-
+        completeOrder(this.props.get('selected_order'));
         this.changeStates(["request_selected", "accepted", "delivering","order_selecting","selecting_order","selected_order"],[false, false, false, undefined,false,-1]);
     
-        this.componentWillMount();
+        this.props.func();
       }
 
     
@@ -106,7 +170,7 @@ export class CarrierMain extends Component {
     }
 
     async saveRequestIds() {
-        this.props.change("ids", await viewPendingOrders());
+        this.props.change("ids", await sortOrdersByRequestTime());
         //console.log(this.state.ids);
       }
     
@@ -149,6 +213,7 @@ export class CarrierMain extends Component {
         if(this.props.get('selecting_order')){
             
             return (
+              <Container style={{height: '30%'}}>
                 <Content scrollEnabled={false}>
                 <Card>
                 <CardItem header>
@@ -227,7 +292,7 @@ export class CarrierMain extends Component {
     color="#ffffff"
     >
     <Text style={styles.menuText}
-    onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting_id"), false,true])}>
+    onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
     Confirm
     </Text>
     </Button>
@@ -236,10 +301,11 @@ export class CarrierMain extends Component {
     
     </Card>
     </Content>
+    </Container>
 );
 }else if(!this.props.get('accepted')){
     return(
-    <Container style = {styles.Container}>
+    <Container style = {{height: '40%'}}>
     <View style= {styles.banner}>
     
     <Item regular style={styles.textInput}>
@@ -272,7 +338,7 @@ export class CarrierMain extends Component {
     </View>
     
     
-    <View scrollEnabled={false} style={styles.requestView}>
+    <View scrollEnabled={false} style={{height:200}}>
     {loading &&
         <Content refreshControl={
             <RefreshControl
