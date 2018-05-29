@@ -19,6 +19,8 @@ export const styles = StyleSheet.create({
   color_theme: {
     // TODO: correct color code
     backgroundColor: '#f8f8f8',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
   container: {
     flex: 1,
@@ -159,7 +161,7 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     width: 300,
     top: 80,
-    height: 320,
+    height: 200,
   },
 
   requestTitleItem: {

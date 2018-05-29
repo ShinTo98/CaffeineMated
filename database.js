@@ -490,11 +490,28 @@ export async function getOrderRequestTime(order_id) {
   return location;
 }
 
-export async function sortOrdersByRequestTime() {
-  let orders = await viewPendingOrders();
-  let ordersWithRequestTime = [];
+export async function sortOrdersByRequestTime() {  
+   let orders = await viewPendingOrders();  
+    
+   // build array with each object containing id and request_time  
+   let ordersWithRequestTime = [];  
+   for (let i = 0; i < orders.length; i++) {  
+   var orderRef = firebase.database().ref("Orders/items/"+orders[i]);  
+   await orderRef.once("value", dataSnapshot => {  
+   ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});  
+   });  
+   }  
+    
+   await ordersWithRequestTime.sort(compareByRequestTime);  
+    
+   // build the result array  
+   let resList = [];  
+   for (var j = 0; j < ordersWithRequestTime.length; j++){  
+   resList.push(ordersWithRequestTime[j].orderId);  
+   }  
+   return resList;  
+  } 
 
-}
 /*
  * Name: completeOrder
  * Parameter: string: order_id  string: user_id

@@ -131,7 +131,10 @@ export class Customization extends Component {
           <Left>
             <Button
               transparent
-              onPress={ ()=> this.props.navigation.navigate('submenu')}>
+              onPress={ ()=> this.props.navigation.navigate('submenu',{
+                location: this.state.location,
+                time: this.state.time,
+              })}>
               <Icon name='arrow-back' style={styles.icon_BackArrow}/>
             </Button>
           </Left>

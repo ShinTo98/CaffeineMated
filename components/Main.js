@@ -7,6 +7,9 @@ import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, 
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
+import { BuyerMain } from './BuyerMain.js';
+import { CarrierMain } from './CarrierMain.js';
+import { PlaceChoose } from './PlaceChoose.js';
 
 
 export class Main extends Component {
@@ -19,6 +22,11 @@ export class Main extends Component {
     super(props);
     // For swipable list
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+    this.buyerMainChange = this.buyerMainChange.bind(this);
+    this.buyerMainGet = this.buyerMainGet.bind(this);
+    this.carrierMainChange = this.carrierMainChange.bind(this);
+    this.carrierMainGet = this.carrierMainGet.bind(this);
+
     this.state = {
       seg: 1,
       where: "",
@@ -39,13 +47,13 @@ export class Main extends Component {
       delivering: false,
       orderSubmitted: false,
       // for toggleing places choosing popup
-      choosePlaces: false,
+      buyer_choosePlaces: false,
       carrier_choosePlaces: false,
       // for showing Toasts
       showToast: false,
       // for when & where logans
-      whenLogan: 'Pick a time',
-      whereLogan: 'Specify a place',
+      buyer_whenLogan: 'Pick a time',
+      buyer_whereLogan: 'Specify a place',
       carrier_whenLogan: 'Pick a time',
       carrier_whereLogan: 'Specify a place',
       carrier_time: '',
@@ -59,7 +67,120 @@ export class Main extends Component {
     };
     this.order_selected = {};
     this.order_to_id = {};
+    this.placeChooseChange = this.placeChooseChange.bind(this);
+    this.placeChooseGet = this.placeChooseGet.bind(this);
   } 
+  
+  buyerMainChange(id, value){
+    if( id == "buyer_choosePlaces"){
+        this.setState({buyer_choosePlaces : !this.state.buyer_choosePlaces});
+    }else if( id == "buyer_whenLogan"){
+        this.setState({buyer_whenLogan : value});
+    }
+  }
+
+  buyerMainGet(id){
+   // console.log("klasdkjf;alksjdf;laksjdf;lkasjf;lkajsdl;" + s);
+   if(id == "buyer_whereLogan"){
+        return this.state.buyer_whereLogan;
+   }else if( id == "buyer_choosePlaces"){
+        return this.state.buyer_choosePlaces;
+   }else if( id == "buyer_whenLogan"){
+        return this.state.buyer_whenLogan;
+   }else if( id == "order_data"){
+        return this.state.order_data;
+   }else if( id == "orderSubmitted"){
+        return this.state.orderSubmitted;
+   }else if( id == "updateOrderSubmitted"){
+        return this.state.updateOrderSubmitted;
+   }else if( id == "orderId"){
+        return this.state.orderId;
+   }else if( id == "order_exists"){
+        return this.state.order_exists;
+   }else if( id == "carrier_refreshing"){
+        return this.state.carrier_refreshing;
+   }
+  }
+
+  carrierMainGet(id){
+    if( id == 'selecting_order'){
+        return this.state.selecting_order;
+    }else if( id == 'order_selecting.id'){
+        return this.state.order_selecting.id;
+    }else if( id == 'order_selecting.avatar'){
+        return this.state.order_selecting.avatar;
+    }else if( id == 'order_selecting.buyer_name'){
+        return this.state.order_selecting.buyer_name;
+    }else if( id == 'order_selecting.buyer_rate'){
+      return this.state.order_selecting.buyer_rate;
+    }else if( id == 'order_selecting.location'){
+      return this.state.order_selecting.location;
+    }else if( id == 'order_selecting.request_time'){
+      return this.state.order_selecting.request_time;
+    }else if( id == 'order_selecting.items'){
+      return this.state.order_selecting.items;
+    }else if( id == "selected_order"){
+      return this.state.selected_order;
+    }else if( id == "request_selected"){
+      return this.state.request_selected;
+    }else if( id == "accepted"){
+      return this.state.accepted;
+    }else if( id == "request_data"){
+      return this.state.request_data;
+    }else if( id == 'loadFinished'){
+      return this.state.loadFinished;
+    }else if( id == 'carrier_whereLogan'){
+      return this.state.carrier_whereLogan;
+    }else if( id == 'carrier_whenLogan'){
+      return this.state.carrier_whenLogan;
+    }else if( id == 'carrier_refreshing'){
+      return this.state.refreshing;
+    }else if( id == 'delivering'){
+      return this.state.delivering;
+    }
+  }
+
+  carrierMainChange(id, value){
+    var orderSelecting = this.state.order_selecting;
+    if( id == 'selecting_order'){
+      this.setState({selecting_order : value});
+  }else if( id == 'order_selecting.avatar'){
+    orderSelecting.avatar = value;
+      this.setState({order_selecting : orderSelecting});
+  }else if( id == 'order_selecting.buyer_name'){
+    orderSelecting.buyer_name = value;
+      this.setState({order_selecting: orderSelecting});
+  }else if( id == 'order_selecting.buyer_rate'){
+    orderSelecting.buyer_rate = value;
+    this.setState({order_selecting :orderSelecting});
+  }else if( id == 'order_selecting.location'){
+    orderSelecting.location = value;
+    this.setState({order_selecting: orderSelecting});
+  }else if( id == 'order_selecting.request_time'){
+    orderSelecting.request_time = value;
+    this.setState({order_selecting : orderSelecting});
+  }else if( id == 'order_selecting.items'){
+    orderSelecting.items = value;
+    this.setState({order_selecting : orderSelecting});
+  }else if( id == "selected_order"){
+    this.setState({selected_order : value});
+  }else if( id == "request_selected"){
+    this.setState({request_selected : value });
+  }else if( id == "accepted"){
+    this.setState({accepted : value});
+  }else if( id == 'carrier_choosePlaces'){
+    this.setState({carrier_choosePlaces : value});
+  }else if( id == "order_selecting"){
+    this.setState({order_selecting : value});
+  }else if( id == "selecting_order"){
+    this.setState({selecting_order : value});
+  }else if( id == 'carrier_whereLogan'){
+    this.setState({carrier_whereLogan : value});
+  }else if( id == 'carrier_whenLogan'){
+    this.setState({carrier_whenLogan : value});
+  }
+  }
+
 
   // For swipable list delete one row
   deleteRow(secId, rowId, rowMap) {
@@ -134,12 +255,10 @@ export class Main extends Component {
     return fullTime
   }
 
-  async fetchData() {
-    await this.saveRequestIds();
-    await this.saveRequestDetails();
-  }
+
 
   async componentWillMount() {
+    //console.log("this is from main about get function" + this.buyerMainGet(whereLogan));
     this.setState({loadFinished: false});
 
     await this.saveRequestIds();
@@ -164,23 +283,16 @@ export class Main extends Component {
       this.setState({order_exists: true});
       //console.log(this.state.order_data);
     }
+    
+    console.log("flkjdflksjdlfksjldfkjlsdjdfl" + this.props.navigation.getParam('location'));
+    if(this.props.navigation.getParam('time') != undefined){
+      this.setState({buyer_whenLogan : this.props.navigation.getParam('time')});
+    }
+    if( this.props.navigation.getParam('location') != undefined){
+      this.setState({buyer_whereLogan : this.props.navigation.getParam('location')});
+    }
   }
 
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-
-  _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date.toString());
-    // Extract the hr:min part
-    var time = date.toString().substring(16, 21);
-    this.setState({time: time});
-    this.setState({whenLogan: time});
-    this._hideDateTimePicker();
-    Toast.show({
-      text: "Time choosing successfull!",
-    });
-  };
 
   _handleCarrierDatePicked = (date) => {
     console.log('A date has been picked: ', date.toString());
@@ -194,29 +306,7 @@ export class Main extends Component {
     });
   };
 
-  createStars = (num) => {
-    let stars = []
-    for (var i = 0; i <= 4; i++) {
 
-      let iosStar = 'ios-star';
-      let androidStar = 'md-star';
-
-      if (num - 1 > 0) {
-        iosStar = 'ios-star';
-        androidStar = 'md-star';
-      } else if ( num - 0.5 >= 0) {
-        iosStar = 'ios-star-half';
-        androidStar = 'md-star-half';
-      } else {
-        iosStar = 'ios-star-outline';
-        androidStar = 'md-star-outline';
-      }
-
-      num -= 1
-      stars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
-		}
-    return stars
-  }
 
   createProcess = (num) => {
     let dots = []
@@ -232,12 +322,7 @@ export class Main extends Component {
     return dots
   }
 
-  accept = () => {
-    date = new Date();
-    this.setState({accepted: true, carrier_accept_hour: date.getHours(), carrier_accept_minute: date.getMinutes(), carrier_accept_second: date.getSeconds()});
-    acceptOrder(this.state.selected_order, "01");
-    //console.log(this.state.accepted);
-  }
+
 
   update = () => {
     //console.log(this.state.selected_order);
@@ -252,12 +337,7 @@ export class Main extends Component {
     this.componentWillMount();
   }
 
-  _onRefresh() {
-    this.setState({refreshing: true});
-    this.fetchData().then(() => {
-      this.setState({refreshing: false});
-    });
-  }
+
 
   updateOrderSubmitted = (val) => {
     this.setState({ orderSubmitted: val });
@@ -290,19 +370,26 @@ export class Main extends Component {
     }
   }
 
-  submitValidityCheck = () => {
-    if(this.state.location == '' || this.state.time == '') {
-      Toast.show({
-        text: 'Please fill out location & time!'
-      });
-    } else if(this.state.order_data.length == 0) {
-      Toast.show({
-        text: 'Please order at least one drink!'
-      });
-    } else {
-      var id = createOrder(this.state.order_data, this.state.location, this.state.time);
-      this.setState({orderId: id});
-      this.setState({orderSubmitted: true});
+
+
+  placeChooseChange(id, location){
+    if( id == 0){
+      this.setState({buyer_whereLogan : location,
+                     buyer_choosePlaces: false});
+      console.log("from main" + this.state.buyer_whereLogan);
+
+    }else{
+      this.setState({carrier_whereLogan : location,
+                     carrier_choosePlaces: false});
+    }
+
+  }
+
+  placeChooseGet(id){
+    if( id == 0){
+      return this.state.buyer_whereLogan;
+    }else{
+      return this.state.carrer_whereLogan;
     }
   }
 
@@ -315,144 +402,18 @@ export class Main extends Component {
     const dloop = this.state.dloop;
     //console.log(this.state.order_data);
     //console.log(this.state.dloop);
-
+    if( this.state.buyer_choosePlaces ){
+      return(
+        <PlaceChoose get={this.placeChooseGet} placeChange={this.placeChooseChange} main={0}/>)
+      }else if( this.state.carrier_choosePlaces ){
+      return (
+        <PlaceChoose get={this.placeChooseGet} placeChange={this.placeChooseChange} main ={1}/>
+      )
+    }else{
     return (
+
       <Container style={styles.color_theme}>
-      {/* --------------------------------- Place choosing popup ------------------------------- */}
-      {this.state.choosePlaces &&
-        <Container style={styles.placeAutocomplete}>
-        <GooglePlacesAutocomplete
-          placeholder='Where...'
-          minLength={1} // minimum length of text to search
-          autoFocus={false}
-          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-          listViewDisplayed='auto'    // true/false/undefined
-          fetchDetails={true}
-          renderDescription={(row) => row.description} // custom description render
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-            //console.log(data);
-            // Get useful piece from data.description
-            this.setState({location: data.description.toString().substring(0, data.description.toString().indexOf(','))});
-            this.setState({whereLogan: data.description.toString().substring(0, data.description.toString().indexOf(','))});
-            //console.log(this.state);
-            this.setState({choosePlaces: false});
-            Toast.show({
-              text: "Places choosing successfull!",
-            });
-            //console.log(details)
-          }}
-          getDefaultValue={() => {
-            return ''; // text input default value
-          }}
-          query={{
-            // available options: https://developers.google.com/places/web-service/autocomplete
-            key: 'AIzaSyAfpH-uU6uH9r8pN4ye4jeunIDMavcxolo',
-            language: 'en', // language of the results
-            //types: '(cities)' // default: 'geocode'
-          }}
-          styles={{
-            textInputContainer: {
-              width: '100%'
-            },
-            description: {
-              fontWeight: 'bold'
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb'
-            },
-            listView: {
-              backgroundColor: '#FFFFFF',
-            }
-          }}
-          currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-          currentLocationLabel="Current location"
-          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-          GoogleReverseGeocodingQuery={{
-            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-          }}
-          GooglePlacesSearchQuery={{
-            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-            rankby: 'distance',
-            types: 'food'
-          }}
-          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          /*predefinedPlaces={[homePlace, workPlace]}
-          debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-          renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
-          renderRightButton={() => <Text>Custom text after the inputg</Text>} */
-        />
-        </Container>
-      }
-      {this.state.carrier_choosePlaces &&
-        <Container style={styles.placeAutocomplete}>
-        <GooglePlacesAutocomplete
-          placeholder='Where...'
-          minLength={1} // minimum length of text to search
-          autoFocus={false}
-          returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-          listViewDisplayed='auto'    // true/false/undefined
-          fetchDetails={true}
-          renderDescription={(row) => row.description} // custom description render
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-            //console.log(data);
-            // Get useful piece from data.description
-            this.setState({carrier_location: data.description.toString().substring(0, data.description.toString().indexOf(','))});
-            this.setState({carrier_whereLogan: data.description.toString().substring(0, data.description.toString().indexOf(','))});
-            //console.log(this.state);
-            this.setState({carrier_choosePlaces: false});
-            Toast.show({
-              text: "Places choosing successfull!",
-            });
-            //console.log(details)
-          }}
-          getDefaultValue={() => {
-            return ''; // text input default value
-          }}
-          query={{
-            // available options: https://developers.google.com/places/web-service/autocomplete
-            key: 'AIzaSyAfpH-uU6uH9r8pN4ye4jeunIDMavcxolo',
-            language: 'en', // language of the results
-            //types: '(cities)' // default: 'geocode'
-          }}
-          styles={{
-            textInputContainer: {
-              width: '100%'
-            },
-            description: {
-              fontWeight: 'bold'
-            },
-            predefinedPlacesDescription: {
-              color: '#1faadb'
-            },
-            listView: {
-              backgroundColor: '#FFFFFF',
-            }
-          }}
-          currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-          currentLocationLabel="Current location"
-          nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-          GoogleReverseGeocodingQuery={{
-            // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-          }}
-          GooglePlacesSearchQuery={{
-            // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-            rankby: 'distance',
-            types: 'food'
-          }}
-          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          /*predefinedPlaces={[homePlace, workPlace]}
-          debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-          renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
-          renderRightButton={() => <Text>Custom text after the inputg</Text>} */
-        />
-        </Container>
-      }
-
-      {/* ---------------------------------- Regular main page ---------------------------------- */}
-      {(!this.state.choosePlaces & !this.state.carrier_choosePlaces) &&
-        <Container>
-
-        {/* ---------------------------------- Main page header ---------------------------------- */}
+      {/* ---------------------------------- Regular main page ---------------------------------- */}{/* ---------------------------------- Main page header ---------------------------------- */}
         <Header hasSegment style={styles.header}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.navigate('DrawerOpen')}>
@@ -463,7 +424,6 @@ export class Main extends Component {
             <Segment >
               <Button
                 style={this.state.seg === 1 ? styles.button_header_on : styles.button_header_off}
-                //active={this.state.seg === 1 ? true : false}
                 first
                 onPress={() => this.setState({ seg: 1 })}
               >
@@ -472,7 +432,6 @@ export class Main extends Component {
               <Button
                 style={this.state.seg === 2 ? styles.button_header_on : styles.button_header_off}
                 last
-                //active={this.state.seg === 1 ? true : false}
                 onPress={() => this.setState({ seg: 2 })}
               >
                 <Text style={this.state.seg === 2 ? styles.text_on : styles.text_off}>Carrier</Text>
@@ -483,15 +442,17 @@ export class Main extends Component {
           </Right>
         </Header>
 
-        {/* ---------------------------------- Main page content ---------------------------------- */}
         <Content padder bounces={false} scrollEnabled={false}>
 
           {/* ---------------------------------- Buyer segment ---------------------------------- */}
-          {this.state.seg === 1 &&
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && <BuyerMain get = {this.buyerMainGet} change = {this.buyerMainChange} navigation = {this.props.navigation}/>}
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain get = {this.carrierMainGet} change = {this.carrierMainChange} navigation = {this.props.navigation}/>}
+          </Content>
+          {/*}
             <Container style = {styles.Container}>
 
             {/* ------------------------------- Order submitted page ------------------------------- */}
-            {this.state.orderSubmitted &&
+            {/*this.state.orderSubmitted &&
               <SubmitOrder
               updateOrderSubmitted={this.updateOrderSubmitted}
               order_data={this.state.order_data}
@@ -500,9 +461,9 @@ export class Main extends Component {
             }
 
             {/* ---------------------------------- Ordering page ---------------------------------- */}
-            {!this.state.orderSubmitted &&
+            {/*!this.state.orderSubmitted &&
               <View style= {styles.banner}>
-              {/* When & Where section */}
+              {/* When & Where section 
               <Item regular style={styles.textInput}>
                 <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
                   <Icon style={styles.Whenwheretext} name='alarm' />
@@ -526,6 +487,7 @@ export class Main extends Component {
               </Item>
 
               {/* Menu button section */}
+              {/*}
               <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_menu}
@@ -579,6 +541,7 @@ export class Main extends Component {
                 </View>
               </View>
             {/* Submit button section */}
+            {/*}
               <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_submit}
@@ -594,12 +557,12 @@ export class Main extends Component {
           }
 
           {/* ---------------------------------- Requester segment ---------------------------------- */}
-          {
+          {/*
             this.state.seg === 2 && <Container style = {styles.Container}>
 
             {/* ---------------------------------- Order Card ---------------------------------- */}
 
-            {this.state.selecting_order &&
+            {/*this.state.selecting_order &&
               <Content scrollEnabled={false}>
               <Card>
                 <CardItem header>
@@ -690,7 +653,7 @@ export class Main extends Component {
 
             {/* ---------------------------------- Regular Request Page ---------------------------------- */}
 
-            {!this.state.selecting_order & !this.state.accepted &&
+            {/*!this.state.selecting_order & !this.state.accepted &&
             <View style= {styles.banner}>
 
             <Item regular style={styles.textInput}>
@@ -716,7 +679,7 @@ export class Main extends Component {
             </Item>
 
             {/* ---------------------------------- Request List ---------------------------------- */}
-
+{/*}
             <View regular style={styles.requestTitleItem}>
             <Label style = {styles.orderTitle}>
               Requests
@@ -782,7 +745,7 @@ export class Main extends Component {
 
 
             {/* ---------------------------------- Accept Button ---------------------------------- */}
-
+{/*}
             <View style={styles.acceptButtonItem}>
             <Button
               disabled = {!this.state.request_selected}
@@ -801,7 +764,7 @@ export class Main extends Component {
         }
 
         {/* ---------------------------------- Delivering Page ---------------------------------- */}
-
+{/*}
         {this.state.accepted &&
         <View style= {styles.banner}>
 
@@ -915,9 +878,10 @@ export class Main extends Component {
 
     </Content>
     </Container>
- }
+  */}
     </Container>
     );
   }
+}
 }
 export default Main;
