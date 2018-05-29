@@ -59,11 +59,24 @@ export class BuyerMain extends Component {
         }
     }
 
+    // For swipable list delete one row
+    deleteRow(secId, rowId, rowMap) {
+      rowMap[`${secId}${rowId}`].props.closeRow();
+      const newData = [...this.props.get('order_data')];
+      newData.splice(rowId, 1);
+      console.log(newData);
+      this.props.change('order_data', newData);
+      console.log(this.props.get('order_data'));
+      this.setState({ order_data: newData });
+    }
+
 
 
 
 
     render(){
+      // For swipable list
+      const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         return(
             <Container style = {styles.Container}>
 
