@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
 import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder,
-        acceptOrder, sortOrdersByRequestTime, getItemDetailWithOnlyId, addOrderStatusChangeListener, removeOrderStatusChangeListener, randomCoffee} from './../database.js';
+        acceptOrder, sortOrdersByRequestTime, getItemDetailWithOnlyId, addOrderStatusChangeListener, removeOrderStatusChangeListener, randomCoffee, resetPassword, logout, userLogin} from './../database.js';
+//import {userLogin} from "./../database";
 
 
 export class TestPage extends Component {
@@ -101,6 +102,13 @@ export class TestPage extends Component {
 
     testremoveOrderStatusChangeListener(){
         removeOrderStatusChangeListener("0");
+    }
+
+    async testresetPassword(){
+         // if you want to test something, please enter your email & password.
+         await userLogin("null", "null");
+         resetPassword();
+         await logout();
     }
 
      render(){
@@ -427,6 +435,20 @@ export class TestPage extends Component {
                                 <Button small primary onPress={this.testRandomCoffee}>
                                     <Text>Test</Text>
                                 </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                            <Text>ResetPassword</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                            <Button small primary onPress={this.testresetPassword}>
+                                <Text>Test</Text>
+                            </Button>
                             </Body>
                         </CardItem>
                     </Card>
