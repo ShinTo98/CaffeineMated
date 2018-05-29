@@ -71,4 +71,8 @@ export const styles = StyleSheet.create({
     top: '2%',
     marginBottom:'5%'
   },
+
+  filler: {
+    height: Dimensions.get('window').height * 0.05
+  },
 });

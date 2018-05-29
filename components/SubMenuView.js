@@ -127,6 +127,7 @@ export class SubMenuView extends Component {
             )
           }
           </Grid>
+          <Container style={styles.filler}></Container>
         </ScrollView>
         </Container>
       </Container>
