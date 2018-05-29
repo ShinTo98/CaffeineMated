@@ -43,7 +43,6 @@ export const styles = StyleSheet.create({
 
 
   image: {
-<<<<<<< HEAD
     width: 140,
     height: 140,
     top: 40,
@@ -51,7 +50,7 @@ export const styles = StyleSheet.create({
     // transform: [
     // {scaleX: 1}
     // ]
-=======
+
     width: Dimensions.get('window').width*0.36,
     height: Dimensions.get('window').width*0.36,
     top: '3%',
@@ -64,7 +63,7 @@ export const styles = StyleSheet.create({
     //shadowOpacity:0.8,
     //shadowRadius:2,
 
->>>>>>> f0d21da08513681bdd8711e745fd669793c967b9
+
   },
   list: {
     //bottom: 140,
@@ -76,16 +75,13 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: '#ff9052',
-<<<<<<< HEAD
     fontSize: 20,
     paddingTop: '2%',
     paddingBottom: '2%',
     top: 40,
-=======
     fontSize: 18,
     paddingTop: '2%',
     top: '2%',
     marginBottom:'2%'
->>>>>>> f0d21da08513681bdd8711e745fd669793c967b9
   },
 });

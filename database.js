@@ -61,7 +61,7 @@ export async function userLogin (email, password) {
 export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
-      
+
       function success(){
         result = 0;
           var newUID = getCurrentUserUID();
@@ -74,15 +74,15 @@ export async function userSignup (email, password, name) {
       function failure(error){
         var errorCode = error.code;
         var errorMsg = error.message;
-        
+
         result = errorMsg;
-        
+
       }
     );
-    
+
     return result;
   }
-  
+
   /*
   * Name: userPasswordChange
   * Parameters: string: newPassword
@@ -93,15 +93,15 @@ export async function userSignup (email, password, name) {
   export async function userPasswordChange(newPassword){
     var user = firebase.auth().currentUser;
     var newPassword = getASecureRandomPassword();
-    
+
     user.updatePassword(newPassword).then(function() {
       // Update successful.
     }).catch(function(error) {
       // An error happened.
     });
-    
+
   }
-  
+
   /*
   * Name: displayMenu
   * Parameters: None
@@ -115,17 +115,17 @@ export async function userSignup (email, password, name) {
     await firebaseRef.once('value', function(snapshot){
       let menu = [];
       let type = [];
-      
+
       // Find the value of the Menu field
       let types = snapshot.val();
       var typeName;
-      
+
       // loop through all types in menu
       for( typeName in types){
         // for each different type, get the value
         let typeField = types[typeName];
         type = [];
-        
+
         // find image and name
         type.push(typeField.image);
         type.push(typeName);
@@ -133,10 +133,10 @@ export async function userSignup (email, password, name) {
       }
       result = menu;
     });
-    
+
     return result;
   }
-  
+
   /*
   * Name: displayType
   * Parameters: string: type
@@ -166,7 +166,7 @@ export async function userSignup (email, password, name) {
     });
     return drinks;
   }
-  
+
   /*
   * Name: displayItem
   * Parameters: string: type, string: item_id
@@ -176,11 +176,11 @@ export async function userSignup (email, password, name) {
   export async function displayItem (type, item_id) {
     // get the direction
     dir = "Menu/" + type + "/items/" + item_id;
-    
+
     var coffee;
     await firebase.database().ref(dir).once("value", function (snapshot) {
       coffee = snapshot.val();
-      
+
     });
     return coffee;
 }
@@ -218,7 +218,7 @@ export async function saveOrder (order) {
   export async function createOrder(orders, orderLocation, requestTime){
     var buyerId = await getCurrentUserUID();
     var createTime = new Date().toLocaleString('en-US', { hour12: false });
-    
+
     var orderObject ={
       buyer_id: buyerId,
       buyer_rate: -1,
@@ -230,15 +230,15 @@ export async function saveOrder (order) {
       request_time: requestTime,
       status: 1
     }
-    
+
     var orderId = await saveOrder(orderObject);
     profileRef = firebase.database().ref("Profile/" + buyerId);
     profileRef.child("current_order_as_buyer").set(orderId);
     addOrderStatusChangeListener(orderId - 1);
     return orderId;
   }
-  
-  
+
+
   /*
   * Name: cancelByBuyer
   * Description: delete order object from database
@@ -248,8 +248,8 @@ export async function saveOrder (order) {
     let orderRef = firebase.database().ref("Orders/items/" + order_id);
     orderRef.remove();
   }
-  
-  
+
+
   /*
   * Name: cancelByCarrier
   * Description: return accepted order object to pending orders
@@ -263,7 +263,7 @@ export async function saveOrder (order) {
       }
     });
   }
-  
+
   /*
   * Name: viewPendingOrders
   * Description: This is for carrier to see all pending orders
@@ -275,34 +275,34 @@ export async function saveOrder (order) {
   export async function viewPendingOrders() {
     // access the Menu field in firebase
     const firebaseRef = firebase.database().ref("Orders");
-    
+
     var pendingOrders;
     await firebaseRef.once('value', function(snapshot){
-      
+
       // Find the value of Orders field
       let orders = snapshot.val();
       orders = orders.items;
-      
+
       pendingOrders=[];
       var order_id;
-      
+
       // loop through all types in orders
       for( order_id in orders){
-        
+
         // check if it is a pending order
         let order = orders[order_id];
         if( order.status == 1){
           pendingOrders.push(order_id);
         }
-        
+
       }
     }, function(errorObject){
       alert("failed:" + errorObject.code);
     });
-    
+
     return pendingOrders;
   }
-  
+
   /*
   * Name: updateOrderStatus
   * Description: update order status
@@ -322,11 +322,11 @@ export async function saveOrder (order) {
         status = Math.min(++status, 3);
         orderRef.child("status").set(status);
       }
-      
+
       updateLastTime(order_id);
     });
   }
-  
+
   /*
   * Name: viewOrderDetailById
   * Parameters: string: order_id
@@ -341,8 +341,8 @@ export async function saveOrder (order) {
     await firebase.database().ref(dir).once("value", function (snapshot) {
       orderInformation = snapshot.val();
     });
-    
-    
+
+
     return orderInformation;
 }
 
@@ -399,17 +399,17 @@ export async function acceptOrder(order_id){
       if (dataSnapshot.val().status != 1) {
         alert("The order is already accepted by others. Try refresh!");
       }
-      
+
       // update the carrier_id and status of the order.
       else {
         orderRef.child("carrier_id").set(carrier_id);
         orderRef.child("status").set(2);
       }
-      
+
       updateLastTime(order_id);
     });
   }
-  
+
   /*
   * Name: getDistance
   * Parameters: string: starting location, string destination, order_id
@@ -419,7 +419,7 @@ export async function acceptOrder(order_id){
   export async function getDistance(origin, destination, id) {
     return new Promise(function(resolve,reject){
       const xhr = new XMLHttpRequest();
-      
+
       const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"%20ucsd&mode=walking";
       xhr.responseType = 'json';
       //let orderWithDist;
@@ -429,16 +429,16 @@ export async function acceptOrder(order_id){
           resolve(orderWithDist);
         }
       };
-      
+
       xhr.ontimeout = function() {
         reject("timeout");
       }
       xhr.open('GET', url);
       xhr.send();
     });
-    
+
   }
-  
+
   /*
   *  Helper function used to compare two orders with ids.
   */
@@ -451,7 +451,7 @@ export async function acceptOrder(order_id){
     }
     return 0;
   }
-  
+
   /*
   * Name: sortOrder
   * Parameters: string: origin
@@ -468,7 +468,7 @@ export async function acceptOrder(order_id){
         current = await getDistance(loc, await getOrderLocationById(orders[i]), orders[i]);
         await ordersWithDistance.push(current);
       }
-      
+
       await ordersWithDistance.sort(compare);
       console.log(ordersWithDistance);
       let ordersResult = [];
@@ -477,7 +477,7 @@ export async function acceptOrder(order_id){
       }
       return ordersResult;
     }
-    
+
     export async function getOrderRequestTime(order_id) {
       let dir = "Orders/items/" + order_id;
       var location;
@@ -487,10 +487,10 @@ export async function acceptOrder(order_id){
       });
       return location;
     }
-    
+
     export async function sortOrdersByRequestTime() {
       let orders = await viewPendingOrders();
-      
+
       // build array with each object containing id and request_time
       let ordersWithRequestTime = [];
       for (let i = 0; i < orders.length; i++) {
@@ -499,16 +499,16 @@ export async function acceptOrder(order_id){
           ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});
         });
       }
-      
+
       await ordersWithRequestTime.sort(compareByRequestTime);
-      
+
       // build the result array
       let resList = [];
       for (var j = 0; j < ordersWithRequestTime.length; j++){
         resList.push(ordersWithRequestTime[j].orderId);
       }
       return resList;
-      
+
     }
     /*
     * Name: completeOrder
@@ -520,10 +520,10 @@ export async function acceptOrder(order_id){
       await profileRef.once("value", snapshot => {
         index = snapshot.val().totalNum;
       });
-      
+
       let orderRef = firebase.database().ref("Orders/items/" + order_id);
       await orderRef.once("value", dataSnapshot => {
-        
+
         // current order status is 4: completedByBuyer, then carrier click complete
         // update status to be 6: completed
         if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
@@ -615,7 +615,7 @@ export async function logout() {
 
   var result;
     await firebase.auth().signOut().then(
-      
+
       function success(){
         result = 0;
       }
@@ -623,15 +623,15 @@ export async function logout() {
       function failure(error){
         var errorCode = error.code;
         var errorMsg = error.message;
-        
+
         result = errorMsg;
-        
+
       }
     );
-    
+
     return result;
   }
-  
+
   /*
   * Name: displayOrderHistory
   * Parameters: string user_id
@@ -645,10 +645,10 @@ export async function logout() {
     await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
     });
-    
+
     return orderHis;
   }
-  
+
   /*
   * Name: getProfileById
   * Parameters: string user_id
@@ -730,7 +730,7 @@ export async function changeUserName(user_id, newName){
     });
     return result;
   }
-  
+
   /*
   * Name: getCurrentUserUID
   * Parameter: None
@@ -744,7 +744,7 @@ export async function changeUserName(user_id, newName){
     }
     return -1;
   }
-  
+
   /*
   *  Helper function used to compare two orders with time.
   *  NOTICE: should be 24 hours format
@@ -753,7 +753,7 @@ export async function changeUserName(user_id, newName){
     // initialize array containing hours and minutes
     var aTime = a.requestTime.split(":");
     var bTime = b.requestTime.split(":");
-    
+
     // compare hours
     if (aTime[0] > bTime[0]){
       return 1;
@@ -761,7 +761,7 @@ export async function changeUserName(user_id, newName){
     else if (aTime[0] < bTime[0]){
       return -1;
     }
-    
+
     // compare minutes
     else if (aTime[1] > bTime[1]){
       return 1;
@@ -808,4 +808,49 @@ function statusUpdated(snapshot) {
     else if (changedChild != 1) {
         Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
     }
+}
+
+export async function randomCoffee() {
+  // random an integer for type
+  let type = Math.floor(Math.random() * 6);
+
+  // random an integer for item
+  let item = Math.floor(Math.random() * 3) + 1;
+  let hotTea = Math.floor(Math.random() * 3) + 1;
+
+  let typeRef;
+  let prefix;
+
+  if (type === 0) {
+    typeRef = 'Cold Coffees';
+    prefix = 'CC';
+  } else if (type === 1) {
+    typeRef = 'Drinks';
+    prefix = 'DR';
+  } else if (type === 2) {
+    typeRef = 'Frappuccino';
+    prefix = 'FR';
+  } else if (type === 3) {
+    typeRef = 'Hot Coffees';
+    prefix = 'HC';
+  } else if (type === 4) {
+    typeRef = 'Hot Teas';
+    prefix = 'HT';
+  } else if (type === 5) {
+    typeRef = 'Iced Teas';
+    prefix = 'IT';
+  }
+
+  let dir;
+  // if (typeRef === 'Hot Teas') {
+  //   dir = "Menu/" + typeRef + "/items/" + prefix + '0' + hotTea;
+  // }
+  dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
+  console.log("prefix is: " + prefix);
+  console.log("dir in random is " + dir);
+  var coffee;
+  await firebase.database().ref(dir).once("value", function (snapshot) {
+    coffee = snapshot.val();
+  });
+  return coffee;
 }

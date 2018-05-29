@@ -11,13 +11,12 @@ import {SubMenuView} from './components/SubMenuView.js';
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
 import {Feedback} from './components/Feedback.js';
-<<<<<<< HEAD
 
 
-=======
+
+
 import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
->>>>>>> f0d21da08513681bdd8711e745fd669793c967b9
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
 
@@ -30,11 +29,10 @@ export default class App extends React.Component {
     return (
       //<Root>
       // <PrimaryNav />
-<<<<<<< HEAD
-      <RootStack />
-=======
+
+
       <PrimaryNav />
->>>>>>> f0d21da08513681bdd8711e745fd669793c967b9
+
       //</Root>
     );
   }
@@ -96,10 +94,9 @@ const Drawer = DrawerNavigator(
     customization: {screen: Customization},
     settings: {screen: SettingsStack},
     profile: {screen: Profile},
-<<<<<<< HEAD
 
-=======
->>>>>>> f0d21da08513681bdd8711e745fd669793c967b9
+
+
     //menu: {screen: MenuView},
   },
   {

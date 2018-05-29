@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
 import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder,
-        acceptOrder, sortOrdersByRequestTime, getItemDetailWithOnlyId, addOrderStatusChangeListener, removeOrderStatusChangeListener} from './../database.js';
+        acceptOrder, sortOrdersByRequestTime, getItemDetailWithOnlyId, addOrderStatusChangeListener, removeOrderStatusChangeListener, randomCoffee} from './../database.js';
 
 
 export class TestPage extends Component {
@@ -87,6 +87,12 @@ export class TestPage extends Component {
 
     async testgetItemDetailWithOnlyId(){
         console.log(JSON.stringify(await getItemDetailWithOnlyId("HC01")));
+    }
+
+    async testRandomCoffee() {
+      var test = await randomCoffee();
+      console.log('Coffee of the day:');
+      console.log(test);
     }
 
     testorderStatusChangeListener(){
@@ -405,6 +411,22 @@ export class TestPage extends Component {
                             <Button small primary onPress={this.testremoveOrderStatusChangeListener}>
                                 <Text>Test</Text>
                             </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                          <Text>RandomCoffee</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                                <Text>Output: An array contains each item with image, id, and name.</Text>
+                                <Text />
+                                <Button small primary onPress={this.testRandomCoffee}>
+                                    <Text>Test</Text>
+                                </Button>
                             </Body>
                         </CardItem>
                     </Card>
