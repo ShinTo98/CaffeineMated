@@ -1,13 +1,14 @@
 import firebase from 'firebase';
+import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-  apiKey: "AIzaSyAQSNocuGrjIBtwErRJeHV7nUsfQGZC_uE",
-  authDomain: "cmdatabase-c3084.firebaseapp.com",
-  databaseURL: "https://cmdatabase-c3084.firebaseio.com",
-  projectId: "cmdatabase-c3084",
-  storageBucket: "cmdatabase-c3084.appspot.com",
-  messagingSenderId: "964208744011"
+    apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
+    authDomain: "caffeinemated-90dda.firebaseapp.com",
+    databaseURL: "https://caffeinemated-90dda.firebaseio.com",
+    projectId: "caffeinemated-90dda",
+    storageBucket: "caffeinemated-90dda.appspot.com",
+     messagingSenderId: "329358763029"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -27,38 +28,47 @@ export async function userLogin (email, password) {
     function success() {
       // callback with 0 indicating login success
       result = 0;
-      
+
+
+
+
     }
   ).catch(
     function failure (error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // callback with errorMessage
-      result = errorMessage;
-    });
-    
-    return result;
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // callback with errorMessage
+    result = errorMessage;
+  });
+
+  if (result === 0) {
+      var curUser = getCurrentUserUID();
+      var Profile = await getProfileById(curUser);
+      if (Profile.current_order_as_buyer)
+          addOrderStatusChangeListener(Profile.current_order_as_buyer);
   }
-  
-  /*
-  * Name: userSignUp
-  * Parameters: string: email, string: password
-  * Return:
-  * Error Condition: errorMessage
-  * Success: 1 represents sign in successfully
-  * If sign up successfully, firebase will create a default profile related to that uid
-  */
-  export async function userSignup (email, password, name) {
+  return result;
+}
+
+/*
+ * Name: userSignUp
+ * Parameters: string: email, string: password
+ * Return:
+ * Error Condition: errorMessage
+ * Success: 1 represents sign in successfully
+ * If sign up successfully, firebase will create a default profile related to that uid
+ */
+export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
       
       function success(){
         result = 0;
-        var newUID = getCurrentUserUID();
-        var newProfileDirName = "Profile/" + newUID;
-        var ref = firebase.database().ref(newProfileDirName);
-        ref.set({default_mode:"buyer", rate:5, username:name,
-        history:{total_num:0}, photo:"www.baidu.com"});
+          var newUID = getCurrentUserUID();
+          var newProfileDirName = "Profile/" + newUID;
+          var ref = firebase.database().ref(newProfileDirName);
+          ref.set({default_mode:"buyer", rate:5, username:name,
+              history:{total_num:0}, photo:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-LV4tX2VqMy115iZNiIgowzRQ2UXWWBAqCfh5GoSIvyrzgD32"});
       }
     ).catch(
       function failure(error){
@@ -173,37 +183,38 @@ export async function userLogin (email, password) {
       
     });
     return coffee;
-  }
-  
-  /*
-  * Name: saveOrder
-  * Description: save order object to database
-  * Parameters: object: order
-  * Return:
-  * Error Condition: none
-  * Success: return order id of saved order
-  */
-  export async function saveOrder (order) {
-    let orderRef = firebase.database().ref("Orders");
-    let order_id = 0;
-    await orderRef.once("value", dataSnapshot => {
-      order_id = dataSnapshot.val().size;
-      if (!order_id) {
-        order_id = 0;
-      }
-      order.id = order_id;
-      orderRef.child("items").child(order_id).set(order);
-      orderRef.child("size").set(++order_id);
-    });
-    return order_id;
-  }
-  
-  /*
-  * Name: createOrder
-  * Description: create buyer order
-  * Parameters: Object items, string location, string request_time
-  * Return: order_id
-  */
+}
+
+/*
+ * Name: saveOrder
+ * Description: save order object to database
+ * Parameters: object: order
+ * Return:
+ * Error Condition: none
+ * Success: return order id of saved order
+ */
+export async function saveOrder (order) {
+  let orderRef = firebase.database().ref("Orders");
+  let order_id = 0;
+  await orderRef.once("value", dataSnapshot => {
+    order_id = dataSnapshot.val().size;
+    if (!order_id) {
+      order_id = 0;
+    }
+    order.id = order_id;
+    orderRef.child("items").child(order_id).set(order);
+    orderRef.child("size").set(++order_id);
+  });
+
+  return order_id;
+}
+
+/*
+ * Name: createOrder
+ * Description: create buyer order
+ * Parameters: Object items, string location, string request_time
+ * Return: order_id
+ */
   export async function createOrder(orders, orderLocation, requestTime){
     var buyerId = await getCurrentUserUID();
     var createTime = new Date().toLocaleString('en-US', { hour12: false });
@@ -221,6 +232,9 @@ export async function userLogin (email, password) {
     }
     
     var orderId = await saveOrder(orderObject);
+    profileRef = firebase.database().ref("Profile/" + buyerId);
+    profileRef.child("current_order_as_buyer").set(orderId);
+    addOrderStatusChangeListener(orderId - 1);
     return orderId;
   }
   
@@ -330,54 +344,57 @@ export async function userLogin (email, password) {
     
     
     return orderInformation;
-  }
-  
-  
-  /*
-  * Name: getOrderLocationById
-  * Parameters: string: order_id
-  * Return: return location string,
-  */
-  export async function getOrderLocationById (order_id){
-    // get the direction
-    dir = "Orders/items/" + order_id;
-    var location;
-    await firebase.database().ref(dir).once("value", function (snapshot){
-      location = snapshot.val().location;
-      location = location.split(' ').join('%20');
-    });
-    return location;
-  }
-  
-  /*
-  * Name: getProfileDetailById
-  * Parameters: string: profile_id
-  * Return: object profile
-  *
-  */
-  export async function getProfileDetailById(profile_id){
-    dir = "Profile/" + profile_id;
-    var result;
-    await firebase.database().ref(dir).once("value", function(snapshot){
-      result = snapshot.val();
-    })
-    
-    return result;
-  }
-  
-  
-  /*
-  * Name: acceptOrder
-  * Parameter: string:order_id  string:carrier_id
-  * Return: -1 if the order is not found or already accepted by others.
-  * If the current order is still pending, the carrier will take the order.
-  * The database will update the carrier_id entry with the current carrier_id.
-  * If the order is already taken by others, it will return -1.
-  */
-  export async function acceptOrder(order_id, carrier_id){
-    let orderRef = firebase.database().ref("Orders/items/" + order_id);
-    let status = -1;
-    await orderRef.once("value", dataSnapshot => {
+}
+
+
+/*
+ * Name: getOrderLocationById
+ * Parameters: string: order_id
+ * Return: return location string,
+ * Parameter: string:order_id
+ * Return: location of this order
+ */
+export async function getOrderLocationById (order_id){
+  // get the direction
+  dir = "Orders/items/" + order_id;
+  var location;
+  await firebase.database().ref(dir).once("value", function (snapshot){
+    location = snapshot.val().location;
+    location = location.split(' ').join('%20');
+  });
+  return location;
+}
+
+/*
+ * Name: getProfileDetailById
+ * Parameters: string: profile_id
+ * Return: object profile
+ *
+ */
+export async function getProfileDetailById(profile_id){
+  dir = "Profile/" + profile_id;
+  var result;
+  await firebase.database().ref(dir).once("value", function(snapshot){
+    result = snapshot.val();
+  })
+
+  return result;
+}
+
+
+/*
+ * Name: acceptOrder
+ * Parameter: string:order_id  string:carrier_id
+ * Return: -1 if the order is not found or already accepted by others.
+ * If the current order is still pending, the carrier will take the order.
+ * The database will update the carrier_id entry with the current carrier_id.
+ * If the order is already taken by others, it will return -1.
+ */
+export async function acceptOrder(order_id){
+    var carrier_id = getCurrentUserUID();
+  let orderRef = firebase.database().ref("Orders/items/" + order_id);
+  let status = -1;
+  await orderRef.once("value", dataSnapshot => {
       // the order is already accpeted by others if status is not 1
       if (dataSnapshot.val().status != 1) {
         alert("The order is already accepted by others. Try refresh!");
@@ -512,77 +529,91 @@ export async function userLogin (email, password) {
         if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
-        }
-        
-        // current order status is 5: completedByCarrier, then buyer click complete
-        // update status to be 6: completed
-        else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
+          profileRef.child("total_num").set(++index);
+      }
+
+      // current order status is 5: completedByCarrier, then buyer click complete
+      // update status to be 6: completed
+      else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
-        }
-        
-        // current order status is 3: delivering, then buyer click complete
-        // update status to be 4: completedByBuyer
-        else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
+          profileRef.child("total_num").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
+      }
+
+      // current order status is 3: delivering, then buyer click complete
+      // update status to be 4: completedByBuyer
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
           orderRef.child("status").set(4);
           console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
-        }
-        
-        // current order status is 3: delivering, then carrier click complete
-        // update status to be 5: completedByCarrier
-        else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
+          profileRef.child("total_num").set(++index);
+
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(orderId);
+      }
+
+      // current order status is 3: delivering, then carrier click complete
+      // update status to be 5: completedByCarrier
+      else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
           console.log("complete by carrier");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
-        }
-        
-        updateLastTime(order_id);
-      });
-    }
-    
-    /*
-    * Name: changeDefaultMode
-    * Parameters: string id, string mode
-    * Return: N/A
-    * change the default mode to given mode.
-    */
-    export async function changeDefaultMode(id, mode) {
-      let profileRef = firebase.database().ref("Profile/"+id);
-      let defaultMode;
-      await profileRef.once("value", dataSnapshot => {
-        profileRef.child("default_mode").set(mode);
+          profileRef.child("total_num").set(++index);
       }
-    );
-    
-  }
-  
-  
-  /*
-  * Name: changeProfilePhoto
-  * Parameters: string id, string url
-  * Return: N/A
-  * update user profile photo
-  */
-  export async function changeProfilePhoto(id, url) {
-    let profileRef = firebase.database().ref("Profile/"+id);
-    await profileRef.once("value", dataSnapshot => {
-      profileRef.child("photo").set(url);
-    });
-  }
-  
-  /*
-  * Name: logout
-  * Parameters: N/A
-  * Return: 0 if success, otherwise return error message
-  * logout the user
-  */
-  export async function logout() {
-    var result;
+
+      updateLastTime(order_id);
+  });
+}
+
+/*
+ * Name: changeDefaultMode
+ * Parameters: string id, string mode
+ * Return: N/A
+ * change the default mode to given mode.
+ */
+export async function changeDefaultMode(id, mode) {
+  let profileRef = firebase.database().ref("Profile/"+id);
+  let defaultMode;
+  await profileRef.once("value", dataSnapshot => {
+      profileRef.child("default_mode").set(mode);
+    }
+  );
+
+}
+
+
+/*
+ * Name: changeProfilePhoto
+ * Parameters: string id, string url
+ * Return: N/A
+ * update user profile photo
+ */
+export async function changeProfilePhoto(id, url) {
+  let profileRef = firebase.database().ref("Profile/"+id);
+  await profileRef.once("value", dataSnapshot => {
+    profileRef.child("photo").set(url);
+  });
+}
+
+/*
+ * Name: logout
+ * Parameters: N/A
+ * Return: 0 if success, otherwise return error message
+ * logout the user
+ */
+export async function logout() {
+
+    var curUser = getCurrentUserUID();
+    var Profile = await getProfileById(curUser);
+    if (Profile.current_order_as_buyer != null && Profile.current_order_as_buyer != -1)
+        removeOrderStatusChangeListener(Profile.current_order_as_buyer);
+
+  var result;
     await firebase.auth().signOut().then(
       
       function success(){
@@ -630,54 +661,63 @@ export async function userLogin (email, password) {
     let profile;
     await firebase.database().ref(dir).once("value", function (snapshot) {
       profile = snapshot.val();
-    });
-    
-    return profile;
+  });
+
+  return profile;
+}
+
+/*
+ * Name: updateDelivery
+ * Parameters: order_id,
+ * Return: database change
+ * update user profile photo
+ */
+
+ export async function updateLastTime(order_id){
+   let dir;
+   dir = "Orders/items/" + order_id + "/last_update_time";
+   let update_time = firebase.database().ref(dir);
+   var createTime = new Date().toLocaleString('en-US', { hour12: false });
+   update_time.set(createTime);
+
+ }
+
+ /*
+ * Name: updateOrderRate
+ * Parameters: string order_id, string rate, boolean isBuyer, string user_id
+ * Return: N/A
+ * update rate in order and rate in given user
+ */
+export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
+  let orderDir;
+  if (isBuyer) { // get direction
+    orderDir = "Orders/items/" + order_id + "/buyer_rate";
+  } else {
+    orderDir = "Orders/items/" + order_id + "/carrier_rate";
   }
-  
-  /*
-  * Name: updateDelivery
-  * Parameters: order_id,
-  * Return: database change
-  * update user profile photo
-  */
-  
-  export async function updateLastTime(order_id){
-    let dir;
-    dir = "Orders/items/" + order_id + "/last_update_time";
-    let update_time = firebase.database().ref(dir);
-    var createTime = new Date().toLocaleString('en-US', { hour12: false });
-    update_time.set(createTime);
-    
-  }
-  
-  export async function updateOrderRate(order_id, rate, isBuyer) {
-    let dir;
-    if (isBuyer) { // get direction
-      dir = "Orders/items/" + order_id + "/buyer_rate";
-    } else {
-      orderDir = "Orders/items/" + order_id + "/carrier_rate";
-    }
-    let orderRef = firebase.database().ref(orderDir);
-    orderRef.set(rate);
-    
-    await firebase.database().ref(profileDir).once("value", function (snapshot) {
-      user = snapshot.val();
-      prevRate = user.rate;
-      totalNum = user.history.total_num;
-    });
-    let newRate = (parseFloat(prevRate) * parseInt(totalNum-1) + parseFloat(rate)) / (parseInt(totalNum));
-    let rateRef = firebase.database().ref(profileDir + "/rate");
-    rateRef.set(newRate);
-  }
-  
-  /*
-  * Name: changeUserName
-  * Parameters: string: user_id string:newName
-  * Return: none
-  * change the name of the user
-  */
-  export async function changeUserName(user_id, newName){
+  let orderRef = firebase.database().ref(orderDir);
+  orderRef.set(rate);
+
+  let profileDir = "Profile/" + user_id;
+  let prevRate;
+  let totalNum;
+  await firebase.database().ref(profileDir).once("value", function (snapshot) {
+    user = snapshot.val();
+    prevRate = user.rate;
+    totalNum = user.history.total_num;
+  });
+  let newRate = (parseFloat(prevRate) * (parseInt(totalNum)-1) + parseFloat(rate)) / (parseInt(totalNum));
+  let rateRef = firebase.database().ref(profileDir + "/rate");
+  rateRef.set(newRate);
+}
+
+/*
+ * Name: changeUserName
+ * Parameters: string: user_id string:newName
+ * Return: none
+ * change the name of the user
+ */
+export async function changeUserName(user_id, newName){
     let profileRef = firebase.database().ref("Profile/" + user_id);
     var result;
     await profileRef.once("value", dataSnapshot => {
@@ -730,7 +770,42 @@ export async function userLogin (email, password) {
       return -1;
     }
     return 0;
-  }
-  
-  
-  
+}
+
+/*
+ * Name: getItemDetailWithOnlyId
+ * Parameter: itemId
+ * Return: the json containing item details
+ * this function allows us to get item details with only id
+ */
+export async function getItemDetailWithOnlyId(itemId) {
+    var dict = {HC:"Hot Coffees",
+                DR:"Drinks",
+                FR:"Frappuccino",
+                CC:"Cold Coffees",
+                HT:"Hot Teas",
+                IT:"Iced Teas"};
+    var type = dict[itemId.substring(0,2)];
+    var itemDetail = await displayItem(type, itemId);
+    return itemDetail;
+}
+
+export function addOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.on('value', statusUpdated);
+}
+
+export function removeOrderStatusChangeListener(orderId){
+    ref = firebase.database().ref("Orders/items/" + orderId +"/status");
+    ref.off('value', statusUpdated);
+}
+
+function statusUpdated(snapshot) {
+    var changedChild = snapshot.val();
+    if (changedChild === 2) {
+        Alert.alert("Notification", "Someone just accepted your order!\n Please refresh the page!");
+    }
+    else if (changedChild != 1) {
+        Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
+    }
+}

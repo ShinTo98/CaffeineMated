@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import  { Card, CardItem, Title, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View } from 'native-base';
 import {getProfileDetailById, displayMenu, displayType, displayItem, viewPendingOrders, viewOrderDetailById, getOrderLocationById, sortOrders, completeOrder, changeDefaultMode, changeUserName, changeProfilePhoto, createOrder,
-        acceptOrder, sortOrdersByRequestTime} from './../database.js';
+        acceptOrder, sortOrdersByRequestTime, getItemDetailWithOnlyId, addOrderStatusChangeListener, removeOrderStatusChangeListener} from './../database.js';
 
 
 export class TestPage extends Component {
@@ -83,6 +83,18 @@ export class TestPage extends Component {
 
     async testsortOrdersByRequestTime(){
          console.log(JSON.stringify(await sortOrdersByRequestTime()));
+    }
+
+    async testgetItemDetailWithOnlyId(){
+        console.log(JSON.stringify(await getItemDetailWithOnlyId("HC01")));
+    }
+
+    testorderStatusChangeListener(){
+         addOrderStatusChangeListener("0");
+    }
+
+    testremoveOrderStatusChangeListener(){
+        removeOrderStatusChangeListener("0");
     }
 
      render(){
@@ -344,6 +356,53 @@ export class TestPage extends Component {
                             <Text>Output: orders sorted by time</Text>
                             <Text />
                             <Button small primary onPress={this.testsortOrdersByRequestTime}>
+                                <Text>Test</Text>
+                            </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                            <Text>getItemDetailWithOnlyId</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                            <Text>Input: order_id, carrier id</Text>
+                            <Text>Output: itemDetail</Text>
+                            <Text />
+                            <Button small primary onPress={this.testgetItemDetailWithOnlyId}>
+                                <Text>Test</Text>
+                            </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                            <Text>testorderStatusChangeListener</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                            <Text />
+                            <Button small primary onPress={this.testorderStatusChangeListener}>
+                                <Text>Test</Text>
+                            </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+
+                    <Card>
+                        <CardItem header>
+                            <Text>testremoveOrderStatusChangeListener</Text>
+                        </CardItem>
+
+                        <CardItem>
+                            <Body>
+                            <Text />
+                            <Button small primary onPress={this.testremoveOrderStatusChangeListener}>
                                 <Text>Test</Text>
                             </Button>
                             </Body>
