@@ -48,7 +48,7 @@ export class Settings extends Component {
   }
 
 
-  async onValueChange(value: string) {
+  onValueChange(value: string) {
     console.log(value);
     if (value != 'Cancel') {
       this.setState({
@@ -57,7 +57,7 @@ export class Settings extends Component {
       () => {
         // here is our callback that will be fired after state change.
         console.log(this.state.defaultMode);
-        changeDefaultMode(this.state.user_id, this.state.defaultMode);
+        await changeDefaultMode(this.state.user_id, this.state.defaultMode);
         alert("Change Successful!");
       }
       );
