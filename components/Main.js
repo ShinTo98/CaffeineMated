@@ -76,6 +76,8 @@ export class Main extends Component {
         this.setState({buyer_choosePlaces : !this.state.buyer_choosePlaces});
     }else if( id == "buyer_whenLogan"){
         this.setState({buyer_whenLogan : value});
+    } else if( id == 'order_data') {
+      this.setState({order_data: value});
     }
   }
 
@@ -207,7 +209,7 @@ export class Main extends Component {
       order = await viewOrderDetailById(id);
       order["id"] = id;
       profile = await getProfileDetailById(order.buyer_id)
-      console.log(profile)
+      //console.log(profile)
       if (profile.username) {
         order["buyer_name"] = profile.username;
       }
@@ -240,7 +242,7 @@ export class Main extends Component {
     await this.saveRequestDetails();
     this.setState({loadFinished: true});
 
-    console.log(this.state.request_data)
+    //console.log(this.state.request_data)
 
     // get params here
     //console.log("This is from main  " + this.props.navigation.getParam('selection'));
@@ -259,7 +261,7 @@ export class Main extends Component {
       //console.log(this.state.order_data);
     }
     
-    console.log("flkjdflksjdlfksjldfkjlsdjdfl" + this.props.navigation.getParam('location'));
+    //console.log("flkjdflksjdlfksjldfkjlsdjdfl" + this.props.navigation.getParam('location'));
     if(this.props.navigation.getParam('time') != undefined){
       this.setState({buyer_whenLogan : this.props.navigation.getParam('time')});
     }
