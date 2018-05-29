@@ -20,7 +20,7 @@ import {
   Label,
   View,
   ListItem,
-  Picker,
+  ActionSheet
 } from 'native-base';
 //import {
   //Picker,
@@ -29,6 +29,8 @@ import {styles} from '../CSS/Settings.js';
 import {logout, changeDefaultMode, getProfileById, getCurrentUserUID} from './../database.js';
 import { StackActions, NavigationActions } from 'react-navigation';
 
+var BUTTONS = ["Buyer", "Carrier", "Cancel"];
+var CANCEL_INDEX = 2;
 export class Settings extends Component {
 
   static navigationOptions = {
@@ -48,16 +50,18 @@ export class Settings extends Component {
 
   async onValueChange(value: string) {
     console.log(value);
-    this.setState({
-      defaultMode: value
-    },
-    () => {
-      // here is our callback that will be fired after state change.
-      console.log(this.state.defaultMode);
-      changeDefaultMode(this.state.user_id, this.state.defaultMode);
-      alert("Change Successful!");
+    if (value != 'Cancel') {
+      this.setState({
+        defaultMode: value
+      },
+      () => {
+        // here is our callback that will be fired after state change.
+        console.log(this.state.defaultMode);
+        changeDefaultMode(this.state.user_id, this.state.defaultMode);
+        alert("Change Successful!");
+      }
+      );
     }
-    );
     //console.log(this.state.defaultMode);
   }
 
@@ -113,19 +117,26 @@ export class Settings extends Component {
             <List>
               <ListItem>
                 <Left>
-                  <Text>Change Default Mode</Text>
+                  <Text>Current Default Mode: {this.state.defaultMode}</Text>
                 </Left>
+
                 <Right>
-                  <Picker
-                    iosHeader="Select one"
-                    iosIcon={<Icon name="ios-arrow-down-outline" />}
-                    mode="dropdown"
-                    selectedValue={this.state.defaultMode}
-                    onValueChange={this.onValueChange.bind(this)}
+                  <Button
+                    style={{backgroundColor: "#FF9052"}}
+                    onPress={() =>
+                    ActionSheet.show(
+                      {
+                        options: BUTTONS,
+                        cancelButtonIndex: CANCEL_INDEX,
+                        title: "Select Option"
+                      },
+                      buttonIndex => {
+                        this.onValueChange(BUTTONS[buttonIndex]);
+                      }
+                    )}
                   >
-                    <Picker.Item label="Buyer" value="buyer" />
-                    <Picker.Item label="Carrier" value="carrier" />
-                  </Picker>
+                    <Text>Edit</Text>
+                  </Button>
                 </Right>
               </ListItem>
               <ListItem onPress={() => this.props.navigation.navigate('feedback')}>
