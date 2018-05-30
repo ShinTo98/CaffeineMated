@@ -15,6 +15,7 @@ import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
+import {OrderDetails} from './components/OrderDetails.js';
 
 
 
