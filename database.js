@@ -584,6 +584,7 @@ export async function changeDefaultMode(id, mode) {
   let defaultMode;
   await profileRef.once("value", dataSnapshot => {
       profileRef.child("default_mode").set(mode);
+      alert("Change Successful!");
     }
   );
 
