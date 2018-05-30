@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {sortOrdersByRequestTime, viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
+import {sortOrdersByDistance, sortOrdersByRequestTime, viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -145,6 +145,8 @@ export class Main extends Component {
       return this.state.carrier_accpet_minue;
     }else if( id == "carrier_accept_second"){
       return this.state.carrier_accept_second;
+    }else if( id == "ids"){
+      return this.state.ids;
     }
   }
 
@@ -194,12 +196,20 @@ export class Main extends Component {
     this.setState({carrier_accept_second : value});
   }else if( id == "delivering"){
     this.setState({delivering: value});
+  }else if( id == "request_data"){
+    this.setState({request_data : value});
+  }else if( id == "order_selected_id"){
+    this.order_selected[value] = false;
   }
   }
 
 
   async saveRequestIds() {
-    this.setState({ids: await sortOrdersByRequestTime()});
+    if( this.state.carrier_whereLogan != 'Specify a place'){
+      this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
+    }else{
+      this.setState({ids: await sortOrdersByRequestTime()});
+    }
     console.log(this.state.ids);
   }
 
@@ -268,19 +278,28 @@ export class Main extends Component {
     if( this.props.navigation.getParam('location') != undefined){
       this.setState({buyer_whereLogan : this.props.navigation.getParam('location')});
     }
+
+    if( this.state.carrier_whereLogan != 'Specify a place'){
+      this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
+    }
   }
 
 
 
-  placeChooseChange(id, location){
+  async placeChooseChange(id, location){
     if( id == 0){
       this.setState({buyer_whereLogan : location,
                      buyer_choosePlaces: false});
-      console.log("from main" + this.state.buyer_whereLogan);
 
     }else{
       this.setState({carrier_whereLogan : location,
                      carrier_choosePlaces: false});
+    }
+
+    if( this.state.carrier_whereLogan != 'Specify a place'){
+      this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
+      console.log("this is from main.js about setting updat orders" + this.state.carrier_whereLogan);
+      console.log("this is updated ids" + this.state.ids);
     }
 
   }

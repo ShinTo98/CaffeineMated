@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {sortOrdersByRequestTime,viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
+import {sortOrdersByDistance, sortOrdersByRequestTime,viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -22,6 +22,7 @@ export class CarrierMain extends Component {
         }
         this.createStars = this.createStars.bind(this);
         this.changeStates = this.changeStates.bind(this);
+        this.saveRequestIds = this.saveRequestIds.bind(this);
         
     }
     
@@ -79,7 +80,6 @@ export class CarrierMain extends Component {
           this.changeStates(['accepted','delivering','order_selecting','selecting_order','selected_order'], [false, false,undefined, false, -1]);
         }
       }
-
 
 
 
@@ -170,16 +170,23 @@ export class CarrierMain extends Component {
     }
 
     async saveRequestIds() {
+      if( this.props.get('carrier_whereLogan') != 'Specify a place'){
+        this.props.change('ids', await sortOrdersByDistance(this.props.get('carrier_whereLogan')));
+        this.setState({ids: this.props.get('ids')});
+      }else{
         this.props.change("ids", await sortOrdersByRequestTime());
+    }
         //console.log(this.state.ids);
       }
     
       async saveRequestDetails() {
         var received = [];
-        for (let id of this.state.ids) {
+        for (let id of this.props.get('ids')) {
+
           order = await viewOrderDetailById(id);
-          order["id"] = id;
-          profile = await getProfileDetailById(order.buyer_id)
+          //order.buyer_id = id;
+          console.log("this is id from carrier Main" + order.buyer_id);
+          profile = await getProfileDetailById(order.buyer_id);
           console.log(profile)
           if (profile.username) {
             order["buyer_name"] = profile.username;
@@ -194,11 +201,11 @@ export class CarrierMain extends Component {
             order["avatar"] = undefined;
           }
           received.push(order);
-          if (this.order_selected[id] == undefined) {
-            this.order_selected[id] =  false;
+          if (this.props.get("order_selected_id") == undefined) {
+            this.props.change("order_selected_id",id);
           }
         }
-        this.setState({request_data: received});
+        this.props.change("request_data", received);
         //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
         //console.log(d)
         //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
@@ -210,6 +217,7 @@ export class CarrierMain extends Component {
     
     render(){
         const loading = this.props.get('loadFinished');
+        console.log("this is from carrier Main about ids    " + this.props.get('ids'));
         if(this.props.get('selecting_order')){
             
             return (

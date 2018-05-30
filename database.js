@@ -422,7 +422,7 @@ export async function getDistance(origin, destination, id) {
   return new Promise(function(resolve,reject){
     const xhr = new XMLHttpRequest();
 
-    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"%20ucsd&mode=walking";
+    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"&mode=walking";
     xhr.responseType = 'json';
     //let orderWithDist;
     xhr.onreadystatechange = function () {
@@ -461,7 +461,7 @@ function compare (a, b){
  * Sort the pending order based on some rules (for now, we are only sorting it with
  * distance from the origin)
  */
-export async function sortOrders(origin) {
+export async function sortOrdersByDistance(origin) {
   let orders = await viewPendingOrders();
   let ordersWithDistance = [];
   var current;
@@ -475,8 +475,9 @@ export async function sortOrders(origin) {
   console.log(ordersWithDistance);
   let ordersResult = [];
   for (let j = 0; j < ordersWithDistance.length; j++){
-      ordersResult.push(ordersWithDistance[j].order_id);
+      await ordersResult.push(ordersWithDistance[j].order_id);
   }
+  //console.log("this is what we returned from database" + ordersResult);
   return ordersResult;
 }
 
