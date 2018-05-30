@@ -422,7 +422,7 @@ export async function getDistance(origin, destination, id) {
   return new Promise(function(resolve,reject){
     const xhr = new XMLHttpRequest();
 
-    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"%20ucsd&mode=walking";
+    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"&mode=walking";
     xhr.responseType = 'json';
     //let orderWithDist;
     xhr.onreadystatechange = function () {
@@ -461,7 +461,7 @@ function compare (a, b){
  * Sort the pending order based on some rules (for now, we are only sorting it with
  * distance from the origin)
  */
-export async function sortOrders(origin) {
+export async function sortOrdersByDistance(origin) {
   let orders = await viewPendingOrders();
   let ordersWithDistance = [];
   var current;
@@ -475,8 +475,9 @@ export async function sortOrders(origin) {
   console.log(ordersWithDistance);
   let ordersResult = [];
   for (let j = 0; j < ordersWithDistance.length; j++){
-      ordersResult.push(ordersWithDistance[j].order_id);
+      await ordersResult.push(ordersWithDistance[j].order_id);
   }
+  //console.log("this is what we returned from database" + ordersResult);
   return ordersResult;
 }
 
@@ -490,27 +491,27 @@ export async function getOrderRequestTime(order_id) {
   return location;
 }
 
-export async function sortOrdersByRequestTime() {
-    let orders = await viewPendingOrders();
-
-    // build array with each object containing id and request_time
-    let ordersWithRequestTime = [];
-    for (let i = 0; i < orders.length; i++) {
-        var orderRef = firebase.database().ref("Orders/items/"+orders[i]);
-        await orderRef.once("value", dataSnapshot => {
-            ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});
-        });
-    }
-
-    await ordersWithRequestTime.sort(compareByRequestTime);
-
-    // build the result array
-    let resList = [];
-    for (var j = 0; j < ordersWithRequestTime.length; j++){
-        resList.push(ordersWithRequestTime[j].orderId);
-    }
-    return resList;
-}
+export async function sortOrdersByRequestTime() {  
+   let orders = await viewPendingOrders();  
+    
+   // build array with each object containing id and request_time  
+   let ordersWithRequestTime = [];  
+   for (let i = 0; i < orders.length; i++) {  
+   var orderRef = firebase.database().ref("Orders/items/"+orders[i]);  
+   await orderRef.once("value", dataSnapshot => {  
+   ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});  
+   });  
+   }  
+    
+   await ordersWithRequestTime.sort(compareByRequestTime);  
+    
+   // build the result array  
+   let resList = [];  
+   for (var j = 0; j < ordersWithRequestTime.length; j++){  
+   resList.push(ordersWithRequestTime[j].orderId);  
+   }  
+   return resList;  
+  } 
 
 /*
  * Name: completeOrder
@@ -520,7 +521,7 @@ export async function sortOrdersByRequestTime() {
 export async function completeOrder(order_id, user_id) {
   let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
   await profileRef.once("value", snapshot => {
-    index = snapshot.val().totalNum;
+    index = snapshot.val().total_num;
   });
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);

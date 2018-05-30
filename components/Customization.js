@@ -48,7 +48,7 @@ export class Customization extends Component {
     this.state = {
       itemType: this.props.navigation.getParam('itemType'),
       itemId: this.props.navigation.getParam('itemId'),
-      select: ["grande", "regular", "0 shot", "regular", "regular","regular",""],
+      select: ["grande", "regular", "0 shot", "regular", "regular",""],
       icewater: ["no", "light", "regular"],
       espresso: ["0 shot", "1 shot", "2 shot"],
       cream: ["no", "light", "regular"],
@@ -62,6 +62,7 @@ export class Customization extends Component {
 
     this.findPrices = this.findPrices.bind(this);
     this.changeChoice = this.changeChoice.bind(this);
+    this.createItemObject = this.createItemObject.bind(this);
   }
 
   async findPrices(e,d){
@@ -88,9 +89,12 @@ export class Customization extends Component {
        headers[0]="Ice";
     }
 
+    this.setState({prices:datas[3]});
+
     var select = this.state.select;
     select[0] = prices[0];
     this.setState({itemName: datas[2], itemSizes: prices, discription: datas[0], image: datas[1], header:headers, select: select});
+    this.createItemObject();
   }
 
   changeChoice(index, e){
@@ -98,7 +102,26 @@ export class Customization extends Component {
     var selections = this.state.select;
     selections[index] = e;
     this.setState({select : selections});
+    this.createItemObject();
     console.log(this.state.select);
+  }
+
+  createItemObject(){
+    var itemObject = {size : this.state.select[0]};
+    console.log("this is " + itemObject);
+    var itemsize = this.state.select[0];
+    itemObject['price'] = this.state.prices[itemsize];
+    for( var i = 0; i < this.state.header.length; i++){
+      var key = this.state.header[i];
+      var value = this.state.select[i+1];
+      itemObject[key] = value;
+      //console.log("is lsdfj;alskdjf;alksdjf" + key + "lkaskdjflskjdfl" + value);
+    }
+
+    itemObject["customization"] = this.state.select[5];
+    //console.log("this is customization try this" + itemObject.customization);
+    //console.log("This is from customization about itemObject" + itemObject);
+    this.setState({item : itemObject});
   }
 
 
@@ -126,12 +149,18 @@ export class Customization extends Component {
     return (
 
       <Container style={styles.page}>
+      <Button onPress={this.createItemObject}>
+          <Text>test</Text>
+      </Button>
 
         <Header style={styles.header}>
           <Left>
             <Button
               transparent
-              onPress={ ()=> this.props.navigation.navigate('submenu')}>
+              onPress={ ()=> this.props.navigation.navigate('submenu',{
+                location: this.state.location,
+                time: this.state.time,
+              })}>
               <Icon name='arrow-back' style={styles.icon_BackArrow}/>
             </Button>
           </Left>
@@ -237,6 +266,7 @@ export class Customization extends Component {
                    location: this.state.location,
                    time: this.state.time,
                    update: true,
+                   itemObject: this.state.item,
               })}}>Submit</Text>
                 </Button>
                 </FooterTab>

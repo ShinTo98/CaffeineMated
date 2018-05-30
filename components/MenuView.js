@@ -51,6 +51,7 @@ export class MenuView extends Component {
       items: [],
     };
 
+    console.log("from menuview" + this.state.location);
     // Bind login related functions
     this.getMenu = this.getMenu.bind(this);
    this.getType = this.getType.bind(this);
@@ -81,6 +82,8 @@ export class MenuView extends Component {
           <Left>
             <Button transparent onPress={() => this.props.navigation.navigate('main', {
                update: false,
+               location: this.state.location,
+               time: this.state.time,
           })}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>

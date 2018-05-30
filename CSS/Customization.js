@@ -123,11 +123,9 @@ export const styles = StyleSheet.create({
   },
 
   submitButton:{
+    height: '100%',
+    width: '100%',
     backgroundColor: '#FF9052',
-    //borderWidth: 0.5,
-    //borderColor: '#FF9052',
-    //width: Dimensions.get('window').width,
-    //borderRadius: 0,
     alignItems: 'center',
     //flexDirection: 'row',
     //height: '8%',
