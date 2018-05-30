@@ -76,6 +76,7 @@ export class BuyerMain extends Component {
 
     render(){
       // For swipable list
+
       const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         return(
             <Container style = {styles.Container}>

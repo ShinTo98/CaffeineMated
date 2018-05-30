@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   container: {
-    flex: 1,
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
 
@@ -50,11 +50,11 @@ export const styles = StyleSheet.create({
     color: '#ff9052',
   },
   white_banner: {
-    flex: 0.15,
+    height: '5%',
     backgroundColor: '#ffffff',
   },
   banner: {
-    flex: 1,
+    height: '5%',
     alignItems: 'center',
   },
   buttons_top: {
@@ -139,7 +139,7 @@ export const styles = StyleSheet.create({
     top: deviceHeight/30,
   },
   textSection: {
-    flex: 3,
+    height: '30%',
     backgroundColor: '#E3E3E3',
     alignItems: 'center',
     justifyContent: 'center',
@@ -287,28 +287,27 @@ export const styles = StyleSheet.create({
     top: 70,
   },
   buyerStarSection: {
-    flex: 0.25,
+    height: '15%',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
   },
   list_left_container: {
-    flex: 0.5,
+    height: '5%',
     //justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
     //height: 35
   },
   list_body_container: {
-    flex: 2,
-    alignItems: 'flex-end',
+    height: '50%',
   },
   list_text: {
     fontSize: 12,
     alignSelf: 'flex-end',
   },
   floatView: {
-    flex: 2,
+    height: '50%',
     position: 'absolute',
     width: 230,
     //height: 0,
