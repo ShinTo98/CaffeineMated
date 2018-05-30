@@ -257,6 +257,17 @@ export class Main extends Component {
     // get params here
     //console.log("This is from main  " + this.props.navigation.getParam('selection'));
 
+    if(this.props.navigation.getParam('itemObject') != undefined){
+      var itemObject = this.props.navigation.getParam('itemObject');
+      console.log("this is itemObject" + itemObject);
+      console.log("this is itemObject size" + itemObject.size);
+      console.log("this is itemObject syrup" + itemObject.syrup);
+      console.log("this is itemObject price" + itemObject.price);
+    }else{
+      console.log("what is going on~~~~~~~~~");
+    }
+
+
     if(this.props.navigation.getParam('selection') != undefined) {
       var latest = this.props.navigation.getParam('data');
       if (this.props.navigation.getParam('update') == true) {
