@@ -28,7 +28,7 @@ export class BuyerMain extends Component {
         }
 
         this.submitValidityCheck = this.submitValidityCheck.bind(this);
-        console.log("this is from buyermain" + this.state.buyer_whereLogan);
+        //console.log("this is from buyermain" + this.state.buyer_whereLogan);
     }
 
 
