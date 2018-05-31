@@ -51,21 +51,18 @@ export class MenuView extends Component {
       items: [],
     };
 
-    console.log("from menuview" + this.state.location);
     // Bind login related functions
     this.getMenu = this.getMenu.bind(this);
    this.getType = this.getType.bind(this);
   }
 
+  // Function to get what types are in menu
   async getMenu() {
     this.setState({items: await displayMenu()});
-    console.log(this.state.items);
   }
 
   async getType(e){
-    //console.log(e);
     var test = await displayType(e);
-    console.log(test);
     return test;
   }
 
@@ -75,7 +72,6 @@ export class MenuView extends Component {
 
   render () {
     var result = this.state.items;
-    console.log("this is result in items: " + result);
     return(
       <Container style={styles.container}>
         <Header style={styles.header}>
@@ -107,9 +103,9 @@ export class MenuView extends Component {
                     name: type[1],
                     items: this.getType(type[1]),
                     data: this.state.data,
-                   location: this.state.location,
-                   time: this.state.time,
-                  })}}>
+                    location: this.state.location,
+                    time: this.state.time,
+                })}}>
                 <Image style={styles.image}
                         source={{uri: type[0]}} />
 

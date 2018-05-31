@@ -56,8 +56,9 @@ export class Customization extends Component {
       data: this.props.navigation.getParam('data'),
       location: this.props.navigation.getParam('location'),
       time: this.props.navigation.getParam('time'),
-      //topping: ["no", "light", "regular"]
-      //itemImage: displayItem(this.state.itemType, this.state.itemId)
+      // If you want to set up more customization, add a state with all the choices and the name of this customization in the header.
+        //Example:
+        //topping: ["no", "light", "regular"]
     };
 
     this.findPrices = this.findPrices.bind(this);
@@ -65,6 +66,7 @@ export class Customization extends Component {
     this.createItemObject = this.createItemObject.bind(this);
   }
 
+  // Helper function to find all sizes for one item
   async findPrices(e,d){
     for( let price in e){
       d.push(price);
@@ -73,16 +75,18 @@ export class Customization extends Component {
   }
 
   async componentWillMount(){
+    // Find Item
     var currenItem = await displayItem(this.state.itemType, this.state.itemId);
     var datas = [];
     for( let data in currenItem){
        datas.push(currenItem[data]);
     }
-    console.log(currenItem);
-    console.log(datas);
 
+    // Get sizes
     var prices = await this.findPrices(datas[3], []);
+    // Find name for each customizations * First one vary depending on the drink
     var headers = ["check", "Espresso", "Cream","Syrup"];
+    // Checking if it should be water or ice
     if( this.state.itemType.substring(0,3) == "Hot"){
        headers[0] = "Water";
     }else{
@@ -93,34 +97,34 @@ export class Customization extends Component {
 
     var select = this.state.select;
     select[0] = prices[0];
+
+    // Set state
     this.setState({itemName: datas[2], itemSizes: prices, discription: datas[0], image: datas[1], header:headers, select: select});
+    // Set object to pass into other components
     this.createItemObject();
   }
 
+  // Function to restate state when user make a choice
   changeChoice(index, e){
-    console.log("selected:" + e);
     var selections = this.state.select;
     selections[index] = e;
     this.setState({select : selections});
+    // Set object to pass into other components
     this.createItemObject();
-    console.log(this.state.select);
   }
 
+  // Function to create and change the object to be later pass into other components
   createItemObject(){
     var itemObject = {size : this.state.select[0]};
-    console.log("this is " + itemObject);
     var itemsize = this.state.select[0];
     itemObject['price'] = this.state.prices[itemsize];
     for( var i = 0; i < this.state.header.length; i++){
       var key = this.state.header[i];
       var value = this.state.select[i+1];
       itemObject[key] = value;
-      //console.log("is lsdfj;alskdjf;alksdjf" + key + "lkaskdjflskjdfl" + value);
     }
 
     itemObject["customization"] = this.state.select[5];
-    //console.log("this is customization try this" + itemObject.customization);
-    //console.log("This is from customization about itemObject" + itemObject);
     this.setState({item : itemObject});
   }
 
@@ -143,16 +147,18 @@ export class Customization extends Component {
     choices.push(choiceEsp);
     choices.push(choiceCream);
     choices.push(choiceSyrup);
+    // If add another customization, then add another push state, DO NOT CHANGE RENDER
+    // Example:
     //choices.push(this.state.topping);
+
+    // Check if everything is made, if not, display the spinning effect
     if( itemImage != undefined && itemSize != undefined && itemName != undefined &&
         selections != undefined && headers != undefined){
     return (
 
       <Container style={styles.page}>
-      <Button onPress={this.createItemObject}>
-          <Text>test</Text>
-      </Button>
 
+        {/* Header contain: Go back button, go back to submenu*/}
         <Header style={styles.header}>
           <Left>
             <Button
@@ -166,10 +172,12 @@ export class Customization extends Component {
           </Left>
         </Header>
 
+        {/* Item name and the line under the name */}
         <Container style={styles.content}>
             <Text style={styles.itemName}>{this.state.itemName}</Text>
             <View style={styles.line} />
 
+        {/* Grid contains two columns, first is the image of the item, second being the discription of the item */}
         <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollView}>
           <Grid style={styles.grid}>
             <Col style={styles.imageCol}>
@@ -180,13 +188,16 @@ export class Customization extends Component {
             </Col>
           </Grid>
 
+          {/* Draw line*/}
           <View style={styles.line}/>
 
+          {/* Display sizes choices. This is speical because size options does not display the header "size" at the begnning of the row */}
           <Container style={styles.choicesContainer}>
               <Grid style={styles.grid}>
                 <Row style={styles.row}>
 
               {
+                // Conditional rendering depending on  whether the button is selected or not
                 itemSize.map(function (size, i){
                   if(size!=selections[0]){
                     return (<Col key= {i} style={styles.buttonCol}>
@@ -206,7 +217,9 @@ export class Customization extends Component {
               }
               </Row>
 
+              
               {
+                // loop through the header state to print out each header at the beginning of each row
                 headers.map(function (header, i){
                     var choice = choices[i];
                     var z = i + 1;
@@ -216,6 +229,7 @@ export class Customization extends Component {
                       <Text style={styles.subHeaders}>{header}</Text>
                       </Col>
                       {
+                        // Loop through each choice and print accordingly.
                         choice.map(function (size, j){
                           if(size != selections[z]){
                             return (<Col key= {j} style={styles.buttonCol}>
@@ -240,6 +254,7 @@ export class Customization extends Component {
 
               </Grid>
 
+              {/* Ask for random customization*/}
               <Textarea style={styles.textInput} placeholder= "Anything else you want?" onChangeText={(text) => this.changeChoice(selections.length-1, text)}/>
                 
 
@@ -254,27 +269,29 @@ export class Customization extends Component {
         </Container>
 
 
-                                <Footer>
-                  <FooterTab>
+        {/* Submit button is designed to be the footer of the page, pass all possible information to other states when pressed*/}
+        <Footer>
+            <FooterTab>
                 <Button full style={styles.submitButton} onPress={ ()=> {
-                this.props.navigation.navigate('main', {
-                   name: itemName,
-                   image: itemImage,
-                   selection: this.state.select,
-                   data: this.state.data,
-                   location: this.state.location,
-                   time: this.state.time,
-                   update: true,
-                   itemObject: this.state.item,
-              })}}>
+                    this.props.navigation.navigate('main', {
+                      name: itemName,
+                      image: itemImage,
+                      selection: this.state.select,
+                      data: this.state.data,
+                      location: this.state.location,
+                      time: this.state.time,
+                      update: true,
+                      itemObject: this.state.item,
+                    })}}>
                    <Text style={styles.submitText}>Submit</Text>
                 </Button>
-                </FooterTab>
-                </Footer>
+            </FooterTab>
+        </Footer>
 
       </Container>
     );
     }else{
+      /* Display spinning when loading*/
       return(
         <Container>
           <Spinner color='red' />

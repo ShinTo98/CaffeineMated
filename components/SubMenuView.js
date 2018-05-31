@@ -12,7 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders, displayType, displayItem} from '../database.js';
+import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
 import {
   Container,
   Header,
@@ -51,29 +51,21 @@ export class SubMenuView extends Component {
     };
     // Bind login related functions
     this.getType = this.getType.bind(this);
-    this.testdisplayItem = this.testdisplayItem.bind(this);
-    console.log('in constructor: ' + this.state.items);
   }
+
+  // Function to find all what are in each type
   async getType(){
-    //console.log(e);
     var test = await displayType(this.state.type);
-    console.log(test);
     this.setState({items: test});
-    console.log(this.state.items);
   }
 
   async componentWillMount(){
     await this.getType();
   }
 
-  async testdisplayItem(e,d){
-    let test = await displayItem(e,d);
-    return test;
-}
 
   render () {
     var result = this.state.items;
-    //console.log("this is result in items: " + result);
     return(
 
       <Container style={styles.container}>
