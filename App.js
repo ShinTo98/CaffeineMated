@@ -15,7 +15,7 @@ import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
-
+import {OrderDetailInHistory} from './components/OrderDetailInHistory.js';
 
 
 export default class App extends React.Component {
@@ -24,9 +24,7 @@ export default class App extends React.Component {
   render() {
     return (
 
-      <Root>
-      <PrimaryNav />
-      </Root>
+      <OrderDetailInHistory/>
     );
   }
 }
