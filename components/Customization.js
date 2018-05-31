@@ -256,8 +256,7 @@ export class Customization extends Component {
 
                                 <Footer>
                   <FooterTab>
-                <Button full style={styles.submitButton}>
-                   <Text style={styles.submitText} onPress={ ()=> {
+                <Button full style={styles.submitButton} onPress={ ()=> {
                 this.props.navigation.navigate('main', {
                    name: itemName,
                    image: itemImage,
@@ -267,7 +266,8 @@ export class Customization extends Component {
                    time: this.state.time,
                    update: true,
                    itemObject: this.state.item,
-              })}}>Submit</Text>
+              })}}>
+                   <Text style={styles.submitText}>Submit</Text>
                 </Button>
                 </FooterTab>
                 </Footer>

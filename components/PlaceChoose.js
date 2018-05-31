@@ -30,7 +30,7 @@ export class PlaceChoose extends Component {
     render(){
         return(
             <Container style={styles.color_theme}>
-              <Header style={styles.header}>
+              {/*<Header style={styles.header}>
                 <Left>
                   <Button
                     transparent
@@ -38,7 +38,7 @@ export class PlaceChoose extends Component {
                     <Icon name='arrow-back' style={styles.icon_BackArrow}/>
                   </Button>
                 </Left>
-              </Header>
+              </Header>*/}
 
               <Container style={styles.placeAutocomplete}>
               <GooglePlacesAutocomplete

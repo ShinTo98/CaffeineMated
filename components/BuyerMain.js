@@ -162,7 +162,7 @@ export class BuyerMain extends Component {
                               {data.itemObject.size}
                             </Text>
                             <Text style ={styles.cardSecondaryText}>
-                              Estimated Price: ${data.itemObject.price}
+                              ${data.itemObject.price}
                             </Text>
                           </View>
                           </View>
