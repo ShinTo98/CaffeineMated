@@ -441,5 +441,13 @@ export const styles = StyleSheet.create({
   },
   priceView: {
     top: 86,
+  },
+  placeCancelText: {
+    fontSize: 16,
+  },
+  placeCancelButton: {
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
+    backgroundColor: '#c8c8c8',
   }
 });
