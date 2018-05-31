@@ -216,6 +216,9 @@ export async function saveOrder (order) {
  * Return: order_id
  */
   export async function createOrder(orders, orderLocation, requestTime){
+    console.log(orders);
+    console.log(orderLocation);
+    console.log(requestTime);
     var buyerId = await getCurrentUserUID();
     var createTime = new Date().toLocaleString('en-US', { hour12: false });
 

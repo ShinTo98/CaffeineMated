@@ -31,9 +31,6 @@ export class BuyerMain extends Component {
         //console.log("this is from buyermain" + this.state.buyer_whereLogan);
     }
 
-
-
-
     _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
@@ -53,9 +50,10 @@ export class BuyerMain extends Component {
           alert(
            'Please order at least one drink!');
         } else {
-          var id = createOrder(this.props.get('order_data'), this.props.get('whereLogan'), this.props.get('whenLogan'));
+          var id = createOrder(this.props.get('order_data'), this.props.get('buyer_whereLogan'), this.props.get('buyer_whenLogan'));
           this.props.change('orderId', id);
           this.props.change('orderSubmitted', true);
+          this.setState({orderSubmitted: true});
         }
     }
 
@@ -87,7 +85,7 @@ export class BuyerMain extends Component {
             <Container style = {styles.Container}>
 
             {/* ------------------------------- Order submitted page ------------------------------- */}
-            {this.props.get("orderSubmitted") &&
+            {this.state.orderSubmitted &&
               <SubmitOrder
               updateOrderSubmitted={this.props.get('updateOrderSubmitted')}
               order_data={this.props.get("order_data")}
@@ -96,7 +94,7 @@ export class BuyerMain extends Component {
             }
 
             {/* ---------------------------------- Ordering page ---------------------------------- */}
-            {
+            {!this.state.orderSubmitted &&
               <View style= {styles.banner}>
               {/* When & Where section */}
               <Item regular style={styles.textInput}>
