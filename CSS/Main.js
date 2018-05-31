@@ -161,7 +161,7 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     width: 300,
     top: 80,
-    height: 200,
+    height: 320,
   },
 
   requestTitleItem: {
@@ -392,6 +392,16 @@ export const styles = StyleSheet.create({
     marginTop: 6,
     marginLeft: 20,
   },
+  line_bottom: {
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    width: 260,
+    marginLeft: 20,
+  },
+  priceText: {
+    color: '#ff9052',
+    fontSize: 18,
+  },
   cardLine: {
     borderBottomColor: '#c8c8c8',
     borderBottomWidth: 2,
@@ -428,5 +438,8 @@ export const styles = StyleSheet.create({
   },
   cardBuyerName: {
     fontSize: 24,
+  },
+  priceView: {
+    top: 86,
   }
 });

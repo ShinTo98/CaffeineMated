@@ -66,6 +66,11 @@ export class BuyerMain extends Component {
       newData.splice(rowId, 1);
       console.log(newData);
       this.props.change('order_data', newData);
+      var newTotalPrice = 0;
+      for(var i = 0; i < newData.length; i++) {
+        newTotalPrice += newData[i].itemObject.price;
+      }
+      this.props.change('totalPrice', newTotalPrice);
       console.log(this.props.get('order_data'));
       this.setState({ order_data: newData });
     }
@@ -76,8 +81,8 @@ export class BuyerMain extends Component {
 
     render(){
       // For swipable list
-
       const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
         return(
             <Container style = {styles.Container}>
 
@@ -154,7 +159,10 @@ export class BuyerMain extends Component {
                               {data.name}
                             </Text>
                             <Text style ={styles.cardSecondaryText}>
-                              {data.selection[0]}
+                              {data.itemObject.size}
+                            </Text>
+                            <Text style ={styles.cardSecondaryText}>
+                              Estimated Price: ${data.itemObject.price}
                             </Text>
                           </View>
                           </View>
@@ -174,7 +182,15 @@ export class BuyerMain extends Component {
                 }
                 </View>
               </View>
-            {/* Submit button section */}
+
+              {/* Estimated price section */}
+              <View style={styles.priceView}>
+                <Text style={styles.priceText}>
+                  Total Estimated Price: ${this.props.get('totalPrice')}
+                </Text>
+              </View>
+
+              {/* Submit button section */}
               <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_submit}

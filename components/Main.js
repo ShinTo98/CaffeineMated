@@ -33,6 +33,7 @@ export class Main extends Component {
       ids: [],
       request_data: [],
       order_data: [],
+      totalPrice: 0.00,
       loadFinished: false,
       order_exists: false,
       request_selected: false,
@@ -78,6 +79,8 @@ export class Main extends Component {
         this.setState({buyer_whenLogan : value});
     } else if( id == 'order_data') {
       this.setState({order_data: value});
+    } else if( id == 'totalPrice') {
+      this.setState({totalPrice: value});
     }
   }
 
@@ -101,6 +104,8 @@ export class Main extends Component {
         return this.state.order_exists;
    }else if( id == "carrier_refreshing"){
         return this.state.carrier_refreshing;
+   }else if( id == "totalPrice") {
+        return this.state.totalPrice;
    }
   }
 
@@ -275,9 +280,15 @@ export class Main extends Component {
           name: this.props.navigation.getParam('name'),
           image: this.props.navigation.getParam('image'),
           selection: this.props.navigation.getParam('selection'),
+          itemObject: this.props.navigation.getParam('itemObject'),
         });
       }
+      var newTotalPrice = 0;
+      for(var i = 0; i < latest.length; i++) {
+        newTotalPrice += latest[i].itemObject.price;
+      }
       this.setState({order_data: latest});
+      this.setState({totalPrice: newTotalPrice});
       this.setState({order_exists: true});
       //console.log(this.state.order_data);
     }
