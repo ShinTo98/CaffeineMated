@@ -7,7 +7,7 @@ import {
     Thumbnail,
     View,
     List,
-    ListItem,
+    Spinner
 } from 'native-base';
 
 import {viewOrderDetailById, getProfileById} from './../database.js';
@@ -135,11 +135,11 @@ export class OrderDetailInHistory extends Component{
             );
         }
 
-        /* TODO:Need some animation when loading*/
-        else{
-            console.log("not");
+         else{
             return (
-                <Text hahahahha/>
+                <Container>
+                    <Spinner color={'#FF9052'}/>
+                </Container>
             );
         }
     }
