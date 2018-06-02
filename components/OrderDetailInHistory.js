@@ -3,7 +3,7 @@ import {
   Container, Button, Header, Left, 
   Body, Text, Thumbnail, View, 
   List, Spinner, Icon, Title,
-  Right
+  Right, Segment
 } from 'native-base';
 
 import {viewOrderDetailById, getProfileById} from './../database.js';
@@ -68,23 +68,26 @@ render(){
           <View style={{flexDirection: 'row'}}>
             
             <Left >
-              <Thumbnail style={{marginTop: 8, marginBottom: 8, marginLeft: 10}}
+              <Thumbnail style={styles.image}
               source={{uri: this.state.buyerInfo.photo}}/>
             </Left>
 
-            <Text>{this.state.buyerInfo.username} </Text>
-            <StarRating
-              disabled={true}
-              maxStars={5}
-              emptyStar={'ios-star-outline'}
-              fullStar={'ios-star'}
-              halfStar={'ios-star-half'}
-              iconSet={'Ionicons'}
-              halfStarEnabled={true}
-              fullStarColor={'#FF9052'}
-              emptyStarColor={'#47525E'}
-              rating={this.state.buyerRate}
-            />
+            <View style = {{flexDirection: 'column'}}>
+              <Text style={styles.content}>{this.state.buyerInfo.username} </Text>
+              <StarRating
+                disabled={true}
+                maxStars={5}
+                emptyStar={'ios-star-outline'}
+                fullStar={'ios-star'}
+                halfStar={'ios-star-half'}
+                iconSet={'Ionicons'}
+                halfStarEnabled={true}
+                fullStarColor={'#FF9052'}
+                emptyStarColor={'#47525E'}
+                rating={this.state.buyerRate}
+                starSize={35}
+              />
+            </View>
           </View>
         </Container>
         {/************** this contains all buyer information to display *********************/}
@@ -95,23 +98,25 @@ render(){
           <Text style={styles.title}> Carrier</Text>
           <View style={{flexDirection: 'row'}}>
             <Left>
-              <Thumbnail style={{marginTop: 8, marginBottom: 8, left: 10}}
+              <Thumbnail style={styles.image}
                 source={{uri: this.state.carrierInfo.photo}}/>
             </Left>
-
-            <Text>{this.state.carrierInfo.username} </Text>
-            <StarRating
-            disabled={true}
-            maxStars={5}
-            emptyStar={'ios-star-outline'}
-            fullStar={'ios-star'}
-            halfStar={'ios-star-half'}
-            iconSet={'Ionicons'}
-            halfStarEnabled={true}
-            fullStarColor={'#FF9052'}
-            emptyStarColor={'#47525E'}
-            rating={this.state.carrierRate}
-            />
+              <View style = {{flexDirection: 'column'}}>
+                    <Text style={styles.content}>{this.state.carrierInfo.username} </Text>
+                    <StarRating
+                        disabled={true}
+                        maxStars={5}
+                        emptyStar={'ios-star-outline'}
+                        fullStar={'ios-star'}
+                        halfStar={'ios-star-half'}
+                        iconSet={'Ionicons'}
+                        halfStarEnabled={true}
+                        fullStarColor={'#FF9052'}
+                        emptyStarColor={'#47525E'}
+                        rating={this.state.carrierRate}
+                        starSize={35}
+                    />
+              </View>
           </View>
         </Container>
         {/********************* END OF all carrier information to display *******************/}
@@ -119,34 +124,28 @@ render(){
       
         {/****************** this contains all order information to display *********************/}
         <Container style={styles.orderContainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Left>
-              <Text style={styles.title}> Items </Text>
-            </Left>
-            <List>
-            {
-              Object.values(itemsInformation).map((item, i) =>
-                <Text key={i}>
-                  {item.item_name}
-                </Text>
-              )
-            }
+          <View style={styles.infoContainer}>
+            <Text style={styles.subTitle}> Items </Text>
+                <List>
+                {
+                  Object.values(itemsInformation).map((item, i) =>
+                    <Text key={i} style={styles.content}>
+                      {item.item_name}
+                    </Text>
+                  )
+                }
             </List>
           </View>
 
-          <View style={{flexDirection: 'row'}}>
-            <Left>
-              <Text style={styles.title}> Location </Text>
-            </Left>
-    
-            <Text>{this.state.orderData.location} </Text>
+          <View style={styles.infoContainer}>
+              <Text style={styles.subTitle}> Location </Text>
+
+            <Text style={styles.content}>{this.state.orderData.location} </Text>
           </View>
 
-          <View style={{flexDirection: 'row'}}>
-            <Left>
-              <Text style={styles.title}> Finish Time </Text>
-            </Left>
-            <Text>{this.state.orderData.last_update_time} </Text>
+          <View style={styles.infoContainer}>
+              <Text style={styles.subTitle}> Finish Time </Text>
+            <Text style={styles.content}>{this.state.orderData.last_update_time} </Text>
           </View>
         </Container>
         {/****************** END OF  all order information to display *********************/}
