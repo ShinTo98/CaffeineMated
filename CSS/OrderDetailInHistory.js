@@ -4,8 +4,8 @@ export const styles = StyleSheet.create({
     title: {
         color: '#FF9052',
         fontSize: 20,
-        textAlign: 'center',
-        marginTop: '2%',
+        textAlign: 'left',
+        //marginTop: '2%',
         marginBottom: 0
     },
 
@@ -18,21 +18,13 @@ export const styles = StyleSheet.create({
         textAlign: 'left',
     },
 
-    headerContainer: {
-        flex: 0.5,
-        marginTop: '5%',
-        justifyContent: 'center',
-    },
-
     userContainer: {
-        flex: 1,
-        height:'10%',
+        height: Dimensions.get('window').width*0.35,
         marginTop: '5%',
         marginHorizontal:'3.5%',
     },
 
     orderContainer: {
-        flex: 4,
         height:'10%',
         marginTop: '5%',
         marginHorizontal:'3.5%',
@@ -40,17 +32,26 @@ export const styles = StyleSheet.create({
 
     infoContainer:{
         flexDirection: 'column',
-        marginTop:'1%',
+        marginTop:'2%'
     },
 
     content:{
         fontSize: 18,
-        textAlign: 'right',
+        textAlign: 'right'
     },
 
     image:{
         marginTop: '8%',
         marginBottom: '8%',
-        left: '10%'
+        left: '10%',
+        width: Dimensions.get('window').width*0.25,
+        height: Dimensions.get('window').width*0.25,
+        borderRadius: Dimensions.get('window').width*0.125 
+    },
+
+    horizontalRule:{
+        borderBottomColor: '#FF9052',
+        borderBottomWidth: 2,
+        marginVertical: '2%'
     }
 });

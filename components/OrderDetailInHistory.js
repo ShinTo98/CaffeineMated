@@ -5,6 +5,7 @@ import {
   List, Spinner, Icon, Title,
   Right, Segment
 } from 'native-base';
+import {ScrollView,Dimensions,Image} from 'react-native';
 
 import {viewOrderDetailById, getProfileById} from './../database.js';
 import {styles} from "../CSS/OrderDetailInHistory";
@@ -43,32 +44,32 @@ render(){
   var loaded = this.state.loadFinished
   if (loaded) {
     return (
-      <Container>
-
+      <Container style={{height:'100%'}}>
         {/***************** this will contain the header informations ********************** */}
-        <Container style={styles.headerContainer}>
-          <Header>
-            <Left>
-              <Button transparent>
-                <Icon name='arrow-back' style={styles.icon}/>
-              </Button>
-            </Left>
-            <Body>
-              <Title style= {styles.title}> Order Detail </Title>
-            </Body>
-            <Right/>
-          </Header>
-        </Container>
+        <Header>
+          <Left>
+            <Button transparent>
+              <Icon name='arrow-back' style={styles.icon}/>
+           </Button>
+          </Left>
+          <Body>
+            <Title style= {styles.title}> Order Detail </Title>
+          </Body>
+          <Right/>
+        </Header>
         {/***************** this will contain the header informations ********************** */}
 
+
+        <ScrollView showsVerticalScrollIndicator={false} >
       
         {/************** this contains all buyer information to display *********************/}
         <Container style={styles.userContainer}>
           <Text style={styles.title}> Buyer</Text>
+          <View style={styles.horizontalRule} />
           <View style={{flexDirection: 'row'}}>
             
             <Left >
-              <Thumbnail style={styles.image}
+              <Thumbnail  style={styles.image}
               source={{uri: this.state.buyerInfo.photo}}/>
             </Left>
 
@@ -96,6 +97,7 @@ render(){
         {/********************* this contains all carrier information to display *******************/}
         <Container style={styles.userContainer}>
           <Text style={styles.title}> Carrier</Text>
+          <View style={styles.horizontalRule} />
           <View style={{flexDirection: 'row'}}>
             <Left>
               <Thumbnail style={styles.image}
@@ -126,6 +128,7 @@ render(){
         <Container style={styles.orderContainer}>
           <View style={styles.infoContainer}>
             <Text style={styles.subTitle}> Items </Text>
+            <View style={styles.horizontalRule} />
                 <List>
                 {
                   Object.values(itemsInformation).map((item, i) =>
@@ -138,17 +141,20 @@ render(){
           </View>
 
           <View style={styles.infoContainer}>
-              <Text style={styles.subTitle}> Location </Text>
+            <Text style={styles.subTitle}> Location </Text>
+            <View style={styles.horizontalRule} />
 
             <Text style={styles.content}>{this.state.orderData.location} </Text>
           </View>
 
           <View style={styles.infoContainer}>
-              <Text style={styles.subTitle}> Finish Time </Text>
+            <Text style={styles.subTitle}> Finish Time </Text>
+            <View style={styles.horizontalRule} />
             <Text style={styles.content}>{this.state.orderData.last_update_time} </Text>
           </View>
         </Container>
         {/****************** END OF  all order information to display *********************/}
+        </ScrollView>
 
       </Container>
       );
