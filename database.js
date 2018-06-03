@@ -203,7 +203,7 @@ export async function saveOrder (order) {
     }
     order.id = order_id;
     orderRef.child("items").child(order_id).set(order);
-    orderRef.child("size").set(++order_id);
+    orderRef.child("size").set(order_id+1);
   });
 
   return order_id;
@@ -237,7 +237,7 @@ export async function saveOrder (order) {
     var orderId = await saveOrder(orderObject);
     profileRef = firebase.database().ref("Profile/" + buyerId);
     profileRef.child("current_order_as_buyer").set(orderId);
-    addOrderStatusChangeListener(orderId - 1);
+    addOrderStatusChangeListener(orderId);
     return orderId;
   }
 

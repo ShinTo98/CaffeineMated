@@ -4,7 +4,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
 import {sortOrdersByDistance, sortOrdersByRequestTime,viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
-import {styles} from '../CSS/Main.js';
+import {styles} from '../CSS/CarrierMain.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
 import {OrderCompleted} from './OrderCompleted.js';
@@ -80,7 +80,7 @@ export class CarrierMain extends Component {
         }
         else {
           cancelByCarrier(this.props.get('selected_order'));
-          this.changeStates(['accepted','delivering','order_selecting','selecting_order','selected_order'], [false, false,undefined, false, -1]);
+          this.changeStates(['accepted','delivering','order_selecting','selecting_order','selected_order'], [false, false,-1, false, -1]);
         }
       }
 
@@ -166,6 +166,7 @@ export class CarrierMain extends Component {
 
     changeStates(ids, values){
         for( var i = 0; i < ids.length; i++){
+            console.log("This is values in changeStates" + values[i]);
             this.props.change(ids[i], values[i]);
         }
     }
@@ -173,6 +174,7 @@ export class CarrierMain extends Component {
     async fetchData() {
         await this.saveRequestIds();
         await this.saveRequestDetails();
+        console.log("This is carrier Main about selected orders " + this.props.get("selected_order"));
     }
 
     async saveRequestIds() {
@@ -181,9 +183,9 @@ export class CarrierMain extends Component {
         this.setState({ids: this.props.get('ids')});
       }else{
         this.props.change("ids", await sortOrdersByRequestTime());
-    }
-        //console.log(this.state.ids);
       }
+        //console.log(this.state.ids);
+    }
 
       async saveRequestDetails() {
         var received = [];
@@ -191,7 +193,7 @@ export class CarrierMain extends Component {
 
           order = await viewOrderDetailById(id);
           //order.buyer_id = id;
-          console.log("this is id from carrier Main" + order.buyer_id);
+          //console.log("this is id from carrier Main" + order.buyer_id);
           profile = await getProfileDetailById(order.buyer_id);
           console.log(profile)
           if (profile.username) {
@@ -207,9 +209,9 @@ export class CarrierMain extends Component {
             order["avatar"] = undefined;
           }
           received.push(order);
-          if (this.props.get("order_selected_id") == undefined) {
-            this.props.change("order_selected_id",id);
-          }
+          //if (this.props.get("order_selected.id") == undefined) {
+            //this.props.change("order_selected.id",id);
+          //}
         }
         this.props.change("request_data", received);
         //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
@@ -224,6 +226,7 @@ export class CarrierMain extends Component {
     render(){
         const loading = this.props.get('loadFinished');
         console.log("this is from carrier Main about ids    " + this.props.get('ids'));
+        console.log("This is carrier Main about selected orders in render" + this.props.get("selected_order"));
         if(!this.state.rating && this.props.get('selecting_order')){
 
             return (
