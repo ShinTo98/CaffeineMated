@@ -5,23 +5,27 @@ export const styles = StyleSheet.create({
 
   container: {
     marginTop: 10,
-    height: '100%',
-    width: '100%',
+    //height: '100%',
+    //width: '100%',
     // alignItems: 'center',
     alignContent: 'center',
     //flexDirection: 'column',
     //padding: '30%'
+    flex: 1
   },
 
 
   titleRow: {
     height: '10%',
     width: '100%',
+    alignContent: 'center',
+    justifyContent: 'center'
   },
 
   titleTex: {
     fontSize: 21,
-    textAlign: 'center'
+    //textAlign: 'center',
+    alignSelf: 'center'
   },
 
   imageRow: {
@@ -41,5 +45,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontSize: 15,
+    marginTop: 10
   }
 });

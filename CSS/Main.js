@@ -150,7 +150,7 @@ export const styles = StyleSheet.create({
     marginBottom: '2%'
   },
   orderItem:{
-    //alignItems: 'flex-start',
+    alignItems: 'flex-start',
     justifyContent: 'center',
     borderColor: '#c8c8c8',
     backgroundColor: '#FFFFFF',
@@ -251,7 +251,9 @@ export const styles = StyleSheet.create({
   },
   orderDetailText:{
     color: '#ff9052',
-    fontSize: 24
+    fontSize: 24,
+    alignSelf: 'center',
+    //marginTop : 20
   },
   submitText:{
     color: '#ffffff',
