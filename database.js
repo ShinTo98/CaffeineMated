@@ -249,7 +249,11 @@ export async function saveOrder (order) {
  */
 export function cancelByBuyer(order_id) {
     let orderRef = firebase.database().ref("Orders/items/" + order_id);
-    orderRef.remove();
+    orderRef.once('value', dataSnapshot => {
+      if (dataSnapshot.val().status === 1) {
+        orderRef.child('status').set(-1);
+      }
+    });
 }
 
 
