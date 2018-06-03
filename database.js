@@ -237,7 +237,7 @@ export async function saveOrder (order) {
     var orderId = await saveOrder(orderObject);
     profileRef = firebase.database().ref("Profile/" + buyerId);
     profileRef.child("current_order_as_buyer").set(orderId);
-    addOrderStatusChangeListener(orderId - 1);
+    addOrderStatusChangeListener(orderId);
     return orderId;
   }
 

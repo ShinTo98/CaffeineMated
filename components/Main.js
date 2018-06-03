@@ -81,6 +81,8 @@ export class Main extends Component {
       this.setState({order_data: value});
     } else if( id == 'totalPrice') {
       this.setState({totalPrice: value});
+    } else if( id == 'orderId') {
+      this.setState({orderId: value});
     }
   }
 

@@ -44,7 +44,7 @@ export class BuyerMain extends Component {
     this._hideDateTimePicker();
   };
 
-  submitValidityCheck = () => {
+  async submitValidityCheck() {
     if(this.props.get('buyer_whereLogan') == 'Specify a place' ||
        this.props.get('buyer_whenLogan') == 'Pick a time') {
       alert('Please fill out location & time!');
@@ -52,7 +52,7 @@ export class BuyerMain extends Component {
       alert(
         'Please order at least one drink!');
       } else {
-        var id = createOrder(this.props.get('order_data'),
+        var id = await createOrder(this.props.get('order_data'),
                              this.props.get('buyer_whereLogan'),
                              this.props.get('buyer_whenLogan'));
 
