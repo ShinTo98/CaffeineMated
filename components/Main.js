@@ -273,8 +273,6 @@ export class Main extends Component {
       console.log("this is itemObject size" + itemObject.size);
       console.log("this is itemObject syrup" + itemObject.syrup);
       console.log("this is itemObject price" + itemObject.price);
-    }else{
-      console.log("what is going on~~~~~~~~~");
     }
 
 

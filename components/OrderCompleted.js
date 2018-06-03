@@ -26,6 +26,7 @@ export class OrderCompleted extends Component {
   constructor(props) {
     super(props);
   }
+  
 
   onStarRatingPress(rating) {
     this.setState({
