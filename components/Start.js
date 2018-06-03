@@ -21,10 +21,6 @@ export class Start extends Component {
 
         <Container style={styles.container}>
 
-          <Button  onPress={() => this.props.navigation.navigate('testPage')}>
-            <Text>TestPage</Text>
-          </Button>
-
           <Image style={styles.logo} source={require('../resources/logo.png')}/>
           <Text style={styles.name}>
             CaffeineMated

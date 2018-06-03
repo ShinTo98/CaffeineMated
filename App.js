@@ -18,6 +18,7 @@ import { Root } from "native-base";
 import {BuyerMain} from './components/BuyerMain.js';
 import {CarrierMain} from './components/CarrierMain.js';
 import { PlaceChoose } from './components/PlaceChoose.js';
+import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
 
 
 
@@ -27,7 +28,9 @@ export default class App extends React.Component {
   render() {
     return (
 
-      <Drawer />
+      <Root>
+        <PrimaryNav />
+      </Root>
     );
   }
 }
