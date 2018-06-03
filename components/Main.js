@@ -145,7 +145,7 @@ export class Main extends Component {
     }else if( id == 'carrier_whenLogan'){
       return this.state.carrier_whenLogan;
     }else if( id == 'carrier_refreshing'){
-      return this.state.refreshing;
+      return this.state.carrier_refreshing;
     }else if( id == 'delivering'){
       return this.state.delivering;
     }else if( id == "carrier_accept_hour"){
@@ -209,6 +209,8 @@ export class Main extends Component {
     this.setState({request_data : value});
   }else if( id == "order_selected_id"){
     this.order_selected[value] = false;
+  }else if( id == "carrier_refreshing"){
+    this.setState({carrier_refreshing : value});
   }
   }
 
