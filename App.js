@@ -30,7 +30,7 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <HistoryNav />
+        <Main />
 
       </Root>
     );

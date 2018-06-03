@@ -203,7 +203,7 @@ export async function saveOrder (order) {
     }
     order.id = order_id;
     orderRef.child("items").child(order_id).set(order);
-    orderRef.child("size").set(++order_id);
+    orderRef.child("size").set(order_id+1);
   });
 
   return order_id;
