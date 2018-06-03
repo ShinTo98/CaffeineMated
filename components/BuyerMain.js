@@ -8,32 +8,33 @@ import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
 import { PlaceChoose } from './PlaceChoose.js';
+import { CoffeeOfTheDay } from './CoffeeOfTheDay.js';
 
 export class BuyerMain extends Component {
-  
+
   static navigationOptions = {
     header: null
   }
-  
+
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     //console.log("this is props in buyerMain with get function" + this.props.get(whenLogan));
     this.state = {
-      orderSubmitted : false,    
+      orderSubmitted : false,
       placeChoose : false,
       order_data : this.props.get("order_data"),
       //buyer_whereLogan : this.props.get("buyer_whereLogan"),
       //buyer_whenLogan : this.props.get("buyer_whenLogan")
     }
-    
+
     this.submitValidityCheck = this.submitValidityCheck.bind(this);
     //console.log("this is from buyermain" + this.state.buyer_whereLogan);
   }
-  
+
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-  
+
   _handleDatePicked = (date) => {
     console.log('A date has been picked: ', date.toString());
     // Extract the hr:min part
@@ -42,7 +43,7 @@ export class BuyerMain extends Component {
     //this.setState({whenLogan: time});
     this._hideDateTimePicker();
   };
-  
+
   submitValidityCheck = () => {
     if(this.props.get('buyer_whereLogan') == 'Specify a place' ||
        this.props.get('buyer_whenLogan') == 'Pick a time') {
@@ -51,16 +52,16 @@ export class BuyerMain extends Component {
       alert(
         'Please order at least one drink!');
       } else {
-        var id = createOrder(this.props.get('order_data'), 
-                             this.props.get('buyer_whereLogan'), 
+        var id = createOrder(this.props.get('order_data'),
+                             this.props.get('buyer_whereLogan'),
                              this.props.get('buyer_whenLogan'));
-                             
+
         this.props.change('orderId', id);
         this.props.change('orderSubmitted', true);
         this.setState({orderSubmitted: true});
       }
     }
-    
+
     // For swipable list delete one row
     deleteRow(secId, rowId, rowMap) {
       rowMap[`${secId}${rowId}`].props.closeRow();
@@ -76,26 +77,28 @@ export class BuyerMain extends Component {
       console.log(this.props.get('order_data'));
       this.setState({ order_data: newData });
     }
-    
-    
-    
-    
+
+
+
+
     render(){
       // For swipable list
       const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-      
+
       return(
         <Container style = {styles.Container}>
-        
+
         {/* ------------------------------- Order submitted page ------------------------------- */}
         {this.state.orderSubmitted &&
           <SubmitOrder
-          updateOrderSubmitted={this.props.get('updateOrderSubmitted')}
-          order_data={this.props.get("order_data")}
-          orderId={this.props.get("orderId")}
+            updateOrderSubmitted={this.props.get('updateOrderSubmitted')}
+            order_data={this.props.get("order_data")}
+            time={this.props.get('buyer_whenLogan')}
+            location={this.props.get('buyer_whereLogan')}
+            orderId={this.props.get("orderId")}
           />
         }
-        
+
         {/* ---------------------------------- Ordering page ---------------------------------- */}
           {!this.state.orderSubmitted &&
           <View style= {styles.banner}>
@@ -115,7 +118,7 @@ export class BuyerMain extends Component {
                 timeZoneOffsetInMinutes={-7 * 60}
               />
             </Item>
-          
+
             <Item regular style={styles.textInput}>
               <Button iconRight style={styles.Wherebutton} onPress={()=> {
                 this.props.change("buyer_choosePlaces")}
@@ -124,7 +127,7 @@ export class BuyerMain extends Component {
                 <Icon style={styles.Whenwheretext} name='navigate' />
               </Button>
             </Item>
-          
+
             {/* ------------------------------- Menu button section ------------------------------- */}
             <View style={styles.buttonItem}>
               <Button style={styles.buttons_menu}  color="#ffffff"
@@ -132,12 +135,12 @@ export class BuyerMain extends Component {
                   data: this.props.get("order_data"),
                   time: this.props.get("buyer_whenLogan"),
                   location: this.props.get("buyer_whereLogan")
-                })}> 
+                })}>
                 <Text style={styles.menuText}> Menu </Text>
               </Button>
             </View>
-          
-          
+
+
             {/* ------------------------ LIST OF ORDER ITEMS ------------------------- */}
             <View regular style={styles.orderItem}>
               <Text style={styles.orderDetailText}> Order Details </Text>
@@ -155,7 +158,7 @@ export class BuyerMain extends Component {
                         <Left>
                           <Thumbnail style={styles.itemImage} source={{uri: data.image}} />
                         </Left>
-            
+
                         <View style = {styles.cardTextView}>
                           <Text style ={styles.cardPrimaryText}>
                             {data.name}
@@ -181,32 +184,29 @@ export class BuyerMain extends Component {
 
                 {/* ------------------------- No orders ------------------------- */}
                 {!this.props.get("order_exists") &&
-                <Text style={styles.nothingText}>
-                  Nothing yet: ) {'\n'} Click menu to place your first order
-                </Text>}
+                   <CoffeeOfTheDay />
+                 }
               </View>
             </View>
 
             {/* ----------------------END OF LIST OF ORDER ITEMS ------------------------- */}
 
-          
+
             {/* ----------------------- Estimated price section ------------------------- */}
-            <View style={styles.priceView}>
               <Text style={styles.priceText}>
                 Total Estimated Price: ${this.props.get('totalPrice')}
               </Text>
-            </View>
-          
+
             {/* ------------------------- Submit button section ----------------------------- */}
             <View style={styles.buttonItem}>
               <Button
                 style={styles.buttons_submit}
                 color="#ffffff"
-                onPress={this.submitValidityCheck}> 
+                onPress={this.submitValidityCheck}>
               <Text style={styles.submitText}> Submit </Text>
               </Button>
             </View>
-          
+
           </View>}
         </Container>
       );

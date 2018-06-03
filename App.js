@@ -18,8 +18,9 @@ import { Root } from "native-base";
 import {BuyerMain} from './components/BuyerMain.js';
 import {CarrierMain} from './components/CarrierMain.js';
 import { PlaceChoose } from './components/PlaceChoose.js';
+import { ViewHis } from './components/ViewHis.js';
+
 import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
-import {CoffeeOfTheDay} from './components/CoffeeOfTheDay.js';
 
 
 export default class App extends React.Component {
@@ -29,7 +30,8 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <Main />
+        <HistoryNav />
+
       </Root>
     );
   }
@@ -93,7 +95,8 @@ const Drawer = DrawerNavigator(
     profile: {screen: Profile},
     buyermain: {screen: BuyerMain},
     carrierMain: {screen: CarrierMain},
-    placeChoose: {screen: PlaceChoose}
+    placeChoose: {screen: PlaceChoose},
+      orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
   {
@@ -130,5 +133,20 @@ const PrimaryNav = StackNavigator({
       headerTintColor: 'red',
     }
   }
+);
 
+const HistoryNav = StackNavigator({
+        viewHis: {
+            screen: ViewHis,
+        },
+
+        orderDetailInHistory: {
+            screen: OrderDetailInHistory,
+        }
+    },
+    {
+        initialRouteName: 'viewHis',
+        headerMode: 'none',
+
+    }
 )

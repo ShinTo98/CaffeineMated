@@ -15,7 +15,7 @@ export class OrderDetailInHistory extends Component{
   
   constructor(props){
     super(props);
-    this.state = {orderId : "21", // this is hard coded for testing use
+    this.state = {orderId : this.props.navigation.getParam('order_id'), // this is hard coded for testing use
     orderData : [],
     buyerInfo:[],
     carrierInfo:[],
@@ -48,7 +48,7 @@ render(){
         {/***************** this will contain the header informations ********************** */}
         <Header>
           <Left>
-            <Button transparent>
+            <Button transparent onPress={() => this.props.navigation.navigate('viewHis')}>
               <Icon name='arrow-back' style={styles.icon}/>
            </Button>
           </Left>
