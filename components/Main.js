@@ -83,6 +83,8 @@ export class Main extends Component {
       this.setState({totalPrice: value});
     } else if( id == 'orderId') {
       this.setState({orderId: value});
+    } else if( id == "orderSubmitted") {
+      this.setState({orderSubmitted: value});
     }
   }
 

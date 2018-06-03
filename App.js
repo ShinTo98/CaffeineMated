@@ -19,6 +19,7 @@ import {BuyerMain} from './components/BuyerMain.js';
 import {CarrierMain} from './components/CarrierMain.js';
 import { PlaceChoose } from './components/PlaceChoose.js';
 import { ViewHis } from './components/ViewHis.js';
+import { SubmitOrder } from './components/SubmitOrder.js';
 
 import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
 
@@ -30,7 +31,7 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <HistoryNav />
+        <PrimaryNav />
 
       </Root>
     );
@@ -96,6 +97,7 @@ const Drawer = DrawerNavigator(
     buyermain: {screen: BuyerMain},
     carrierMain: {screen: CarrierMain},
     placeChoose: {screen: PlaceChoose},
+    submitOrder: {screen: SubmitOrder},
       orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },

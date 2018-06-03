@@ -89,7 +89,7 @@ export class BuyerMain extends Component {
         <Container style = {styles.Container}>
 
         {/* ------------------------------- Order submitted page ------------------------------- */}
-        {this.state.orderSubmitted &&
+        {this.props.get('orderSubmitted') &&
           <SubmitOrder
             updateOrderSubmitted={this.props.get('updateOrderSubmitted')}
             order_data={this.props.get("order_data")}
@@ -100,7 +100,7 @@ export class BuyerMain extends Component {
         }
 
         {/* ---------------------------------- Ordering page ---------------------------------- */}
-          {!this.state.orderSubmitted &&
+          {!this.props.get('orderSubmitted') &&
           <View style= {styles.banner}>
             {/* ------------------------ When & Where section -------------------------- */}
             <Item regular style={styles.textInput}>
