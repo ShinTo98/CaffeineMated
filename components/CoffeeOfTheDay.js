@@ -32,6 +32,7 @@ import {
   Col,
   Row,
   Spinner,
+  Card,
 } from 'native-base';
 import {styles} from "../CSS/CoffeeOfTheDay.js";
 import {randomCoffee} from "../database";
@@ -41,7 +42,7 @@ export class CoffeeOfTheDay extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      item : null
+      update: false
     }
     // Bind login related functions
     this.getCoffee = this.getCoffee.bind(this);
@@ -56,56 +57,48 @@ export class CoffeeOfTheDay extends Component {
   async getCoffee(){
     var test = await randomCoffee();
     this.setState({item: test});
+    this.setState({update: true});
+
     console.log(this.state.item);
   }
 
   async componentWillMount(){
-    await this.getCoffee();
+    //await this.getCoffee();
+    var test = await randomCoffee();
+    this.setState({item: test});
+    this.setState({update: true});
+
   }
-
-  async _refresh() {
-    // this.componentWillMount();
-    // forceUpdate();
-      return new Promise((resolve) => {
-        // this.getCoffee()
-        setTimeout(()=>{resolve()}, 2000)
-        this.forceUpdateHandler();
-
-      });
-  }
-
 
   render () {
     var result = this.state.item;
-    //console.log(result.image);
-    if( result != undefined){
-    //console.log("this is result in items: " + result.image);
+
+    if( this.state.update){
+      console.log("this is result in items: " + result.image);
       return(
-        <PTRView onRefresh={this._refresh}>
+
           <View style={styles.container}>
             <Grid style={{flexWrap: 'wrap'}}>
 
               <Row style={styles.titleRow}>
-                <Text>Coffee of The Day</Text>
+                <Text style={styles.titleTex}>Coffee of the Day</Text>
               </Row>
 
               <Row style={styles.imageRow}>
-                <Image style={styles.itemImage} source={{uri: result.image}}/>
+                <TouchableWithoutFeedback onPress={() => {
+                  this.getCoffee();
+                }} >
+                  <Image style={styles.itemImage} source={{uri: result.image}}/>
+                </TouchableWithoutFeedback>
               </Row>
 
-              <Row style={{marginTop: 30}}>
-                <Text style={{alignSelf: 'center'}}> {result.name} </Text>
-              </Row>
-
-              <Row style={styles.btn}>
-                  <Button onPress={() => {
-                    this.getCoffee();
-                  }} title="Click Me" style={{height: 10, backgroundColor: '#1e90ff'}}/>
+              <Row style={styles.titleRow}>
+                 <Text style={styles.itemName}>{result.name}{"\n"}</Text>
               </Row>
 
             </Grid>
           </View>
-        </PTRView>
+
       );
     } else {
       return(
