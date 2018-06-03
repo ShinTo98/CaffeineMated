@@ -19,6 +19,7 @@ import {BuyerMain} from './components/BuyerMain.js';
 import {CarrierMain} from './components/CarrierMain.js';
 import { PlaceChoose } from './components/PlaceChoose.js';
 import { ViewHis } from './components/ViewHis.js';
+import { SubmitOrder } from './components/SubmitOrder.js';
 
 import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
 
@@ -96,6 +97,8 @@ const Drawer = DrawerNavigator(
     buyermain: {screen: BuyerMain},
     carrierMain: {screen: CarrierMain},
     placeChoose: {screen: PlaceChoose},
+    submitOrder: {screen: SubmitOrder},
+    viewHis: {screen: ViewHis}, 
     orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
@@ -135,6 +138,7 @@ const PrimaryNav = StackNavigator({
   }
 );
 
+// temp
 const HistoryNav = StackNavigator({
         viewHis: {
             screen: ViewHis,

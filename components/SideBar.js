@@ -13,7 +13,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 const datas = [
   {
     name: "View history",
-    route: "menu",
+    route: "viewHis",
     icon: 'menu',
   },
   /*{

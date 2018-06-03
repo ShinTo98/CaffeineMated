@@ -83,6 +83,8 @@ export class Main extends Component {
       this.setState({totalPrice: value});
     } else if( id == 'orderId') {
       this.setState({orderId: value});
+    } else if( id == "orderSubmitted") {
+      this.setState({orderSubmitted: value});
     }
   }
 
@@ -267,12 +269,14 @@ export class Main extends Component {
     var test = await getDefaultMode();
     console.log("this is what test has in main" + test);
     //console.log("this is from main about get function" + this.buyerMainGet(whereLogan));
-    this.setState({loadFinished: false});
+    if (this.state.seg === 2) {
+      console.log("loading")
+      this.setState({loadFinished: false});
 
-    await this.saveRequestIds();
-    await this.saveRequestDetails();
-    this.setState({loadFinished: true});
-
+      await this.saveRequestIds();
+      await this.saveRequestDetails();
+      this.setState({loadFinished: true});
+    }
     //console.log(this.state.request_data)
 
     // get params here
@@ -301,6 +305,7 @@ export class Main extends Component {
       for(var i = 0; i < latest.length; i++) {
         newTotalPrice += latest[i].itemObject.price;
       }
+      newTotalPrice = newTotalPrice.toFixed(2);
       this.setState({order_data: latest});
       this.setState({totalPrice: newTotalPrice});
       this.setState({order_exists: true});
@@ -348,6 +353,11 @@ export class Main extends Component {
     }
   }
 
+  selectCarrier = () => {
+    this.setState({seg: 2})
+    this.componentWillMount()
+  }
+
   render() {
     // For swipable list
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -387,7 +397,7 @@ export class Main extends Component {
               <Button
                 style={this.state.seg === 2 ? styles.button_header_on : styles.button_header_off}
                 last
-                onPress={() => this.setState({ seg: 2 })}
+                onPress={() => this.selectCarrier() }
               >
                 <Text style={this.state.seg === 2 ? styles.text_on : styles.text_off}>Carrier</Text>
               </Button>
@@ -400,9 +410,26 @@ export class Main extends Component {
         <Content padder bounces={false} scrollEnabled={false}>
 
           {/* ---------------------------------- Buyer segment ---------------------------------- */}
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && <BuyerMain get = {this.buyerMainGet} change = {this.buyerMainChange} navigation = {this.props.navigation}/>}
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain func = {this.componentWillMount} get = {this.carrierMainGet} change = {this.carrierMainChange} navigation = {this.props.navigation}/>}
-          </Content>
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted && <BuyerMain 
+            get = {this.buyerMainGet} 
+            change = {this.buyerMainChange} 
+            navigation = {this.props.navigation}/>
+          }
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && <SubmitOrder
+            updateOrderSubmitted={this.state.updateOrderSubmitted}
+            order_data={this.state.order_data}
+            time={this.state.buyer_whenLogan}
+            location={this.state.buyer_whereLogan}
+            orderId={this.state.orderId}
+            navigation = {this.props.navigation}/>
+          }
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain 
+            func = {this.componentWillMount} 
+            get = {this.carrierMainGet} 
+            change = {this.carrierMainChange} 
+            navigation = {this.props.navigation}/>
+          }
+        </Content>
     </Container>
     );
   }

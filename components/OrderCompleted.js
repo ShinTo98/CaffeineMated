@@ -26,7 +26,7 @@ export class OrderCompleted extends Component {
   constructor(props) {
     super(props);
   }
-  
+
 
   onStarRatingPress(rating) {
     this.setState({
@@ -38,6 +38,7 @@ export class OrderCompleted extends Component {
   updateRating() {
     console.log(this.state.user_id)
     updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer, this.state.user_id);
+    this.props.change('rating',false);
   }
 
   componentWillMount() {

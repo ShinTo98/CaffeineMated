@@ -21,10 +21,11 @@ import {
   View,
   ListItem,
   ActionSheet, 
-  Thumbnail
+  Thumbnail,
+  Spinner
 } from 'native-base';
 
-import {FlatList} from "react-native";
+import {ScrollView, FlatList} from "react-native";
 
 import {styles} from '../CSS/ViewHis.js';
 import {getCurrentUserUID, displayOrderHistory, viewOrderDetailById, getProfileDetailById} from './../database.js';
@@ -41,11 +42,12 @@ export class ViewHis extends Component {
         this.state = {
           user_id: "",
           history: null, 
+          loadFinished: false
         };
       }
       async getHistory() {
-        let user_id = "02"; // testing, uncomment the following line when done
-        //let user_id = await getCurrentUserUID(); 
+        //let user_id = "02"; // testing, uncomment the following line when done
+        let user_id = await getCurrentUserUID(); 
         
         let history = await displayOrderHistory(user_id);
         let totNum  = parseInt(history.total_num); 
@@ -55,12 +57,12 @@ export class ViewHis extends Component {
             let order = await viewOrderDetailById(order_id); 
             hisState[i] = {}; 
             hisState[i].time = order.last_update_time; 
-            hisState[i].loc = order.location; 
+            hisState[i].location = order.location; 
             hisState[i].items = {}; 
             for (let property in order.items) {
                 hisState[i].items[property] = order.items[property]['name'];
             }
-            hisState[i].key = ""+order_id;
+            hisState[i].key = ""+order_id; 
             if (order.buyer_id === user_id) {
                 let otherProf = await getProfileDetailById(order.carrier_id); 
                 hisState[i].other = 'Carrier - ' + otherProf.username; 
@@ -77,6 +79,7 @@ export class ViewHis extends Component {
         }
         this.setState({user_id: user_id}); 
         this.setState({history: hisState}); 
+        this.setState({loadFinished: true}); 
       }
     
       async componentDidMount() {
@@ -84,48 +87,61 @@ export class ViewHis extends Component {
       }
 
     render() {
-        return (
-          <Container style={styles.color_theme}>
-            <Header hasSegment="hasSegment">
-              <Left>
-                <Button transparent onPress={() => this.props.navigation.navigate('main', {
-                   update: false,
-              })}>
-                  <Icon name='arrow-back' style={styles.icon}/>
-                </Button>
-              </Left>
-              <Body>
-    
-                <Title>View History</Title>
-    
-              </Body>
-              <Right></Right>
-            </Header>
+        let loaded = this.state.loadFinished; 
+        if (loaded) {
+          return (
+            <Container style={styles.color_theme}>
+                <Header hasSegment="hasSegment">
+                <Left>
+                    <Button transparent onPress={() => this.props.navigation.navigate('main', {
+                    update: false,
+                })}>
+                    <Icon name='arrow-back' style={styles.icon}/>
+                    </Button>
+                </Left>
+                <Body>
+        
+                    <Title>Order History</Title>
+        
+                </Body>
+                <Right></Right>
+                </Header>
 
-            <Container>
-            <FlatList
-                data={this.state.history}
-                renderItem={({item}) => {
-                    return (
-                    <ListItem style={{ marginLeft: 0 }} onPress={() => this.props.navigation.navigate('orderDetailInHistory',{
-                        order_id: item.key
-                      })}>
-                        <Left>
-                            <Thumbnail style={styles.itemImage} source={{uri:item.photo}} />
-                            <Text>{item.time}</Text>
-                        </Left>
+                <Container>
+                <FlatList
+                    data={this.state.history}
+                    renderItem={({item}) => {
+                        return (
+                        <ListItem style={{marginLeft: 0, marginRight: 0}} onPress={() => this.props.navigation.navigate('orderDetailInHistory',{
+                            order_id: item.key
+                        })}>
+                            <Left style={styles.leftBox}>
+                                <Thumbnail style={styles.itemImage} source={{uri:item.photo}} />
+                                <View style={styles.leftView}>
+                                    <Text numberOfLines={1} style={styles.leftText2}>{item.other}</Text>
+                                    <Text numberOfLines={1} style={styles.leftText}>{item.time}</Text>
+                                </View>
+                            </Left>
 
-                        <Right>
-                            <Text>{item.location}</Text>
-                            <Text>{item.other}</Text>
-                        </Right>
-                    </ListItem>); 
-                }}
-                />
-                
+                            <Right style={styles.rightBox}>
+                                <Text numberOfLines={1} style={styles.rightText}>{item.location}</Text>
+                            </Right>
+                        </ListItem>); 
+                    }}
+                    />
+                    
+                </Container>
             </Container>
-          </Container>
-        );
+            );
+        } else {
+            return (
+              <Container>
+                <Header/>
+                <Spinner color={'#FF9052'}/>
+              </Container>
+              ); 
+            
+        }
       }
 }
 
