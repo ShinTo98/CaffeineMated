@@ -449,5 +449,11 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#c8c8c8',
     backgroundColor: '#c8c8c8',
+  },
+  normalCell: {
+    backgroundColor: "#ffffff",
+  },
+  selectedCell: {
+    backgroundColor: "#ff9052"
   }
 });
