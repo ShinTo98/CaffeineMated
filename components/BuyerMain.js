@@ -191,11 +191,9 @@ export class BuyerMain extends Component {
 
 
             {/* ----------------------- Estimated price section ------------------------- */}
-            <View style={styles.priceView}>
               <Text style={styles.priceText}>
                 Total Estimated Price: ${this.props.get('totalPrice')}
               </Text>
-            </View>
 
             {/* ------------------------- Submit button section ----------------------------- */}
             <View style={styles.buttonItem}>

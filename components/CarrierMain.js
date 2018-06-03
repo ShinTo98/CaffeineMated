@@ -158,9 +158,9 @@ export class CarrierMain extends Component {
     }
 
     _onRefresh() {
-        this.setState({refreshing: true});
+        this.props.change("carrier_refreshing", true);
         this.fetchData().then(() => {
-          this.setState({refreshing: false});
+          this.props.change("carrier_refreshing", false);
         });
       }
 
