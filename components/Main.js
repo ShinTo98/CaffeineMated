@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {sortOrdersByDistance, sortOrdersByRequestTime, viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
+import {getDefaultMode, sortOrdersByDistance, sortOrdersByRequestTime, viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -28,7 +28,7 @@ export class Main extends Component {
     this.carrierMainGet = this.carrierMainGet.bind(this);
 
     this.state = {
-      seg: 1,
+      seg: 2,
       where: "",
       ids: [],
       request_data: [],
@@ -70,6 +70,8 @@ export class Main extends Component {
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
+
+    
   }
 
   buyerMainChange(id, value){
@@ -265,7 +267,15 @@ export class Main extends Component {
   }
 
   async componentWillMount() {
+    var test = await getDefaultMode();
+    if( test == "buyer"){
+        this.setState({seg: 1});
+    }else{
+        this.setState({seg:2});
+    }
+    console.log("this is what test has in main" + test);
     //console.log("this is from main about get function" + this.buyerMainGet(whereLogan));
+    console.log(this.state.seg)
     if (this.state.seg === 2) {
       console.log("loading")
       this.setState({loadFinished: false});
@@ -350,9 +360,14 @@ export class Main extends Component {
     }
   }
 
-  selectCarrier = () => {
-    this.setState({seg: 2})
+  async selectCarrier(){
+    await this.setState({ seg: 2 })
     this.componentWillMount()
+
+  }
+
+  async selectBuyer(){
+    await this.setState({ seg: 1 })
   }
 
   render() {
@@ -387,7 +402,7 @@ export class Main extends Component {
               <Button
                 style={this.state.seg === 1 ? styles.button_header_on : styles.button_header_off}
                 first
-                onPress={() => this.setState({ seg: 1 })}
+                onPress={() => this.selectBuyer() }
               >
                 <Text style={this.state.seg === 1 ? styles.text_on : styles.text_off}>Buyer</Text>
               </Button>
@@ -407,9 +422,9 @@ export class Main extends Component {
         <Content padder bounces={false} scrollEnabled={false}>
 
           {/* ---------------------------------- Buyer segment ---------------------------------- */}
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted && <BuyerMain 
-            get = {this.buyerMainGet} 
-            change = {this.buyerMainChange} 
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted && <BuyerMain
+            get = {this.buyerMainGet}
+            change = {this.buyerMainChange}
             navigation = {this.props.navigation}/>
           }
           {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && <SubmitOrder
@@ -420,10 +435,10 @@ export class Main extends Component {
             orderId={this.state.orderId}
             navigation = {this.props.navigation}/>
           }
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain 
-            func = {this.componentWillMount} 
-            get = {this.carrierMainGet} 
-            change = {this.carrierMainChange} 
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain
+            func = {this.componentWillMount}
+            get = {this.carrierMainGet}
+            change = {this.carrierMainChange}
             navigation = {this.props.navigation}/>
           }
         </Content>
