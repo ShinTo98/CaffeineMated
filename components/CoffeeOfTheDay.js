@@ -35,7 +35,6 @@ import {
 } from 'native-base';
 import {styles} from "../CSS/CoffeeOfTheDay.js";
 import {randomCoffee} from "../database";
-import PTRView from 'react-native-pull-to-refresh';
 
 export class CoffeeOfTheDay extends Component {
   constructor(props) {
@@ -81,7 +80,6 @@ export class CoffeeOfTheDay extends Component {
     if( result != undefined){
     //console.log("this is result in items: " + result.image);
       return(
-        <PTRView onRefresh={this._refresh}>
           <View style={styles.container}>
             <Grid style={{flexWrap: 'wrap'}}>
 
@@ -105,7 +103,6 @@ export class CoffeeOfTheDay extends Component {
 
             </Grid>
           </View>
-        </PTRView>
       );
     } else {
       return(
