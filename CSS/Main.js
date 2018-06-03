@@ -450,6 +450,17 @@ export const styles = StyleSheet.create({
     borderColor: '#c8c8c8',
     backgroundColor: '#c8c8c8',
   },
+  listItems : {
+    borderColor: '#FFFFFF',
+    marginLeft: 20,
+    marginTop: -10,
+    marginBottom: -10
+  },
+  itemImage : {
+    marginTop: 8,
+    marginBottom: 8,
+    left: 10
+  },
   normalCell: {
     backgroundColor: "#ffffff",
   },
