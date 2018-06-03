@@ -870,3 +870,17 @@ export async function randomCoffee() {
   console.log("today coffee is "+ coffee);
   return coffee;
 }
+
+export function resetPassword() {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+        firebase.auth().sendPasswordResetEmail(user.email).then(function () {
+            // Email sent.
+            Alert.alert("Success！", "An E-mail has just been sent to your email!");
+        }).catch(function (error) {
+            // An error happened.
+            Alert.alert("Failed", "Something strange happened...")
+        });
+    }
+}
