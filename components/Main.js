@@ -300,6 +300,7 @@ export class Main extends Component {
       for(var i = 0; i < latest.length; i++) {
         newTotalPrice += latest[i].itemObject.price;
       }
+      newTotalPrice = newTotalPrice.toFixed(2);
       this.setState({order_data: latest});
       this.setState({totalPrice: newTotalPrice});
       this.setState({order_exists: true});
