@@ -26,6 +26,7 @@ export class CarrierMain extends Component {
         this.createStars = this.createStars.bind(this);
         this.changeStates = this.changeStates.bind(this);
         this.saveRequestIds = this.saveRequestIds.bind(this);
+        this.OrderCompletedChange = this.OrderCompletedChange.bind(this);
 
     }
 
@@ -123,7 +124,7 @@ export class CarrierMain extends Component {
       }
 
       complete = () => {-
-        completeOrder(this.props.get('selected_order'),'01');
+        completeOrder(this.props.get('selected_order'));
         this.setState({rating_order: this.props.get('order_selecting'), rating: true});
 
         this.changeStates(["request_selected", "accepted", "delivering","order_selecting","selecting_order","selected_order"],[false, false, false, undefined,false,-1]);
@@ -218,6 +219,15 @@ export class CarrierMain extends Component {
         //console.log(d)
         //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
         //console.log(this.state.request_data);
+    }
+
+    OrderCompletedChange(id, value) {
+      if (id == 'rating') {
+        this.setState({rating: value});
+      }
+      if (id == 'rating_order') {
+        this.setState({rating_order: value});
+      }
     }
 
 
@@ -434,7 +444,7 @@ export class CarrierMain extends Component {
     }
     else if (this.state.rating) {
       console.log(this.props.get('order_selecting'))
-      return <OrderCompleted user_id={this.state.rating_order.buyer_id} order_id={this.state.rating_order.id} user_name={this.state.rating_order.buyer_name} isBuyer={false} img={this.state.rating_order.avatar}/>
+      return <OrderCompleted user_id={this.state.rating_order.buyer_id} order_id={this.state.rating_order.id} user_name={this.state.rating_order.buyer_name} isBuyer={false} img={this.state.rating_order.avatar} change={this.OrderCompletedChange}/>
     }
 
     else if(this.props.get("accepted")){
