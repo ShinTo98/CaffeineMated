@@ -27,7 +27,6 @@ export class SubmitOrder extends Component {
 
   }
 
-
   updateProgressBar = (num) => {
     let curr = num;
     let progressArr = [];

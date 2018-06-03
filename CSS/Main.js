@@ -65,10 +65,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 300,
+    width: deviceWidth*0.75,
     padding: 5,
     borderWidth: 2,
-    height:50,
+    height:deviceWidth*0.12,
     borderColor: '#c8c8c8',
   },
   buttons_submit: {
@@ -76,12 +76,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 300,
+    width: deviceWidth*0.75,
     padding: 5,
     borderWidth: 2,
-    height:45,
+    height: deviceWidth*0.12,
     borderColor: '#ff9052',
-    top: 60,
     alignSelf: 'center',
   },
   buttons_accept: {
@@ -89,10 +88,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 300,
+    width: deviceWidth*0.75,
     padding: 5,
     borderWidth: 2,
-    height:45,
+    height: deviceWidth*0.12,
     borderColor: '#c8c8c8',
     top: 60,
   },
@@ -101,10 +100,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 300,
+    width: deviceWidth*0.75,
     padding: 5,
     borderWidth: 2,
-    height:45,
+    height: deviceWidth*0.12,
     borderColor: '#c8c8c8',
     top: 70,
   },
@@ -117,7 +116,7 @@ export const styles = StyleSheet.create({
     width: 5*deviceWidth/6,
 
     borderWidth: 0.5,
-    height:45,
+    height: deviceWidth*0.12,
     borderColor: 'gray',
   },
   buttons: {
@@ -129,8 +128,7 @@ export const styles = StyleSheet.create({
     top: 100,
   },
   buttonItem:{
-    //top: deviceHeight/60,
-    top: 50,
+
   },
   acceptButtonItem: {
     top: 20,
@@ -145,12 +143,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
-    height: 60,
+    height: deviceWidth*0.15,
     //color: 'gray',
     borderColor: '#f8f8f8',
     //borderWidth: 2,
-    width: 300,
-    top: 30,
+    width: deviceWidth*0.75,
   },
   orderItem:{
     //alignItems: 'flex-start',
@@ -159,9 +156,9 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderRadius: 6,
-    width: 300,
-    top: 80,
-    height: 320,
+    width: deviceWidth*0.75,
+    height: deviceWidth*0.85,
+    marginTop : '3%'
   },
 
   requestTitleItem: {
@@ -375,8 +372,8 @@ export const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderWidth: 2,
     borderColor: '#c8c8c8',
-    height: '85%',
-    width: '100%',
+    height: deviceWidth*0.12,
+    width: deviceWidth*0.75,
   },
   placeAutocomplete: {
     top: 50,
@@ -399,6 +396,8 @@ export const styles = StyleSheet.create({
     marginLeft: 20,
   },
   priceText: {
+    marginTop: '2%',
+    marginBottom: '2%',
     color: '#ff9052',
     fontSize: 18,
   },
@@ -438,9 +437,6 @@ export const styles = StyleSheet.create({
   },
   cardBuyerName: {
     fontSize: 24,
-  },
-  priceView: {
-    top: 86,
   },
   placeCancelText: {
     fontSize: 16,
