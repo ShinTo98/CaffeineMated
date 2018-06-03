@@ -743,7 +743,7 @@ export async function changeUserName(user_id, newName){
  */
 export async function setPhoneNum(phoneNum) {
   let profile_id = getCurrentUserUID();
-  let dir = "Profile/" + profile_id;
+  let dir = firebase.database().ref("Profile/" + profile_id);
   dir.child("phone").set(phoneNum);
 }
 
