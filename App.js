@@ -18,7 +18,7 @@ import { Root } from "native-base";
 import {BuyerMain} from './components/BuyerMain.js';
 import {CarrierMain} from './components/CarrierMain.js';
 import { PlaceChoose } from './components/PlaceChoose.js';
-
+import {CoffeeOfTheDay} from './components/CoffeeOfTheDay.js';
 
 
 export default class App extends React.Component {
@@ -27,7 +27,8 @@ export default class App extends React.Component {
   render() {
     return (
 
-      <Drawer />
+      //<Drawer />
+      <CoffeeOfTheDay />
     );
   }
 }
