@@ -525,7 +525,8 @@ export async function sortOrdersByRequestTime() {
  * Parameter: string: order_id  string: user_id
  * Return: N/A
  */
-export async function completeOrder(order_id, user_id) {
+export async function completeOrder(order_id) {
+    var user_id = getCurrentUserUID();
   let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
   await profileRef.once("value", snapshot => {
     index = snapshot.val().total_num;
