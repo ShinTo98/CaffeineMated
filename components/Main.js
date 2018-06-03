@@ -266,12 +266,14 @@ export class Main extends Component {
 
   async componentWillMount() {
     //console.log("this is from main about get function" + this.buyerMainGet(whereLogan));
-    this.setState({loadFinished: false});
+    if (this.state.seg === 2) {
+      console.log("loading")
+      this.setState({loadFinished: false});
 
-    await this.saveRequestIds();
-    await this.saveRequestDetails();
-    this.setState({loadFinished: true});
-
+      await this.saveRequestIds();
+      await this.saveRequestDetails();
+      this.setState({loadFinished: true});
+    }
     //console.log(this.state.request_data)
 
     // get params here
@@ -348,6 +350,11 @@ export class Main extends Component {
     }
   }
 
+  selectCarrier = () => {
+    this.setState({seg: 2})
+    this.componentWillMount()
+  }
+
   render() {
     // For swipable list
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -387,7 +394,7 @@ export class Main extends Component {
               <Button
                 style={this.state.seg === 2 ? styles.button_header_on : styles.button_header_off}
                 last
-                onPress={() => this.setState({ seg: 2 })}
+                onPress={() => this.selectCarrier() }
               >
                 <Text style={this.state.seg === 2 ? styles.text_on : styles.text_off}>Carrier</Text>
               </Button>
