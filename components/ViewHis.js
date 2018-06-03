@@ -60,8 +60,7 @@ export class ViewHis extends Component {
             for (let property in order.items) {
                 hisState[i].items[property] = order.items[property]['name'];
             }
-            console.log(hisState[i].items); 
-            hisState[i].key = ""+order_id; 
+            hisState[i].key = ""+order_id;
             if (order.buyer_id === user_id) {
                 let otherProf = await getProfileDetailById(order.carrier_id); 
                 hisState[i].other = 'Carrier - ' + otherProf.username; 
@@ -108,7 +107,7 @@ export class ViewHis extends Component {
                 data={this.state.history}
                 renderItem={({item}) => {
                     return (
-                    <ListItem style={{ marginLeft: 0 }} onPress={() => this.props.navigation.navigate('OrderDetailInHistory',{
+                    <ListItem style={{ marginLeft: 0 }} onPress={() => this.props.navigation.navigate('orderDetailInHistory',{
                         order_id: item.key
                       })}>
                         <Left>

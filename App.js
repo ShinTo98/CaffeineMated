@@ -30,7 +30,8 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <PrimaryNav />
+        <HistoryNav />
+
       </Root>
     );
   }
@@ -94,7 +95,8 @@ const Drawer = DrawerNavigator(
     profile: {screen: Profile},
     buyermain: {screen: BuyerMain},
     carrierMain: {screen: CarrierMain},
-    placeChoose: {screen: PlaceChoose}
+    placeChoose: {screen: PlaceChoose},
+      orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
   {
@@ -131,5 +133,20 @@ const PrimaryNav = StackNavigator({
       headerTintColor: 'red',
     }
   }
+);
 
+const HistoryNav = StackNavigator({
+        viewHis: {
+            screen: ViewHis,
+        },
+
+        orderDetailInHistory: {
+            screen: OrderDetailInHistory,
+        }
+    },
+    {
+        initialRouteName: 'viewHis',
+        headerMode: 'none',
+
+    }
 )
