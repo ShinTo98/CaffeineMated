@@ -598,6 +598,26 @@ export async function changeDefaultMode(id, mode) {
 
 }
 
+/*
+ * Name: getDefaultMode
+ * Parameters: void
+ * Return: N/A
+ * get deault mode 
+ */
+
+ export async function getDefaultMode(){
+   let profileId =  getCurrentUserUID();
+   let profileRef = firebase.database().ref("Profile/" + profileId);
+   await profileRef.once("value", dataSnapshot => {
+     var defaultMode = profileRef.child("default_mode").value();
+   });
+   console.log("this is getDefaultMode " + defaultMode);
+
+   return defaultMode;
+ }
+
+
+
 
 /*
  * Name: changeProfilePhoto

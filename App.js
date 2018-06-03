@@ -30,7 +30,7 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <Main />
+        <PrimaryNav />
 
       </Root>
     );
@@ -96,7 +96,7 @@ const Drawer = DrawerNavigator(
     buyermain: {screen: BuyerMain},
     carrierMain: {screen: CarrierMain},
     placeChoose: {screen: PlaceChoose},
-      orderDetailInHistory: {screen: OrderDetailInHistory}
+    orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
   {
