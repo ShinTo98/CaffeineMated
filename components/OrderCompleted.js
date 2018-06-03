@@ -11,7 +11,8 @@ import {
   Button,
   Text,
   Left,
-  Right
+  Right,
+  Card
 } from 'native-base';
 import StarRating from 'react-native-star-rating';
 import {updateOrderRate} from './../database.js';
@@ -24,16 +25,6 @@ export class OrderCompleted extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      user_id: this.props.user_id, 
-      order_id: this.props.order_id, 
-      isBuyer: this.props.isBuyer, 
-      user_name: this.props.user_name, 
-      img: this.props.img, 
-      star_count: 5, 
-      rate: 5
-    };
-
   }
   
 
@@ -41,11 +32,25 @@ export class OrderCompleted extends Component {
     this.setState({
       rate: rating
     });
-    console.log(this.state.rate); 
+    console.log(this.state.rate);
   }
 
   updateRating() {
+    console.log(this.state.user_id)
     updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer, this.state.user_id);
+  }
+
+  componentWillMount() {
+    this.setState({
+      user_id: this.props.user_id,
+      order_id: this.props.order_id,
+      isBuyer: this.props.isBuyer,
+      user_name: this.props.user_name,
+      img: this.props.img,
+      star_count: 5,
+      rate: 5
+    });
+    console.log(this.state)
   }
 
 
@@ -53,6 +58,7 @@ export class OrderCompleted extends Component {
     return(
       <Container>
         <Container style={styles.popupBox}>
+            <Card>
             <Container style={styles.titleContainer}>
               <Text style={styles.title}>Success! </Text>
               <Text style={styles.title}>You've completed this order. </Text>
@@ -80,6 +86,7 @@ export class OrderCompleted extends Component {
                 selectedStar={(rating) => this.onStarRatingPress(rating)}
               />
             </Container>
+            </Card>
 
             <Container style={styles.buttonContainer}>
               <Button style={styles.buttons_submit} onPress={() => this.updateRating()}>
