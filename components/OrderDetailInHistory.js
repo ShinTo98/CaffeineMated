@@ -15,7 +15,7 @@ export class OrderDetailInHistory extends Component{
   
   constructor(props){
     super(props);
-    this.state = {orderId : "0", // this is hard coded for testing use
+    this.state = {orderId : "21", // this is hard coded for testing use
     orderData : [],
     buyerInfo:[],
     carrierInfo:[],
@@ -133,12 +133,12 @@ render(){
                 {
                   Object.values(itemsInformation).map((item, i) =>
                     <Text key={i} style={styles.content}>
-                      {item.item_name}
+                      {item.name}
                     </Text>
                   )
                 }
-            </List>
-          </View>
+              </List>
+             </View>
 
           <View style={styles.infoContainer}>
             <Text style={styles.subTitle}> Location </Text>
