@@ -17,14 +17,11 @@ export const styles = StyleSheet.create({
   titleRow: {
     height: '10%',
     width: '100%',
-    alignItems: 'center',
-    marginTop: '-16%',
-    //padding: '23%'
   },
 
   titleTex: {
     fontSize: 21,
-    padding: '23%',
+    textAlign: 'center'
   },
 
   imageRow: {
@@ -44,9 +41,5 @@ export const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontSize: 15,
-  },
-
-  btn: {
-    marginTop: -80
   }
 });

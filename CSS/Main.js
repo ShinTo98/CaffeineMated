@@ -2,6 +2,8 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+const deviceWidthScale = 0.80;
+const deviceHeightScale = 0.08;
 
 export const styles = StyleSheet.create({
   card_title: {
@@ -35,7 +37,7 @@ export const styles = StyleSheet.create({
     color: '#ffffff',
   },
   header: {
-    top: 8,
+    paddingVertical: "1%"
   },
   button_header_on: {
     borderColor: '#ff9052',
@@ -65,21 +67,20 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: deviceWidth*0.75,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height:deviceWidth*0.12,
+    height:deviceHeight*0.075,
     borderColor: '#c8c8c8',
   },
   buttons_submit: {
     backgroundColor: '#ff9052',
     flexDirection: 'row',
     justifyContent: 'center',
-    //fontSize: 30,
-    width: deviceWidth*0.75,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height: deviceWidth*0.12,
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#ff9052',
     alignSelf: 'center',
   },
@@ -88,10 +89,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: deviceWidth*0.75,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height: deviceWidth*0.12,
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#c8c8c8',
     top: 60,
   },
@@ -100,10 +101,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: deviceWidth*0.75,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height: deviceWidth*0.12,
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#c8c8c8',
     top: 70,
   },
@@ -143,22 +144,21 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
-    height: deviceWidth*0.15,
-    //color: 'gray',
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#f8f8f8',
-    //borderWidth: 2,
-    width: deviceWidth*0.75,
+    width: deviceWidth*deviceWidthScale,
+    marginBottom: '2%'
   },
   orderItem:{
     //alignItems: 'flex-start',
-    //justifyContent: 'center',
+    justifyContent: 'center',
     borderColor: '#c8c8c8',
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderRadius: 6,
-    width: deviceWidth*0.75,
-    height: deviceWidth*0.85,
-    marginTop : '3%'
+    width: deviceWidth*deviceWidthScale,
+    height: deviceHeight*0.45,
+    marginTop : '4%'
   },
 
   requestTitleItem: {
@@ -251,9 +251,7 @@ export const styles = StyleSheet.create({
   },
   orderDetailText:{
     color: '#ff9052',
-    fontSize: 24,
-    marginTop: 8,
-    marginLeft: 72,
+    fontSize: 24
   },
   submitText:{
     color: '#ffffff',
@@ -365,15 +363,15 @@ export const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderWidth: 2,
     borderColor: '#c8c8c8',
-    height: '85%',
-    width: '100%',
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
   },
   Wherebutton: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
     borderColor: '#c8c8c8',
-    height: deviceWidth*0.12,
-    width: deviceWidth*0.75,
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
   },
   placeAutocomplete: {
     top: 50,
