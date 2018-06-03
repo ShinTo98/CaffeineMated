@@ -27,8 +27,8 @@ export default class App extends React.Component {
   render() {
     return (
 
-      //<Drawer />
-      <CoffeeOfTheDay />
+      <Drawer />
+      //<CoffeeOfTheDay />
     );
   }
 }
