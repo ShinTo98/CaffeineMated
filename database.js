@@ -430,8 +430,12 @@ export async function getDistance(origin, destination, id) {
     //let orderWithDist;
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-          var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
-          resolve(orderWithDist);
+          if( xhr.response.routes[0] != undefined){
+            var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
+            resolve(orderWithDist);
+          }else{
+            alert("Please choose another location");
+          }
       }
     };
 

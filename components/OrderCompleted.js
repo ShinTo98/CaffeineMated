@@ -35,6 +35,7 @@ export class OrderCompleted extends Component {
     };
 
   }
+  
 
   onStarRatingPress(rating) {
     this.setState({
