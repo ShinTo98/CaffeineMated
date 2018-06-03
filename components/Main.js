@@ -399,9 +399,26 @@ export class Main extends Component {
         <Content padder bounces={false} scrollEnabled={false}>
 
           {/* ---------------------------------- Buyer segment ---------------------------------- */}
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && <BuyerMain get = {this.buyerMainGet} change = {this.buyerMainChange} navigation = {this.props.navigation}/>}
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain func = {this.componentWillMount} get = {this.carrierMainGet} change = {this.carrierMainChange} navigation = {this.props.navigation}/>}
-          </Content>
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted && <BuyerMain 
+            get = {this.buyerMainGet} 
+            change = {this.buyerMainChange} 
+            navigation = {this.props.navigation}/>
+          }
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && <SubmitOrder
+            updateOrderSubmitted={this.state.updateOrderSubmitted}
+            order_data={this.state.order_data}
+            time={this.state.buyer_whenLogan}
+            location={this.state.buyer_whereLogan}
+            orderId={this.state.orderId}
+            navigation = {this.props.navigation}/>
+          }
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain 
+            func = {this.componentWillMount} 
+            get = {this.carrierMainGet} 
+            change = {this.carrierMainChange} 
+            navigation = {this.props.navigation}/>
+          }
+        </Content>
     </Container>
     );
   }

@@ -89,18 +89,8 @@ export class BuyerMain extends Component {
         <Container style = {styles.Container}>
 
         {/* ------------------------------- Order submitted page ------------------------------- */}
-        {this.props.get('orderSubmitted') &&
-          <SubmitOrder
-            updateOrderSubmitted={this.props.get('updateOrderSubmitted')}
-            order_data={this.props.get("order_data")}
-            time={this.props.get('buyer_whenLogan')}
-            location={this.props.get('buyer_whereLogan')}
-            orderId={this.props.get("orderId")}
-          />
-        }
 
         {/* ---------------------------------- Ordering page ---------------------------------- */}
-          {!this.props.get('orderSubmitted') &&
           <View style= {styles.banner}>
             {/* ------------------------ When & Where section -------------------------- */}
             <Item regular style={styles.textInput}>
@@ -207,7 +197,7 @@ export class BuyerMain extends Component {
               </Button>
             </View>
 
-          </View>}
+          </View>
         </Container>
       );
     }
