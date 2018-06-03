@@ -20,6 +20,8 @@ import {CarrierMain} from './components/CarrierMain.js';
 import { PlaceChoose } from './components/PlaceChoose.js';
 import { ViewHis } from './components/ViewHis.js';
 
+import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
+import {CoffeeOfTheDay} from './components/CoffeeOfTheDay.js';
 
 
 export default class App extends React.Component {
@@ -28,8 +30,9 @@ export default class App extends React.Component {
   render() {
     return (
 
-      //<Drawer />
-      <ViewHis />
+      <Root>
+        <Main />
+      </Root>
     );
   }
 }

@@ -16,11 +16,11 @@ const datas = [
     route: "menu",
     icon: 'menu',
   },
-  {
+  /*{
     name: "Payment",
     route: "customization",
     icon: 'card',
-  },
+  },*/
   {
     name: "Profile",
     route: "profile",

@@ -70,8 +70,8 @@ export class Main extends Component {
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
-  } 
-  
+  }
+
   buyerMainChange(id, value){
     if( id == "buyer_choosePlaces"){
         this.setState({buyer_choosePlaces : !this.state.buyer_choosePlaces});
@@ -112,7 +112,11 @@ export class Main extends Component {
   carrierMainGet(id){
     if( id == 'selecting_order'){
         return this.state.selecting_order;
-    }else if( id == 'order_selecting.id'){
+    }
+    else if (id == 'order_selecting'){
+        return this.state.order_selecting;
+    }
+    else if( id == 'order_selecting.id'){
         return this.state.order_selecting.id;
     }else if( id == 'order_selecting.avatar'){
         return this.state.order_selecting.avatar;
@@ -141,7 +145,7 @@ export class Main extends Component {
     }else if( id == 'carrier_whenLogan'){
       return this.state.carrier_whenLogan;
     }else if( id == 'carrier_refreshing'){
-      return this.state.refreshing;
+      return this.state.carrier_refreshing;
     }else if( id == 'delivering'){
       return this.state.delivering;
     }else if( id == "carrier_accept_hour"){
@@ -205,8 +209,11 @@ export class Main extends Component {
     this.setState({request_data : value});
   }else if( id == "order_selected_id"){
     this.order_selected[value] = false;
+  }else if( id == "carrier_refreshing"){
+    this.setState({carrier_refreshing : value});
   }
   }
+
 
 
   async saveRequestIds() {
@@ -268,8 +275,6 @@ export class Main extends Component {
       console.log("this is itemObject size" + itemObject.size);
       console.log("this is itemObject syrup" + itemObject.syrup);
       console.log("this is itemObject price" + itemObject.price);
-    }else{
-      console.log("what is going on~~~~~~~~~");
     }
 
 
@@ -292,7 +297,7 @@ export class Main extends Component {
       this.setState({order_exists: true});
       //console.log(this.state.order_data);
     }
-    
+
     //console.log("flkjdflksjdlfksjldfkjlsdjdfl" + this.props.navigation.getParam('location'));
     if(this.props.navigation.getParam('time') != undefined){
       this.setState({buyer_whenLogan : this.props.navigation.getParam('time')});
