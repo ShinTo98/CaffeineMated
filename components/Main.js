@@ -70,8 +70,8 @@ export class Main extends Component {
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
-  } 
-  
+  }
+
   buyerMainChange(id, value){
     if( id == "buyer_choosePlaces"){
         this.setState({buyer_choosePlaces : !this.state.buyer_choosePlaces});
@@ -112,7 +112,11 @@ export class Main extends Component {
   carrierMainGet(id){
     if( id == 'selecting_order'){
         return this.state.selecting_order;
-    }else if( id == 'order_selecting.id'){
+    }
+    else if (id == 'order_selecting'){
+        return this.state.order_selecting;
+    }
+    else if( id == 'order_selecting.id'){
         return this.state.order_selecting.id;
     }else if( id == 'order_selecting.avatar'){
         return this.state.order_selecting.avatar;
@@ -209,6 +213,7 @@ export class Main extends Component {
   }
 
 
+
   async saveRequestIds() {
     if( this.state.carrier_whereLogan != 'Specify a place'){
       this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
@@ -292,7 +297,7 @@ export class Main extends Component {
       this.setState({order_exists: true});
       //console.log(this.state.order_data);
     }
-    
+
     //console.log("flkjdflksjdlfksjldfkjlsdjdfl" + this.props.navigation.getParam('location'));
     if(this.props.navigation.getParam('time') != undefined){
       this.setState({buyer_whenLogan : this.props.navigation.getParam('time')});
