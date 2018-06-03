@@ -44,7 +44,7 @@ export async function userLogin (email, password) {
   if (result === 0) {
       var curUser = getCurrentUserUID();
       var Profile = await getProfileById(curUser);
-      if (Profile.current_order_as_buyer)
+      if (Profile.current_order_as_buyer && Profile.current_order_as_buyer != -1)
           addOrderStatusChangeListener(Profile.current_order_as_buyer);
   }
   return result;
@@ -813,10 +813,10 @@ export function removeOrderStatusChangeListener(orderId){
 
 function statusUpdated(snapshot) {
     var changedChild = snapshot.val();
-    if (changedChild === 2) {
+    if (changedChild === 2　&& changedChild != 4) {
         Alert.alert("Notification", "Someone just accepted your order!\n Please refresh the page!");
     }
-    else if (changedChild != 1) {
+    else if (changedChild != 1　&& changedChild != 4) {
         Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
     }
 }
