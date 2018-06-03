@@ -21,7 +21,6 @@ import { PlaceChoose } from './components/PlaceChoose.js';
 import { ViewHis } from './components/ViewHis.js';
 
 import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
-import {CoffeeOfTheDay} from './components/CoffeeOfTheDay.js';
 
 
 export default class App extends React.Component {
@@ -31,7 +30,8 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <Main />
+        <PrimaryNav />
+
       </Root>
     );
   }
@@ -95,7 +95,9 @@ const Drawer = DrawerNavigator(
     profile: {screen: Profile},
     buyermain: {screen: BuyerMain},
     carrierMain: {screen: CarrierMain},
-    placeChoose: {screen: PlaceChoose}
+    placeChoose: {screen: PlaceChoose},
+    viewHis: {screen: ViewHis}, 
+    orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
   {
@@ -132,5 +134,21 @@ const PrimaryNav = StackNavigator({
       headerTintColor: 'red',
     }
   }
+);
 
+// temp
+const HistoryNav = StackNavigator({
+        viewHis: {
+            screen: ViewHis,
+        },
+
+        orderDetailInHistory: {
+            screen: OrderDetailInHistory,
+        }
+    },
+    {
+        initialRouteName: 'viewHis',
+        headerMode: 'none',
+
+    }
 )
