@@ -430,8 +430,12 @@ export async function getDistance(origin, destination, id) {
     //let orderWithDist;
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-          var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
-          resolve(orderWithDist);
+          if( xhr.response.routes[0] != undefined){
+            var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
+            resolve(orderWithDist);
+          }else{
+            alert("Please choose another location");
+          }
       }
     };
 
@@ -494,34 +498,35 @@ export async function getOrderRequestTime(order_id) {
   return location;
 }
 
-export async function sortOrdersByRequestTime() {  
-   let orders = await viewPendingOrders();  
-    
-   // build array with each object containing id and request_time  
-   let ordersWithRequestTime = [];  
-   for (let i = 0; i < orders.length; i++) {  
-   var orderRef = firebase.database().ref("Orders/items/"+orders[i]);  
-   await orderRef.once("value", dataSnapshot => {  
-   ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});  
-   });  
-   }  
-    
-   await ordersWithRequestTime.sort(compareByRequestTime);  
-    
-   // build the result array  
-   let resList = [];  
-   for (var j = 0; j < ordersWithRequestTime.length; j++){  
-   resList.push(ordersWithRequestTime[j].orderId);  
-   }  
-   return resList;  
-  } 
+export async function sortOrdersByRequestTime() {
+   let orders = await viewPendingOrders();
+
+   // build array with each object containing id and request_time
+   let ordersWithRequestTime = [];
+   for (let i = 0; i < orders.length; i++) {
+   var orderRef = firebase.database().ref("Orders/items/"+orders[i]);
+   await orderRef.once("value", dataSnapshot => {
+   ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});
+   });
+   }
+
+   await ordersWithRequestTime.sort(compareByRequestTime);
+
+   // build the result array
+   let resList = [];
+   for (var j = 0; j < ordersWithRequestTime.length; j++){
+   resList.push(ordersWithRequestTime[j].orderId);
+   }
+   return resList;
+  }
 
 /*
  * Name: completeOrder
  * Parameter: string: order_id  string: user_id
  * Return: N/A
  */
-export async function completeOrder(order_id, user_id) {
+export async function completeOrder(order_id) {
+    var user_id = getCurrentUserUID();
   let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
   await profileRef.once("value", snapshot => {
     index = snapshot.val().total_num;
@@ -815,4 +820,49 @@ function statusUpdated(snapshot) {
     else if (changedChild != 1) {
         Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
     }
+}
+
+export async function randomCoffee() {
+  // random an integer for type
+  let type = Math.floor(Math.random() * 6);
+
+  // random an integer for item
+  let item = Math.floor(Math.random() * 3) + 1;
+  let hotTea = Math.floor(Math.random() * 3) + 1;
+
+  let typeRef;
+  let prefix;
+
+  if (type === 0) {
+    typeRef = 'Cold Coffees';
+    prefix = 'CC';
+  } else if (type === 1) {
+    typeRef = 'Drinks';
+    prefix = 'DR';
+  } else if (type === 2) {
+    typeRef = 'Frappuccino';
+    prefix = 'FR';
+  } else if (type === 3) {
+    typeRef = 'Hot Coffees';
+    prefix = 'HC';
+  } else if (type === 4) {
+    typeRef = 'Hot Teas';
+    prefix = 'HT';
+  } else if (type === 5) {
+    typeRef = 'Iced Teas';
+    prefix = 'IT';
+  }
+
+  let dir;
+  // if (typeRef === 'Hot Teas') {
+  //   dir = "Menu/" + typeRef + "/items/" + prefix + '0' + hotTea;
+  // }
+  dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
+  console.log("prefix is: " + prefix);
+  console.log("dir in random is " + dir);
+  var coffee;
+  await firebase.database().ref(dir).once("value", function (snapshot) {
+    coffee = snapshot.val();
+  });
+  return coffee;
 }

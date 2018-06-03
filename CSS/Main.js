@@ -460,5 +460,11 @@ export const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 8,
     left: 10
+  },
+  normalCell: {
+    backgroundColor: "#ffffff",
+  },
+  selectedCell: {
+    backgroundColor: "#ff9052"
   }
 });

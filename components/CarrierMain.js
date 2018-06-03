@@ -7,28 +7,31 @@ import {sortOrdersByDistance, sortOrdersByRequestTime,viewPendingOrders, viewOrd
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
+import {OrderCompleted} from './OrderCompleted.js';
 
 export class CarrierMain extends Component {
-    
+
     static navigationOptions = {
         header: null
     }
-    
+
     constructor(props) {
         super(props);
         this.state={
             isDateTimePickerVisible:false,
-            loading:false
+            loading:false,
+            rating: false,
+            rating_order: undefined
         }
         this.createStars = this.createStars.bind(this);
         this.changeStates = this.changeStates.bind(this);
         this.saveRequestIds = this.saveRequestIds.bind(this);
-        
+
     }
-    
+
     _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
     _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-    
+
     _handleDatePicked = (date) => {
         console.log('A date has been picked: ', date.toString());
         // Extract the hr:min part
@@ -36,8 +39,8 @@ export class CarrierMain extends Component {
         this.props.change("carrier_whenLogan", time);
         this._hideDateTimePicker();
     };
-    
-    
+
+
     navigatePlace(lc){
         this.setState({location: lc});
     }
@@ -52,13 +55,13 @@ export class CarrierMain extends Component {
       createProcess = (num) => {
         let dots = []
         for (var i = 1; i <= 4; i++) {
-    
+
           if (num >= i) {
             dots.push((<IconVector key={i} name='dot-single' style={styles.icon}/>));
           } else {
             dots.push((<IconVector key={i} name='dot-single'/>));
           }
-    
+
         }
         return dots
       }
@@ -103,7 +106,7 @@ export class CarrierMain extends Component {
             hour = 12;
         }
         minutes = date.getMinutes();
-    
+
         if(minutes < 10)
         {
           minutes = '0' + minutes.toString();
@@ -118,22 +121,25 @@ export class CarrierMain extends Component {
         updateOrderStatus(this.props.get('selected_order'));
         this.props.change("delivering", true);
       }
-    
+
       complete = () => {-
-        completeOrder(this.props.get('selected_order'));
+        completeOrder(this.props.get('selected_order'),'01');
+        this.setState({rating_order: this.props.get('order_selecting'), rating: true});
+
         this.changeStates(["request_selected", "accepted", "delivering","order_selecting","selecting_order","selected_order"],[false, false, false, undefined,false,-1]);
-    
+
         this.props.func();
+
       }
 
-    
+
     createStars = (num) => {
         let stars = []
         for (var i = 0; i <= 4; i++) {
-            
+
             let iosStar = 'ios-star';
             let androidStar = 'md-star';
-            
+
             if (num - 1 > 0) {
                 iosStar = 'ios-star';
                 androidStar = 'md-star';
@@ -144,7 +150,7 @@ export class CarrierMain extends Component {
                 iosStar = 'ios-star-outline';
                 androidStar = 'md-star-outline';
             }
-            
+
             num -= 1
             stars.push((<Icon key={i} ios={iosStar} android={androidStar} style={styles.icon}/>));
         }
@@ -157,7 +163,7 @@ export class CarrierMain extends Component {
           this.setState({refreshing: false});
         });
       }
-    
+
     changeStates(ids, values){
         for( var i = 0; i < ids.length; i++){
             this.props.change(ids[i], values[i]);
@@ -178,7 +184,7 @@ export class CarrierMain extends Component {
     }
         //console.log(this.state.ids);
       }
-    
+
       async saveRequestDetails() {
         var received = [];
         for (let id of this.props.get('ids')) {
@@ -211,27 +217,27 @@ export class CarrierMain extends Component {
         //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
         //console.log(this.state.request_data);
     }
-    
-    
-    
-    
+
+
+
+
     render(){
         const loading = this.props.get('loadFinished');
         console.log("this is from carrier Main about ids    " + this.props.get('ids'));
-        if(this.props.get('selecting_order')){
-            
+        if(!this.state.rating && this.props.get('selecting_order')){
+
             return (
               <Container style={{height: '30%'}}>
                 <Content scrollEnabled={false}>
                 <Card>
                 <CardItem header>
-                
+
                 <Button transparent onPress={() => this.props.change('selecting_order', false)}>
                 <Icon name="arrow-back" style={styles.icon}/>
                 </Button>
-                
+
                 </CardItem>
-                
+
                 <View style={styles.cardLine}/>
                 <CardItem>
                 <Left>
@@ -241,7 +247,7 @@ export class CarrierMain extends Component {
             {this.props.get('order_selecting.avatar') &&
             <Thumbnail large source={{uri: this.props.get('order_selecting.avatar')}}/>
         }
-        
+
         <Body>
         <CardItem>
         <Text style={styles.cardBuyerName}>
@@ -275,17 +281,17 @@ export class CarrierMain extends Component {
         </CardItem>
         {Object.values(this.props.get('order_selecting.items')).map((item,key)=>
         (
-            
+
             <CardItem key= {key}>
             <Body>
             <Text style={styles.card_title}>
             {item.item_name}
             </Text>
-            
+
             <Text>
             {item.size}
             </Text>
-            
+
             <Text>
             {item.customization}
             </Text>
@@ -306,16 +312,16 @@ export class CarrierMain extends Component {
     </Button>
     </Body>
     </CardItem>
-    
+
     </Card>
     </Content>
     </Container>
 );
-}else if(!this.props.get('accepted')){
+}else if(!this.state.rating && !this.props.get('accepted')){
     return(
     <Container style = {{height: '40%'}}>
     <View style= {styles.banner}>
-    
+
     <Item regular style={styles.textInput}>
     <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
     <Icon style={styles.Whenwheretext} name='alarm' />
@@ -337,15 +343,15 @@ export class CarrierMain extends Component {
     <Icon style={styles.Whenwheretext} name='navigate' />
     </Button>
     </Item>
-    
+
     {/* ---------------------------------- Request List ---------------------------------- */}
     <View regular style={styles.requestTitleItem}>
     <Label style = {styles.orderTitle}>
     Requests
     </Label>
     </View>
-    
-    
+
+
     <View scrollEnabled={false} style={{height:200}}>
     {loading &&
         <Content refreshControl={
@@ -358,12 +364,12 @@ export class CarrierMain extends Component {
         scrollEnabled={false}
         dataArray={this.props.get("request_data")}
         style= {styles.requestList}
-        
-        
+
+
         renderRow={data =>
             <ListItem
             onPress={() => this.changeStates(["order_selecting","selecting_order"], [data, true])}
-            selected = {data.id == this.props.get("selected_order")}>
+            style = {((data.id == this.props.get("selected_order")? styles.selectedCell: styles.normalCell))}>
             <Left style={styles.list_left_container}>
             { !data.avatar &&
                 <Thumbnail  source={require('../resources/avatar.png')}/>
@@ -388,8 +394,8 @@ export class CarrierMain extends Component {
             {data.request_time}
             </Text>
             </Body>
-            
-            
+
+
             </ListItem>}
             >
             </List>
@@ -401,10 +407,10 @@ export class CarrierMain extends Component {
             </Content>
         }
         </View>
-        
-        
+
+
         {/* ---------------------------------- Accept Button ---------------------------------- */}
-        
+
         <View style={styles.acceptButtonItem}>
         <Button
         disabled = {!this.props.get('request_selected')}
@@ -417,23 +423,29 @@ export class CarrierMain extends Component {
         </Text>
         </Button>
         </View>
-        
-        
+
+
         </View>
         </Container>
      );
-    }else if(this.props.get("accepted")){
+    }
+    else if (this.state.rating) {
+      console.log(this.props.get('order_selecting'))
+      return <OrderCompleted user_id={this.state.rating_order.buyer_id} order_id={this.state.rating_order.id} user_name={this.state.rating_order.buyer_name} isBuyer={false} img={this.state.rating_order.avatar}/>
+    }
+
+    else if(this.props.get("accepted")){
         return (
             <Container>
                 <View style= {styles.banner}>
-        
-        
+
+
                 <Item regular style={styles.DiliverTitleItem}>
                 <Label style = {styles.orderTitle}>
                   {!this.props.get('delivering') ? 'Way To Shop': 'Delivering'}
                 </Label>
                 </Item>
-        
+
                 <Item regular style={styles.DiliverItem}>
                 <View >
                   <View style={styles.deliverProfile}>
@@ -455,7 +467,7 @@ export class CarrierMain extends Component {
                   <View style={styles.deliverItems}>
                   {Object.values(this.props.get('order_selecting.items')).map((item,key)=>
                     (
-        
+
                     <View key= {key} style={styles.deliverItem}>
                     <Text style={styles.card_title}>
                       {item.item_name}
@@ -472,8 +484,8 @@ export class CarrierMain extends Component {
                   </View>
                 </View>
                 </Item>
-        
-        
+
+
                 <Item regular style={styles.DiliverProcess}>
                   <View style={styles.deliverLocation}>
                     <View style={styles.process}>
@@ -482,7 +494,7 @@ export class CarrierMain extends Component {
                       </Text>
                       <Text>
                         {this.props.get('order_selecting.location')}
-                      </Text> 
+                      </Text>
                       <Text>
                         {this.props.get('order_selecting.request_time')}
                       </Text>
@@ -492,8 +504,8 @@ export class CarrierMain extends Component {
                     </View>
                   </View>
                 </Item>
-        
-        
+
+
                 <View style={styles.updateButtonItem}>
                 {!this.props.get('delivering') &&
                   <Button
@@ -531,7 +543,7 @@ export class CarrierMain extends Component {
                 </View>
               </View>
             }
-        
+
             </Container>
         );
     }
