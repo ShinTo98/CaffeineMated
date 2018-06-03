@@ -28,10 +28,6 @@ export async function userLogin (email, password) {
     function success() {
       // callback with 0 indicating login success
       result = 0;
-
-
-
-
     }
   ).catch(
     function failure (error) {
@@ -348,8 +344,6 @@ export async function viewOrderDetailById (order_id) {
     await firebase.database().ref(dir).once("value", function (snapshot) {
         orderInformation = snapshot.val();
     });
-
-
     return orderInformation;
 }
 
@@ -563,7 +557,7 @@ export async function completeOrder(order_id) {
       // update status to be 4: completedByBuyer
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
           orderRef.child("status").set(4);
-          console.log("complete by buyer");
+          //console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("total_num").set(++index);
 
@@ -576,7 +570,7 @@ export async function completeOrder(order_id) {
       // update status to be 5: completedByCarrier
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
-          console.log("complete by carrier");
+          //console.log("complete by carrier");
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("total_num").set(++index);
       }
@@ -601,6 +595,26 @@ export async function changeDefaultMode(id, mode) {
   );
 
 }
+
+/*
+ * Name: getDefaultMode
+ * Parameters: void
+ * Return: N/A
+ * get deault mode 
+ */
+
+ export async function getDefaultMode(){
+   let profileId =  getCurrentUserUID();
+   let profileRef = firebase.database().ref("Profile/" + profileId);
+   await profileRef.once("value", dataSnapshot => {
+     var defaultMode = profileRef.child("default_mode").value();
+   });
+   console.log("this is getDefaultMode " + defaultMode);
+
+   return defaultMode;
+ }
+
+
 
 
 /*
@@ -629,7 +643,7 @@ export async function logout() {
     if (Profile.current_order_as_buyer != null && Profile.current_order_as_buyer != -1)
         removeOrderStatusChangeListener(Profile.current_order_as_buyer);
 
-  var result;
+    var result;
     await firebase.auth().signOut().then(
 
       function success(){
@@ -639,12 +653,9 @@ export async function logout() {
       function failure(error){
         var errorCode = error.code;
         var errorMsg = error.message;
-
         result = errorMsg;
-
       }
     );
-
     return result;
 }
 
@@ -744,6 +755,16 @@ export async function changeUserName(user_id, newName){
         }
     });
     return result;
+}
+
+/*
+ * Name: setPhoneNum
+ * Parameter: string: phoneNum
+ */
+export async function setPhoneNum(phoneNum) {
+  let profile_id = getCurrentUserUID();
+  let dir = "Profile/" + profile_id;
+  dir.child("phone").set(phoneNum);
 }
 
 /*
@@ -869,4 +890,18 @@ export async function randomCoffee() {
   });
   console.log("today coffee is "+ coffee);
   return coffee;
+}
+
+export function resetPassword() {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+        firebase.auth().sendPasswordResetEmail(user.email).then(function () {
+            // Email sent.
+            Alert.alert("Success！", "An E-mail has just been sent to your email!");
+        }).catch(function (error) {
+            // An error happened.
+            Alert.alert("Failed", "Something strange happened...")
+        });
+    }
 }
