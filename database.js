@@ -652,7 +652,6 @@ export async function displayOrderHistory(user_id) {
   await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
   });
-
   return orderHis;
 }
 
