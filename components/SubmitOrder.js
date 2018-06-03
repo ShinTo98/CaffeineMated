@@ -28,6 +28,8 @@ export class SubmitOrder extends Component {
       carrierRate: '',
       carrierPhoto: '',
       carrierAccepted: false,
+      buttonText: 'Cancel Order',
+      disableButton: false,
     };
     //console.log("orderId, " + this.props.orderId);
 
@@ -99,15 +101,26 @@ export class SubmitOrder extends Component {
     //console.log(orderDetail);
     var status = orderDetail.status;
     this.setState({progressNum: status})
-    if(status >= 2) {
-      var carrierProfile = await getProfileById(orderDetail.carrier_id);
-      //console.log(carrierProfile);
-      this.setState({carrierName: carrierProfile.username});
-      this.setState({carrierRate : carrierProfile.rate});
-      this.setState({carrierPhoto: carrierProfile.photo});
-      this.setState({carrierAccepted: true});
+    switch(status) {
+      case 2:
+        this.setState({progressText: 'Order Progress: Your order has been accepted!'});
+        this.setState({disableButton: true});
+        var carrierProfile = await getProfileById(orderDetail.carrier_id);
+        //console.log(carrierProfile);
+        this.setState({carrierName: carrierProfile.username});
+        this.setState({carrierRate : carrierProfile.rate});
+        this.setState({carrierPhoto: carrierProfile.photo});
+        this.setState({carrierAccepted: true});
+        break;
+      case 3:
+        this.setState({progressText: 'Order Progress: Your coffee is on its way!'});
+        this.setState({buttonText: 'Complete Order'});
+        this.setState({disableButton: false});
+        break;
+      case 5:
+        this.setState({progressText: 'Order Progress: Your order is complete!'});
+        break;
     }
-
   }
 
   async updateOrderSubmitted() {
@@ -239,10 +252,11 @@ renderRow={data =>
 
         <View>
           <Button
+          disabled={this.state.disableButton}
           style={styles.buttons_submit}
           color="#ffffff"
           onPress={() => this.updateOrderSubmitted()}
-          > <Text style={styles.menuText}> Cancel Order </Text>
+          > <Text style={styles.menuText}> {this.state.buttonText} </Text>
           </Button>
         </View>
       </Container>
