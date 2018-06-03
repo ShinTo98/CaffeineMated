@@ -44,7 +44,12 @@ export class BuyerMain extends Component {
     this._hideDateTimePicker();
   };
 
-  submitValidityCheck = () => {
+  orderCancelled = () => {
+    this.setState({orderSubmitted: false});
+    alert('Order Cancelled');
+  }
+
+  async submitValidityCheck() {
     if(this.props.get('buyer_whereLogan') == 'Specify a place' ||
        this.props.get('buyer_whenLogan') == 'Pick a time') {
       alert('Please fill out location & time!');
@@ -52,7 +57,7 @@ export class BuyerMain extends Component {
       alert(
         'Please order at least one drink!');
       } else {
-        var id = createOrder(this.props.get('order_data'),
+        var id = await createOrder(this.props.get('order_data'),
                              this.props.get('buyer_whereLogan'),
                              this.props.get('buyer_whenLogan'));
 
@@ -96,6 +101,7 @@ export class BuyerMain extends Component {
             time={this.props.get('buyer_whenLogan')}
             location={this.props.get('buyer_whereLogan')}
             orderId={this.props.get("orderId")}
+            orderCancelled={this.orderCancelled}
           />
         }
 
@@ -142,11 +148,11 @@ export class BuyerMain extends Component {
 
 
             {/* ------------------------ LIST OF ORDER ITEMS ------------------------- */}
-            <View regular style={styles.orderItem}>
-              <Text style={styles.orderDetailText}> Order Details </Text>
-
-              <View style={styles.line}/>
+            <View style={styles.orderItem}>
               <View>
+                <Text style={styles.orderDetailText}> Order Details </Text>
+                <View style={styles.line}/>
+
                 {this.props.get("order_exists") &&
                 <List dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
 
@@ -184,7 +190,7 @@ export class BuyerMain extends Component {
 
                 {/* ------------------------- No orders ------------------------- */}
                 {!this.props.get("order_exists") &&
-                   <CoffeeOfTheDay />
+                    <CoffeeOfTheDay />
                  }
               </View>
             </View>

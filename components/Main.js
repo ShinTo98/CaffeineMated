@@ -81,6 +81,8 @@ export class Main extends Component {
       this.setState({order_data: value});
     } else if( id == 'totalPrice') {
       this.setState({totalPrice: value});
+    } else if( id == 'orderId') {
+      this.setState({orderId: value});
     }
   }
 
@@ -211,6 +213,10 @@ export class Main extends Component {
     this.order_selected[value] = false;
   }else if( id == "carrier_refreshing"){
     this.setState({carrier_refreshing : value});
+  }else if( id == "order_selected.id"){
+    var orderSelected = this.state.order_selected;
+    orderSelected.id = value;
+    this.setState({order_selected : orderSelected});
   }
   }
 

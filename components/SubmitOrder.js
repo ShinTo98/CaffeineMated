@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, List, ListItem, View, Spinner, Thumbnail,Card, CardItem } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder} from './../database.js';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, getProfileById, cancelByBuyer} from './../database.js';
 import {styles} from '../CSS/SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
 
@@ -22,6 +22,12 @@ export class SubmitOrder extends Component {
       time: this.props.time,
       location: this.props.location,
       order_data: this.props.order_data,
+      progressText: 'Order Progress: Waiting for carrier to accept',
+      progressNum: 1,
+      carrierName: '',
+      carrierRate: '',
+      carrierPhoto: '',
+      carrierAccepted: false,
     };
     //console.log("orderId, " + this.props.orderId);
 
@@ -88,7 +94,25 @@ export class SubmitOrder extends Component {
   }
 
   async fetchData() {
+    console.log(this.state.orderId);
+    var orderDetail = await viewOrderDetailById(this.state.orderId);
+    //console.log(orderDetail);
+    var status = orderDetail.status;
+    this.setState({progressNum: status})
+    if(status >= 2) {
+      var carrierProfile = await getProfileById(orderDetail.carrier_id);
+      //console.log(carrierProfile);
+      this.setState({carrierName: carrierProfile.username});
+      this.setState({carrierRate : carrierProfile.rate});
+      this.setState({carrierPhoto: carrierProfile.photo});
+      this.setState({carrierAccepted: true});
+    }
 
+  }
+
+  async updateOrderSubmitted() {
+    await cancelByBuyer(this.state.orderId);
+    this.props.orderCancelled();
   }
 
   _onRefresh() {
@@ -116,7 +140,7 @@ export class SubmitOrder extends Component {
               <Spinner color="#8E8E93" style = {styles.progressSpin}/>
               */}
             </View>
-            
+
             <Text style = {styles.orderTitle}>
               Orders Details
             </Text>
@@ -136,7 +160,7 @@ export class SubmitOrder extends Component {
               Items:
             </Text>
 
-<List 
+<List
 dataArray={this.state.order_data}
 
 renderRow={data =>
@@ -162,7 +186,9 @@ renderRow={data =>
 </ListItem>}
 />
 
-<Text style = {styles.carrierTitle}>
+{this.state.carrierAccepted &&
+<View>
+  <Text style = {styles.carrierTitle}>
               Your Carrier
             </Text>
             <View  style= {styles.carrierView}>
@@ -181,17 +207,20 @@ renderRow={data =>
                   Name:
                 </Text>
                 <Text style = {styles.labelContent}>
-                  {this.state.time}
+                  {this.state.carrierName}
                 </Text>
                 <Text style = {styles.labelTextItems}>
-                  Phone Number:
+                  Rate:
                 </Text>
                 <Text style = {styles.labelContent}>
-                  {this.state.location}
+                  {this.updateStars(this.state.carrierRate)}
                 </Text>
               </View>
 
             </View>
+            </View>
+
+}
 
           </Content>
         </View>
@@ -199,12 +228,12 @@ renderRow={data =>
         <View style={styles.progressBarView}>
 
           <View style= {styles.progressBar}>
-            {this.updateProgressBar(4)}
+            {this.updateProgressBar(this.state.progressNum)}
           </View>
 
 
           <Text style = {styles.progressText}>
-            Order Progress: Carrier Confirmed
+            {this.state.progressText}
           </Text>
         </View>
 
@@ -212,7 +241,7 @@ renderRow={data =>
           <Button
           style={styles.buttons_submit}
           color="#ffffff"
-          onPress={() => this.props.updateOrderSubmitted(false)}
+          onPress={() => this.updateOrderSubmitted()}
           > <Text style={styles.menuText}> Cancel Order </Text>
           </Button>
         </View>
