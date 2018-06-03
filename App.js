@@ -31,7 +31,7 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <Drawer />
+        <PrimaryNav />
 
       </Root>
     );
@@ -98,7 +98,8 @@ const Drawer = DrawerNavigator(
     carrierMain: {screen: CarrierMain},
     placeChoose: {screen: PlaceChoose},
     submitOrder: {screen: SubmitOrder},
-      orderDetailInHistory: {screen: OrderDetailInHistory}
+    viewHis: {screen: ViewHis}, 
+    orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
   {
@@ -137,6 +138,7 @@ const PrimaryNav = StackNavigator({
   }
 );
 
+// temp
 const HistoryNav = StackNavigator({
         viewHis: {
             screen: ViewHis,

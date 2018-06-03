@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, List, ListItem, View, Spinner, Thumbnail,Card, CardItem } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, getProfileById} from './../database.js';
+import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, getProfileById, cancelByBuyer} from './../database.js';
 import {styles} from '../CSS/SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
 
@@ -110,6 +110,11 @@ export class SubmitOrder extends Component {
 
   }
 
+  async updateOrderSubmitted() {
+    await cancelByBuyer(this.state.orderId);
+    this.props.orderCancelled();
+  }
+
   _onRefresh() {
     this.setState({refreshing: true});
     this.fetchData().then(() => {
@@ -135,7 +140,7 @@ export class SubmitOrder extends Component {
               <Spinner color="#8E8E93" style = {styles.progressSpin}/>
               */}
             </View>
-            
+
             <Text style = {styles.orderTitle}>
               Orders Details
             </Text>
@@ -155,7 +160,7 @@ export class SubmitOrder extends Component {
               Items:
             </Text>
 
-<List 
+<List
 dataArray={this.state.order_data}
 
 renderRow={data =>
@@ -236,7 +241,7 @@ renderRow={data =>
           <Button
           style={styles.buttons_submit}
           color="#ffffff"
-          onPress={() => this.props.updateOrderSubmitted(false)}
+          onPress={() => this.updateOrderSubmitted()}
           > <Text style={styles.menuText}> Cancel Order </Text>
           </Button>
         </View>

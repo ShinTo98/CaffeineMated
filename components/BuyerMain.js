@@ -44,6 +44,11 @@ export class BuyerMain extends Component {
     this._hideDateTimePicker();
   };
 
+  orderCancelled = () => {
+    this.setState({orderSubmitted: false});
+    alert('Order Cancelled');
+  }
+
   async submitValidityCheck() {
     if(this.props.get('buyer_whereLogan') == 'Specify a place' ||
        this.props.get('buyer_whenLogan') == 'Pick a time') {
@@ -87,10 +92,6 @@ export class BuyerMain extends Component {
 
       return(
         <Container style = {styles.Container}>
-
-        {/* ------------------------------- Order submitted page ------------------------------- */}
-
-        {/* ---------------------------------- Ordering page ---------------------------------- */}
           <View style= {styles.banner}>
             {/* ------------------------ When & Where section -------------------------- */}
             <Item regular style={styles.textInput}>
@@ -132,11 +133,11 @@ export class BuyerMain extends Component {
 
 
             {/* ------------------------ LIST OF ORDER ITEMS ------------------------- */}
-            <View regular style={styles.orderItem}>
-              <Text style={styles.orderDetailText}> Order Details </Text>
-
-              <View style={styles.line}/>
+            <View style={styles.orderItem}>
               <View>
+                <Text style={styles.orderDetailText}> Order Details </Text>
+                <View style={styles.line}/>
+
                 {this.props.get("order_exists") &&
                 <List dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
 
@@ -174,7 +175,7 @@ export class BuyerMain extends Component {
 
                 {/* ------------------------- No orders ------------------------- */}
                 {!this.props.get("order_exists") &&
-                   <CoffeeOfTheDay />
+                    <CoffeeOfTheDay />
                  }
               </View>
             </View>

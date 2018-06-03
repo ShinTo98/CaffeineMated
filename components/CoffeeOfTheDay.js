@@ -36,7 +36,6 @@ import {
 } from 'native-base';
 import {styles} from "../CSS/CoffeeOfTheDay.js";
 import {randomCoffee} from "../database";
-//import PTRView from 'react-native-pull-to-refresh';
 
 export class CoffeeOfTheDay extends Component {
   constructor(props) {
@@ -79,7 +78,6 @@ export class CoffeeOfTheDay extends Component {
 
           <View style={styles.container}>
             <Grid style={{flexWrap: 'wrap'}}>
-
               <Row style={styles.titleRow}>
                 <Text style={styles.titleTex}>Coffee of the Day</Text>
               </Row>
@@ -93,7 +91,7 @@ export class CoffeeOfTheDay extends Component {
               </Row>
 
               <Row style={styles.titleRow}>
-                 <Text style={styles.itemName}>{result.name}{"\n"}</Text>
+                 <Text style={styles.itemName}>{result.name}</Text>
               </Row>
 
             </Grid>

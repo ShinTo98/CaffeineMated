@@ -5,26 +5,27 @@ export const styles = StyleSheet.create({
 
   container: {
     marginTop: 10,
-    height: '100%',
-    width: '100%',
+    //height: '100%',
+    //width: '100%',
     // alignItems: 'center',
     alignContent: 'center',
     //flexDirection: 'column',
     //padding: '30%'
+    flex: 1
   },
 
 
   titleRow: {
     height: '10%',
     width: '100%',
-    alignItems: 'center',
-    marginTop: '-16%',
-    //padding: '23%'
+    alignContent: 'center',
+    justifyContent: 'center'
   },
 
   titleTex: {
     fontSize: 21,
-    padding: '23%',
+    //textAlign: 'center',
+    alignSelf: 'center'
   },
 
   imageRow: {
@@ -44,9 +45,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontSize: 15,
-  },
-
-  btn: {
-    marginTop: -80
+    marginTop: 10
   }
 });
