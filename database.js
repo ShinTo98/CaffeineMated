@@ -604,10 +604,11 @@ export async function changeDefaultMode(id, mode) {
  */
 
  export async function getDefaultMode(){
+   var defaultMode;
    let profileId =  getCurrentUserUID();
    let profileRef = firebase.database().ref("Profile/" + profileId +"/default_mode");
    await profileRef.once("value", dataSnapshot => {
-     var defaultMode = dataSnapshot.val();
+     defaultMode = dataSnapshot.val();
    });
    console.log("this is getDefaultMode " + defaultMode);
 

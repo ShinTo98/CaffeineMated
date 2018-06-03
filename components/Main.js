@@ -70,6 +70,8 @@ export class Main extends Component {
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
+
+    
   }
 
   buyerMainChange(id, value){
@@ -265,8 +267,12 @@ export class Main extends Component {
   }
 
   async componentWillMount() {
-
     var test = await getDefaultMode();
+    if( test == "buyer"){
+        this.setState({seg: 1});
+    }else{
+        this.setState({seg:2});
+    }
     console.log("this is what test has in main" + test);
     //console.log("this is from main about get function" + this.buyerMainGet(whereLogan));
     console.log(this.state.seg)
