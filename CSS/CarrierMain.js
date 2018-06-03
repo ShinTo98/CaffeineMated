@@ -273,9 +273,12 @@ export const styles = StyleSheet.create({
     top: 60,
   },
 
-
-
-
+  normalCell: {
+    backgroundColor: "#ffffff",
+  },
+  selectedCell: {
+    backgroundColor: "#ff9052"
+  }
 
 
 
