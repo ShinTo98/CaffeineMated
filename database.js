@@ -857,11 +857,12 @@ export async function randomCoffee() {
   //   dir = "Menu/" + typeRef + "/items/" + prefix + '0' + hotTea;
   // }
   dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
-  console.log("prefix is: " + prefix);
-  console.log("dir in random is " + dir);
+  //console.log("prefix is: " + prefix);
+  //console.log("dir in random is " + dir);
   var coffee;
   await firebase.database().ref(dir).once("value", function (snapshot) {
     coffee = snapshot.val();
   });
+  console.log("today coffee is "+ coffee);
   return coffee;
 }

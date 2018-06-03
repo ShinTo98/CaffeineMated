@@ -18,10 +18,14 @@ export class SubmitOrder extends Component {
     super(props);
     this.state = {
       refreshing: false,
+      orderId: this.props.orderId,
+      time: this.props.time,
+      location: this.props.location,
+      order_data: this.props.order_data,
     };
+    //console.log("orderId, " + this.props.orderId);
 
   }
-
 
   updateProgressBar = (num) => {
     let curr = num;
@@ -112,7 +116,53 @@ export class SubmitOrder extends Component {
               <Spinner color="#8E8E93" style = {styles.progressSpin}/>
               */}
             </View>
-            <Text style = {styles.carrierTitle}>
+            
+            <Text style = {styles.orderTitle}>
+              Orders Details
+            </Text>
+            <Text style = {styles.labelTextFirst}>
+              Location:
+            </Text>
+            <Text style = {styles.labelContent}>
+              {this.state.location}
+            </Text>
+            <Text style = {styles.labelTextItems}>
+              Time:
+            </Text>
+            <Text style = {styles.labelContent}>
+              {this.state.time}
+            </Text>
+            <Text style = {styles.labelTextItems}>
+              Items:
+            </Text>
+
+<List 
+dataArray={this.state.order_data}
+
+renderRow={data =>
+<ListItem style={styles.listItems}>
+  <Card style={styles.orderCard}>
+    <View style = {{flexDirection: 'row'}}>
+      <Left>
+        <Thumbnail style={styles.itemImage} source={{uri: data.image}} />
+      </Left>
+      <View style = {styles.cardTextView}>
+        <Text style ={styles.cardPrimaryText}>
+          {data.name}
+        </Text>
+        <Text style ={styles.cardSecondaryText}>
+          {data.itemObject.size}
+        </Text>
+        <Text style ={styles.cardSecondaryText}>
+          ${data.itemObject.price}
+        </Text>
+      </View>
+    </View>
+  </Card>
+</ListItem>}
+/>
+
+<Text style = {styles.carrierTitle}>
               Your Carrier
             </Text>
             <View  style= {styles.carrierView}>
@@ -131,56 +181,17 @@ export class SubmitOrder extends Component {
                   Name:
                 </Text>
                 <Text style = {styles.labelContent}>
-                  John Appleseed
+                  {this.state.time}
                 </Text>
                 <Text style = {styles.labelTextItems}>
                   Phone Number:
                 </Text>
                 <Text style = {styles.labelContent}>
-                  619-358-6666
+                  {this.state.location}
                 </Text>
               </View>
 
             </View>
-            <Text style = {styles.orderTitle}>
-              Orders Details
-            </Text>
-            <Text style = {styles.labelTextFirst}>
-              Location:
-            </Text>
-            <Text style = {styles.labelContent}>
-              Warren Lecture Hall
-            </Text>
-            <Text style = {styles.labelTextItems}>
-              Time:
-            </Text>
-            <Text style = {styles.labelContent}>
-              09:00, Tuesday May 22, 2018
-            </Text>
-            <Text style = {styles.labelTextItems}>
-              Items:
-            </Text>
-
-            <Card style={styles.orderCard}>
-                <View style = {{flexDirection: 'row'}}>
-                <Left>
-                  <Thumbnail style={{marginTop: 15, left: 10}} source={ require('../resources/batman.jpg') } />
-                </Left>
-
-                  <View style = {styles.cardTextView}>
-                    <Text style ={styles.cardPrimaryText}>
-                       Ice Coffee Latte
-                    </Text>
-                    <Text style ={styles.cardSecondaryText}>
-                       Grande
-                    </Text>
-
-                  </View>
-
-                </View>
-            </Card>
-
-
 
           </Content>
         </View>
