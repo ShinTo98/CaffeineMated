@@ -55,12 +55,11 @@ export class ViewHis extends Component {
             let order = await viewOrderDetailById(order_id); 
             hisState[i] = {}; 
             hisState[i].time = order.last_update_time; 
-            hisState[i].loc = order.location; 
+            hisState[i].location = order.location; 
             hisState[i].items = {}; 
             for (let property in order.items) {
                 hisState[i].items[property] = order.items[property]['name'];
             }
-            console.log(hisState[i].items); 
             hisState[i].key = ""+order_id; 
             if (order.buyer_id === user_id) {
                 let otherProf = await getProfileDetailById(order.carrier_id); 
@@ -113,9 +112,10 @@ export class ViewHis extends Component {
                       })}>
                         <Left>
                             <Thumbnail style={styles.itemImage} source={{uri:item.photo}} />
-                            <Text>{item.time}</Text>
                         </Left>
-
+                        <Body>
+                            <Text>{item.time}</Text>
+                        </Body>
                         <Right>
                             <Text>{item.location}</Text>
                             <Text>{item.other}</Text>
