@@ -90,9 +90,11 @@ export class BuyerMain extends Component {
         {/* ------------------------------- Order submitted page ------------------------------- */}
         {this.state.orderSubmitted &&
           <SubmitOrder
-          updateOrderSubmitted={this.props.get('updateOrderSubmitted')}
-          order_data={this.props.get("order_data")}
-          orderId={this.props.get("orderId")}
+            updateOrderSubmitted={this.props.get('updateOrderSubmitted')}
+            order_data={this.props.get("order_data")}
+            time={this.props.get('buyer_whenLogan')}
+            location={this.props.get('buyer_whereLogan')}
+            orderId={this.props.get("orderId")}
           />
         }
         
