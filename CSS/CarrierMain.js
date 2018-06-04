@@ -609,5 +609,9 @@ export const styles = StyleSheet.create({
     marginTop: '2%',
   },
 
+  filler: {
+    height: deviceHeight * 0.1 ,
+  },
+
 }
 )

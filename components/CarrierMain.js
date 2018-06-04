@@ -392,7 +392,7 @@ export class CarrierMain extends Component {
                          <Button style={{height:'100%',width:'100%', backgroundColor:'#FF9052', justifyContent:'center', alignItems:'center'}}
                                       onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
                             <Text style={{color: '#FFFFFF', fontSize: 24, padding: '20%'}}>Confirm</Text>
-                    
+
                          </Button>
                          </FooterTab>
           </Footer>
@@ -675,6 +675,7 @@ export class CarrierMain extends Component {
                             </Text>
                           </Button>
                         }
+                        <Container style={styles.filler}></Container>
                   </ScrollView>
                 </Container>
 
