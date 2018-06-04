@@ -3,7 +3,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F8F8F8',
     alignItems: 'center',
     justifyContent: 'center',
     height: Dimensions.get('window').height
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'center',
-    borderRadius:10,
+    borderRadius:6,
     borderWidth: 2,
     borderColor: '#FF9052',
     //fontSize: 30,
