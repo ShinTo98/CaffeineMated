@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
+import { Grid, Row, Col, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
 import {sortOrdersByDistance, sortOrdersByRequestTime,viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/CarrierMain.js';
 import SubmitOrder from './SubmitOrder.js';
@@ -242,8 +242,8 @@ export class CarrierMain extends Component {
 
             return (
 
-              <Container style={{height: '30%'}}>
-                <Content scrollEnabled={false}>
+              <Container>
+                <Content>
                 <Card>
                 <CardItem header>
 
@@ -251,12 +251,12 @@ export class CarrierMain extends Component {
                 <Icon name="arrow-back" style={styles.icon}/>
                 </Button>
 
-                <Text>Order Detail</Text>
+                <Text style={styles.orderDetailTitle}>Order Detail</Text>
 
                 </CardItem>
 
                 <View style={styles.cardLine}/>
-                <CardItem>
+                <CardItem style={{height: '20%'}}>
                 <Left>
                 {!this.props.get('order_selecting.avatar') &&
                 <Thumbnail large source={require('../resources/avatar.png')}/>
@@ -279,23 +279,31 @@ export class CarrierMain extends Component {
         </Body>
         </Left>
         </CardItem>
-        <View style={styles.cardLine}/>
-        <CardItem>
-        <Text style={styles.card_title}>
-        Location:
-        </Text>
-        <Text>
+
+        <Grid style={styles.headerContainer}>
+        <Row>
+        <Col style={{width: '40%'}}>
+        <Icon name='ios-compass' size={20} style={styles.icons}/>
+        </Col>
+        <Col style={{width: '60%', alignSelf: 'flex-end', alignContent: 'flex-start'}}>
+        <Text style={styles.order_select}>
         {this.props.get('order_selecting.location')}
         </Text>
-        </CardItem>
-        <CardItem style={styles.row_card_item}>
-        <Text style={styles.card_title}>
-        Time:
-        </Text>
-        <Text>
+        </Col>
+        </Row>
+        <Row>
+          <Col style={{width:'40%'}}>
+          <Icon name='ios-time' size={20} style={styles.icons} />
+        </Col>
+        <Col style={{width: '60%', alignSelf: 'flex-end', alignContent: 'flex-start'}}>
+        <Text style={styles.order_select}>
         {this.props.get('order_selecting.request_time')}
         </Text>
-        </CardItem>
+        </Col>
+        </Row>
+        </Grid>
+        <View style={styles.cardLine}/>
+  
         {
           this.props.get("order_selecting.items").map(function (item, key){
              var itemSelf = item.itemObject;
@@ -304,7 +312,7 @@ export class CarrierMain extends Component {
                   <CardItem key={key}>
                       <Body>
                       <Text>{item.name}</Text>
-                      <Image source={{uri: item.image}} / >
+                      <Thumbnail  source={{uri: item.image}}/>
                       {
                         
                         (Object.keys(item.itemObject)).map(function (itemKey,key){
@@ -322,7 +330,6 @@ export class CarrierMain extends Component {
               }
               )
               }
-       
        
        
     <CardItem footer>

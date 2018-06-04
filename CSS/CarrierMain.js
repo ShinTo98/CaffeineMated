@@ -14,8 +14,9 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#c8c8c8',
     borderBottomWidth: 2,
     width: 5*deviceWidth/6,
-    marginTop: 6,
-    marginLeft: 20,
+    marginTop: '0.5%',
+    marginLeft: '5%',
+    marginBottom: '3%'
   },
 
   Wherebutton: {
@@ -35,6 +36,9 @@ export const styles = StyleSheet.create({
   card_title: {
     color: '#FF9052',
     fontSize: 20,
+    alignSelf: 'flex-start',
+    marginLeft: '8%',
+    
   },
 
   cardLine: {
@@ -371,5 +375,30 @@ export const styles = StyleSheet.create({
   },
   list: {
     height: deviceHeight*0.50,
+  },
+
+  orderDetailTitle:{
+    fontSize: 28,
+    color: '#FF9052'
+  },
+
+  order_select:{
+    fontSize: 18,
+    alignItems: 'flex-start'
+
+  },
+
+  headerContainer:{
+    width: 5*deviceWidth/6,
+    flexWrap: 'wrap',
+  },
+
+  icons:{
+    marginLeft: '15%',
+    color: '#ff9052',
+    width: '10%'
   }
+
+
+
 });
