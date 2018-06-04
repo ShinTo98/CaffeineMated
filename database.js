@@ -245,6 +245,12 @@ export async function saveOrder (order) {
  */
 export function cancelByBuyer(order_id) {
     let orderRef = firebase.database().ref("Orders/items/" + order_id);
+
+    var user_id = getCurrentUserUID();
+    removeOrderStatusChangeListener(order_id);
+    var ref = firebase.database().ref("Profile/" + user_id);
+    ref.child("current_order_as_buyer").set('-1');
+
     orderRef.once('value', dataSnapshot => {
       if (dataSnapshot.val().status === 1) {
         orderRef.child('status').set(-1);
@@ -280,7 +286,9 @@ export async function viewPendingOrders() {
   const firebaseRef = firebase.database().ref("Orders");
 
   var pendingOrders;
-  await firebaseRef.once('value', function(snapshot){
+  let cur_id = getCurrentUserUID();
+
+    await firebaseRef.once('value', function(snapshot){
 
     // Find the value of Orders field
     let orders = snapshot.val();
@@ -294,7 +302,7 @@ export async function viewPendingOrders() {
 
       // check if it is a pending order
       let order = orders[order_id];
-      if( order.status == 1){
+      if( order.status == 1 && order.buyer_id != cur_id){
         pendingOrders.push(order_id);
       }
 
@@ -879,10 +887,10 @@ export function removeOrderStatusChangeListener(orderId){
 
 function statusUpdated(snapshot) {
     var changedChild = snapshot.val();
-    if (changedChild === 2　&& changedChild != 4) {
+    if (changedChild === 2　&& changedChild != 4 && changedChild != -1) {
         Alert.alert("Notification", "Someone just accepted your order!\n Please refresh the page!");
     }
-    else if (changedChild != 1　&& changedChild != 4) {
+    else if (changedChild != 1　&& changedChild != 4 && changedChild != -1) {
         Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
     }
 }
