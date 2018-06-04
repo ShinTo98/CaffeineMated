@@ -113,7 +113,7 @@ export class PlaceChoose extends Component {
               </Container>
               <Footer>
                 <FooterTab>
-                  <Button style={styles.placeCancelButton} onPress={() => this.changewhereLogan(this.props.get(0))}>
+                  <Button style={styles.placeCancelButton} onPress={() => this.props.placeChange(this.props.main, 'Specify a place')}>
                     <Text style={styles.placeCancelText}>Cancel</Text>
                   </Button>
                 </FooterTab>
