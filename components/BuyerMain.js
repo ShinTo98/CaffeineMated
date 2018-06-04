@@ -61,10 +61,9 @@ export class BuyerMain extends Component {
         var id = await createOrder(this.props.get('order_data'),
                              this.props.get('buyer_whereLogan'),
                              this.props.get('buyer_whenLogan'));
-
+        this.setState({orderSubmitted: true});
         this.props.change('orderId', id);
         this.props.change('orderSubmitted', true);
-        this.setState({orderSubmitted: true});
       }
     }
 
