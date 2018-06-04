@@ -600,14 +600,15 @@ export async function changeDefaultMode(id, mode) {
  * Name: getDefaultMode
  * Parameters: void
  * Return: N/A
- * get deault mode 
+ * get deault mode
  */
 
  export async function getDefaultMode(){
+   var defaultMode;
    let profileId =  getCurrentUserUID();
    let profileRef = firebase.database().ref("Profile/" + profileId +"/default_mode");
    await profileRef.once("value", dataSnapshot => {
-     var defaultMode = dataSnapshot.val();
+     defaultMode = dataSnapshot.val();
    });
    console.log("this is getDefaultMode " + defaultMode);
 
@@ -763,8 +764,17 @@ export async function changeUserName(user_id, newName){
  */
 export async function setPhoneNum(phoneNum) {
   let profile_id = getCurrentUserUID();
-  let dir = "Profile/" + profile_id;
+  let dir = firebase.database().ref("Profile/" + profile_id);
   dir.child("phone").set(phoneNum);
+}
+
+
+export function getCurrentUserEmail(){
+    var currentUser = firebase.auth().currentUser;
+    if (currentUser != null){
+        return currentUser.email;
+    }
+    return -1;
 }
 
 /*
