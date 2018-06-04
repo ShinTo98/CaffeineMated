@@ -129,11 +129,23 @@ export class SubmitOrder extends Component {
         this.setState({progressText: 'Order Progress: Your coffee is on its way!'});
         this.setState({buttonText: 'Complete Order'});
         this.setState({disableButton: false});
+        this.setState({carrierId: orderDetail.carrier_id});
+        var carrierProfile = await getProfileById(orderDetail.carrier_id);
+        this.setState({carrierName: carrierProfile.username});
+        this.setState({carrierRate : carrierProfile.rate});
+        this.setState({carrierPhoto: carrierProfile.photo});
+        this.setState({carrierPhone: carrierProfile.phone});
         break;
       case 5:
         this.setState({progressText: 'Order Progress: Your order is complete!'});
         this.setState({buttonText: 'Complete Order'});
         this.setState({disableButton: false});
+        this.setState({carrierId: orderDetail.carrier_id});
+        var carrierProfile = await getProfileById(orderDetail.carrier_id);
+        this.setState({carrierName: carrierProfile.username});
+        this.setState({carrierRate : carrierProfile.rate});
+        this.setState({carrierPhoto: carrierProfile.photo});
+        this.setState({carrierPhone: carrierProfile.phone});
         break;
     }
   }
@@ -149,7 +161,6 @@ export class SubmitOrder extends Component {
       this.setState({completed: true});
       this.props.change('order_data', []);
       this.props.change('totalPrice', 0);
-      this.props.change('order_id', "");
       this.props.change('buyer_whenLogan', 'Pick a time');
       this.props.change('buyer_whereLogan','Specify a place');
       this.props.change('order_exists', false);
