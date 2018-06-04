@@ -607,7 +607,6 @@ export const styles = StyleSheet.create({
     height: '30%',
     width: 6*deviceWidth/7,
     alignSelf: 'center',
-    marginTop: '2%',
   },
   deliver_grid: {
     alignSelf:'center',

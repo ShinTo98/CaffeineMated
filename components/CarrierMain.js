@@ -665,17 +665,7 @@ export class CarrierMain extends Component {
                         }
                         )
                         }
-                        {!this.props.get('delivering') &&
-                          <Button
-                            style={styles.buttons_cancel}
-                            onPress={() => this.cancelCarrier() }
-                          >
-                            <Text style={styles.cancelText}>
-                              Cancel
-                            </Text>
-                          </Button>
-                        }
-                        <Container style={styles.filler}></Container>
+                        
                   </ScrollView>
                 </Container>
 
