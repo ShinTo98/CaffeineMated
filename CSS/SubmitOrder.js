@@ -152,6 +152,10 @@ export const styles = StyleSheet.create({
     fontWeight: '300',
     fontStyle: 'italic',
     alignSelf: 'flex-end'
+  },
+  itemImage: {
+    marginTop: 15,
+    left: 10
   }
 
 });
