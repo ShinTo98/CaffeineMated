@@ -65,6 +65,7 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
+      updateMode: true
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -267,12 +268,18 @@ export class Main extends Component {
   }
 
   async componentWillMount() {
+
+    if( !this.state.updateMode){
     var test = await getDefaultMode();
     if( test == "buyer"){
         this.setState({seg: 1});
     }else{
         this.setState({seg:2});
     }
+    this.setState({updateMode: true});
+  }
+
+
     console.log("this is what test has in main" + test);
     //console.log("this is from main about get function" + this.buyerMainGet(whereLogan));
     console.log(this.state.seg)
