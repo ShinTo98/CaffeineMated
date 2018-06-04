@@ -242,15 +242,9 @@ export class CarrierMain extends Component {
 
             return (
 
-<<<<<<< HEAD
-              <Container >
-                <Content>
-                <Card>
-=======
               <Container>
                 <ScrollView >
                 <Card >
->>>>>>> 5ae51710ff075bdcc48a44098def3f7ebad6c4b8
                 <CardItem header>
 
                 <Button transparent onPress={() => this.props.change('selecting_order', false)}>
