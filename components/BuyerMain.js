@@ -140,7 +140,6 @@ export class BuyerMain extends Component {
                 </View>
 
                 {this.props.get("order_exists") &&
-                <View style={styles.list}>
                 <List contentContainerStyle={styles.itemList} dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
 
                   renderRow={data =>
@@ -173,7 +172,6 @@ export class BuyerMain extends Component {
                   </Button>}
                   rightOpenValue={-75}
                 />
-                </View>
                 }
 
                 {/* ------------------------- No orders ------------------------- */}
