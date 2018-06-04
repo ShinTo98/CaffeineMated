@@ -329,6 +329,7 @@ export class Main extends Component {
           selection: this.props.navigation.getParam('selection'),
           itemObject: this.props.navigation.getParam('itemObject'),
         });
+        this.props.navigation.setParams({ update: false })
       }
       var newTotalPrice = 0;
       for(var i = 0; i < latest.length; i++) {

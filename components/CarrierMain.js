@@ -345,10 +345,10 @@ export class CarrierMain extends Component {
 );
 }else if(!this.state.rating && !this.props.get('accepted')){
     return(
-    <Container style = {{height: '40%'}}>
+    <Container style = {{height: '100%'}}>
     <View style= {styles.banner}>
 
-    <Item regular style={styles.textInput}>
+    <View style={styles.textInput}>
     <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
     <Icon style={styles.Whenwheretext} name='alarm' />
     <Text style={styles.Whenwheretext}>{this.props.get('carrier_whenLogan')}</Text>
@@ -362,22 +362,21 @@ export class CarrierMain extends Component {
     is24Hour={true}
     timeZoneOffsetInMinutes={-7 * 60}
     />
-    </Item>
-    <Item regular style={styles.textInput}>
+    </View>
+    <View style={styles.textInput}>
     <Button iconRight style={styles.Wherebutton} onPress={()=>{this.props.change('carrier_choosePlaces', true)}}>
     <Text style={styles.Whenwheretext}>{this.props.get('carrier_whereLogan')}</Text>
     <Icon style={styles.Whenwheretext} name='navigate' />
     </Button>
-    </Item>
+    </View>
 
 
 
     {/* ---------------------------------- Request List ---------------------------------- */}
-    <View regular style={styles.requestTitleItem}>
+    <View style={styles.requestItem}>
     <Text style = {styles.requestTitleText}>
     Requests
     </Text>
-    </View>
 
 
     <Container scrollEnabled={false} style={styles.requestItem}>
@@ -436,6 +435,7 @@ export class CarrierMain extends Component {
         }
 
         </Container>
+    </View>
 
 
         {/* ---------------------------------- Accept Button ---------------------------------- */}

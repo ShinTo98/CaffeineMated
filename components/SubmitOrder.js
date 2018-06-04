@@ -28,6 +28,7 @@ export class SubmitOrder extends Component {
       carrierName: '',
       carrierRate: '',
       carrierPhoto: '',
+      carrierPhone: '',
       carrierAccepted: false,
       buttonText: 'Cancel Order',
       disableButton: false,
@@ -121,6 +122,7 @@ export class SubmitOrder extends Component {
         this.setState({carrierName: carrierProfile.username});
         this.setState({carrierRate : carrierProfile.rate});
         this.setState({carrierPhoto: carrierProfile.photo});
+        this.setState({carrierPhone: carrierProfile.phone});
         this.setState({carrierAccepted: true});
         break;
       case 3:
@@ -130,6 +132,8 @@ export class SubmitOrder extends Component {
         break;
       case 5:
         this.setState({progressText: 'Order Progress: Your order is complete!'});
+        this.setState({buttonText: 'Complete Order'});
+        this.setState({disableButton: false});
         break;
     }
   }
@@ -141,6 +145,7 @@ export class SubmitOrder extends Component {
       this.props.orderCancelled();
     } else if (this.state.buttonText === 'Complete Order') {
       alert('Order completed!');
+      await completeOrder(this.state.orderId);
       this.setState({completed: true});
       //return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} change={this.OrderCompletedChange}/>
     }
@@ -230,7 +235,7 @@ renderRow={data =>
                 <Thumbnail style={{alignSelf:'center'}} large source={ require('../resources/batman.jpg') } />
 
                 <View style= {styles.carrierStars}>
-                  {this.updateStars(4.6)}
+                  {this.updateStars(this.state.carrierRate)}
                 </View>
               </View>
 
@@ -242,10 +247,10 @@ renderRow={data =>
                   {this.state.carrierName}
                 </Text>
                 <Text style = {styles.labelTextItems}>
-                  Rate:
+                  Phone Number:
                 </Text>
                 <Text style = {styles.labelContent}>
-                  {this.updateStars(this.state.carrierRate)}
+                  {this.state.carrierPhone}
                 </Text>
               </View>
 

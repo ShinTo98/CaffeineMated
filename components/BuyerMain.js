@@ -61,10 +61,9 @@ export class BuyerMain extends Component {
         var id = await createOrder(this.props.get('order_data'),
                              this.props.get('buyer_whereLogan'),
                              this.props.get('buyer_whenLogan'));
-
+        this.setState({orderSubmitted: true});
         this.props.change('orderId', id);
         this.props.change('orderSubmitted', true);
-        this.setState({orderSubmitted: true});
       }
     }
 
@@ -95,7 +94,7 @@ export class BuyerMain extends Component {
         <Container style = {styles.Container}>
           <View style= {styles.banner}>
             {/* ------------------------ When & Where section -------------------------- */}
-            <Item regular style={styles.textInput}>
+            <View style={styles.textInput}>
               <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
                 <Icon style={styles.Whenwheretext} name='alarm' />
                 <Text style={styles.Whenwheretext}>{this.props.get("buyer_whenLogan")}</Text>
@@ -109,16 +108,16 @@ export class BuyerMain extends Component {
                 is24Hour={true}
                 timeZoneOffsetInMinutes={-7 * 60}
               />
-            </Item>
+            </View>
 
-            <Item regular style={styles.textInput}>
+            <View style={styles.textInput}>
               <Button iconRight style={styles.Wherebutton} onPress={()=> {
                 this.props.change("buyer_choosePlaces")}
               }>
                 <Text style={styles.Whenwheretext}>{this.props.get("buyer_whereLogan")}</Text>
                 <Icon style={styles.Whenwheretext} name='navigate' />
               </Button>
-            </Item>
+            </View>
 
             {/* ------------------------------- Menu button section ------------------------------- */}
             <View style={styles.textInput}>
