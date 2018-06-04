@@ -374,12 +374,14 @@ export class CarrierMain extends Component {
 
     {/* ---------------------------------- Request List ---------------------------------- */}
     <View style={styles.requestItem}>
-    <Text style = {styles.requestTitleText}>
-    Requests
-    </Text>
+      <View style={styles.requestTitleText}>
+        <Text style = {styles.requestText}>
+          Requests
+        </Text>
+      </View>
 
 
-    <Container scrollEnabled={false} style={styles.requestItem}>
+   <Container scrollEnabled={false}> {/*style={styles.requestItem}>*/}
     {loading &&
         <Content refreshControl={
             <RefreshControl
@@ -387,17 +389,42 @@ export class CarrierMain extends Component {
             onRefresh={this._onRefresh.bind(this)}
             />
         }>
+        <View style={styles.list}>
         <List
-        scrollEnabled={false}
+        //scrollEnabled={false}
         dataArray={this.props.get("request_data")}
-        style= {styles.requestList}
+        contentContainerStyle= {styles.requestList}
 
 
         renderRow={data =>
             <ListItem
             onPress={() => this.changeStates(["order_selecting","selecting_order"], [data, true])}
             style = {((data.id == this.props.get("selected_order")? styles.selectedCell: styles.normalCell))}>
-            <Left style={styles.list_left_container}>
+            <View style = {{flexDirection: 'row'}}>
+
+              <Left>
+                { !data.avatar &&
+                              <Thumbnail style={styles.itemImage} source={require('../resources/avatar.png')}/>
+                          }
+                          { data.avatar &&
+                              <Thumbnail style={styles.itemImage} source={{uri: data.avatar}}/>
+                          }
+              </Left>
+
+              <View style = {styles.cardTextView}>
+                <Text style ={styles.cardPrimaryText}>
+                  {data.buyer_name}
+                </Text>
+                <Text style ={styles.cardSecondaryText}>
+                  {data.location}
+                </Text>
+                <Text style ={styles.cardSecondaryText}>
+                  {data.request_time}
+                </Text>
+              </View>
+            </View>
+
+            {/*<Left style={styles.list_left_container}>
             { !data.avatar &&
                 <Thumbnail  source={require('../resources/avatar.png')}/>
             }
@@ -420,17 +447,17 @@ export class CarrierMain extends Component {
             <Text style={styles.list_text}>
             {data.request_time}
             </Text>
-            </Body>
+            </Body>*/}
 
 
             </ListItem>}
-            >
-            </List>
+            />
+            </View>
             </Content>
         }
         {
             !loading && <Content>
-            <Spinner color='#FF9052' />
+            <Spinner style={{marginLeft: '53%'}} color='#FF9052' />
             </Content>
         }
 
@@ -443,11 +470,11 @@ export class CarrierMain extends Component {
         <View style={styles.acceptButtonItem}>
         <Button
         disabled = {!this.props.get('request_selected')}
-        style={styles.buttons_accept}
+        style={this.props.get('request_selected')? styles.buttons_accept : styles.buttons_accept_disabled}
         color="#ffffff"
         onPress={() => this.accept() }
         >
-        <Text style={this.props.get('request_selected')? styles.menuText: styles.menuText_disabled}>
+        <Text style={styles.menuText}>
         Accept
         </Text>
         </Button>
