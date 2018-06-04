@@ -2,16 +2,18 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+const deviceWidthScale = 0.80;
+const deviceHeightScale = 0.07;
 
 export const styles = StyleSheet.create({
   container:{
     borderColor: '#c8c8c8',
     borderWidth: 2,
     borderRadius: 6,
-    flex: 0.7,
-    width: 4*deviceWidth/5,
+    flex: 0.74,
+    width: deviceWidth*deviceWidthScale,
     alignSelf: 'center',
-    marginTop: 10,
+    //marginTop: '1%',
     backgroundColor: '#FFFFFF',
   },
   progressBarView:{
@@ -78,10 +80,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 300,
+    width: deviceWidth*deviceWidthScale,
+    height:deviceHeight*deviceHeightScale,
     padding: 5,
     borderWidth: 2,
-    height:45,
     borderColor: '#ff9052',
     marginTop: 10,
     alignSelf: 'center',
@@ -122,11 +124,13 @@ export const styles = StyleSheet.create({
   labelTextFirst: {
     fontSize: 12,
     fontWeight: '300',
-    left: 5
+    left: 5,
+    marginTop: '2%'
   },
   labelContent: {
     fontSize: 18,
-    left: 30
+    left: 30,
+    marginTop: '2%'
   },
   labelTextItems: {
     fontSize: 12,
@@ -156,6 +160,29 @@ export const styles = StyleSheet.create({
   itemImage: {
     marginTop: 15,
     left: 10
-  }
+  },
+  orderDetailText:{
+    alignSelf: 'center',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    marginTop: '2%',
+    //marginBottom: '2%',
+    width: '100%'
+  },
+  orderText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: '#ff9052',
+    marginBottom: '2%',
+  },
+  listItems : {
+    alignSelf : 'center',
+    alignItems : 'center',
+    width: '100%',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    justifyContent: 'center',
+    width : deviceWidth*deviceWidthScale
+  },
 
 });
