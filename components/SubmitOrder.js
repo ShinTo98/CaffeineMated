@@ -129,11 +129,23 @@ export class SubmitOrder extends Component {
         this.setState({progressText: 'Order Progress: Your coffee is on its way!'});
         this.setState({buttonText: 'Complete Order'});
         this.setState({disableButton: false});
+        this.setState({carrierId: orderDetail.carrier_id});
+        var carrierProfile = await getProfileById(orderDetail.carrier_id);
+        this.setState({carrierName: carrierProfile.username});
+        this.setState({carrierRate : carrierProfile.rate});
+        this.setState({carrierPhoto: carrierProfile.photo});
+        this.setState({carrierPhone: carrierProfile.phone});
         break;
       case 5:
         this.setState({progressText: 'Order Progress: Your order is complete!'});
         this.setState({buttonText: 'Complete Order'});
         this.setState({disableButton: false});
+        this.setState({carrierId: orderDetail.carrier_id});
+        var carrierProfile = await getProfileById(orderDetail.carrier_id);
+        this.setState({carrierName: carrierProfile.username});
+        this.setState({carrierRate : carrierProfile.rate});
+        this.setState({carrierPhoto: carrierProfile.photo});
+        this.setState({carrierPhone: carrierProfile.phone});
         break;
     }
   }
@@ -147,7 +159,11 @@ export class SubmitOrder extends Component {
       alert('Order completed!');
       await completeOrder(this.state.orderId);
       this.setState({completed: true});
-      //return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} change={this.OrderCompletedChange}/>
+      this.props.change('order_data', []);
+      this.props.change('totalPrice', 0);
+      this.props.change('buyer_whenLogan', 'Pick a time');
+      this.props.change('buyer_whereLogan','Specify a place');
+      this.props.change('order_exists', false);
     }
   }
 
@@ -275,7 +291,11 @@ renderRow={data =>
       </Container>
     );
   } else if(this.state.completed) {
-    return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} fromBuyer={true} buyer_change={this.OrderCompletedChange}/>
+    return <OrderCompleted user_id={this.state.carrierId} 
+            order_id={this.state.orderId} 
+            user_name={this.state.carrierName} 
+            isBuyer={false} img={this.state.carrierPhoto} 
+            fromBuyer={true} buyer_change={this.OrderCompletedChange}/>
   }
   }
 }

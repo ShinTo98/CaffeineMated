@@ -3,12 +3,12 @@ import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-    apiKey: "AIzaSyBxsExx8hsNe6OyQCkS-O1lrzg4zVXgNoc",
-    authDomain: "cmdatabase-restore.firebaseapp.com",
-    databaseURL: "https://cmdatabase-restore.firebaseio.com",
-    projectId: "cmdatabase-restore",
-    storageBucket: "cmdatabase-restore.appspot.com",
-    messagingSenderId: "486235795755"
+  apiKey: "AIzaSyBxsExx8hsNe6OyQCkS-O1lrzg4zVXgNoc",
+  authDomain: "cmdatabase-restore.firebaseapp.com",
+  databaseURL: "https://cmdatabase-restore.firebaseio.com",
+  projectId: "cmdatabase-restore",
+  storageBucket: "cmdatabase-restore.appspot.com",
+  messagingSenderId: "486235795755"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -534,15 +534,6 @@ export async function sortOrdersByDistance(origin) {
   return ordersResult;
 }
 
-export async function getOrderRequestTime(order_id) {
-  let dir = "Orders/items/" + order_id;
-  var location;
-  await firebase.database().ref(dir).once("value", function (snapshot){
-    location = snapshot.val().location;
-    location = location.split(' ').join('%20');
-  });
-  return location;
-}
 
 export async function sortOrdersByRequestTime() {
    let orders = await viewPendingOrders();
