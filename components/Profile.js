@@ -24,7 +24,8 @@ import {
   Spinner
 } from 'native-base';
 import {styles} from '../CSS/Profile.js';
-import {getProfileById, changeUserName, getCurrentUserUID, setPhoneNum, resetPassword} from './../database.js';
+import {getProfileById, changeUserName, getCurrentUserUID, setPhoneNum, resetPassword,
+  getCurrentUserEmail} from './../database.js';
 
 
 export class Profile extends Component {
@@ -40,7 +41,7 @@ export class Profile extends Component {
       name: '',
       placePhone: '',
       phone: '',
-      email: '666@ucsd.edu',
+      email: '',
       password: '••••••',
       profilePic: "../resources/batman.jpg",
       profileData: [],
@@ -56,6 +57,7 @@ export class Profile extends Component {
   async getProfile() {
     this.setState({user_id: await getCurrentUserUID()});
     this.setState({profileData: await getProfileById(this.state.user_id)});
+    this.setState({email: await getCurrentUserEmail()})
     this.setState({
       placeName: this.state.profileData["username"],
       placePhone: this.state.profileData["phone"],
