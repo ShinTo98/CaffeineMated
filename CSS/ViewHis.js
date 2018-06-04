@@ -20,18 +20,19 @@ export const styles = StyleSheet.create({
     }, 
     leftText: {
         width: Dimensions.get('window').width * 0.45,
+        fontWeight: '100', 
         marginLeft: '3%', 
         marginTop: '4%'
     }, 
     leftText2: { 
         width: Dimensions.get('window').width * 0.45,
         fontSize: 15, 
-        fontWeight: '100', 
         marginLeft: '3%', 
         marginTop: '4%'
     }, 
     rightText: { 
         width: Dimensions.get('window').width * 0.3, 
+        fontWeight: '100', 
         marginRight: "-2%"
     }, 
 

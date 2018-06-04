@@ -24,7 +24,8 @@ import {
   Spinner
 } from 'native-base';
 import {styles} from '../CSS/Profile.js';
-import {getProfileById, changeUserName, getCurrentUserUID} from './../database.js';
+import {getProfileById, changeUserName, getCurrentUserUID, setPhoneNum, resetPassword,
+  getCurrentUserEmail} from './../database.js';
 
 
 export class Profile extends Component {
@@ -38,8 +39,9 @@ export class Profile extends Component {
     this.state = {
       placeName:'',
       name: '',
-      phone: '805-666-6666',
-      email: '666@ucsd.edu',
+      placePhone: '',
+      phone: '',
+      email: '',
       password: '••••••',
       profilePic: "../resources/batman.jpg",
       profileData: [],
@@ -55,8 +57,10 @@ export class Profile extends Component {
   async getProfile() {
     this.setState({user_id: await getCurrentUserUID()});
     this.setState({profileData: await getProfileById(this.state.user_id)});
+    this.setState({email: await getCurrentUserEmail()})
     this.setState({
       placeName: this.state.profileData["username"],
+      placePhone: this.state.profileData["phone"],
       rating: Math.round(this.state.profileData["rate"]*2)/2,
       loaded: true,
     })
@@ -69,23 +73,37 @@ export class Profile extends Component {
   }
 
   async updateProfile() {
+    var changed = false;
+    if (this.state.name != '' || this.state.phone != '') {
+      changed = true;
+    }
 
-    if (this.state.name == '') {
-      alert('You cannot update an empty name!');
-    } else {
+    if (this.state.name != '') {
       var result = await changeUserName(this.state.user_id, this.state.name);
       this.setState({
         placeName: this.state.name,
         name: '',
       })
-      if(result == 0) {
-        alert("Update Successful!");
-      } else if (result == -1) {
-        alert("Update Failed");
-      }
+    }
+
+    if (this.state.phone != '') {
+      await setPhoneNum(this.state.phone);
+      this.setState({
+        placePhone: this.state.phone,
+        phone: '',
+      })
+    }
+
+    if(changed == true) {
+      alert ('Update Successful!')
+    } else {
+      alert('You cannot update empty fields!');
     }
   }
 
+  async updatePassword() {
+    await resetPassword();
+  }
 
   render() {
 
@@ -151,7 +169,9 @@ export class Profile extends Component {
                 </Item>
                 <Item stackedLabel>
                   <Label>Phone Number</Label>
-                  <Input placeholder={this.state.phone}/>
+                  <Input placeholder={this.state.phone}
+                  onChangeText={(text) => this.setState({phone: text})}
+                  placeholder={this.state.placePhone}/>
                 </Item>
                 <Item stackedLabel>
                   <Label>Email</Label>
@@ -160,11 +180,12 @@ export class Profile extends Component {
                   />
                 </Item>
                 <Item stackedLabel last>
-                  <Label>Password</Label>
-                  <Input placeholder={this.state.password}
-                  keyboardType='visible-password'
-                  secureTextEntry= {true}
-                  />
+                <Button
+                  style={{marginTop: 10, backgroundColor: "#FF9052"}}
+                  onPress={() => this.updatePassword()}
+                >
+                  <Text>Change Password</Text>
+                </Button>
                 </Item>
               </Form>
             </Container>

@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast, Footer, FooterTab } from 'native-base';
-import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
+import {checkPlace, viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -20,12 +20,21 @@ export class PlaceChoose extends Component {
       this.changewhereLogan = this.changewhereLogan.bind(this);
     }
 
-    changewhereLogan(location){
-      // change the state.whereLogan in buyerMain
-      this.props.placeChange(this.props.main, location);
-      // change the popup state in buyerMain
-      this.props.placeChange(this.props.main, location);
+    async changewhereLogan(location){
+
+      var check = await checkPlace(location);
+      if( check == true){
+          // change the state.whereLogan in buyerMain
+          this.props.placeChange(this.props.main, location);
+          // change the popup state in buyerMain
+          this.props.placeChange(this.props.main, location);
+      }else{
+          alert("Please choose another location on UCSD");
+      }
     }
+  
+
+
 
     render(){
         return(
