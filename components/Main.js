@@ -71,8 +71,7 @@ export class Main extends Component {
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
-
-
+    this.orderCancelled= this.orderCancelled.bind(this);
   }
 
   buyerMainChange(id, value){
@@ -274,7 +273,7 @@ export class Main extends Component {
     if( test == "buyer" || test == "Buyer"){
         this.setState({seg: 1});
     }else{
-        this.setState({seg:2});
+        this.setState({seg: 2});
     }
     this.setState({updateMode: true});
   }
@@ -340,6 +339,10 @@ export class Main extends Component {
   }
 
 
+  orderCancelled = () => {
+    this.setState({orderSubmitted: false});
+    alert('Order Cancelled');
+  }
 
   async placeChooseChange(id, location){
     if( id == 0){
@@ -435,8 +438,11 @@ export class Main extends Component {
             navigation = {this.props.navigation}/>
           }
           {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && <SubmitOrder
+            get = {this.buyerMainGet}
+            change = {this.buyerMainChange}
             updateOrderSubmitted={this.state.updateOrderSubmitted}
             order_data={this.state.order_data}
+            orderCancelled={this.orderCancelled}
             time={this.state.buyer_whenLogan}
             location={this.state.buyer_whereLogan}
             orderId={this.state.orderId}
