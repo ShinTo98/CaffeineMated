@@ -114,7 +114,7 @@ export class BuyerMain extends Component {
               <Button iconRight style={styles.Wherebutton} onPress={()=> {
                 this.props.change("buyer_choosePlaces")}
               }>
-                <Text style={styles.Whenwheretext}>{this.props.get("buyer_whereLogan")}</Text>
+                <Text numberOfLines={1} style={styles.Whenwheretext2}>{this.props.get("buyer_whereLogan")}</Text>
                 <Icon style={styles.Whenwheretext} name='navigate' />
               </Button>
             </View>
