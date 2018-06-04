@@ -929,7 +929,7 @@ export async function randomCoffee() {
   await firebase.database().ref(dir).once("value", function (snapshot) {
     coffee = snapshot.val();
   });
-  console.log("today coffee is "+ coffee);
+  //console.log("today coffee is "+ coffee);
   return coffee;
 }
 
