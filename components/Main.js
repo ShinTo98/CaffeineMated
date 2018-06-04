@@ -334,16 +334,17 @@ export class Main extends Component {
           selection: this.props.navigation.getParam('selection'),
           itemObject: this.props.navigation.getParam('itemObject'),
         });
-        this.props.navigation.setParams({ update: false })
+        var newTotalPrice = 0;
+        for(var i = 0; i < latest.length; i++) {
+          newTotalPrice += latest[i].itemObject.price;
+        }
+        newTotalPrice = newTotalPrice.toFixed(2);
+        this.setState({order_data: latest});
+        this.setState({totalPrice: newTotalPrice});
+        this.setState({order_exists: true});
+        this.props.navigation.setParams({ update: false }); 
       }
-      var newTotalPrice = 0;
-      for(var i = 0; i < latest.length; i++) {
-        newTotalPrice += latest[i].itemObject.price;
-      }
-      newTotalPrice = newTotalPrice.toFixed(2);
-      this.setState({order_data: latest});
-      this.setState({totalPrice: newTotalPrice});
-      this.setState({order_exists: true});
+
       //console.log(this.state.order_data);
     }
 

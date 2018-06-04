@@ -48,7 +48,7 @@ export class Settings extends Component {
   }
 
 
-  onValueChange(value: string) {
+  onValueChange(value) {
     console.log(value);
     if (value != 'Cancel') {
       this.setState({

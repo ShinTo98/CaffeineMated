@@ -185,18 +185,9 @@ export class SubmitOrder extends Component {
               onRefresh={this._onRefresh.bind(this)}
             />
           }>
-            <View style = {styles.progress}>
-            {/*
-              <Text style = {styles.progressSpinLabel}>
-                Waiting for carrier to accept...
-              </Text>
-              <Spinner color="#8E8E93" style = {styles.progressSpin}/>
-              */}
+            <View style={styles.orderDetailText}> 
+              <Text style={styles.orderText}> Order Details </Text>
             </View>
-
-            <Text style = {styles.orderTitle}>
-              Orders Details
-            </Text>
             <Text style = {styles.labelTextFirst}>
               Location:
             </Text>
@@ -218,7 +209,6 @@ dataArray={this.state.order_data}
 
 renderRow={data =>
 <ListItem style={styles.listItems}>
-  <Card style={styles.orderCard}>
     <View style = {{flexDirection: 'row'}}>
       <Left>
         <Thumbnail style={styles.itemImage} source={{uri: data.image}} />
@@ -235,7 +225,6 @@ renderRow={data =>
         </Text>
       </View>
     </View>
-  </Card>
 </ListItem>}
 />
 
