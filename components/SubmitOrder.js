@@ -148,6 +148,11 @@ export class SubmitOrder extends Component {
       await completeOrder(this.state.orderId);
       this.setState({completed: true});
       this.props.change('order_data', []);
+      this.props.change('totalPrice', 0);
+      this.props.change('order_id', "");
+      this.props.change('buyer_whenLogan', 'Pick a time');
+      this.props.change('buyer_whereLogan','Specify a place');
+      this.props.change('order_exists', false);
     }
   }
 

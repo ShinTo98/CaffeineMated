@@ -242,11 +242,7 @@ export class CarrierMain extends Component {
 
             return (
 
-<<<<<<< HEAD
               <Container >
-=======
-              <Container>
->>>>>>> de3bb39540c6dacaec701ea91e4e7c392da9ddff
                 <Content>
                 <Card>
                 <CardItem header>

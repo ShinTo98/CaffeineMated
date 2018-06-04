@@ -89,7 +89,12 @@ export class Main extends Component {
       this.setState({orderId: value});
     } else if( id == "orderSubmitted") {
       this.setState({orderSubmitted: value});
+    } else if( id == "buyer_whereLogan") {
+      this.setState({buyer_whereLogan : value});
+    } else if (id == "order_exists" ) {
+      this.setState({order_exists : value});
     }
+    
   }
 
   buyerMainGet(id){
@@ -292,7 +297,7 @@ export class Main extends Component {
 
       }
       this.setState({updateMode: true});
-  }
+    }
 
 
     console.log("this is what test has in main" + test);
@@ -409,7 +414,7 @@ export class Main extends Component {
     if( this.state.buyer_choosePlaces ){
       return(
         <PlaceChoose get={this.placeChooseGet} placeChange={this.placeChooseChange} main={0}/>)
-      }else if( this.state.carrier_choosePlaces ){
+    }else if( this.state.carrier_choosePlaces ){
       return (
         <PlaceChoose get={this.placeChooseGet} placeChange={this.placeChooseChange} main ={1}/>
       )
