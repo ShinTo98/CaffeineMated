@@ -5,12 +5,13 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback, 
+  Keyboard
 } from 'react-native';
 import { Container, Header, Content, Button, Text, Form, Item, Input, Label } from 'native-base';
 import {styles} from '../CSS/Login.js';
-import {StackNavigator} from 'react-navigation'
-import {userLogin} from '../database.js'
+import {StackNavigator} from 'react-navigation'; 
+import {userLogin} from '../database.js'; 
 
 export class Login extends Component {
 
@@ -35,13 +36,17 @@ export class Login extends Component {
 
   // Function called when user clicked the login button
   async login() {
+    Keyboard.dismiss(); 
     var result = await userLogin(this.state.email, this.state.password);
-    if(result === 0) {
-      alert("Login Successful!");
-      this.props.navigation.navigate('main');
-    } else {
-      alert(result);
-    }
+    var thisPage = this; 
+    setTimeout(function(){
+      if(result === 0) {
+        alert("Login Successful!");
+        thisPage.props.navigation.navigate('main');
+      } else {
+        alert(result);
+      }
+   }, 1)
   }
 
   render() {
