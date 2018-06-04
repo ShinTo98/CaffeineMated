@@ -23,6 +23,9 @@ export class CarrierMain extends Component {
             rating: false,
             rating_order: undefined,
             refreshing: false,
+            progressText: 'Order Progress: Buying the drink',
+            progressNum: 1,
+
         }
         this.createStars = this.createStars.bind(this);
         this.changeStates = this.changeStates.bind(this);
@@ -51,6 +54,7 @@ export class CarrierMain extends Component {
         this.changeStates(["accepted", "carrier_accept_hour","carrier_accept_minute", "carrier_accept_second"], [true,date.getHours(),date.getMinutes(),date.getSeconds()]);
         acceptOrder(this.props.get('selected_order'));
         console.log("this is from carrierMain about selected_order" + this.props.get('selected_order'));
+        this.setState({progressNum:2})
       }
 
       createProcess = (num) => {
@@ -72,12 +76,15 @@ export class CarrierMain extends Component {
         date = new Date();
         if(date.getHours() != this.props.get('carrier_accept_hour') && this.props.get('carrier_accept_minute') != 59) {
           console.log("can not cancel")
+          alert("Can not cancel after 30 seconds!")
         }
         else if (date.getMinutes() != this.props.get('carrier_accept_minute') && this.props.get('carrier_accept_second') != 30){
           console.log("can not cancel")
+          alert("Can not cancel after 30 seconds!")
         }
         else if (date.getSeconds() - this.props.get('carrier_accept_second') >= 30) {
           console.log("can not cancel")
+          alert("Can not cancel after 30 seconds!")
         }
         else {
           cancelByCarrier(this.props.get('selected_order'));
@@ -121,6 +128,7 @@ export class CarrierMain extends Component {
         //console.log(this.state.selected_order);
         updateOrderStatus(this.props.get('selected_order'));
         this.props.change("delivering", true);
+        this.setState({progressNum:3, progressText:'Delivering the drink'})
       }
 
       complete = () => {
@@ -130,6 +138,8 @@ export class CarrierMain extends Component {
         this.changeStates(["request_selected", "accepted", "delivering","order_selecting","selecting_order","selected_order"],[false, false, false, undefined,false,-1]);
 
         this.props.func();
+
+        this.setState({progressNum:4})
 
       }
 
@@ -157,6 +167,29 @@ export class CarrierMain extends Component {
         }
         return stars
     }
+
+    updateProgressBar = (num) => {
+      let curr = num;
+      let progressArr = [];
+
+      for (var i = 1; i <= 4; i++) {
+
+
+        if (curr - 1 >= 0) {
+          progressArr.push((<View key={i} style={styles.circleFilled}/>));
+          curr = curr - 1;
+        } else {
+          progressArr.push((<View key={i} style={styles.circle}/>));
+        }
+
+        if (i != 4) {
+          progressArr.push((<View key={4+i} style={styles.line}/>));
+        }
+  		}
+
+      return progressArr;
+
+    };
 
     _onRefresh() {
         this.setState({refreshing: true});
@@ -524,112 +557,162 @@ export class CarrierMain extends Component {
 
     else if(this.props.get("accepted")){
         return (
-            <Container>
-                <View style= {styles.banner}>
+            <Container style={styles.deliver_container}>
 
-
-                <Item regular style={styles.DiliverTitleItem}>
+              <Item regular style={styles.DiliverTitleItem}>
                 <Label style = {styles.orderTitle}>
                   {!this.props.get('delivering') ? 'Ordering': 'Delivering'}
                 </Label>
-                </Item>
+              </Item>
 
-                <Item regular style={styles.DiliverItem}>
-                <View >
-                  <View style={styles.deliverProfile}>
-                    {!this.props.get('order_selecting.avatar') &&
-                      <Thumbnail large source={require('../resources/avatar.png')}/>
-                    }
-                    {this.props.get('order_selecting.avatar') &&
-                      <Thumbnail large source={{uri: this.props.get('order_selecting.avatar')}}/>
-                    }
-                    <View>
-                      <Label style={styles.DeliverProfileText}>
-                        {this.props.get('order_selecting.buyer_name')}
-                      </Label>
-                      <View style={styles.DeliverStarts}>
-                        {this.createStars(this.props.get('order_selecting.buyer_rate'))}
-                      </View>
-                    </View>
-                  </View>
-                  <View style={styles.deliverItems}>
-                  {Object.values(this.props.get('order_selecting.items')).map((item,key)=>
-                    (
+                <Container style={styles.deliver_scroll_container}>
+                  <ScrollView style = {styles.deliver_scroll_view}>
+                                <Grid>
+                                <Col>
+                              {!this.props.get('order_selecting.avatar') &&
+                              <Thumbnail large source={require('../resources/avatar.png')}/>
+                          }
 
-                    <View key= {key} style={styles.deliverItem}>
-                    <Text style={styles.card_title}>
-                      {item.item_name}
-                    </Text>
-                    <Text>
-                      {item.size}
-                    </Text>
-                    <Text>
-                      {item.customization}
-                    </Text>
-                    </View>
-                    ))
-                  }
-                  </View>
+                          {this.props.get('order_selecting.avatar') &&
+                          <Thumbnail large source={{uri: this.props.get('order_selecting.avatar')}}/>
+                      }
+                                  </Col>
+                          <Col>
+                          <Row>
+
+                      <Text style={styles.cardBuyerName}>
+                      {this.props.get('order_selecting.buyer_name')}
+                      </Text>
+                      </Row>
+                      <Row>
+                      {
+                          this.createStars(this.props.get('order_selecting.buyer_rate'))
+                      }
+                      </Row>
+                      </Col>
+                      </Grid>
+
+                      <Grid style={{height: '30%'}}>
+                      <Row>
+                      <Col style={{flexDirection:'wrap'}}>
+                      <Icon name='ios-compass' size={20} style={styles.icons}/>
+                      </Col>
+                      <Col style={{width: '60%', alignSelf: 'flex-end', alignContent: 'flex-start'}}>
+                      <Text style={styles.order_select}>
+                      {this.props.get('order_selecting.location')}
+                      </Text>
+                      </Col>
+                      </Row>
+                      <Row>
+                        <Col style={{width:'40%'}}>
+                        <Icon name='ios-time' size={20} style={styles.icons} />
+                      </Col>
+                      <Col style={{width: '60%', alignSelf: 'flex-end', alignContent: 'flex-start'}}>
+                      <Text style={styles.order_select}>
+                      {this.props.get('order_selecting.request_time')}
+                      </Text>
+                      </Col>
+                      </Row>
+                      </Grid>
+
+                       <View style={styles.cardLine}/>
+
+
+                  {
+                    this.props.get("order_selecting.items").map(function (item, key){
+                       var itemSelf = item.itemObject;
+                        return(
+
+                          <Card style={styles.deliver_orderCard}>
+                            <View style = {{flexDirection: 'row'}}>
+                              <Grid >
+                                <Col style={{width: '23%', flexWrap:'wrap'}}>
+                                <Row style={{height: '20%'}}>
+                                <Text style ={styles.cardPrimaryText}>
+                                  {item.name}
+                                </Text>
+                                </Row>
+                                <Row>
+                                <Thumbnail style={styles.itemImage} source={{uri: item.image}} />
+                                </Row>
+                                </Col>
+                                <Col style={{width: '78%', flexWrap: 'wrap'}}>
+                              <View style = {styles.cardTextView}>
+                                {
+
+                                  (Object.keys(item.itemObject)).map(function (itemKey,key){
+                                    return(
+                                      <Row key={key}>
+                                        <Col>
+                                          <Text style={styles.cardSecondaryText}>{itemKey}</Text>
+                                          </Col>
+                                          <Col>
+
+                                          <Text style={styles.cardSecondaryText}>{item.itemObject[itemKey]}</Text>
+                                          </Col>
+                                      </Row>
+                                    )
+                                  })
+                                }
+                              </View>
+
+                            </Col>
+                            </Grid>
+                            </View>
+                          </Card>
+
+                        )
+                        }
+                        )
+                        }
+                        {!this.props.get('delivering') &&
+                          <Button
+                            style={styles.buttons_cancel}
+                            onPress={() => this.cancelCarrier() }
+                          >
+                            <Text style={styles.cancelText}>
+                              Cancel
+                            </Text>
+                          </Button>
+                        }
+                  </ScrollView>
+                </Container>
+
+              <View style={styles.progressBarView}>
+
+                <View style= {styles.progressBar}>
+                  {this.updateProgressBar(this.state.progressNum)}
                 </View>
-                </Item>
 
 
-                <Item regular style={styles.DiliverProcess}>
-                  <View style={styles.deliverLocation}>
-                    <View style={styles.process}>
-                      <Text>
-                        {this.GetTime()}
-                      </Text>
-                      <Text>
-                        {this.props.get('order_selecting.location')}
-                      </Text>
-                      <Text>
-                        {this.props.get('order_selecting.request_time')}
-                      </Text>
-                    </View>
-                    <View style={styles.process}>
-                      {this.props.get('delivering')? this.createProcess(3):this.createProcess(2)}
-                    </View>
-                  </View>
-                </Item>
-
+                <Text style = {styles.progressText}>
+                  {this.state.progressText}
+                </Text>
+              </View>
 
                 <View style={styles.updateButtonItem}>
                 {!this.props.get('delivering') &&
                   <Button
-                    style={styles.buttons_accept}
-                    color="#ffffff"
+                    style={styles.buttons_update}
                     onPress={() => this.update() }
                   >
-                    <Text style={styles.menuText}>
+                    <Text style={styles.updateText}>
                       Update
                     </Text>
                   </Button>
                 }
-                {!this.props.get('delivering') &&
-                  <Button
-                    style={styles.buttons_cancel}
-                    color="#ffffff"
-                    onPress={() => this.cancelCarrier() }
-                  >
-                    <Text style={styles.cancelText}>
-                      Cancel
-                    </Text>
-                  </Button>
-                }
+
                 {this.props.get('delivering') &&
                   <Button
-                    style={styles.buttons_accept}
-                    color="#ffffff"
+                    style={styles.buttons_update}
                     onPress={() => this.complete() }
                   >
-                    <Text style={styles.menuText}>
+                    <Text style={styles.updateText}>
                       Complete
                     </Text>
                   </Button>
                 }
                 </View>
-              </View>
             }
 
             </Container>
