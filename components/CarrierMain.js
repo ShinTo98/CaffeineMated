@@ -255,9 +255,8 @@ export class CarrierMain extends Component {
 </Body>
                 </Header>
 
-                <View style={styles.cardLine}/>
 
-                < Container style={{height: '80%', marginBottom: 0}}>
+                < Container>
                 <ScrollView>
                 <Grid>
                   <Col>
@@ -299,14 +298,13 @@ export class CarrierMain extends Component {
           <Col style={{width:'40%'}}>
           <Icon name='ios-time' size={20} style={styles.icons} />
         </Col>
-        <Col style={{width: '60%', alignSelf: 'flex-end', alignContent: 'flex-start'}}>
+        <Col style={{alignSelf: 'flex-end', alignContent: 'flex-start'}}>
         <Text style={styles.order_select}>
         {this.props.get('order_selecting.request_time')}
         </Text>
         </Col>
         </Row>
         </Grid>
-        <View style={styles.cardLine}/>
 
         {
           this.props.get("order_selecting.items").map(function (item, key){
@@ -324,7 +322,7 @@ export class CarrierMain extends Component {
                       <Thumbnail style={styles.itemImage} source={{uri: item.image}} />
                       </Row>
                       </Col>
-                      <Col style={{width: '78%', flexWrap: 'wrap'}}>
+                      <Col style={{ flexWrap: 'wrap'}}>
                       {
 
                         (Object.keys(item.itemObject)).map(function (itemKey,key){
@@ -354,11 +352,11 @@ export class CarrierMain extends Component {
 </Container>
 
 
-       <Footer style={{height: '12%', width: '100%', marginBottom:'10%'}}>
-         <FooterTab>
-                         <Button style={{height:'100%',width:'100%', backgroundColor:'#FF9052', justifyContent:'center', alignItems:'center'}}
+       <Footer style={styles.footerStyle}>
+         <FooterTab style={{height: '100%'}}>
+                         <Button style={styles.confirmButton}
                                       onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
-                            <Text style={{color: '#FFFFFF', fontSize: 24, padding: '20%'}}>Confirm</Text>
+                            <Text style={{color: '#FFFFFF', fontSize: 22, padding: '20%'}}>Confirm</Text>
                     
                          </Button>
                          </FooterTab>

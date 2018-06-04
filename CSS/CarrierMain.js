@@ -565,8 +565,21 @@ export const styles = StyleSheet.create({
   },
 
   bigContainer:{
-    marginTop: '-5%',
-    height: deviceHeight * 0.98
+    marginTop: '-10%',
+    height: deviceHeight
+  },
+
+   footerStyle:{
+    height: deviceHeight * 0.12, 
+    width: '100%', 
+    marginBottom: deviceHeight * 0.1 
+   },
+
+   confirmButton:{
+    flex: 1,
+    backgroundColor:'#FF9052', 
+    justifyContent:'center', 
+    alignItems:'center'
   }
 }
 )
