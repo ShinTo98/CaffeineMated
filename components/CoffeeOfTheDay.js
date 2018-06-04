@@ -49,7 +49,6 @@ export class CoffeeOfTheDay extends Component {
   }
 
   forceUpdateHandler() {
-    console.log("Hello Update");
     this.forceUpdate();
   }
 
@@ -57,8 +56,6 @@ export class CoffeeOfTheDay extends Component {
     var test = await randomCoffee();
     this.setState({item: test});
     this.setState({update: true});
-
-    console.log(this.state.item);
   }
 
   async componentWillMount(){
@@ -73,13 +70,17 @@ export class CoffeeOfTheDay extends Component {
     var result = this.state.item;
 
     if( this.state.update){
-      console.log("this is result in items: " + result.image);
+      //console.log("this is result in items: " + result.image);
       return(
 
           <View style={styles.container}>
             <Grid style={{flexWrap: 'wrap'}}>
               <Row style={styles.titleRow}>
-                <Text style={styles.titleTex}>Coffee of the Day</Text>
+                <Text style={styles.titleTex}>Coffee of the Moment</Text>
+              </Row>
+
+              <Row style={styles.lineRow}>
+                <View style={styles.line} />
               </Row>
 
               <Row style={styles.imageRow}>
@@ -90,7 +91,7 @@ export class CoffeeOfTheDay extends Component {
                 </TouchableWithoutFeedback>
               </Row>
 
-              <Row style={styles.titleRow}>
+              <Row style={styles.nameRow}>
                  <Text style={styles.itemName}>{result.name}</Text>
               </Row>
 

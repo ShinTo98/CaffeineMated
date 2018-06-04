@@ -26,9 +26,10 @@ export class Main extends Component {
     this.buyerMainGet = this.buyerMainGet.bind(this);
     this.carrierMainChange = this.carrierMainChange.bind(this);
     this.carrierMainGet = this.carrierMainGet.bind(this);
+    this.saveRequestIds = this.saveRequestIds.bind(this);
+    this.saveRequestDetails = this.saveRequestDetails.bind(this);
 
     this.state = {
-      seg: 2,
       where: "",
       ids: [],
       request_data: [],
@@ -65,12 +66,13 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
-      updateMode: false
+      carrier_refreshing: false,
     };
     this.order_selected = {};
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
+
     this.orderCancelled= this.orderCancelled.bind(this);
   }
 
@@ -221,16 +223,23 @@ export class Main extends Component {
     var orderSelected = this.state.order_selected;
     orderSelected.id = value;
     this.setState({order_selected : orderSelected});
+  }else if( id == "ids"){
+    this.setState({ids : value});
   }
   }
 
 
 
   async saveRequestIds() {
+    console.log("fetching...");
     if( this.state.carrier_whereLogan != 'Specify a place'){
       this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
     }else{
       this.setState({ids: await sortOrdersByRequestTime()});
+    }
+    if (this.state.ids.length > 15) {
+      var shortened = this.state.ids.slice(0,15)
+      this.setState({ids: shortened});
     }
     console.log(this.state.ids);
   }
@@ -269,13 +278,20 @@ export class Main extends Component {
   async componentWillMount() {
 
     if( !this.state.updateMode){
-    var test = await getDefaultMode();
-    if( test == "buyer" || test == "Buyer"){
-        this.setState({seg: 1});
-    }else{
-        this.setState({seg: 2});
-    }
-    this.setState({updateMode: true});
+      if(this.props.navigation.getParam('seg') != undefined) {
+        var seg = this.props.navigation.getParam('seg');
+        this.setState({seg: seg});
+      } else {
+        var test = await getDefaultMode();
+
+        if( test == "buyer" || test == "Buyer"){
+            this.setState({seg: 1});
+        }else{
+            this.setState({seg: 2});
+        }
+
+      }
+      this.setState({updateMode: true});
   }
 
 
@@ -313,6 +329,7 @@ export class Main extends Component {
           selection: this.props.navigation.getParam('selection'),
           itemObject: this.props.navigation.getParam('itemObject'),
         });
+        this.props.navigation.setParams({ update: false })
       }
       var newTotalPrice = 0;
       for(var i = 0; i < latest.length; i++) {
@@ -438,8 +455,8 @@ export class Main extends Component {
             navigation = {this.props.navigation}/>
           }
           {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && <SubmitOrder
-            get = {this.buyerMainGet} 
-            change = {this.buyerMainChange} 
+            get = {this.buyerMainGet}
+            change = {this.buyerMainChange}
             updateOrderSubmitted={this.state.updateOrderSubmitted}
             order_data={this.state.order_data}
             orderCancelled={this.orderCancelled}
@@ -452,7 +469,8 @@ export class Main extends Component {
             func = {this.componentWillMount}
             get = {this.carrierMainGet}
             change = {this.carrierMainChange}
-            navigation = {this.props.navigation}/>
+            navigation = {this.props.navigation}
+            />
           }
         </Content>
     </Container>

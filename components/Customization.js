@@ -282,6 +282,7 @@ export class Customization extends Component {
                       time: this.state.time,
                       update: true,
                       itemObject: this.state.item,
+                      seg: 1
                     })}}>
                    <Text style={styles.submitText}>Submit</Text>
                 </Button>

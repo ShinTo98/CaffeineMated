@@ -21,11 +21,11 @@ export class CarrierMain extends Component {
             isDateTimePickerVisible:false,
             loading:false,
             rating: false,
-            rating_order: undefined
+            rating_order: undefined,
+            refreshing: false,
         }
         this.createStars = this.createStars.bind(this);
         this.changeStates = this.changeStates.bind(this);
-        this.saveRequestIds = this.saveRequestIds.bind(this);
         this.OrderCompletedChange = this.OrderCompletedChange.bind(this);
 
     }
@@ -123,7 +123,7 @@ export class CarrierMain extends Component {
         this.props.change("delivering", true);
       }
 
-      complete = () => {-
+      complete = () => {
         completeOrder(this.props.get('selected_order'));
         this.setState({rating_order: this.props.get('order_selecting'), rating: true});
 
@@ -141,7 +141,7 @@ export class CarrierMain extends Component {
             let iosStar = 'ios-star';
             let androidStar = 'md-star';
 
-            if (num - 1 > 0) {
+            if (num - 1 >= 0) {
                 iosStar = 'ios-star';
                 androidStar = 'md-star';
             } else if ( num - 0.5 >= 0) {
@@ -159,10 +159,11 @@ export class CarrierMain extends Component {
     }
 
     _onRefresh() {
-        this.props.change("carrier_refreshing", true);
+        this.setState({refreshing: true});
         this.fetchData().then(() => {
-          this.props.change("carrier_refreshing", false);
+          this.setState({refreshing: false})
         });
+
       }
 
     changeStates(ids, values){
@@ -184,8 +185,9 @@ export class CarrierMain extends Component {
         this.setState({ids: this.props.get('ids')});
       }else{
         this.props.change("ids", await sortOrdersByRequestTime());
+        this.setState({ids: await sortOrdersByRequestTime()});
       }
-        //console.log(this.state.ids);
+      console.log("this is in refresh in carrier Main" + this.props.get("ids"));
     }
 
       async saveRequestDetails() {
@@ -196,7 +198,6 @@ export class CarrierMain extends Component {
           //order.buyer_id = id;
           //console.log("this is id from carrier Main" + order.buyer_id);
           profile = await getProfileDetailById(order.buyer_id);
-          console.log(profile)
           if (profile.username) {
             order["buyer_name"] = profile.username;
           }
@@ -240,6 +241,7 @@ export class CarrierMain extends Component {
         if(!this.state.rating && this.props.get('selecting_order')){
 
             return (
+
               <Container style={{height: '30%'}}>
                 <Content scrollEnabled={false}>
                 <Card>
@@ -248,6 +250,8 @@ export class CarrierMain extends Component {
                 <Button transparent onPress={() => this.props.change('selecting_order', false)}>
                 <Icon name="arrow-back" style={styles.icon}/>
                 </Button>
+
+                <Text>Order Detail</Text>
 
                 </CardItem>
 
@@ -292,26 +296,35 @@ export class CarrierMain extends Component {
         {this.props.get('order_selecting.request_time')}
         </Text>
         </CardItem>
-        {Object.values(this.props.get('order_selecting.items')).map((item,key)=>
-        (
-
-            <CardItem key= {key}>
-            <Body>
-            <Text style={styles.card_title}>
-            {item.item_name}
-            </Text>
-
-            <Text>
-            {item.size}
-            </Text>
-
-            <Text>
-            {item.customization}
-            </Text>
-            </Body>
-            </CardItem>
-        ))
-    }
+        {
+          this.props.get("order_selecting.items").map(function (item, key){
+             var itemSelf = item.itemObject;
+             console.log(itemSelf);
+              return(
+                  <CardItem key={key}>
+                      <Body>
+                      <Text>{item.name}</Text>
+                      <Image source={{uri: item.image}} / >
+                      {
+                        
+                        (Object.keys(item.itemObject)).map(function (itemKey,key){
+                          return(
+                            <Container key={key} style={{height: '5%'}}>
+                                <Text>{itemKey}</Text>
+                                <Text>{item.itemObject[itemKey]}</Text>
+                            </Container>
+                          )
+                        })
+                      }
+                    </Body>
+                  </CardItem>
+              )
+              }
+              )
+              }
+       
+       
+       
     <CardItem footer>
     <Body>
     <Button
@@ -332,10 +345,10 @@ export class CarrierMain extends Component {
 );
 }else if(!this.state.rating && !this.props.get('accepted')){
     return(
-    <Container style = {{height: '40%'}}>
+    <Container style = {{height: '100%'}}>
     <View style= {styles.banner}>
 
-    <Item regular style={styles.textInput}>
+    <View style={styles.textInput}>
     <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
     <Icon style={styles.Whenwheretext} name='alarm' />
     <Text style={styles.Whenwheretext}>{this.props.get('carrier_whenLogan')}</Text>
@@ -349,27 +362,28 @@ export class CarrierMain extends Component {
     is24Hour={true}
     timeZoneOffsetInMinutes={-7 * 60}
     />
-    </Item>
-    <Item regular style={styles.textInput}>
+    </View>
+    <View style={styles.textInput}>
     <Button iconRight style={styles.Wherebutton} onPress={()=>{this.props.change('carrier_choosePlaces', true)}}>
     <Text style={styles.Whenwheretext}>{this.props.get('carrier_whereLogan')}</Text>
     <Icon style={styles.Whenwheretext} name='navigate' />
     </Button>
-    </Item>
-
-    {/* ---------------------------------- Request List ---------------------------------- */}
-    <View regular style={styles.requestTitleItem}>
-    <Label style = {styles.orderTitle}>
-    Requests
-    </Label>
     </View>
 
 
-    <View scrollEnabled={false} style={{height:200}}>
+
+    {/* ---------------------------------- Request List ---------------------------------- */}
+    <View style={styles.requestItem}>
+    <Text style = {styles.requestTitleText}>
+    Requests
+    </Text>
+
+
+    <Container scrollEnabled={false} style={styles.requestItem}>
     {loading &&
         <Content refreshControl={
             <RefreshControl
-            refreshing={this.props.get("carrier_refreshing")}
+            refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)}
             />
         }>
@@ -419,7 +433,9 @@ export class CarrierMain extends Component {
             <Spinner color='#FF9052' />
             </Content>
         }
-        </View>
+
+        </Container>
+    </View>
 
 
         {/* ---------------------------------- Accept Button ---------------------------------- */}
@@ -455,7 +471,7 @@ export class CarrierMain extends Component {
 
                 <Item regular style={styles.DiliverTitleItem}>
                 <Label style = {styles.orderTitle}>
-                  {!this.props.get('delivering') ? 'Way To Shop': 'Delivering'}
+                  {!this.props.get('delivering') ? 'Ordering': 'Delivering'}
                 </Label>
                 </Item>
 

@@ -61,10 +61,9 @@ export class BuyerMain extends Component {
         var id = await createOrder(this.props.get('order_data'),
                              this.props.get('buyer_whereLogan'),
                              this.props.get('buyer_whenLogan'));
-
+        this.setState({orderSubmitted: true});
         this.props.change('orderId', id);
         this.props.change('orderSubmitted', true);
-        this.setState({orderSubmitted: true});
       }
     }
 
@@ -95,7 +94,7 @@ export class BuyerMain extends Component {
         <Container style = {styles.Container}>
           <View style= {styles.banner}>
             {/* ------------------------ When & Where section -------------------------- */}
-            <Item regular style={styles.textInput}>
+            <View style={styles.textInput}>
               <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
                 <Icon style={styles.Whenwheretext} name='alarm' />
                 <Text style={styles.Whenwheretext}>{this.props.get("buyer_whenLogan")}</Text>
@@ -109,19 +108,19 @@ export class BuyerMain extends Component {
                 is24Hour={true}
                 timeZoneOffsetInMinutes={-7 * 60}
               />
-            </Item>
+            </View>
 
-            <Item regular style={styles.textInput}>
+            <View style={styles.textInput}>
               <Button iconRight style={styles.Wherebutton} onPress={()=> {
                 this.props.change("buyer_choosePlaces")}
               }>
                 <Text style={styles.Whenwheretext}>{this.props.get("buyer_whereLogan")}</Text>
                 <Icon style={styles.Whenwheretext} name='navigate' />
               </Button>
-            </Item>
+            </View>
 
             {/* ------------------------------- Menu button section ------------------------------- */}
-            <View style={styles.buttonItem}>
+            <View style={styles.textInput}>
               <Button style={styles.buttons_menu}  color="#ffffff"
                 onPress={() => this.props.navigation.navigate('menu', {
                   data: this.props.get("order_data"),
@@ -135,12 +134,13 @@ export class BuyerMain extends Component {
 
             {/* ------------------------ LIST OF ORDER ITEMS ------------------------- */}
             <View style={styles.orderItem}>
-              <View>
-                <Text style={styles.orderDetailText}> Order Details </Text>
-                <View style={styles.line}/>
+              
+                <View style={styles.orderDetailText}> 
+                  <Text style={styles.orderText}> Order Details </Text>
+                </View>
 
                 {this.props.get("order_exists") &&
-                <List dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
+                <List contentContainerStyle={styles.itemList} dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
 
                   renderRow={data =>
                   <ListItem style={styles.listItems}>
@@ -165,7 +165,9 @@ export class BuyerMain extends Component {
                       </View>
                     </Card>
                   </ListItem>}
-
+                  
+                  showsHorizontalScrollIndicator={false}
+                  directionalLockEnabled = {true}
                   renderRightHiddenRow={(data, secId, rowId, rowMap) =>
                   <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
                   <Icon active name="trash" />
@@ -178,7 +180,7 @@ export class BuyerMain extends Component {
                 {!this.props.get("order_exists") &&
                     <CoffeeOfTheDay />
                  }
-              </View>
+              
             </View>
 
             {/* ----------------------END OF LIST OF ORDER ITEMS ------------------------- */}

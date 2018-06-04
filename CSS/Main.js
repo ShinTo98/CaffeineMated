@@ -28,7 +28,6 @@ export const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   text_on:{
     color: '#ffffff',
@@ -54,24 +53,20 @@ export const styles = StyleSheet.create({
   white_banner: {
     height: '5%',
     backgroundColor: '#ffffff',
+    justifyContent: 'center',
   },
   banner: {
     height: '5%',
     alignItems: 'center',
   },
-  buttons_top: {
-    //activeColor: '#FF9052',
-  },
   buttons_menu: {
     backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
+    //flexDirection: 'row',
     justifyContent: 'center',
-    //fontSize: 30,
     width: deviceWidth*deviceWidthScale,
-    padding: 5,
     borderWidth: 2,
-    height:deviceHeight*0.075,
-    borderColor: '#c8c8c8',
+    height:deviceHeight*deviceHeightScale,
+    borderColor: '#c8c8c8'
   },
   buttons_submit: {
     backgroundColor: '#ff9052',
@@ -128,9 +123,6 @@ export const styles = StyleSheet.create({
     padding: 5,
     top: 100,
   },
-  buttonItem:{
-
-  },
   acceptButtonItem: {
     top: 20,
   },
@@ -147,7 +139,7 @@ export const styles = StyleSheet.create({
     height: deviceHeight*deviceHeightScale,
     borderColor: '#f8f8f8',
     width: deviceWidth*deviceWidthScale,
-    marginBottom: '2%'
+    marginBottom: '3%'
   },
   orderItem:{
     alignItems: 'flex-start',
@@ -157,209 +149,29 @@ export const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 6,
     width: deviceWidth*deviceWidthScale,
-    height: deviceHeight*0.45,
-    marginTop : '4%'
-  },
-
-  requestTitleItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    width: 300,
-    top: 40,
-    height: 40,
-    borderColor: '#c8c8c8',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 6,
-
-  },
-  DiliverTitleItem: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: 5*deviceWidth/6,
-    top: deviceHeight/15,
-    height: deviceHeight/20,
-  },
-  DiliverItem: {
-    alignItems: 'flex-start',
-    borderColor: 'gray',
-    flexDirection: 'row',
-    borderWidth: 1,
-    width: 5*deviceWidth/6,
-    top: deviceHeight/15,
-    height: 5.5 * deviceHeight/11,
-  },
-  DiliverProcess: {
-    alignItems: 'flex-start',
-    borderColor: 'gray',
-    flexDirection: 'row',
-    borderWidth: 1,
-    width: 5*deviceWidth/6,
-    top: deviceHeight/15,
-    height: deviceHeight/15,
-  },
-  orderTitleItem: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: 280,
-    top: 90,
-    height: 40,
-  },
-  requestView:{
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#c8c8c8',
-    borderWidth: 2,
-    width: 300,
-    top: 50,
-    height: 375,
-    borderRadius: 6,
-    backgroundColor: '#FFFFFF',
-  },
-  requestList:{
-    // alignItems: 'flex-start',
-    // justifyContent: 'center',
-    width: 290,
-    backgroundColor: '#FFFFFF',
-  },
-  requestItem:{
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: '#c8c8c8',
-    width: 300,
-    height: 375,
-    left: -10,
-    borderWidth: 0,
-    borderColor: 'transparent'
-  },
-
-  textView: {
-    top: 110,
-    alignItems: 'center',
+    height: deviceHeight*0.45
   },
   menuText:{
     color: '#ff9052',
     fontSize: 24,
   },
-  cancelText:{
-    color: 'red',
-    fontSize: 24,
-  },
   orderDetailText:{
-    color: '#ff9052',
-    fontSize: 24,
     alignSelf: 'center',
-    //marginTop : 20
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    marginVertical: '2%',
+    //marginBottom: '2%',
+    width: '100%'
+  },
+  orderText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: '#ff9052',
+    marginBottom: '2%',
   },
   submitText:{
     color: '#ffffff',
     fontSize: 24,
-  },
-  menuText_disabled:{
-    color: 'gray',
-    fontSize: 30,
-  },
-  subText: {
-    color: 'gray',
-    fontSize: 30,
-  },
-  orderTitle:{
-    color: '#FF9052',
-    fontSize: 30,
-    alignItems: 'center',
-  },
-  titleText: {
-    fontSize: 35,
-    fontWeight: '300',
-    color: 'white',
-    top: 55,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    top: 70,
-  },
-  buyerStarSection: {
-    height: '15%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  list_left_container: {
-    height: '5%',
-    //justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    //height: 35
-  },
-  list_body_container: {
-    height: '50%',
-  },
-  list_text: {
-    fontSize: 12,
-    alignSelf: 'flex-end',
-  },
-  floatView: {
-    height: '50%',
-    position: 'absolute',
-    width: 230,
-    //height: 0,
-    top: 0,
-    left: 0,
-    backgroundColor: '#DDDDDD',
-  },
-  timeButton: {
-    position: 'absolute',
-    top: 6,
-    left: 240,
-    width: 30,
-  },
-  nothingText: {
-    textAlign: 'center',
-    justifyContent: 'center',
-    color: '#a8a8a8',
-    fontSize: 18.2,
-    marginTop: 10,
-  },
-  deliverProfile: {
-    top: deviceWidth/15,
-    left: deviceWidth/20,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  DeliverProfileText: {
-    top: deviceWidth/20,
-    left: deviceWidth/20,
-  },
-  DeliverStarts: {
-    top: deviceWidth/15,
-    left: deviceWidth/25,
-    flexDirection: 'row',
-  },
-
-  deliverItems: {
-    top: deviceWidth/8,
-    left: deviceWidth/20,
-    //flexDirection: 'row',
-
-  },
-  deliverItem: {
-    marginBottom: deviceWidth/20,
-  },
-  deliverLocation: {
-    justifyContent: 'flex-end',
-  },
-  process: {
-    //alignSelf: 'flex-end',
-    top: deviceWidth/30,
-    width: 5*deviceWidth/6,
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-    marginBottom: deviceWidth/80,
   },
   Whenbutton: {
     backgroundColor: '#ffffff',
@@ -376,24 +188,11 @@ export const styles = StyleSheet.create({
     width: deviceWidth*deviceWidthScale
   },
   placeAutocomplete: {
-    top: 50,
+    top: deviceHeight * 0.1,
   },
   Whenwheretext: {
     color: '#ff9052',
     fontSize: 22,
-  },
-  line: {
-    borderBottomColor: '#c8c8c8',
-    borderBottomWidth: 2,
-    width: 260,
-    marginTop: 6,
-    marginLeft: 20,
-  },
-  line_bottom: {
-    borderBottomColor: '#c8c8c8',
-    borderBottomWidth: 2,
-    width: 260,
-    marginLeft: 20,
   },
   priceText: {
     marginTop: '2%',
@@ -410,8 +209,8 @@ export const styles = StyleSheet.create({
   },
   // For each card in order details
   orderCard: {
-    //height: 30,
-    //width: 90,
+    marginLeft: '4%',
+    alignSelf: 'center',
     borderColor: '#f8f8f8',
     backgroundColor: '#f8f8f8',
   },
@@ -446,11 +245,18 @@ export const styles = StyleSheet.create({
     borderColor: '#c8c8c8',
     backgroundColor: '#c8c8c8',
   },
+  itemList : {
+    justifyContent : 'center',
+    alignItems : 'center'
+  },
   listItems : {
+    alignSelf : 'center',
+    alignItems : 'center',
     borderColor: '#FFFFFF',
-    marginLeft: 20,
+    justifyContent: 'center',
     marginTop: -10,
-    marginBottom: -10
+    marginBottom: -10,
+    width : deviceWidth*deviceWidthScale
   },
   itemImage : {
     marginTop: 8,

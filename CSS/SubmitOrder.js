@@ -5,21 +5,25 @@ const deviceWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
   container:{
-    borderColor: 'gray',
-    borderWidth: 1,
+    borderColor: '#c8c8c8',
+    borderWidth: 2,
+    borderRadius: 6,
     flex: 0.7,
     width: 4*deviceWidth/5,
     alignSelf: 'center',
     marginTop: 10,
+    backgroundColor: '#FFFFFF',
   },
   progressBarView:{
-    borderColor: 'gray',
-    borderWidth: 1,
+    borderColor: '#c8c8c8',
+    borderWidth: 2,
+    borderRadius: 6,
     flex: 0.08,
     width: 4*deviceWidth/5,
     alignSelf: 'center',
     marginTop: 10,
     justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
   },
   progressBar: {
     justifyContent: 'center',
