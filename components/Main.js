@@ -64,13 +64,23 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
+<<<<<<< HEAD
+      updateMode: true,
+      carrier_refreshing: false,
+=======
       updateMode: false
+>>>>>>> 49185571ecabe97c4ca755cd12133d9302217c37
     };
     this.order_selected = {};
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
+<<<<<<< HEAD
+
+
+=======
     this.orderCancelled= this.orderCancelled.bind(this);
+>>>>>>> 49185571ecabe97c4ca755cd12133d9302217c37
   }
 
   buyerMainChange(id, value){
