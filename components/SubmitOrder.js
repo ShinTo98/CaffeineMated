@@ -64,7 +64,7 @@ export class SubmitOrder extends Component {
   };
 
   OrderCompletedChange() {
-    this.props.change({orderSubmitted: false});
+    this.props.change('orderSubmitted', false);
   }
 
   updateStars = (num) => {
@@ -137,8 +137,8 @@ export class SubmitOrder extends Component {
   async updateOrderSubmitted() {
     if (this.state.buttonText === 'Cancel Order') {
       await cancelByBuyer(this.state.orderId);
-      alert('Order cancel successful!');
-      this.props.orderCancelled;
+      //alert('Order cancel successful!');
+      this.props.orderCancelled();
     } else if (this.state.buttonText === 'Complete Order') {
       alert('Order completed!');
       this.setState({completed: true});
