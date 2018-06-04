@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
 
 
   titleRow: {
-    marginTop: '-6%',
+    marginTop: '-10%',
     height: '10%',
     width: '100%',
     alignContent: 'center',
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
 
   lineRow: {
     height: '5%',
-    marginTop: '-28%',
+    marginTop: '-25%',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
   },
 
   nameRow: {
-    //marginTop: '1%',
+    marginTop: '5%',
     height: '10%',
     width: '100%',
     alignContent: 'center',
@@ -70,6 +70,6 @@ export const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontSize: 15,
-    marginTop: '2%',
+    marginTop: 10
   }
 });
