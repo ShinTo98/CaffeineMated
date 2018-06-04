@@ -294,8 +294,8 @@ export class Customization extends Component {
     }else{
       /* Display spinning when loading*/
       return(
-        <Container>
-          <Spinner color='red' />
+        <Container style={{backgroundColor: '#FAFAFA'}}>
+          <Spinner color='#FF9052' style={{marginTop: 40}} />
         </Container>
       );
     }
