@@ -121,7 +121,7 @@ export class BuyerMain extends Component {
             </View>
 
             {/* ------------------------------- Menu button section ------------------------------- */}
-            <View style={styles.textInput}>
+            <View style={styles.textInput_menu}>
               <Button style={styles.buttons_menu}  color="#ffffff"
                 onPress={() => this.props.navigation.navigate('menu', {
                   data: this.props.get("order_data"),
@@ -145,7 +145,6 @@ export class BuyerMain extends Component {
 
                   renderRow={data =>
                   <ListItem style={styles.listItems}>
-                    <Card style={styles.orderCard}>
                       <View style = {{flexDirection: 'row'}}>
 
                         <Left>
@@ -164,7 +163,6 @@ export class BuyerMain extends Component {
                           </Text>
                         </View>
                       </View>
-                    </Card>
                   </ListItem>}
                   
                   showsHorizontalScrollIndicator={false}

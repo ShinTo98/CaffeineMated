@@ -3,7 +3,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const deviceWidthScale = 0.80;
-const deviceHeightScale = 0.08;
+const deviceHeightScale = 0.07;
 
 export const styles = StyleSheet.create({
   icon: {
@@ -71,16 +71,6 @@ export const styles = StyleSheet.create({
     height: '5%',
     alignItems: 'center',
   },
-
-  textInput: {
-    height: deviceWidth*0.15,
-    //color: 'gray',
-    borderColor: '#f8f8f8',
-    //borderWidth: 2,
-    width: deviceWidth*0.75,
-    marginBottom: '3%',
-  },
-
   Whenbutton: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
@@ -291,7 +281,7 @@ export const styles = StyleSheet.create({
     height: deviceHeight*deviceHeightScale,
     borderColor: '#f8f8f8',
     width: deviceWidth*deviceWidthScale,
-    marginBottom: '2%'
+    marginBottom: '3%'
   },
   Whenwheretext: {
     color: '#ff9052',
