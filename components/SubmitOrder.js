@@ -285,7 +285,11 @@ renderRow={data =>
       </Container>
     );
   } else if(this.state.completed) {
-    return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} fromBuyer={true} buyer_change={this.OrderCompletedChange}/>
+    return <OrderCompleted user_id={this.state.carrierId} 
+            order_id={this.state.orderId} 
+            user_name={this.state.carrierName} 
+            isBuyer={false} img={this.state.carrierPhoto} 
+            fromBuyer={true} buyer_change={this.OrderCompletedChange}/>
   }
   }
 }
