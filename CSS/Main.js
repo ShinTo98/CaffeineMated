@@ -3,7 +3,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 const deviceWidthScale = 0.80;
-const deviceHeightScale = 0.08;
+const deviceHeightScale = 0.07;
 
 export const styles = StyleSheet.create({
   card_title: {
@@ -123,6 +123,9 @@ export const styles = StyleSheet.create({
     padding: 5,
     top: 100,
   },
+  buttonItem: {
+    marginTop: '4%',
+  },
   acceptButtonItem: {
     top: 20,
   },
@@ -140,6 +143,18 @@ export const styles = StyleSheet.create({
     borderColor: '#f8f8f8',
     width: deviceWidth*deviceWidthScale,
     marginBottom: '3%'
+  },
+  textInput_menu: {
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#f8f8f8',
+    width: deviceWidth*deviceWidthScale,
+    marginBottom: '6%'
+  },
+  textInput_price: {
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#f8f8f8',
+    width: deviceWidth*deviceWidthScale,
+    marginBottom: '1%'
   },
   orderItem:{
     alignItems: 'flex-start',
@@ -159,7 +174,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     borderBottomColor: '#c8c8c8',
     borderBottomWidth: 2,
-    marginVertical: '2%',
+    marginTop: '2%',
     //marginBottom: '2%',
     width: '100%'
   },
@@ -196,7 +211,6 @@ export const styles = StyleSheet.create({
   },
   priceText: {
     marginTop: '2%',
-    marginBottom: '2%',
     color: '#ff9052',
     fontSize: 18,
   },
@@ -252,10 +266,10 @@ export const styles = StyleSheet.create({
   listItems : {
     alignSelf : 'center',
     alignItems : 'center',
-    borderColor: '#FFFFFF',
+    width: '100%',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
     justifyContent: 'center',
-    marginTop: -10,
-    marginBottom: -10,
     width : deviceWidth*deviceWidthScale
   },
   itemImage : {
