@@ -46,6 +46,7 @@ export class BuyerMain extends Component {
 
   orderCancelled = () => {
     this.setState({orderSubmitted: false});
+    this.setState({orderSubmitted: false});
     alert('Order Cancelled');
   }
 

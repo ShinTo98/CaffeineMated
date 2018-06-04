@@ -6,6 +6,7 @@ import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, T
 import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, getProfileById, cancelByBuyer} from './../database.js';
 import {styles} from '../CSS/SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
+import {OrderCompleted} from './OrderCompleted.js';
 
 
 export class SubmitOrder extends Component {
@@ -30,7 +31,11 @@ export class SubmitOrder extends Component {
       carrierAccepted: false,
       buttonText: 'Cancel Order',
       disableButton: false,
+      carrierId: '',
+      completed: false,
     };
+
+    this.OrderCompletedChange = this.OrderCompletedChange.bind(this);
     //console.log("orderId, " + this.props.orderId);
 
   }
@@ -57,6 +62,10 @@ export class SubmitOrder extends Component {
     return progressArr;
 
   };
+
+  OrderCompletedChange() {
+    this.props.change({orderSubmitted: false});
+  }
 
   updateStars = (num) => {
     let carrierStars = [];
@@ -104,7 +113,9 @@ export class SubmitOrder extends Component {
     switch(status) {
       case 2:
         this.setState({progressText: 'Order Progress: Your order has been accepted!'});
+        this.setState({buttonText: 'Carrier Working...'});
         this.setState({disableButton: true});
+        this.setState({carrierId: orderDetail.carrier_id});
         var carrierProfile = await getProfileById(orderDetail.carrier_id);
         //console.log(carrierProfile);
         this.setState({carrierName: carrierProfile.username});
@@ -124,8 +135,15 @@ export class SubmitOrder extends Component {
   }
 
   async updateOrderSubmitted() {
-    await cancelByBuyer(this.state.orderId);
-    this.props.orderCancelled();
+    if (this.state.buttonText === 'Cancel Order') {
+      await cancelByBuyer(this.state.orderId);
+      alert('Order cancel successful!');
+      this.props.orderCancelled;
+    } else if (this.state.buttonText === 'Complete Order') {
+      alert('Order completed!');
+      this.setState({completed: true});
+      //return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} change={this.OrderCompletedChange}/>
+    }
   }
 
   _onRefresh() {
@@ -136,6 +154,7 @@ export class SubmitOrder extends Component {
   }
 
   render() {
+    if(!this.state.completed) {
     return (
       <Container>
         <View style= {styles.container}>
@@ -261,6 +280,9 @@ renderRow={data =>
         </View>
       </Container>
     );
+  } else if(this.state.completed) {
+    return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} fromBuyer={true} buyer_change={this.OrderCompletedChange}/>
+  }
   }
 }
 export default SubmitOrder;
