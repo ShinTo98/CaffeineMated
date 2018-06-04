@@ -197,12 +197,14 @@ export const styles = StyleSheet.create({
   },
 
   DiliverTitleItem: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 6,
+    backgroundColor: '#FFFFFF',
     width: 5*deviceWidth/6,
-    top: deviceHeight/15,
+    top: deviceHeight/80,
     height: deviceHeight/20,
   },
 
@@ -270,6 +272,7 @@ export const styles = StyleSheet.create({
     height: deviceWidth*0.12,
     borderColor: '#c8c8c8',
     top: 70,
+    alignSelf: 'center',
   },
 
   cancelText:{
@@ -418,11 +421,12 @@ export const styles = StyleSheet.create({
     borderColor: '#c8c8c8',
     borderWidth: 2,
     borderRadius: 6,
-    flex: 0.08,
-    width: 4*deviceWidth/5,
+    width: 5*deviceWidth/6,
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: deviceHeight/30,
     justifyContent: 'center',
+    height: deviceHeight / 14,
+
     backgroundColor: '#FFFFFF',
   },
   progressBar: {
@@ -497,7 +501,6 @@ export const styles = StyleSheet.create({
     color: '#FF9052',
     fontSize: 24,
     alignSelf: 'center',
-    marginTop: 20,
   },
   progressSpinLabel: {
     fontSize: 16,
@@ -563,5 +566,44 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     //alignSelf: 'flex-end'
   },
+  deliver_container: {
+    alignItems: 'center'
+  },
+
+  deliver_scroll_container: {
+    flex: 0.78,
+    marginTop: '5%',
+    backgroundColor: '#FFFFFF',
+
+  },
+
+
+  buttons_update: {
+    backgroundColor: '#FF9052',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 5 * deviceWidth/6,
+    borderWidth: 2,
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#ff9052',
+    alignSelf: 'center',
+  },
+
+  updateText:{
+    color: '#FFFFFF',
+    fontSize: 30,
+  },
+
+  deliver_orderCard: {
+    height: '30%',
+    width: 6*deviceWidth/7,
+    alignSelf: 'center',
+    marginTop: '2%',
+  },
+  deliver_grid: {
+    alignSelf:'center',
+    marginTop: '2%',
+  }
+
 }
 )
