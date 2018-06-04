@@ -2,6 +2,8 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+const deviceWidthScale = 0.80;
+const deviceHeightScale = 0.08;
 
 export const styles = StyleSheet.create({
   icon: {
@@ -97,18 +99,18 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
 
-  requestTitleItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    width: 300,
-    top: 40,
-    height: 40,
-    borderColor: '#c8c8c8',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 6,
-
-  },
+  // requestTitleItem: {
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   borderWidth: 2,
+  //   width: 300,
+  //   top: 40,
+  //   height: 40,
+  //   borderColor: '#c8c8c8',
+  //   backgroundColor: '#FFFFFF',
+  //   borderRadius: 6,
+  //
+  // },
 
   orderTitle:{
     color: '#FF9052',
@@ -117,14 +119,17 @@ export const styles = StyleSheet.create({
   },
 
   requestList:{
-    // alignItems: 'flex-start',
-    // justifyContent: 'center',
-    width: 290,
-    backgroundColor: '#FFFFFF',
+
+    marginLeft: '-5.3%',
+    padding: 0,
+    width : deviceWidth * 0.82,
+    //backgroundColor: '#080808',
+    //height: deviceHeight * 0.49,
+    marginTop : '1%'
+
   },
 
   list_left_container: {
-    height: '5%',
     //justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
@@ -132,7 +137,6 @@ export const styles = StyleSheet.create({
   },
 
   list_body_container: {
-    height: '50%',
   },
 
   list_text: {
@@ -164,7 +168,7 @@ export const styles = StyleSheet.create({
 
   menuText_disabled:{
     color: 'gray',
-    fontSize: 30,
+    fontSize: 24,
   },
 
   DiliverTitleItem: {
@@ -265,12 +269,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: deviceWidth*0.75,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
     height: deviceWidth*0.12,
     borderColor: '#c8c8c8',
-    top: 60,
+    top: '3%',
   },
 
   normalCell: {
@@ -278,7 +282,60 @@ export const styles = StyleSheet.create({
   },
   selectedCell: {
     backgroundColor: "#ff9052"
-  }
+  },
+  Whenbutton: {
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
+  },
+  Wherebutton: {
+    backgroundColor: '#ffffff',
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
+  },
+  textInput: {
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#f8f8f8',
+    width: deviceWidth*deviceWidthScale,
+    marginBottom: '2%'
+  },
+  Whenwheretext: {
+    color: '#ff9052',
+    fontSize: 22,
+  },
+  requestTitleItem: {
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    //fontSize: 30,
+    width: deviceWidth*deviceWidthScale,
+    borderWidth: 2,
+    height:deviceHeight*0.06,
+    borderColor: '#c8c8c8',
+    borderRadius: 6,
+    marginBottom: '4%',
+  },
+  requestTitleText:{
+    color: '#ff9052',
+    fontSize: 24,
+    alignSelf : 'center',
+    marginTop: '2%',
+
+  },
+  requestItem:{
+    alignItems: 'center',
+    borderColor: '#c8c8c8',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 2,
+    borderRadius: 6,
+    width: deviceWidth*deviceWidthScale,
+    height: deviceHeight*0.50,
+    backgroundColor: '#FFFFFF',
+    padding: 0
+  },
 
 
 

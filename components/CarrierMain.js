@@ -357,15 +357,17 @@ export class CarrierMain extends Component {
     </Button>
     </Item>
 
+
+
     {/* ---------------------------------- Request List ---------------------------------- */}
     <View regular style={styles.requestTitleItem}>
-    <Label style = {styles.orderTitle}>
+    <Text style = {styles.requestTitleText}>
     Requests
-    </Label>
+    </Text>
     </View>
 
 
-    <View scrollEnabled={false} style={{height:200}}>
+    <Container scrollEnabled={false} style={styles.requestItem}>
     {loading &&
         <Content refreshControl={
             <RefreshControl
@@ -419,7 +421,8 @@ export class CarrierMain extends Component {
             <Spinner color='#FF9052' />
             </Content>
         }
-        </View>
+
+        </Container>
 
 
         {/* ---------------------------------- Accept Button ---------------------------------- */}
