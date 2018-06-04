@@ -31,7 +31,7 @@ export default class App extends React.Component {
     return (
 
       <Root>
-        <Drawer />
+        <PrimaryNav />
 
       </Root>
     );
