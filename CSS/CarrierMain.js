@@ -563,5 +563,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     //alignSelf: 'flex-end'
   },
+
+  bigContainer:{
+    marginTop: '-5%',
+    height: deviceHeight * 0.98
+  }
 }
 )
