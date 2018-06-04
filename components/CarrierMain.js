@@ -21,11 +21,11 @@ export class CarrierMain extends Component {
             isDateTimePickerVisible:false,
             loading:false,
             rating: false,
-            rating_order: undefined
+            rating_order: undefined,
+            refreshing: false,
         }
         this.createStars = this.createStars.bind(this);
         this.changeStates = this.changeStates.bind(this);
-        this.saveRequestIds = this.saveRequestIds.bind(this);
         this.OrderCompletedChange = this.OrderCompletedChange.bind(this);
 
     }
@@ -123,7 +123,7 @@ export class CarrierMain extends Component {
         this.props.change("delivering", true);
       }
 
-      complete = () => {-
+      complete = () => {
         completeOrder(this.props.get('selected_order'));
         this.setState({rating_order: this.props.get('order_selecting'), rating: true});
 
@@ -159,10 +159,11 @@ export class CarrierMain extends Component {
     }
 
     _onRefresh() {
-        this.props.change("carrier_refreshing", true);
+        this.setState({refreshing: true});
         this.fetchData().then(() => {
-          this.props.change("carrier_refreshing", false);
+          this.setState({refreshing: false})
         });
+
       }
 
     changeStates(ids, values){
@@ -184,8 +185,9 @@ export class CarrierMain extends Component {
         this.setState({ids: this.props.get('ids')});
       }else{
         this.props.change("ids", await sortOrdersByRequestTime());
+        this.setState({ids: await sortOrdersByRequestTime()});
       }
-        //console.log(this.state.ids);
+      console.log("this is in refresh in carrier Main" + this.props.get("ids"));
     }
 
       async saveRequestDetails() {
@@ -196,7 +198,6 @@ export class CarrierMain extends Component {
           //order.buyer_id = id;
           //console.log("this is id from carrier Main" + order.buyer_id);
           profile = await getProfileDetailById(order.buyer_id);
-          console.log(profile)
           if (profile.username) {
             order["buyer_name"] = profile.username;
           }
@@ -371,7 +372,7 @@ export class CarrierMain extends Component {
     {loading &&
         <Content refreshControl={
             <RefreshControl
-            refreshing={this.props.get("carrier_refreshing")}
+            refreshing={this.state.refreshing}
             onRefresh={this._onRefresh.bind(this)}
             />
         }>
