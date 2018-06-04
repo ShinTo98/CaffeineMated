@@ -121,7 +121,7 @@ export class BuyerMain extends Component {
             </Item>
 
             {/* ------------------------------- Menu button section ------------------------------- */}
-            <View style={styles.buttonItem}>
+            <View style={styles.textInput}>
               <Button style={styles.buttons_menu}  color="#ffffff"
                 onPress={() => this.props.navigation.navigate('menu', {
                   data: this.props.get("order_data"),
@@ -135,12 +135,13 @@ export class BuyerMain extends Component {
 
             {/* ------------------------ LIST OF ORDER ITEMS ------------------------- */}
             <View style={styles.orderItem}>
-              <View>
-                <Text style={styles.orderDetailText}> Order Details </Text>
-                <View style={styles.line}/>
+              
+                <View style={styles.orderDetailText}> 
+                  <Text style={styles.orderText}> Order Details </Text>
+                </View>
 
                 {this.props.get("order_exists") &&
-                <List dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
+                <List contentContainerStyle={styles.itemList} dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
 
                   renderRow={data =>
                   <ListItem style={styles.listItems}>
@@ -165,7 +166,9 @@ export class BuyerMain extends Component {
                       </View>
                     </Card>
                   </ListItem>}
-
+                  
+                  showsHorizontalScrollIndicator={false}
+                  directionalLockEnabled = {true}
                   renderRightHiddenRow={(data, secId, rowId, rowMap) =>
                   <Button full danger onPress={_ => this.deleteRow(secId, rowId, rowMap)}>
                   <Icon active name="trash" />
@@ -178,7 +181,7 @@ export class BuyerMain extends Component {
                 {!this.props.get("order_exists") &&
                     <CoffeeOfTheDay />
                  }
-              </View>
+              
             </View>
 
             {/* ----------------------END OF LIST OF ORDER ITEMS ------------------------- */}
