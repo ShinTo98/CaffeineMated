@@ -237,7 +237,7 @@ renderRow={data =>
 
               <View style= {styles.carrierPic}>
 
-                <Thumbnail style={{alignSelf:'center'}} large source={ require('../resources/batman.jpg') } />
+                <Thumbnail style={{alignSelf:'center'}} large source={ {uri: this.state.carrierPhoto} } />
 
                 <View style= {styles.carrierStars}>
                   {this.updateStars(this.state.carrierRate)}

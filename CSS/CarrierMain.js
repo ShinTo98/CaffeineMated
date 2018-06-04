@@ -317,6 +317,11 @@ export const styles = StyleSheet.create({
     color: '#ff9052',
     fontSize: 22,
   },
+  Whenwheretext2: {
+    color: '#ff9052',
+    fontSize: 22,
+    width: deviceWidth*0.7
+  },
   requestTitleItem: {
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
