@@ -15,7 +15,7 @@ const datas = [
   {
     name: "View history",
     route: "viewHis",
-    icon: 'menu',
+    icon: 'bookmarks',
   },
   /*{
     name: "Payment",
@@ -25,7 +25,7 @@ const datas = [
   {
     name: "Profile",
     route: "profile",
-    icon: 'menu',
+    icon: 'person',
   },
   /*
   {
@@ -42,7 +42,7 @@ const datas = [
   {
     name: "Settings",
     route: "settings",
-    icon: 'menu',
+    icon: 'settings',
   },
 
 ];
@@ -83,7 +83,8 @@ export class SideBar extends Component {
           
           <Image
               style={styles.drawerImage}
-              source={{uri: this.state.image}}
+              //source={{uri: this.state.image}}
+              source={require('../resources/logo.png')}
           />
           </View>
 

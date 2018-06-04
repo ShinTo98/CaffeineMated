@@ -113,13 +113,16 @@ export const styles = StyleSheet.create({
   },
 
   requestList:{
-
-    marginLeft: '-5.3%',
-    padding: 0,
-    width : deviceWidth * 0.82,
+    justifyContent : 'center',
+    alignItems : 'center',
+    //marginLeft: '-2%',
+    //height: deviceHeight * 0.40
+    //marginLeft: '-5.3%',
+    //padding: 0,
+    //width : deviceWidth * 0.82,
     //backgroundColor: '#080808',
     //height: deviceHeight * 0.49,
-    marginTop : '1%'
+    //marginTop : '1%'
 
   },
 
@@ -139,20 +142,41 @@ export const styles = StyleSheet.create({
   },
 
   acceptButtonItem: {
-    top: 20,
+    marginTop: '6%',
   },
 
   buttons_accept: {
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'center',
-    //fontSize: 30,
-    width: deviceWidth*0.75,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height: deviceWidth*0.12,
-    borderColor: '#c8c8c8',
-    top: 60,
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#ff9052',
+    alignSelf: 'center',
+  },
+  buttons_accept_disabled: {
+    //backgroundColor: 'transparent',
+    //flexDirection: 'row',
+    //justifyContent: 'center',
+    //fontSize: 30,
+    //width: deviceWidth*0.75,
+    //padding: 5,
+    //borderWidth: 2,
+    //height: deviceWidth*0.12,
+    //borderColor: '#c8c8c8',
+    //top: 60,
+    backgroundColor: '#',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: deviceWidth*deviceWidthScale,
+    padding: 5,
+    borderWidth: 2,
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#d8d8d8',
+    backgroundColor: '#d8d8d8',
+    alignSelf: 'center',
   },
 
  menuText:{
@@ -232,18 +256,6 @@ export const styles = StyleSheet.create({
     top: deviceHeight/30,
   },
 
-  buttons_accept: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    //fontSize: 30,
-    width: deviceWidth*0.75,
-    padding: 5,
-    borderWidth: 2,
-    height: deviceWidth*0.12,
-    borderColor: '#c8c8c8',
-    top: 60,
-  },
 
   buttons_cancel: {
     backgroundColor: 'transparent',
@@ -263,23 +275,24 @@ export const styles = StyleSheet.create({
     fontSize: 24,
   },
 
-  buttons_accept: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    //fontSize: 30,
-    width: deviceWidth*deviceWidthScale,
-    padding: 5,
-    borderWidth: 2,
-    height: deviceWidth*0.12,
-    borderColor: '#c8c8c8',
-    top: '3%',
-  },
-
   normalCell: {
-    backgroundColor: "#ffffff",
+    alignSelf : 'center',
+    alignItems : 'center',
+    width: '100%',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    justifyContent: 'center',
+    width : deviceWidth*deviceWidthScale,
+    //backgroundColor: "#ffffff",
   },
   selectedCell: {
+    alignSelf : 'center',
+    alignItems : 'center',
+    width: '100%',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    justifyContent: 'center',
+    width : deviceWidth*deviceWidthScale,
     backgroundColor: "#ff9052"
   },
   Wherebutton: {
@@ -310,32 +323,61 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: '4%',
   },
+  requestTitleText:{
+    //color: '#ff9052',
+    //fontSize: 24,
+    //alignSelf : 'center',
+    //marginTop: '1%',
+    alignSelf: 'center',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    marginTop: '2%',
+    //marginBottom: '2%',
+    width: '100%'
+  },
+  requestText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: '#ff9052',
+    marginBottom: '2%',
+  },
   requestItem:{
+    marginTop: '3%',
     alignItems: 'flex-start',
     justifyContent: 'center',
+    //alignItems: 'center',
     borderColor: '#c8c8c8',
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderRadius: 6,
     width: deviceWidth*deviceWidthScale,
-    height: deviceHeight*0.65
-  },
-  requestTitleText:{
-    color: '#ff9052',
-    fontSize: 24,
-    alignSelf : 'center',
-    marginTop: '1%',
-  },
-  requestItem:{
-    alignItems: 'center',
-    borderColor: '#c8c8c8',
+    height: deviceHeight*0.56,
     backgroundColor: '#FFFFFF',
-    borderWidth: 2,
-    borderRadius: 6,
-    width: deviceWidth*deviceWidthScale,
+    //padding: 0
+  },
+  itemImage : {
+    marginTop: 8,
+    marginBottom: 8,
+    left: 10
+  },
+  cardTextView:{
+    right: 7,
+    justifyContent: 'center',
+  },
+  cardPrimaryText: {
+    textAlign: 'right',
+    fontSize: 14,
+    alignSelf: 'flex-end'
+  },
+  cardSecondaryText: {
+    textAlign: 'right',
+    fontSize: 12,
+    fontWeight: '300',
+    fontStyle: 'italic',
+    alignSelf: 'flex-end'
+  },
+  list: {
     height: deviceHeight*0.50,
-    backgroundColor: '#FFFFFF',
-    padding: 0
   },
 
   orderDetailTitle:{

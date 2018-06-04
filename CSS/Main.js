@@ -282,5 +282,8 @@ export const styles = StyleSheet.create({
   },
   selectedCell: {
     backgroundColor: "#ff9052"
+  },
+  list: {
+    height: deviceHeight*0.50,
   }
 });
