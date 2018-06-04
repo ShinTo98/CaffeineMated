@@ -141,7 +141,7 @@ export class CarrierMain extends Component {
             let iosStar = 'ios-star';
             let androidStar = 'md-star';
 
-            if (num - 1 > 0) {
+            if (num - 1 >= 0) {
                 iosStar = 'ios-star';
                 androidStar = 'md-star';
             } else if ( num - 0.5 >= 0) {
@@ -241,6 +241,7 @@ export class CarrierMain extends Component {
         if(!this.state.rating && this.props.get('selecting_order')){
 
             return (
+
               <Container style={{height: '30%'}}>
                 <Content scrollEnabled={false}>
                 <Card>
@@ -249,6 +250,8 @@ export class CarrierMain extends Component {
                 <Button transparent onPress={() => this.props.change('selecting_order', false)}>
                 <Icon name="arrow-back" style={styles.icon}/>
                 </Button>
+
+                <Text>Order Detail</Text>
 
                 </CardItem>
 
@@ -293,26 +296,35 @@ export class CarrierMain extends Component {
         {this.props.get('order_selecting.request_time')}
         </Text>
         </CardItem>
-        {Object.values(this.props.get('order_selecting.items')).map((item,key)=>
-        (
-
-            <CardItem key= {key}>
-            <Body>
-            <Text style={styles.card_title}>
-            {item.item_name}
-            </Text>
-
-            <Text>
-            {item.size}
-            </Text>
-
-            <Text>
-            {item.customization}
-            </Text>
-            </Body>
-            </CardItem>
-        ))
-    }
+        {
+          this.props.get("order_selecting.items").map(function (item, key){
+             var itemSelf = item.itemObject;
+             console.log(itemSelf);
+              return(
+                  <CardItem key={key}>
+                      <Body>
+                      <Text>{item.name}</Text>
+                      <Image source={{uri: item.image}} / >
+                      {
+                        
+                        (Object.keys(item.itemObject)).map(function (itemKey,key){
+                          return(
+                            <Container key={key} style={{height: '5%'}}>
+                                <Text>{itemKey}</Text>
+                                <Text>{item.itemObject[itemKey]}</Text>
+                            </Container>
+                          )
+                        })
+                      }
+                    </Body>
+                  </CardItem>
+              )
+              }
+              )
+              }
+       
+       
+       
     <CardItem footer>
     <Body>
     <Button
@@ -459,7 +471,7 @@ export class CarrierMain extends Component {
 
                 <Item regular style={styles.DiliverTitleItem}>
                 <Label style = {styles.orderTitle}>
-                  {!this.props.get('delivering') ? 'Way To Shop': 'Delivering'}
+                  {!this.props.get('delivering') ? 'Ordering': 'Delivering'}
                 </Label>
                 </Item>
 
