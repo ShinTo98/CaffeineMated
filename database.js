@@ -592,26 +592,26 @@ export async function completeOrder(order_id) {
       // current order status is 5: completedByCarrier, then buyer click complete
       // update status to be 6: completed
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(order_id);
+
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("total_num").set(++index);
-
-          ref = firebase.database().ref("Profile/" + user_id);
-          ref.child("current_order_as_buyer").set('-1');
-          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then buyer click complete
       // update status to be 4: completedByBuyer
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(order_id);
+
           orderRef.child("status").set(4);
           //console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("total_num").set(++index);
-
-          ref = firebase.database().ref("Profile/" + user_id);
-          ref.child("current_order_as_buyer").set('-1');
-          removeOrderStatusChangeListener(orderId);
       }
 
       // current order status is 3: delivering, then carrier click complete
