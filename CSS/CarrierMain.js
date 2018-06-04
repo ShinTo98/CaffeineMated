@@ -22,8 +22,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderWidth: 2,
     borderColor: '#c8c8c8',
-    height: deviceWidth*0.12,
-    width: deviceWidth*0.75,
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
+    //height: deviceWidth*0.12,
+    //width: deviceWidth*0.75,
   },
 
   cardBuyerName: {
@@ -76,27 +78,22 @@ export const styles = StyleSheet.create({
     borderColor: '#f8f8f8',
     //borderWidth: 2,
     width: deviceWidth*0.75,
+    marginBottom: '3%',
   },
 
   Whenbutton: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
     borderColor: '#c8c8c8',
-    height: '85%',
-    width: '100%',
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
+    //height: '85%',
+    //width: '100%',
   },
 
   Whenwheretext: {
     color: '#ff9052',
     fontSize: 22,
-  },
-
-  Whenbutton: {
-    backgroundColor: '#ffffff',
-    borderWidth: 2,
-    borderColor: '#c8c8c8',
-    height: '85%',
-    width: '100%',
   },
 
   // requestTitleItem: {
@@ -283,13 +280,6 @@ export const styles = StyleSheet.create({
   selectedCell: {
     backgroundColor: "#ff9052"
   },
-  Whenbutton: {
-    backgroundColor: '#ffffff',
-    borderWidth: 2,
-    borderColor: '#c8c8c8',
-    height: deviceHeight*deviceHeightScale,
-    width: deviceWidth*deviceWidthScale
-  },
   Wherebutton: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
@@ -318,12 +308,21 @@ export const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: '4%',
   },
+  requestItem:{
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    borderColor: '#c8c8c8',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 2,
+    borderRadius: 6,
+    width: deviceWidth*deviceWidthScale,
+    height: deviceHeight*0.65
+  },
   requestTitleText:{
     color: '#ff9052',
     fontSize: 24,
     alignSelf : 'center',
-    marginTop: '2%',
-
+    marginTop: '1%',
   },
   requestItem:{
     alignItems: 'center',

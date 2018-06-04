@@ -28,7 +28,6 @@ export const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   text_on:{
     color: '#ffffff',
@@ -54,6 +53,7 @@ export const styles = StyleSheet.create({
   white_banner: {
     height: '5%',
     backgroundColor: '#ffffff',
+    justifyContent: 'center',
   },
   banner: {
     height: '5%',
@@ -61,11 +61,11 @@ export const styles = StyleSheet.create({
   },
   buttons_menu: {
     backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
+    //flexDirection: 'row',
     justifyContent: 'center',
     width: deviceWidth*deviceWidthScale,
     borderWidth: 2,
-    height:deviceHeight*0.075,
+    height:deviceHeight*deviceHeightScale,
     borderColor: '#c8c8c8'
   },
   buttons_submit: {
@@ -160,12 +160,14 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#c8c8c8',
     borderBottomWidth: 2,
     marginVertical: '2%',
+    //marginBottom: '2%',
     width: '100%'
   },
   orderText: {
     textAlign: 'center',
     fontSize: 24,
-    color: '#ff9052'
+    color: '#ff9052',
+    marginBottom: '2%',
   },
   submitText:{
     color: '#ffffff',
@@ -186,7 +188,7 @@ export const styles = StyleSheet.create({
     width: deviceWidth*deviceWidthScale
   },
   placeAutocomplete: {
-    top: 50,
+    top: deviceHeight * 0.1,
   },
   Whenwheretext: {
     color: '#ff9052',

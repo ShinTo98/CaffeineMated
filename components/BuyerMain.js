@@ -95,7 +95,7 @@ export class BuyerMain extends Component {
         <Container style = {styles.Container}>
           <View style= {styles.banner}>
             {/* ------------------------ When & Where section -------------------------- */}
-            <Item regular style={styles.textInput}>
+            <View style={styles.textInput}>
               <Button iconLeft style={styles.Whenbutton} onPress={this._showDateTimePicker}>
                 <Icon style={styles.Whenwheretext} name='alarm' />
                 <Text style={styles.Whenwheretext}>{this.props.get("buyer_whenLogan")}</Text>
@@ -109,16 +109,16 @@ export class BuyerMain extends Component {
                 is24Hour={true}
                 timeZoneOffsetInMinutes={-7 * 60}
               />
-            </Item>
+            </View>
 
-            <Item regular style={styles.textInput}>
+            <View style={styles.textInput}>
               <Button iconRight style={styles.Wherebutton} onPress={()=> {
                 this.props.change("buyer_choosePlaces")}
               }>
                 <Text style={styles.Whenwheretext}>{this.props.get("buyer_whereLogan")}</Text>
                 <Icon style={styles.Whenwheretext} name='navigate' />
               </Button>
-            </Item>
+            </View>
 
             {/* ------------------------------- Menu button section ------------------------------- */}
             <View style={styles.textInput}>
