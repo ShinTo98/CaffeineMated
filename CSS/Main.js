@@ -186,7 +186,7 @@ export const styles = StyleSheet.create({
     width: deviceWidth*deviceWidthScale
   },
   placeAutocomplete: {
-    top: 50,
+    //top: 50,
   },
   Whenwheretext: {
     color: '#ff9052',

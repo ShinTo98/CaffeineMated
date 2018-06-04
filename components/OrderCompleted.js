@@ -63,7 +63,7 @@ export class OrderCompleted extends Component {
     return(
       <Container>
         <Container style={styles.popupBox}>
-            <Card>
+            
             <Container style={styles.titleContainer}>
               <Text style={styles.title}>Success! </Text>
               <Text style={styles.title}>You've completed this order. </Text>
@@ -91,7 +91,7 @@ export class OrderCompleted extends Component {
                 selectedStar={(rating) => this.onStarRatingPress(rating)}
               />
             </Container>
-            </Card>
+            
 
             <Container style={styles.buttonContainer}>
               <Button style={styles.buttons_submit} onPress={() => this.updateRating()}>
