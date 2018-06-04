@@ -65,14 +65,15 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
-      updateMode: true
+      updateMode: true,
+      carrier_refreshing: false,
     };
     this.order_selected = {};
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
 
-    
+
   }
 
   buyerMainChange(id, value){
