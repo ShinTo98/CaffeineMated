@@ -3,12 +3,12 @@ import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-    apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
-    authDomain: "caffeinemated-90dda.firebaseapp.com",
-    databaseURL: "https://caffeinemated-90dda.firebaseio.com",
-    projectId: "caffeinemated-90dda",
-    storageBucket: "caffeinemated-90dda.appspot.com",
-     messagingSenderId: "329358763029"
+    apiKey: "AIzaSyBxsExx8hsNe6OyQCkS-O1lrzg4zVXgNoc",
+    authDomain: "cmdatabase-restore.firebaseapp.com",
+    databaseURL: "https://cmdatabase-restore.firebaseio.com",
+    projectId: "cmdatabase-restore",
+    storageBucket: "cmdatabase-restore.appspot.com",
+    messagingSenderId: "486235795755"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -38,7 +38,7 @@ export async function userLogin (email, password) {
   });
 
   if (result === 0) {
-      var curUser = getCurrentUserUID();
+      var curUser = await getCurrentUserUID();
       var Profile = await getProfileById(curUser);
       if (Profile.current_order_as_buyer && Profile.current_order_as_buyer != -1)
           addOrderStatusChangeListener(Profile.current_order_as_buyer);
@@ -58,9 +58,9 @@ export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
 
-      function success(){
+      async function success(){
         result = 0;
-          var newUID = getCurrentUserUID();
+          var newUID = await getCurrentUserUID();
           var newProfileDirName = "Profile/" + newUID;
           var ref = firebase.database().ref(newProfileDirName);
           ref.set({default_mode:"Buyer", rate:5, username:name,
@@ -252,10 +252,10 @@ export async function saveOrder (order) {
  * Description: delete order object from database
  * Parameters: string: order_id
  */
-export function cancelByBuyer(order_id) {
+export async function cancelByBuyer(order_id) {
     let orderRef = firebase.database().ref("Orders/items/" + order_id);
 
-    var user_id = getCurrentUserUID();
+    var user_id = await getCurrentUserUID();
     removeOrderStatusChangeListener(order_id);
     var ref = firebase.database().ref("Profile/" + user_id);
     ref.child("current_order_as_buyer").set('-1');
@@ -295,7 +295,7 @@ export async function viewPendingOrders() {
   const firebaseRef = firebase.database().ref("Orders");
 
   var pendingOrders;
-  let cur_id = getCurrentUserUID();
+  let cur_id = await getCurrentUserUID();
 
     await firebaseRef.once('value', function(snapshot){
 
@@ -409,7 +409,7 @@ export async function getProfileDetailById(profile_id){
  * If the order is already taken by others, it will return -1.
  */
 export async function acceptOrder(order_id){
-    var carrier_id = getCurrentUserUID();
+    var carrier_id = await getCurrentUserUID();
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   let status = -1;
   await orderRef.once("value", dataSnapshot => {
@@ -572,7 +572,7 @@ export async function sortOrdersByRequestTime() {
  * Return: N/A
  */
 export async function completeOrder(order_id) {
-    var user_id = getCurrentUserUID();
+    var user_id = await getCurrentUserUID();
   let profileRef = firebase.database().ref("Profile/" + user_id + "/history/");
   await profileRef.once("value", snapshot => {
     index = snapshot.val().total_num;
@@ -653,7 +653,7 @@ export async function changeDefaultMode(id, mode) {
 
  export async function getDefaultMode(){
    var defaultMode;
-   let profileId =  getCurrentUserUID();
+   let profileId = await getCurrentUserUID();
    let profileRef = firebase.database().ref("Profile/" + profileId +"/default_mode");
    await profileRef.once("value", dataSnapshot => {
      defaultMode = dataSnapshot.val();
@@ -687,7 +687,7 @@ export async function changeProfilePhoto(id, url) {
  */
 export async function logout() {
 
-    var curUser = getCurrentUserUID();
+    var curUser = await getCurrentUserUID();
     var Profile = await getProfileById(curUser);
     if (Profile.current_order_as_buyer != null && Profile.current_order_as_buyer != -1)
         removeOrderStatusChangeListener(Profile.current_order_as_buyer);
@@ -811,7 +811,7 @@ export async function changeUserName(user_id, newName){
  * Parameter: string: phoneNum
  */
 export async function setPhoneNum(phoneNum) {
-  let profile_id = getCurrentUserUID();
+  let profile_id = await getCurrentUserUID();
   let dir = firebase.database().ref("Profile/" + profile_id);
   dir.child("phone").set(phoneNum);
 }
