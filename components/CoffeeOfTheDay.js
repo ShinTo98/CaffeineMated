@@ -49,7 +49,6 @@ export class CoffeeOfTheDay extends Component {
   }
 
   forceUpdateHandler() {
-    console.log("Hello Update");
     this.forceUpdate();
   }
 
@@ -57,8 +56,6 @@ export class CoffeeOfTheDay extends Component {
     var test = await randomCoffee();
     this.setState({item: test});
     this.setState({update: true});
-
-    console.log(this.state.item);
   }
 
   async componentWillMount(){
@@ -73,7 +70,7 @@ export class CoffeeOfTheDay extends Component {
     var result = this.state.item;
 
     if( this.state.update){
-      console.log("this is result in items: " + result.image);
+      //console.log("this is result in items: " + result.image);
       return(
 
           <View style={styles.container}>

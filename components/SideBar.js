@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { Image } from "react-native";
 
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, List, ListItem, Badge } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, List, ListItem, Badge, View } from 'native-base';
 import {styles} from '../CSS/SideBar.js';
 import { StackActions, NavigationActions } from 'react-navigation';
+import {getCurrentUserUID, getProfileById} from '../database.js'
 
 //const drawerCover = require("../resources/newlogo.png");
 //const drawerImage = require("../resources/newlogo.png");
@@ -51,7 +52,7 @@ export class SideBar extends Component {
     super(props);
     this.state = {
       shadowOffsetWidth: 1,
-      shadowRadius: 4
+      shadowRadius: 4, 
     };
   }
 
@@ -64,6 +65,12 @@ export class SideBar extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
+  async componentWillMount() {
+    user_id = await getCurrentUserUID(); 
+    profile = await getProfileById(user_id); 
+    this.setState({image: profile.photo}); 
+  }
+
   render() {
     return (
       <Container>
@@ -72,14 +79,13 @@ export class SideBar extends Component {
           bounces={false}
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
-          <Image
-              style={styles.drawerCover}
-              //source={require('../resources/wei_logo.png')}
-          />
+          <View style={styles.drawerCover}>
+          
           <Image
               style={styles.drawerImage}
-              source={require('../resources/batman.jpg')}
+              source={{uri: this.state.image}}
           />
+          </View>
 
 
           <List

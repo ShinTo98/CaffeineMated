@@ -446,6 +446,37 @@ export async function getDistance(origin, destination, id) {
 
 }
 
+
+
+export async function checkPlace(destination) {
+  return new Promise(function(resolve,reject){
+    const xhr = new XMLHttpRequest();
+
+    const url = "https://maps.googleapis.com/maps/api/directions/json?origin=geisel libaray&destination="+destination+"&mode=walking";
+    xhr.responseType = 'json';
+    //let orderWithDist;
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+          if( xhr.response.routes[0] != undefined){
+            var test = true;
+            resolve(test);
+          }else{
+            var test = false;
+            resolve(test);
+          }
+      }
+    };
+
+    xhr.ontimeout = function() {
+      reject("timeout");
+    }
+    xhr.open('GET', url);
+    xhr.send();
+  });
+
+}
+
+
 /*
  *  Helper function used to compare two orders with ids.
  */
@@ -898,7 +929,7 @@ export async function randomCoffee() {
   await firebase.database().ref(dir).once("value", function (snapshot) {
     coffee = snapshot.val();
   });
-  console.log("today coffee is "+ coffee);
+  //console.log("today coffee is "+ coffee);
   return coffee;
 }
 
