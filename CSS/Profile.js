@@ -2,7 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 export const styles = StyleSheet.create({
   color_theme: {
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#f8f8f8',
   },
   icon: {
     color: '#FF9052',

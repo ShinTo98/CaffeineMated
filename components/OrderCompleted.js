@@ -38,7 +38,11 @@ export class OrderCompleted extends Component {
   updateRating() {
     console.log(this.state.user_id)
     updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer, this.state.user_id);
-    this.props.change('rating',false);
+    if(!this.props.fromBuyer) {
+      this.props.change('rating', false);
+    } else {
+      this.props.buyer_change();
+    }
   }
 
   componentWillMount() {

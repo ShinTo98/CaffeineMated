@@ -28,7 +28,6 @@ export class Main extends Component {
     this.carrierMainGet = this.carrierMainGet.bind(this);
 
     this.state = {
-      seg: 2,
       where: "",
       ids: [],
       request_data: [],
@@ -65,15 +64,23 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
+<<<<<<< HEAD
       updateMode: true,
       carrier_refreshing: false,
+=======
+      updateMode: false
+>>>>>>> 49185571ecabe97c4ca755cd12133d9302217c37
     };
     this.order_selected = {};
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
+<<<<<<< HEAD
 
 
+=======
+    this.orderCancelled= this.orderCancelled.bind(this);
+>>>>>>> 49185571ecabe97c4ca755cd12133d9302217c37
   }
 
   buyerMainChange(id, value){
@@ -275,7 +282,7 @@ export class Main extends Component {
     if( test == "buyer" || test == "Buyer"){
         this.setState({seg: 1});
     }else{
-        this.setState({seg:2});
+        this.setState({seg: 2});
     }
     this.setState({updateMode: true});
   }
@@ -341,6 +348,10 @@ export class Main extends Component {
   }
 
 
+  orderCancelled = () => {
+    this.setState({orderSubmitted: false});
+    alert('Order Cancelled');
+  }
 
   async placeChooseChange(id, location){
     if( id == 0){
@@ -436,8 +447,11 @@ export class Main extends Component {
             navigation = {this.props.navigation}/>
           }
           {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && <SubmitOrder
+            get = {this.buyerMainGet}
+            change = {this.buyerMainChange}
             updateOrderSubmitted={this.state.updateOrderSubmitted}
             order_data={this.state.order_data}
+            orderCancelled={this.orderCancelled}
             time={this.state.buyer_whenLogan}
             location={this.state.buyer_whereLogan}
             orderId={this.state.orderId}

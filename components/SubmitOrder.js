@@ -6,6 +6,7 @@ import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, T
 import {viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, getProfileById, cancelByBuyer} from './../database.js';
 import {styles} from '../CSS/SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
+import {OrderCompleted} from './OrderCompleted.js';
 
 
 export class SubmitOrder extends Component {
@@ -28,7 +29,13 @@ export class SubmitOrder extends Component {
       carrierRate: '',
       carrierPhoto: '',
       carrierAccepted: false,
+      buttonText: 'Cancel Order',
+      disableButton: false,
+      carrierId: '',
+      completed: false,
     };
+
+    this.OrderCompletedChange = this.OrderCompletedChange.bind(this);
     //console.log("orderId, " + this.props.orderId);
 
   }
@@ -55,6 +62,10 @@ export class SubmitOrder extends Component {
     return progressArr;
 
   };
+
+  OrderCompletedChange() {
+    this.props.change('orderSubmitted', false);
+  }
 
   updateStars = (num) => {
     let carrierStars = [];
@@ -99,20 +110,40 @@ export class SubmitOrder extends Component {
     //console.log(orderDetail);
     var status = orderDetail.status;
     this.setState({progressNum: status})
-    if(status >= 2) {
-      var carrierProfile = await getProfileById(orderDetail.carrier_id);
-      //console.log(carrierProfile);
-      this.setState({carrierName: carrierProfile.username});
-      this.setState({carrierRate : carrierProfile.rate});
-      this.setState({carrierPhoto: carrierProfile.photo});
-      this.setState({carrierAccepted: true});
+    switch(status) {
+      case 2:
+        this.setState({progressText: 'Order Progress: Your order has been accepted!'});
+        this.setState({buttonText: 'Carrier Working...'});
+        this.setState({disableButton: true});
+        this.setState({carrierId: orderDetail.carrier_id});
+        var carrierProfile = await getProfileById(orderDetail.carrier_id);
+        //console.log(carrierProfile);
+        this.setState({carrierName: carrierProfile.username});
+        this.setState({carrierRate : carrierProfile.rate});
+        this.setState({carrierPhoto: carrierProfile.photo});
+        this.setState({carrierAccepted: true});
+        break;
+      case 3:
+        this.setState({progressText: 'Order Progress: Your coffee is on its way!'});
+        this.setState({buttonText: 'Complete Order'});
+        this.setState({disableButton: false});
+        break;
+      case 5:
+        this.setState({progressText: 'Order Progress: Your order is complete!'});
+        break;
     }
-
   }
 
   async updateOrderSubmitted() {
-    await cancelByBuyer(this.state.orderId);
-    this.props.orderCancelled();
+    if (this.state.buttonText === 'Cancel Order') {
+      await cancelByBuyer(this.state.orderId);
+      //alert('Order cancel successful!');
+      this.props.orderCancelled();
+    } else if (this.state.buttonText === 'Complete Order') {
+      alert('Order completed!');
+      this.setState({completed: true});
+      //return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} change={this.OrderCompletedChange}/>
+    }
   }
 
   _onRefresh() {
@@ -123,6 +154,7 @@ export class SubmitOrder extends Component {
   }
 
   render() {
+    if(!this.state.completed) {
     return (
       <Container>
         <View style= {styles.container}>
@@ -239,14 +271,18 @@ renderRow={data =>
 
         <View>
           <Button
+          disabled={this.state.disableButton}
           style={styles.buttons_submit}
           color="#ffffff"
           onPress={() => this.updateOrderSubmitted()}
-          > <Text style={styles.menuText}> Cancel Order </Text>
+          > <Text style={styles.menuText}> {this.state.buttonText} </Text>
           </Button>
         </View>
       </Container>
     );
+  } else if(this.state.completed) {
+    return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} fromBuyer={true} buyer_change={this.OrderCompletedChange}/>
+  }
   }
 }
 export default SubmitOrder;
