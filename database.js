@@ -900,8 +900,8 @@ export async function randomCoffee() {
   let type = Math.floor(Math.random() * 6);
 
   // random an integer for item
-  let item = Math.floor(Math.random() * 3) + 1;
-  let hotTea = Math.floor(Math.random() * 3) + 1;
+  let item = Math.floor(Math.random() * 9) + 1;
+  let hotTea = Math.floor(Math.random() * 6) + 1;
 
   let typeRef;
   let prefix;
@@ -927,12 +927,20 @@ export async function randomCoffee() {
   }
 
   let dir;
-  // if (typeRef === 'Hot Teas') {
-  //   dir = "Menu/" + typeRef + "/items/" + prefix + '0' + hotTea;
-  // }
-  dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
-  //console.log("prefix is: " + prefix);
-  //console.log("dir in random is " + dir);
+  if (typeRef === 'Hot Teas') {
+    dir = "Menu/" + typeRef + "/items/" + 'HT' + '0' + hotTea;
+  }
+
+  else {
+
+    // if (item === '10') {
+    //   dir = "Menu/" + typeRef + "/items/" + prefix + item;
+    // }
+    dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
+  }
+
+  console.log("prefix is: " + prefix);
+  console.log("dir in random is " + dir);
   var coffee;
   await firebase.database().ref(dir).once("value", function (snapshot) {
     coffee = snapshot.val();

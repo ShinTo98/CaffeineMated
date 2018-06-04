@@ -282,5 +282,10 @@ export const styles = StyleSheet.create({
   },
   list: {
     height: deviceHeight*0.50,
+  },
+
+  menuText: {
+    color: '#ff9052',
+    fontSize: 25
   }
 });
