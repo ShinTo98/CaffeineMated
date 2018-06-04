@@ -79,6 +79,10 @@ export class CoffeeOfTheDay extends Component {
                 <Text style={styles.titleTex}>Coffee of the Moment</Text>
               </Row>
 
+              <Row style={styles.lineRow}>
+                <View style={styles.line} />
+              </Row>
+
               <Row style={styles.imageRow}>
                 <TouchableWithoutFeedback onPress={() => {
                   this.getCoffee();
@@ -87,7 +91,7 @@ export class CoffeeOfTheDay extends Component {
                 </TouchableWithoutFeedback>
               </Row>
 
-              <Row style={styles.titleRow}>
+              <Row style={styles.nameRow}>
                  <Text style={styles.itemName}>{result.name}</Text>
               </Row>
 

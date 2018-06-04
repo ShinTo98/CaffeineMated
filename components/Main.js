@@ -26,6 +26,8 @@ export class Main extends Component {
     this.buyerMainGet = this.buyerMainGet.bind(this);
     this.carrierMainChange = this.carrierMainChange.bind(this);
     this.carrierMainGet = this.carrierMainGet.bind(this);
+    this.saveRequestIds = this.saveRequestIds.bind(this);
+    this.saveRequestDetails = this.saveRequestDetails.bind(this);
 
     this.state = {
       where: "",
@@ -64,6 +66,7 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
+      carrier_refreshing: false,
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -220,16 +223,23 @@ export class Main extends Component {
     var orderSelected = this.state.order_selected;
     orderSelected.id = value;
     this.setState({order_selected : orderSelected});
+  }else if( id == "ids"){
+    this.setState({ids : value});
   }
   }
 
 
 
   async saveRequestIds() {
+    console.log("fetching...");
     if( this.state.carrier_whereLogan != 'Specify a place'){
       this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
     }else{
       this.setState({ids: await sortOrdersByRequestTime()});
+    }
+    if (this.state.ids.length > 15) {
+      var shortened = this.state.ids.slice(0,15)
+      this.setState({ids: shortened});
     }
     console.log(this.state.ids);
   }
@@ -273,13 +283,13 @@ export class Main extends Component {
         this.setState({seg: seg});
       } else {
         var test = await getDefaultMode();
-      
+
         if( test == "buyer" || test == "Buyer"){
             this.setState({seg: 1});
         }else{
             this.setState({seg: 2});
         }
-        
+
       }
       this.setState({updateMode: true});
   }
@@ -319,6 +329,7 @@ export class Main extends Component {
           selection: this.props.navigation.getParam('selection'),
           itemObject: this.props.navigation.getParam('itemObject'),
         });
+        this.props.navigation.setParams({ update: false })
       }
       var newTotalPrice = 0;
       for(var i = 0; i < latest.length; i++) {
@@ -458,7 +469,8 @@ export class Main extends Component {
             func = {this.componentWillMount}
             get = {this.carrierMainGet}
             change = {this.carrierMainChange}
-            navigation = {this.props.navigation}/>
+            navigation = {this.props.navigation}
+            />
           }
         </Content>
     </Container>
