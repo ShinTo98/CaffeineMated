@@ -64,12 +64,12 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
-      updateMode: false
     };
     this.order_selected = {};
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
     this.placeChooseGet = this.placeChooseGet.bind(this);
+
     this.orderCancelled= this.orderCancelled.bind(this);
   }
 
@@ -268,13 +268,20 @@ export class Main extends Component {
   async componentWillMount() {
 
     if( !this.state.updateMode){
-    var test = await getDefaultMode();
-    if( test == "buyer" || test == "Buyer"){
-        this.setState({seg: 1});
-    }else{
-        this.setState({seg: 2});
-    }
-    this.setState({updateMode: true});
+      if(this.props.navigation.getParam('seg') != undefined) {
+        var seg = this.props.navigation.getParam('seg');
+        this.setState({seg: seg});
+      } else {
+        var test = await getDefaultMode();
+      
+        if( test == "buyer" || test == "Buyer"){
+            this.setState({seg: 1});
+        }else{
+            this.setState({seg: 2});
+        }
+        
+      }
+      this.setState({updateMode: true});
   }
 
 
