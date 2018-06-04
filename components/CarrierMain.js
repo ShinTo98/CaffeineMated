@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {  ScrollView,TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import {Footer, FooterTab, Grid, Row, Col, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
+import {Footer, FooterTab, Grid, Row, Col, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem} from 'native-base';
 import {sortOrdersByDistance, sortOrdersByRequestTime,viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/CarrierMain.js';
 import SubmitOrder from './SubmitOrder.js';
@@ -243,8 +243,8 @@ export class CarrierMain extends Component {
             return (
 
               <Container>
-                <ScrollView >
-                <Card >
+                <Content >
+                <Card style={{flexWrap: 'wrap'}}>
                 <CardItem header>
 
                 <Button transparent onPress={() => this.props.change('selecting_order', false)}>
@@ -352,16 +352,19 @@ export class CarrierMain extends Component {
               }
 
        </Card>
-           </ScrollView>
 
-              <Footer>
-                  <FooterTab>
-                      <Button full style={styles.buttons_confirm}
-                                   onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
-                         <Text style={styles.menuText}>Confirm</Text>
-                      </Button>
-                  </FooterTab>
-              </Footer>
+       <View style={styles.bottom}>
+                         <Button style={styles.buttons_accept}
+                                      onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
+                            <Text style={styles.menuTextSelected}>Confirm</Text>
+                         </Button>
+
+       </View>
+    </Content>
+
+
+
+
 
 
 

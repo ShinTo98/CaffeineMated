@@ -166,10 +166,7 @@ export const styles = StyleSheet.create({
     width: deviceWidth*deviceWidthScale,
     height: deviceHeight*0.45
   },
-  menuText:{
-    color: '#ff9052',
-    fontSize: 24,
-  },
+
   orderDetailText:{
     alignSelf: 'center',
     borderBottomColor: '#c8c8c8',
@@ -285,5 +282,10 @@ export const styles = StyleSheet.create({
   },
   list: {
     height: deviceHeight*0.50,
+  },
+
+  menuText: {
+    color: '#ff9052',
+    fontSize: 25
   }
 });

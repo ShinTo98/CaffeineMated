@@ -54,17 +54,17 @@ export const styles = StyleSheet.create({
   },
 
   buttons_confirm: {
+    height: '30%',
+    width: '100%',
 
-    justifyContent: 'center',
-    alignSelf: 'center',
+    alignItems: 'center',
+    alignSelf:'center',
     //fontSize: 30,
     width: 5*deviceWidth/6,
 
     borderWidth: 0.5,
-    height: '100%',
     borderColor: 'gray',
-    marginBottom: '100%',
-    backgroundColor: '#FF9052'
+    backgroundColor: '#FF9052',
   },
 
   menuTextConfrim:{
@@ -180,7 +180,9 @@ export const styles = StyleSheet.create({
   },
 
  menuText:{
-   color: '#000000'
+   color: '#000000',
+   marginBottom: '50%'
+
  },
 
  menuTextSelected:{
@@ -555,6 +557,11 @@ export const styles = StyleSheet.create({
 
   windowsContainer:{
     height: deviceHeight,
+  },
+  bottom:{
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    //alignSelf: 'flex-end'
   },
 }
 )
