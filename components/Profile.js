@@ -45,6 +45,7 @@ export class Profile extends Component {
       password: '••••••',
       profilePic: "../resources/batman.jpg",
       profileData: [],
+      photo: '',
       rating: 0,
       user_id: '',
       loaded: false,
@@ -62,6 +63,7 @@ export class Profile extends Component {
       placeName: this.state.profileData["username"],
       placePhone: this.state.profileData["phone"],
       rating: Math.round(this.state.profileData["rate"]*2)/2,
+      photo: this.state.profileData["photo"],
       loaded: true,
     })
     //console.log(this.state.buyerRating);
@@ -154,7 +156,7 @@ export class Profile extends Component {
           {this.state.loaded &&
             <Container style={styles.container}>
               <Container style={styles.profileSection}>
-                <Thumbnail large source={ require('../resources/batman.jpg') } />
+                <Thumbnail large source={{uri: this.state.photo}} />
                 <Container style={styles.starSection}>
                   {rateStars}
                 </Container>
