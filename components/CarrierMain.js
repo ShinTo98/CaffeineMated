@@ -242,8 +242,8 @@ export class CarrierMain extends Component {
 
             return (
 
-              <Container style={{height: '30%'}}>
-                <Content scrollEnabled={false}>
+              <Container >
+                <Content>
                 <Card>
                 <CardItem header>
 

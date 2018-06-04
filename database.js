@@ -3,12 +3,12 @@ import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-    apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
-    authDomain: "caffeinemated-90dda.firebaseapp.com",
-    databaseURL: "https://caffeinemated-90dda.firebaseio.com",
-    projectId: "caffeinemated-90dda",
-    storageBucket: "caffeinemated-90dda.appspot.com",
-     messagingSenderId: "329358763029"
+  apiKey: "AIzaSyBxsExx8hsNe6OyQCkS-O1lrzg4zVXgNoc",
+  authDomain: "cmdatabase-restore.firebaseapp.com",
+  databaseURL: "https://cmdatabase-restore.firebaseio.com",
+  projectId: "cmdatabase-restore",
+  storageBucket: "cmdatabase-restore.appspot.com",
+  messagingSenderId: "486235795755"
 };
 // Firebase initialization
 firebase.initializeApp(config);

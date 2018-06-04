@@ -449,12 +449,14 @@ export class Main extends Component {
         <Content padder bounces={false} scrollEnabled={false}>
 
           {/* ---------------------------------- Buyer segment ---------------------------------- */}
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted && <BuyerMain
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted && 
+            <BuyerMain
             get = {this.buyerMainGet}
             change = {this.buyerMainChange}
             navigation = {this.props.navigation}/>
           }
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && <SubmitOrder
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && 
+            <SubmitOrder
             get = {this.buyerMainGet}
             change = {this.buyerMainChange}
             updateOrderSubmitted={this.state.updateOrderSubmitted}

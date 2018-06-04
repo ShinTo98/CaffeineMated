@@ -147,7 +147,7 @@ export class SubmitOrder extends Component {
       alert('Order completed!');
       await completeOrder(this.state.orderId);
       this.setState({completed: true});
-      //return <OrderCompleted user_id={this.state.carrierId} order_id={this.state.orderId} user_name={this.state.carrierName} isBuyer={false} img={this.state.carrierPhoto} change={this.OrderCompletedChange}/>
+      this.props.change('order_data', []);
     }
   }
 
