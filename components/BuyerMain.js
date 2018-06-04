@@ -70,9 +70,9 @@ export class BuyerMain extends Component {
     // For swipable list delete one row
     deleteRow(secId, rowId, rowMap) {
       rowMap[`${secId}${rowId}`].props.closeRow();
-      const newData = [...this.props.get('order_data')];
+      var newData = [...this.props.get('order_data')];
+      rowId = parseInt(rowId); 
       newData.splice(rowId, 1);
-      console.log(newData);
       this.props.change('order_data', newData);
       var newTotalPrice = 0;
       for(var i = 0; i < newData.length; i++) {
