@@ -271,7 +271,7 @@ export class Main extends Component {
 
     if( !this.state.updateMode){
     var test = await getDefaultMode();
-    if( test == "buyer"){
+    if( test == "buyer" || test == "Buyer"){
         this.setState({seg: 1});
     }else{
         this.setState({seg:2});
