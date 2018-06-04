@@ -469,3 +469,8 @@ async function testdisplayOrderHistory() {
 async function testupdateRate() {
   updateOrderRate( 0, 0, true, "PTsXQrkNIkV2MJcSp12t80FmzSC2" );
 }
+
+
+async function testacceptOrder() {
+  
+}
