@@ -217,10 +217,19 @@ export async function saveOrder (order) {
     console.log(requestTime);
     var buyerId = await getCurrentUserUID();
     var createTime = new Date().toLocaleString('en-US', { hour12: false });
+    let profileRef = firebase.database().ref("Profile/" + buyerId);
+    let rate;
 
+    await profileRef.once("value", dataSnapshot => {
+      if (!dataSnapshot) {
+          rate = -1;
+      } else {
+          rate = dataSnapshot.val().rate;
+      }
+    });
     var orderObject ={
         buyer_id: buyerId,
-        buyer_rate: -1,
+        buyer_rate: rate,
         carrier_id: -1,
         create_time: createTime,
         items: orders,
@@ -231,7 +240,7 @@ export async function saveOrder (order) {
     }
 
     var orderId = await saveOrder(orderObject);
-    profileRef = firebase.database().ref("Profile/" + buyerId);
+
     profileRef.child("current_order_as_buyer").set(orderId);
     addOrderStatusChangeListener(orderId);
     return orderId;
