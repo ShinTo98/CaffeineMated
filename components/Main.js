@@ -65,7 +65,7 @@ export class Main extends Component {
       carrier_accept_second: 0,
       // order id after order submission
       orderId: '',
-      updateMode: true
+      updateMode: false
     };
     this.order_selected = {};
     this.order_to_id = {};
@@ -274,7 +274,7 @@ export class Main extends Component {
     if( test == "buyer" || test == "Buyer"){
         this.setState({seg: 1});
     }else{
-        this.setState({seg:2});
+        this.setState({seg: 2});
     }
     this.setState({updateMode: true});
   }
