@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
+import {  ScrollView,TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { Grid, Row, Col, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
+import {Footer, FooterTab, Grid, Row, Col, Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
 import {sortOrdersByDistance, sortOrdersByRequestTime,viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
 import {styles} from '../CSS/CarrierMain.js';
 import SubmitOrder from './SubmitOrder.js';
@@ -243,8 +243,8 @@ export class CarrierMain extends Component {
             return (
 
               <Container>
-                <Content>
-                <Card>
+                <ScrollView >
+                <Card >
                 <CardItem header>
 
                 <Button transparent onPress={() => this.props.change('selecting_order', false)}>
@@ -303,51 +303,69 @@ export class CarrierMain extends Component {
         </Row>
         </Grid>
         <View style={styles.cardLine}/>
-  
+
         {
           this.props.get("order_selecting.items").map(function (item, key){
              var itemSelf = item.itemObject;
-             console.log(itemSelf);
               return(
-                  <CardItem key={key}>
-                      <Body>
-                      <Text>{item.name}</Text>
-                      <Thumbnail  source={{uri: item.image}}/>
+                <Card style={styles.orderCard}>
+                  <View style = {{flexDirection: 'row'}}>
+                    <Grid >
+                      <Col style={{width: '23%', flexWrap:'wrap'}}>
+                      <Row style={{height: '20%'}}>
+                      <Text style ={styles.cardPrimaryText}>
+                        {item.name}
+                      </Text>
+                      </Row>
+                      <Row>
+                      <Thumbnail style={styles.itemImage} source={{uri: item.image}} />
+                      </Row>
+                      </Col>
+                      <Col style={{width: '78%', flexWrap: 'wrap'}}>
+                    <View style = {styles.cardTextView}>
                       {
-                        
+
                         (Object.keys(item.itemObject)).map(function (itemKey,key){
                           return(
-                            <Container key={key} style={{height: '5%'}}>
-                                <Text>{itemKey}</Text>
-                                <Text>{item.itemObject[itemKey]}</Text>
-                            </Container>
+                            <Row key={key}>
+                              <Col>
+                                <Text style={styles.cardSecondaryText}>{itemKey}</Text>
+                                </Col>
+                                <Col>
+
+                                <Text style={styles.cardSecondaryText}>{item.itemObject[itemKey]}</Text>
+                                </Col>
+                            </Row>
                           )
                         })
                       }
-                    </Body>
-                  </CardItem>
-              )
-              }
-              )
-              }
-       
-       
-    <CardItem footer>
-    <Body>
-    <Button
-    style={styles.buttons_confirm}
-    color="#ffffff"
-    >
-    <Text style={styles.menuText}
-    onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
-    Confirm
-    </Text>
-    </Button>
-    </Body>
-    </CardItem>
+                    </View>
 
-    </Card>
-    </Content>
+                  </Col>
+                  </Grid>
+                  </View>
+                </Card>
+
+              )
+              }
+              )
+              }
+
+       </Card>
+           </ScrollView>
+
+              <Footer>
+                  <FooterTab>
+                      <Button full style={styles.buttons_confirm}
+                                   onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
+                         <Text style={styles.menuText}>Confirm</Text>
+                      </Button>
+                  </FooterTab>
+              </Footer>
+
+
+
+
     </Container>
 );
 }else if(!this.state.rating && !this.props.get('accepted')){
@@ -454,7 +472,7 @@ export class CarrierMain extends Component {
         color="#ffffff"
         onPress={() => this.accept() }
         >
-        <Text style={this.props.get('request_selected')? styles.menuText: styles.menuText_disabled}>
+        <Text style={this.props.get('request_selected')? styles.menuTextSelected: styles.menuText_disabled}>
         Accept
         </Text>
         </Button>
