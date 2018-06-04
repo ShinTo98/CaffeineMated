@@ -342,7 +342,7 @@ export const styles = StyleSheet.create({
     marginBottom: '2%',
   },
   requestItem:{
-    marginTop: '3%',
+    //marginTop: '3%',
     alignItems: 'flex-start',
     justifyContent: 'center',
     //alignItems: 'center',
