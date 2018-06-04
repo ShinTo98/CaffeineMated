@@ -4,7 +4,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 export const styles = StyleSheet.create({
 
   container: {
-    marginTop: 10,
+    marginTop: '2%',
     //height: '100%',
     //width: '100%',
     // alignItems: 'center',
@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
 
 
   titleRow: {
+    marginTop: '-10%',
     height: '10%',
     width: '100%',
     alignContent: 'center',
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
 
   imageRow: {
     height: '50%',
-    marginTop: -30,
+    marginTop: '-16%',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -39,6 +40,30 @@ export const styles = StyleSheet.create({
     width:Dimensions.get('window').width*0.28,
     height: Dimensions.get('window').width*0.28,
     borderRadius: Dimensions.get('window').width*0.14,
+  },
+
+  lineRow: {
+    height: '5%',
+    marginTop: '-25%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  line:{
+    borderBottomColor: '#FF9052',
+    borderBottomWidth: 2,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingLeft: '70%',
+    marginBottom: '5%'
+  },
+
+  nameRow: {
+    marginTop: '5%',
+    height: '10%',
+    width: '100%',
+    alignContent: 'center',
+    justifyContent: 'center'
   },
 
   itemName: {

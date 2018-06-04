@@ -76,7 +76,11 @@ export class CoffeeOfTheDay extends Component {
           <View style={styles.container}>
             <Grid style={{flexWrap: 'wrap'}}>
               <Row style={styles.titleRow}>
-                <Text style={styles.titleTex}>Coffee of the Day</Text>
+                <Text style={styles.titleTex}>Coffee of the Moment</Text>
+              </Row>
+
+              <Row style={styles.lineRow}>
+                <View style={styles.line} />
               </Row>
 
               <Row style={styles.imageRow}>
@@ -87,7 +91,7 @@ export class CoffeeOfTheDay extends Component {
                 </TouchableWithoutFeedback>
               </Row>
 
-              <Row style={styles.titleRow}>
+              <Row style={styles.nameRow}>
                  <Text style={styles.itemName}>{result.name}</Text>
               </Row>
 
