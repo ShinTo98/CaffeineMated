@@ -598,7 +598,7 @@ export async function completeOrder(order_id) {
 
           ref = firebase.database().ref("Profile/" + user_id);
           ref.child("current_order_as_buyer").set('-1');
-          removeOrderStatusChangeListener(orderId);
+          removeOrderStatusChangeListener(order_id);
       }
 
       // current order status is 3: delivering, then buyer click complete
@@ -611,7 +611,7 @@ export async function completeOrder(order_id) {
 
           ref = firebase.database().ref("Profile/" + user_id);
           ref.child("current_order_as_buyer").set('-1');
-          removeOrderStatusChangeListener(orderId);
+          removeOrderStatusChangeListener(order_id);
       }
 
       // current order status is 3: delivering, then carrier click complete
