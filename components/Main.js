@@ -28,7 +28,6 @@ export class Main extends Component {
     this.carrierMainGet = this.carrierMainGet.bind(this);
 
     this.state = {
-      seg: 2,
       where: "",
       ids: [],
       request_data: [],
