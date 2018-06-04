@@ -38,15 +38,15 @@ export class Login extends Component {
   async login() {
     Keyboard.dismiss(); 
     var result = await userLogin(this.state.email, this.state.password);
-    var hack = this; 
+    var thisPage = this; 
     setTimeout(function(){
       if(result === 0) {
         alert("Login Successful!");
-        hack.props.navigation.navigate('main');
+        thisPage.props.navigation.navigate('main');
       } else {
         alert(result);
       }
-   }, 50)
+   }, 1)
   }
 
   render() {
