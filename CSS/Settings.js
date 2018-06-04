@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     height: "40%",
   },
   signOut: {
-    backgroundColor: '#47525e',
+    backgroundColor: '#FF9052',
   },
   signOutText: {
     color: "#ffffff",
