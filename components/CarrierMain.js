@@ -397,7 +397,7 @@ export class CarrierMain extends Component {
     </View>
     <View style={styles.textInput}>
     <Button iconRight style={styles.Wherebutton} onPress={()=>{this.props.change('carrier_choosePlaces', true)}}>
-    <Text style={styles.Whenwheretext}>{this.props.get('carrier_whereLogan')}</Text>
+    <Text numberOfLines={1} style={styles.Whenwheretext2}>{this.props.get('carrier_whereLogan')}</Text>
     <Icon style={styles.Whenwheretext} name='navigate' />
     </Button>
     </View>
