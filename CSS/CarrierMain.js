@@ -566,6 +566,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     //alignSelf: 'flex-end'
   },
+  bigContainer:{
+    marginTop: '-5%',
+    height: deviceHeight * 0.98
+  },
   deliver_container: {
     alignItems: 'center'
   },
@@ -603,7 +607,7 @@ export const styles = StyleSheet.create({
   deliver_grid: {
     alignSelf:'center',
     marginTop: '2%',
-  }
+  },
 
 }
 )

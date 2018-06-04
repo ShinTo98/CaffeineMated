@@ -275,47 +275,51 @@ export class CarrierMain extends Component {
 
             return (
 
-              <Container>
-                <Content >
-                <Card style={{flexWrap: 'wrap'}}>
-                <CardItem header>
-
+              <Container style={styles.bigContainer}>
+                <Header>
+<Left>
                 <Button transparent onPress={() => this.props.change('selecting_order', false)}>
                 <Icon name="arrow-back" style={styles.icon}/>
                 </Button>
+</Left>
 
+<Body>
                 <Text style={styles.orderDetailTitle}>Order Detail</Text>
-
-                </CardItem>
+</Body>
+                </Header>
 
                 <View style={styles.cardLine}/>
-                <CardItem style={{height: '20%'}}>
-                <Left>
+
+                < Container style={{height: '80%', marginBottom: 0}}>
+                <ScrollView>
+                <Grid>
+                  <Col>
                 {!this.props.get('order_selecting.avatar') &&
                 <Thumbnail large source={require('../resources/avatar.png')}/>
             }
+
             {this.props.get('order_selecting.avatar') &&
             <Thumbnail large source={{uri: this.props.get('order_selecting.avatar')}}/>
         }
+                    </Col>
+            <Col>
+            <Row>
 
-        <Body>
-        <CardItem>
         <Text style={styles.cardBuyerName}>
         {this.props.get('order_selecting.buyer_name')}
         </Text>
-        </CardItem>
-        <CardItem>
+        </Row>
+        <Row>
         {
             this.createStars(this.props.get('order_selecting.buyer_rate'))
         }
-        </CardItem>
-        </Body>
-        </Left>
-        </CardItem>
+        </Row>
+        </Col>
+        </Grid>
 
-        <Grid style={styles.headerContainer}>
+        <Grid style={{height: '30%'}}>
         <Row>
-        <Col style={{width: '40%'}}>
+        <Col style={{flexDirection:'wrap'}}>
         <Icon name='ios-compass' size={20} style={styles.icons}/>
         </Col>
         <Col style={{width: '60%', alignSelf: 'flex-end', alignContent: 'flex-start'}}>
@@ -342,9 +346,8 @@ export class CarrierMain extends Component {
              var itemSelf = item.itemObject;
               return(
                 <Card style={styles.orderCard}>
-                  <View style = {{flexDirection: 'row'}}>
-                    <Grid >
-                      <Col style={{width: '23%', flexWrap:'wrap'}}>
+                    <Grid>
+                      <Col style={{ width: '23%', flexWrap:'wrap'}}>
                       <Row style={{height: '20%'}}>
                       <Text style ={styles.cardPrimaryText}>
                         {item.name}
@@ -355,7 +358,6 @@ export class CarrierMain extends Component {
                       </Row>
                       </Col>
                       <Col style={{width: '78%', flexWrap: 'wrap'}}>
-                    <View style = {styles.cardTextView}>
                       {
 
                         (Object.keys(item.itemObject)).map(function (itemKey,key){
@@ -372,37 +374,39 @@ export class CarrierMain extends Component {
                           )
                         })
                       }
-                    </View>
 
                   </Col>
                   </Grid>
-                  </View>
                 </Card>
 
               )
               }
               )
               }
+</ScrollView>
+</Container>
 
-       </Card>
 
-       <View style={styles.bottom}>
-                         <Button style={styles.buttons_accept}
+       <Footer style={{height: '12%', width: '100%', marginBottom:'10%'}}>
+         <FooterTab>
+                         <Button style={{height:'100%',width:'100%', backgroundColor:'#FF9052', justifyContent:'center', alignItems:'center'}}
                                       onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
-                            <Text style={styles.menuTextSelected}>Confirm</Text>
+                            <Text style={{color: '#FFFFFF', fontSize: 24, padding: '20%'}}>Confirm</Text>
+                    
                          </Button>
-
-       </View>
-    </Content>
-
-
-
-
-
-
-
+                         </FooterTab>
+          </Footer>
 
     </Container>
+
+
+
+
+
+
+
+
+
 );
 }else if(!this.state.rating && !this.props.get('accepted')){
     return(

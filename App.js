@@ -22,7 +22,7 @@ import { ViewHis } from './components/ViewHis.js';
 import { SubmitOrder } from './components/SubmitOrder.js';
 
 import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
-
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
 
