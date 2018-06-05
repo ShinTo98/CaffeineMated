@@ -54,17 +54,17 @@ export const styles = StyleSheet.create({
   },
 
   buttons_confirm: {
+    height: '30%',
+    width: '100%',
 
-    justifyContent: 'center',
-    alignSelf: 'center',
+    alignItems: 'center',
+    alignSelf:'center',
     //fontSize: 30,
     width: 5*deviceWidth/6,
 
     borderWidth: 0.5,
-    height: '100%',
     borderColor: 'gray',
-    marginBottom: '100%',
-    backgroundColor: '#FF9052'
+    backgroundColor: '#FF9052',
   },
 
   menuTextConfrim:{
@@ -180,7 +180,9 @@ export const styles = StyleSheet.create({
   },
 
  menuText:{
-   color: '#000000'
+   color: '#000000',
+   marginBottom: '50%'
+
  },
 
  menuTextSelected:{
@@ -195,12 +197,14 @@ export const styles = StyleSheet.create({
   },
 
   DiliverTitleItem: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 2,
+    borderRadius: 6,
+    backgroundColor: '#FFFFFF',
     width: 5*deviceWidth/6,
-    top: deviceHeight/15,
+    top: deviceHeight/80,
     height: deviceHeight/20,
   },
 
@@ -268,6 +272,7 @@ export const styles = StyleSheet.create({
     height: deviceWidth*0.12,
     borderColor: '#c8c8c8',
     top: 70,
+    alignSelf: 'center',
   },
 
   cancelText:{
@@ -312,6 +317,11 @@ export const styles = StyleSheet.create({
     color: '#ff9052',
     fontSize: 22,
   },
+  Whenwheretext2: {
+    color: '#ff9052',
+    fontSize: 22,
+    width: deviceWidth*0.7
+  },
   requestTitleItem: {
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
@@ -342,7 +352,7 @@ export const styles = StyleSheet.create({
     marginBottom: '2%',
   },
   requestItem:{
-    marginTop: '3%',
+    //marginTop: '3%',
     alignItems: 'flex-start',
     justifyContent: 'center',
     //alignItems: 'center',
@@ -416,11 +426,12 @@ export const styles = StyleSheet.create({
     borderColor: '#c8c8c8',
     borderWidth: 2,
     borderRadius: 6,
-    flex: 0.08,
-    width: 4*deviceWidth/5,
+    width: 5*deviceWidth/6,
     alignSelf: 'center',
-    marginTop: 10,
+    marginTop: deviceHeight/30,
     justifyContent: 'center',
+    height: deviceHeight / 14,
+
     backgroundColor: '#FFFFFF',
   },
   progressBar: {
@@ -495,7 +506,6 @@ export const styles = StyleSheet.create({
     color: '#FF9052',
     fontSize: 24,
     alignSelf: 'center',
-    marginTop: 20,
   },
   progressSpinLabel: {
     fontSize: 16,
@@ -556,5 +566,71 @@ export const styles = StyleSheet.create({
   windowsContainer:{
     height: deviceHeight,
   },
+  bottom:{
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    //alignSelf: 'flex-end'
+  },
+  bigContainer:{
+    marginTop: '-10%',
+    height: deviceHeight
+  },
+
+   footerStyle:{
+    height: deviceHeight * 0.12, 
+    width: '100%', 
+    marginBottom: deviceHeight * 0.1 
+   },
+
+   confirmButton:{
+    flex: 1,
+    backgroundColor:'#FF9052', 
+    justifyContent:'center', 
+    alignItems:'center',
+    marginTop: '-5%',
+  },
+  
+  deliver_container: {
+    alignItems: 'center'
+  },
+
+  deliver_scroll_container: {
+    flex: 0.78,
+    marginTop: '5%',
+    backgroundColor: '#FFFFFF',
+
+  },
+
+
+  buttons_update: {
+    backgroundColor: '#FF9052',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 5 * deviceWidth/6,
+    borderWidth: 2,
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#ff9052',
+    alignSelf: 'center',
+  },
+
+  updateText:{
+    color: '#FFFFFF',
+    fontSize: 30,
+  },
+
+  deliver_orderCard: {
+    height: '30%',
+    width: 6*deviceWidth/7,
+    alignSelf: 'center',
+  },
+  deliver_grid: {
+    alignSelf:'center',
+    marginTop: '2%',
+  },
+
+  filler: {
+    height: deviceHeight * 0.1 ,
+  },
+
 }
 )
