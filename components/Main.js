@@ -94,7 +94,7 @@ export class Main extends Component {
     } else if (id == "order_exists" ) {
       this.setState({order_exists : value});
     }
-    
+
   }
 
   buyerMainGet(id){
@@ -342,7 +342,7 @@ export class Main extends Component {
         this.setState({order_data: latest});
         this.setState({totalPrice: newTotalPrice});
         this.setState({order_exists: true});
-        this.props.navigation.setParams({ update: false }); 
+        this.props.navigation.setParams({ update: false });
       }
 
       //console.log(this.state.order_data);
@@ -426,7 +426,9 @@ export class Main extends Component {
       {/* ---------------------------------- Regular main page ---------------------------------- */}{/* ---------------------------------- Main page header ---------------------------------- */}
         <Header hasSegment style={styles.header}>
           <Left>
-            <Button transparent onPress={() => this.props.navigation.navigate('DrawerOpen')}>
+            <Button
+              disabled = {this.state.orderSubmitted || this.state.accpeted || this.state.selecting_order || this.state.order_selecting }
+              transparent onPress={() => this.props.navigation.navigate('DrawerOpen')}>
               <Icon name="menu" style={styles.icon}/>
             </Button>
           </Left>
@@ -455,13 +457,13 @@ export class Main extends Component {
         <Content padder bounces={false} scrollEnabled={false}>
 
           {/* ---------------------------------- Buyer segment ---------------------------------- */}
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted && 
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted &&
             <BuyerMain
             get = {this.buyerMainGet}
             change = {this.buyerMainChange}
             navigation = {this.props.navigation}/>
           }
-          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted && 
+          {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted &&
             <SubmitOrder
             get = {this.buyerMainGet}
             change = {this.buyerMainChange}

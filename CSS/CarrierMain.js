@@ -146,7 +146,7 @@ export const styles = StyleSheet.create({
   },
 
   buttons_accept: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ff9052',
     flexDirection: 'row',
     justifyContent: 'center',
     width: deviceWidth*deviceWidthScale,
@@ -186,7 +186,7 @@ export const styles = StyleSheet.create({
  },
 
  menuTextSelected:{
-   color: '#ff9052',
+   color: '#ffffff',
    fontSize: 20,
  },
 
@@ -577,19 +577,19 @@ export const styles = StyleSheet.create({
   },
 
    footerStyle:{
-    height: deviceHeight * 0.12, 
-    width: '100%', 
-    marginBottom: deviceHeight * 0.1 
+    height: deviceHeight * 0.12,
+    width: '100%',
+    marginBottom: deviceHeight * 0.1
    },
 
    confirmButton:{
     flex: 1,
-    backgroundColor:'#FF9052', 
-    justifyContent:'center', 
+    backgroundColor:'#FF9052',
+    justifyContent:'center',
     alignItems:'center',
     marginTop: '-5%',
   },
-  
+
   deliver_container: {
     alignItems: 'center'
   },
@@ -629,7 +629,8 @@ export const styles = StyleSheet.create({
   },
 
   filler: {
-    height: deviceHeight * 0.1 ,
+    height: deviceHeight * 0.15 ,
+    backgroundColor: '#ffffff'
   },
 
 }
