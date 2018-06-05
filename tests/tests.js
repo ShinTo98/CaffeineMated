@@ -33,14 +33,14 @@ async function main() {
   // await testdisplayType();
   // await testdisplayItem();
   // await testviewPendingOrders();
-  // await testGetProfileById();
-  // await testGetProfileDetailById();
+  await testGetProfileById();
+  await testGetProfileDetailById();
   // await testviewOrderDetailById();
   // await testgetOrderLocationById();
   await testdisplayOrderHistory();
-  // await testGetItemDetailWithOnlyId();
-  // await testChangeUserName();
-  // await testChangeProfilePhoto();
+  await testGetItemDetailWithOnlyId();
+  await testChangeUserName();
+  await testChangeProfilePhoto();
 }
 
 
@@ -80,7 +80,7 @@ async function testGetProfileById() {
   var his = await getProfileById( "test1" );
 
   var expected = {
-    "default_mode:": "buyer",
+    "default_mode": "buyer",
     "history": {
       "0": "historyOrder1",
       "1": "historyOrder2",
@@ -180,7 +180,7 @@ async function testGetProfileDetailById() {
   var his = await getProfileDetailById( "test1" );
 
   var expected = {
-    "default_mode:": "buyer",
+    "default_mode": "buyer",
     "history": {
       "0": "historyOrder1",
       "1": "historyOrder2",
@@ -264,22 +264,46 @@ async function testdisplayType() {
   var expectedReturnedDrinks = [
     [
       'https://globalassets.starbucks.com/assets/3056aa7849a0477ea4ed137b66910324.jpg',
-      'D01',
+      'DR01',
       'Pink Drink'
     ],
     [
       'https://globalassets.starbucks.com/assets/452d9229393844b9b57263a7d0d9cf1e.jpg',
-      'D02',
+      'DR02',
       'Hot Chocolate'
     ],
     [
       'https://globalassets.starbucks.com/assets/cff93f212cda4cd09e7dfa5a358caeed.jpg',
-      'D03',
+      'DR03',
       'Strawberry Acai Refreshers™'
-    ]
+    ],
+    [ 'https://globalassets.starbucks.com/assets/c05d9645bcad432695e2e2b42fda77f1.jpg',
+      'DR04',
+      'Cool Lime Lemonade Refreshers' ],
+    [ 'https://globalassets.starbucks.com/assets/65cd490369574169b7da525a715c388b.jpg',
+      'DR05',
+      'Very Berry Hibiscus Lemonade Refreshers' ],
+    [ 'https://globalassets.starbucks.com/assets/fc862fb36e71455c97360082d513c48e.jpg',
+      'DR06',
+      'Ombré Pink Drink' ],
+    [ 'https://globalassets.starbucks.com/assets/195a5b9e040d4da18464ce64813ce44f.jpg',
+      'DR07',
+      'Violet Drink' ],
+    [ 'https://globalassets.starbucks.com/assets/b74472856c7343b88f78e01c0e736d85.jpg',
+      'DR08',
+      'White Hot Chocolate' ],
+    [ 'https://globalassets.starbucks.com/assets/5f58206cbf3d463ebdac5f9f281aded1.jpg',
+      'DR09',
+      'Chocolate Smoothie' ],
+    [ 'https://globalassets.starbucks.com/assets/75f0afa0cf954a9b819ae7d031275e39.jpg',
+      'DR10',
+      'Cinnamon Dolce Crème' ]
 ];
 
+
   console.log("Testing function displayType...");
+
+
 
   //console.log( "Expecting returned list of pairs of [img, id, name]" );
   //console.log( "Actual returned value:" );
@@ -411,7 +435,7 @@ async function testGetItemDetailWithOnlyId() {
   console.log( "Testing function getItemDetailWithOnlyId..." );
   var his = await getItemDetailWithOnlyId("CC01");
   var expected = {
-    description: 'With less milk than a latte',
+    description: '  With less milk than a latte, Iced Cappuccino offers a stronger espresso flavor, a luxurious texture and a velvety, frothy foam with a crisp, cool undercurrent.',
     image: 'https://globalassets.starbucks.com/assets/0388f3540da3441ba182800eae2a83b8.jpg',
     name: 'Iced Cappuccino',
     price: {
@@ -430,7 +454,7 @@ async function testGetItemDetailWithOnlyId() {
             console.log("PASSED!\n");
           } else {
             console.log("FAILED!\n");
-            //console.log(content[inner]);
+            console.log(content[inner]);
           }
         }
       }
@@ -439,6 +463,7 @@ async function testGetItemDetailWithOnlyId() {
           console.log("PASSED!\n");
         } else {
           console.log("FAILED!\n");
+          console.log(content);
         }
       }
     }
