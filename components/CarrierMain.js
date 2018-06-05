@@ -88,7 +88,7 @@ export class CarrierMain extends Component {
         }
         else {
           cancelByCarrier(this.props.get('selected_order'));
-          this.changeStates(['accepted','delivering','order_selecting','selecting_order','selected_order'], [false, false,-1, false, -1]);
+          this.changeStates(['accepted','delivering','order_selecting','selecting_order','selected_order', 'request_selected'], [false, false,undefined, false, -1, false]);
         }
       }
 
@@ -665,6 +665,23 @@ export class CarrierMain extends Component {
                         }
                         )
                         }
+                        <Grid>
+
+
+                        <Container style={styles.filler}>
+                        {!this.props.get('delivering') &&
+                          <Button
+                            style={styles.buttons_cancel}
+                            onPress={() => this.cancelCarrier() }
+                          >
+                            <Text style={styles.cancelText}>
+                              Cancel
+                            </Text>
+                          </Button>
+                        }
+                        </Container>
+
+                        </Grid>
 
                   </ScrollView>
                 </Container>

@@ -97,7 +97,7 @@ const Drawer = DrawerNavigator(
     carrierMain: {screen: CarrierMain},
     placeChoose: {screen: PlaceChoose},
     submitOrder: {screen: SubmitOrder},
-    viewHis: {screen: ViewHis}, 
+    viewHis: {screen: ViewHis},
     orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
