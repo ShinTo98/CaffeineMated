@@ -16,58 +16,31 @@ import {
   changeDefaultMode,
   changeUserName,
   changeProfilePhoto,
-  displayOrderHistory
+  displayOrderHistory,
+  getItemDetailWithOnlyId,
+  updateOrderRate,
+  saveOrder,
+  viewAllOrders
 } from '../database.js';
-import {saveOrder, updateOrderRate, viewAllOrders} from "../database";
-
-//var _Example = require("../database.js\"");
-var config = {
-  apiKey: "AIzaSyAQSNocuGrjIBtwErRJeHV7nUsfQGZC_uE",
-  authDomain: "cmdatabase-c3084.firebaseapp.com",
-  databaseURL: "https://cmdatabase-c3084.firebaseio.com",
-  projectId: "cmdatabase-c3084",
-  storageBucket: "cmdatabase-c3084.appspot.com",
-  messagingSenderId: "964208744011"
-};
 
 main();
 
 //npx babel-node tests.js
 async function main() {
 
-  //await testuserSignup();
-  //await testuserLogin();
-  //await testdisplayMenu();
-  await testdisplayType();
-  //await testdisplayItem();
-  //await testviewPendingOrders();
-  //await testgetOrderLocationById();
-  //await testdisplayOrderHistory();
-  //await testupdateRate();
-
-  console.log("ALL TESTED... Ctrl+C to exit the test program...");
-
-
-  //await testLogOut();
-  //await testUserPasswordChange();
-  //await testGetProfileById();
- // await testviewOrderDetailById();
-}
-
-
-async function testuserSignup() {
-  var email = "unittest@ucsd.edu";
-  var password = "password";
-  var returned = await userSignup(email, password);
-
-  console.log("Testing function userSignup...");
-  console.log("Expecting returned value:\t0");
-  console.log("Actual returned value:\t" + returned);
-  if (returned === 0) {
-    console.log("PASSED!\n");
-  } else {
-    console.log("FAILED!\n");
-  }
+  // await testuserLogin();
+  // await testdisplayMenu();
+  // await testdisplayType();
+  // await testdisplayItem();
+  // await testviewPendingOrders();
+  await testGetProfileById();
+  await testGetProfileDetailById();
+  // await testviewOrderDetailById();
+  // await testgetOrderLocationById();
+  await testdisplayOrderHistory();
+  await testGetItemDetailWithOnlyId();
+  await testChangeUserName();
+  await testChangeProfilePhoto();
 }
 
 
@@ -101,77 +74,153 @@ async function testuserLogin() {
 }
 
 
-async function testUserPasswordChange() {
-  var email = "unittest@ucsd.edu";
-  var password = "password";
+async function testGetProfileById() {
+  console.log( "Testing function getProfileById..." );
 
-  // What's current user in this case?
-  await userPasswordChange("newPassword");
+  var his = await getProfileById( "test1" );
 
-  var returnederror = await userLogin( email, password );
+  var expected = {
+    "default_mode": "buyer",
+    "history": {
+      "0": "historyOrder1",
+      "1": "historyOrder2",
+      "size": 2,
+    },
+    "rate": 4,
+    "username": "testname",
+  }
 
-  console.log( "Testing function userPasswordChange with incorrect user" +
-    " credentials..." );
-  console.log( "Expecting to return an error message" );
-  console.log( "Actual returned value:\t" + returnederror );
-  if( returnederror === 0 ) { console.log( "FAILED!\n" ); } else { console.log( "PASSED!\n" ); }
+  for (index in his) {
+    let item = his[index];
+    let expectedItem = expected[index];
 
-  var password = "newPassword";
-  var returned = await userLogin( email, password );
+    if (index === "history") {
 
-  console.log( "Testing function userPasswordChange with correct user credentials..." );
-  console.log( "Expecting returned value:\t0" );
-  console.log( "Actual returned value:\t" + returned );
-  if( returned === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+      for (inner in item) {
+
+        if (item[inner] == expectedItem[inner]) {
+          console.log("PASSES!\n");
+
+        }
+        else {
+          console.log("FAILED!\n");
+
+        }
+      }
+    }
+    else {
+      if (item === expectedItem) {
+        console.log("PASSES!\n");
+      }
+      else {
+        console.log("FAILED!\n");
+
+      }
+    }
+  }
 }
 
-async function testChangeUserName () {
-  // The method will return false if the user put a same name?
-  var result = await changeUserName("id", "same name");
 
-  console.log( "Testing function changeUserName with incorrect user credentials..." );
-  console.log( "Expecting returned value:\t0" );
-  console.log( "Actual returned value:\t" + returned );
-  if( returned !== 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+async function testviewPendingOrders() {
 
-  var result = await changeUserName("id", "new name");
+  var gotPendingId = await viewPendingOrders();
+  var gotAllId = await viewAllOrders();
+  var noProblem1 = true;
 
-  console.log( "Testing function changeUserName with correct user credentials..." );
-  console.log( "Expecting returned value:\t0" );
-  console.log( "Actual returned value:\t" + returned );
-  if( returned === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+
+  console.log("Testing function viewPendingOrders...");
+
+  console.log("Comparing if all fetched orders are of pending status");
+
+
+  for ( index in gotPendingId) {
+    let order = await viewOrderDetailById( gotPendingId[index] );
+    //console.log(gotPendingId[index]);
+    if( order.status != 1){
+      noProblem1 = false;
+    }
+  }
+  if (noProblem1) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED! Not all fetched orders are pending orders\n");
+  }
+
+console.log("Comparing if all pending orders fetched");
+  var noProblem2 = true;
+
+
+  for ( index in gotAllId) {
+
+    let order = await viewOrderDetailById( gotAllId[index] );
+
+    if( order.status == 1 && !gotPendingId.includes( gotAllId[index] ) ){
+      noProblem2 = false;
+    }
+  }
+
+  if (noProblem2) {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED! Not all pending orders are fetched\n");
+  }
+
+
+  if (noProblem1 && noProblem2) {
+    console.log("Both tests PASSED!\n");
+  } else {
+    console.log("FAILED!\n");
+  }
 }
 
-async function testLogOut() {
-  var email = "unittest@ucsd.edu";
-  var password = "password";
-  await userLogin( email, password );
-  // Current user?
-  var returned = logout();
 
-  console.log( "Testing function logOut with correct user credentials..." );
-  console.log( "Expecting returned value:\t0" );
-  console.log( "Actual returned value:\t" + returned );
-  if( returned === 0 ) { console.log( "PASSED!\n" ); } else { console.log( "FAILED!\n" ); }
+async function testGetProfileDetailById() {
+  console.log( "Testing function getProfileDetailById..." );
+
+  var his = await getProfileDetailById( "test1" );
+
+  var expected = {
+    "default_mode": "buyer",
+    "history": {
+      "0": "historyOrder1",
+      "1": "historyOrder2",
+      "size": 2,
+    },
+    "rate": 4,
+    "username": "testname",
+  }
+
+  for (index in his) {
+    let item = his[index];
+    let expectedItem = expected[index];
+
+    if (index === "history") {
+
+      for (inner in item) {
+
+        if (item[inner] == expectedItem[inner]) {
+          console.log("PASSES!\n");
+
+        }
+        else {
+          console.log("FAILED!\n");
+
+        }
+      }
+    }
+    else {
+      if (item === expectedItem) {
+        console.log("PASSES!\n");
+      }
+      else {
+        console.log("FAILED!\n");
+
+      }
+    }
+  }
+
 }
 
-async function testCompleteOrder() {
-  await completeOrder("01", "666");
-}
-
-// async function testGetProfileById() {
-//   console.log( "Testing function getProfileById..." );
-//   var his = await getProfileById( "3" );
-//   console.log(his);
-//   var his = await getProfileById( "1" );
-//   console.log(his);
-//
-//   var his = await getProfileById( "2" );
-//   console.log(his);
-//
-//   var his = await getProfileById( "5" );
-//   console.log(his);
-// }
 
 async function testdisplayMenu( ) {
   var gotMenu = await displayMenu();
@@ -209,27 +258,52 @@ async function testdisplayMenu( ) {
   }
 }
 
+
 async function testdisplayType() {
   var gotSubMenu = await displayType('Drinks');
   var expectedReturnedDrinks = [
     [
       'https://globalassets.starbucks.com/assets/3056aa7849a0477ea4ed137b66910324.jpg',
-      'D01',
+      'DR01',
       'Pink Drink'
     ],
     [
       'https://globalassets.starbucks.com/assets/452d9229393844b9b57263a7d0d9cf1e.jpg',
-      'D02',
+      'DR02',
       'Hot Chocolate'
     ],
     [
       'https://globalassets.starbucks.com/assets/cff93f212cda4cd09e7dfa5a358caeed.jpg',
-      'D03',
+      'DR03',
       'Strawberry Acai Refreshers™'
-    ]
+    ],
+    [ 'https://globalassets.starbucks.com/assets/c05d9645bcad432695e2e2b42fda77f1.jpg',
+      'DR04',
+      'Cool Lime Lemonade Refreshers' ],
+    [ 'https://globalassets.starbucks.com/assets/65cd490369574169b7da525a715c388b.jpg',
+      'DR05',
+      'Very Berry Hibiscus Lemonade Refreshers' ],
+    [ 'https://globalassets.starbucks.com/assets/fc862fb36e71455c97360082d513c48e.jpg',
+      'DR06',
+      'Ombré Pink Drink' ],
+    [ 'https://globalassets.starbucks.com/assets/195a5b9e040d4da18464ce64813ce44f.jpg',
+      'DR07',
+      'Violet Drink' ],
+    [ 'https://globalassets.starbucks.com/assets/b74472856c7343b88f78e01c0e736d85.jpg',
+      'DR08',
+      'White Hot Chocolate' ],
+    [ 'https://globalassets.starbucks.com/assets/5f58206cbf3d463ebdac5f9f281aded1.jpg',
+      'DR09',
+      'Chocolate Smoothie' ],
+    [ 'https://globalassets.starbucks.com/assets/75f0afa0cf954a9b819ae7d031275e39.jpg',
+      'DR10',
+      'Cinnamon Dolce Crème' ]
 ];
 
+
   console.log("Testing function displayType...");
+
+
 
   //console.log( "Expecting returned list of pairs of [img, id, name]" );
   //console.log( "Actual returned value:" );
@@ -246,6 +320,7 @@ async function testdisplayType() {
     console.log("FAILED!\n");
   }
 }
+
 
 async function testdisplayItem() {
   var got = await displayItem("Hot Coffees", "HC02");
@@ -280,6 +355,7 @@ async function testdisplayItem() {
   }
 }
 
+
 function compareObj(obj1, obj2) {
   var equal = true;
 
@@ -292,6 +368,7 @@ function compareObj(obj1, obj2) {
   return equal;
 }
 
+
 async function helpaddingOrder(ord, callback) {
   setTimeout(function () {
     var addedOrderId = saveOrder(ord);
@@ -299,6 +376,7 @@ async function helpaddingOrder(ord, callback) {
     return addedOrderId;
   }, 1000);
 }
+
 
 async function helpviewpending(callback) {
   setTimeout(function () {
@@ -309,107 +387,6 @@ async function helpviewpending(callback) {
 
 }
 
-async function testviewPendingOrders() {
-
-  var gotPendingId = await viewPendingOrders();
-  var gotAllId = await viewAllOrders();
-  var noProblem1 = true;
-
-
-  console.log("Testing function viewPendingOrders...");
-
-  console.log("Comparing if all fetched orders are of pending status");
-
-
-  for ( index in gotPendingId) {
-    let order = await viewOrderDetailById( gotPendingId[index] );
-    //console.log(gotPendingId[index]);
-    if( order.status != 1){
-      noProblem1 = false;
-    }
-  }
-  if (noProblem1) {
-    console.log("PASSED!\n");
-  } else {
-    console.log("FAILED! Not all fetched orders are pending orders\n");
-  }
-
-
-
-console.log("Comparing if all pending orders fetched");
-  var noProblem2 = true;
-
-
-  for ( index in gotAllId) {
-
-    let order = await viewOrderDetailById( gotAllId[index] );
-
-    if( order.status == 1 && !gotPendingId.includes( gotAllId[index] ) ){
-      noProblem2 = false;
-    }
-  }
-
-  if (noProblem2) {
-    console.log("PASSED!\n");
-  } else {
-    console.log("FAILED! Not all pending orders are fetched\n");
-  }
-
-
-  if (noProblem1 && noProblem2) {
-    console.log("Both tests PASSED!\n");
-  } else {
-    console.log("FAILED!\n");
-  }
-}
-/*
-async function testviewOrderDetailById() {
-  var got = await viewOrderDetailById("3");
-  console.log("Testing function viewOrderDetailById...");
-
-
-  var expectedItem = {
-    buyer_id: "678",
-    buyer_rate: "3.3",
-    carrier_id: "234567",
-    carrier_rate: "0.5",
-    create_time: "9:30 am, Monday, March 29, 2018",
-    items:
-      { FR02:
-          { customization: 'wulalalalalililalalilalidalidalidayou',
-            item_name: 'Caramel Cocoa Cluster Frappuccino',
-            size: 'tall' } },
-    last_update_time: '9:50 am',
-    location: 'Atkinson Hall',
-    request_time: '10:20 am',
-    status: 1
-};
-
-  var noProblem = true;
-  console.log(got);
-  for (pair in got) {
-    if (pair !== "items" && got[pair] != expectedItem[pair]) {
-      noProblem = false;
-      console.log(got[pair]);
-      console.log(expectedItem[pair]);
-    }
-    else if (pair === "items") {
-      /*for (tag in got[items]) {
-        for (item in tag) {
-          if (got.price[tag] !== expectedItem.price[tag]) {
-            noProblem = false;
-          }
-        }
-      }
-    }
-  }
-  if (noProblem) {
-    console.log("PASSED!\n");
-  } else {
-    console.log("FAILED!\n");
-  }
-
-}*/
 
 async function testgetOrderLocationById() {
   var gotAllId = await viewAllOrders();
@@ -438,39 +415,87 @@ async function testgetOrderLocationById() {
 
 }
 
-async function testsortOrders() {
-  //later depend on save order
-}
 
 async function testdisplayOrderHistory() {
-  var prof = await getProfileDetailById( "testzmq" );
-  var his = await displayOrderHistory("testzmq");
+  console.log("Testing function displayOrderHistory...");
 
-  var noProblem = true;
-
-  if( prof.history.length != his.length ){
-    noProblem = false;
-  }
-
-  for ( index in his) {
-
-    if( his[index] != prof.history[index] ){
-      noProblem = false;
+  var his = await displayOrderHistory("test1");
+  var expected = await getProfileById("test1");
+  for (index in his) {
+    if (his[index] === expected.history[index]) {
+      console.log("PASSED!\n");
+    } else {
+      console.log("FAILED!\n");
     }
   }
+}
 
-  if (noProblem) {
+
+async function testGetItemDetailWithOnlyId() {
+  console.log( "Testing function getItemDetailWithOnlyId..." );
+  var his = await getItemDetailWithOnlyId("CC01");
+  var expected = {
+    description: '  With less milk than a latte, Iced Cappuccino offers a stronger espresso flavor, a luxurious texture and a velvety, frothy foam with a crisp, cool undercurrent.',
+    image: 'https://globalassets.starbucks.com/assets/0388f3540da3441ba182800eae2a83b8.jpg',
+    name: 'Iced Cappuccino',
+    price: {
+      grande: 3.95,
+      tall: 3.45,
+      venti: 4.75 }
+    }
+
+    for (index in his) {
+      let content = his[index];
+      let exp = expected[index];
+
+      if (index === "price") {
+        for (inner in content) {
+          if (content[inner] === exp[inner]) {
+            console.log("PASSED!\n");
+          } else {
+            console.log("FAILED!\n");
+            console.log(content[inner]);
+          }
+        }
+      }
+      else {
+        if (content === exp) {
+          console.log("PASSED!\n");
+        } else {
+          console.log("FAILED!\n");
+          console.log(content);
+        }
+      }
+    }
+}
+
+
+async function testChangeUserName() {
+  console.log( "Testing function changeUserName..." );
+  var his = await changeUserName("test_change", "newname");
+  var profile = await getProfileById("test_change");
+
+  if (profile.username === "newname") {
     console.log("PASSED!\n");
   } else {
     console.log("FAILED!\n");
   }
 }
 
-async function testupdateRate() {
-  updateOrderRate( 0, 0, true, "PTsXQrkNIkV2MJcSp12t80FmzSC2" );
+
+async function testChangeProfilePhoto() {
+  console.log( "Testing function changeProfilePhoto..." );
+  var his = await changeProfilePhoto("test_change", "www.baidu.com");
+  var profile = await getProfileById("test_change");
+
+  if (profile.photo === "www.baidu.com") {
+    console.log("PASSED!\n");
+  } else {
+    console.log("FAILED!\n");
+  }
 }
 
 
 async function testacceptOrder() {
-  
+
 }

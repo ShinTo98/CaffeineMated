@@ -297,7 +297,7 @@ export async function viewPendingOrders() {
   var pendingOrders;
   let cur_id = await getCurrentUserUID();
 
-    await firebaseRef.once('value', function(snapshot){
+  await firebaseRef.once('value', function(snapshot){
 
     // Find the value of Orders field
     let orders = snapshot.val();
@@ -314,6 +314,38 @@ export async function viewPendingOrders() {
       if( order.status == 1 && order.buyer_id != cur_id){
         pendingOrders.push(order_id);
       }
+
+    }
+  }, function(errorObject){
+    alert("failed:" + errorObject.code);
+  });
+
+  return pendingOrders;
+}
+
+
+export async function viewAllOrders() {
+  // access the Menu field in firebase
+  const firebaseRef = firebase.database().ref("Orders");
+
+  var pendingOrders;
+  let cur_id = await getCurrentUserUID();
+
+  await firebaseRef.once('value', function(snapshot){
+
+    // Find the value of Orders field
+    let orders = snapshot.val();
+    orders = orders.items;
+
+    pendingOrders=[];
+    var order_id;
+
+    // loop through all types in orders
+    for( order_id in orders){
+
+      // check if it is a pending order
+      let order = orders[order_id];
+        pendingOrders.push(order_id);
 
     }
   }, function(errorObject){
