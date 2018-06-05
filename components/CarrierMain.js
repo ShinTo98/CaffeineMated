@@ -345,8 +345,8 @@ export class CarrierMain extends Component {
               return(
                 <Card style={styles.orderCard}>
                     <Grid>
-                      <Col style={{ width: '23%', flexWrap:'wrap'}}>
-                      <Row style={{height: '20%'}}>
+                      <Col style={{ width: '25%', flexWrap:'wrap'}}>
+                      <Row>
                       <Text style ={styles.cardPrimaryText}>
                         {item.name}
                       </Text>
@@ -624,8 +624,8 @@ export class CarrierMain extends Component {
                           <Card style={styles.deliver_orderCard}>
                             <View style = {{flexDirection: 'row'}}>
                               <Grid >
-                                <Col style={{width: '23%', flexWrap:'wrap'}}>
-                                <Row style={{height: '20%'}}>
+                                <Col style={{width: '25%', flexWrap:'wrap'}}>
+                                <Row>
                                 <Text style ={styles.cardPrimaryText}>
                                   {item.name}
                                 </Text>
