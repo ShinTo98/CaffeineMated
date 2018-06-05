@@ -588,8 +588,8 @@ export const styles = StyleSheet.create({
     justifyContent:'center', 
     alignItems:'center',
     marginTop: '-5%',
-    height: deviceHeight * 0.98
   },
+  
   deliver_container: {
     alignItems: 'center'
   },
