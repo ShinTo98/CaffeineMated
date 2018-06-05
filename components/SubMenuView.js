@@ -12,7 +12,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {styles} from '../CSS/MenuView.js';
-import {userSignup, displayMenu, viewPendingOrders, displayType, displayItem} from '../database.js';
+import {userSignup, displayMenu, viewPendingOrders, displayType} from '../database.js';
 import {
   Container,
   Header,
@@ -46,32 +46,26 @@ export class SubMenuView extends Component {
       type: this.props.navigation.getParam('name'),
       items: [],
       data: this.props.navigation.getParam('data'),
+      location: this.props.navigation.getParam('location'),
+      time: this.props.navigation.getParam('time'),
     };
     // Bind login related functions
     this.getType = this.getType.bind(this);
-    this.testdisplayItem = this.testdisplayItem.bind(this);
-    console.log('in constructor: ' + this.state.items);
   }
+
+  // Function to find all what are in each type
   async getType(){
-    //console.log(e);
     var test = await displayType(this.state.type);
-    console.log(test);
     this.setState({items: test});
-    console.log(this.state.items);
   }
 
   async componentWillMount(){
     await this.getType();
   }
 
-  async testdisplayItem(e,d){
-    let test = await displayItem(e,d);
-    return test;
-}
 
   render () {
     var result = this.state.items;
-    //console.log("this is result in items: " + result);
     return(
 
       <Container style={styles.container}>
@@ -81,7 +75,10 @@ export class SubMenuView extends Component {
               <Icon
                 name='arrow-back'
                 style={styles.icon }
-                onPress={() => this.props.navigation.navigate('menu')}
+                onPress={() => this.props.navigation.navigate('menu',{
+                  location: this.state.location,
+                  time: this.state.time,
+                })}
               />
             </Button>
           </Left>
@@ -103,6 +100,8 @@ export class SubMenuView extends Component {
                    itemType: this.state.type,
                    itemId: type[1],
                    data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
                  })}}>
                  <Image style={styles.image} source={{uri: type[0]}}/>
               </TouchableWithoutFeedback>
@@ -113,6 +112,8 @@ export class SubMenuView extends Component {
                    itemType: this.state.type,
                    itemId: type[1],
                    data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
               })}}>
                 <Text style={styles.text}>{type[2]}</Text>
               </TouchableWithoutFeedback>
@@ -121,6 +122,7 @@ export class SubMenuView extends Component {
             )
           }
           </Grid>
+          <Container style={styles.filler}></Container>
         </ScrollView>
         </Container>
       </Container>

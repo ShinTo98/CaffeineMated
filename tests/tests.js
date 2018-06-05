@@ -275,9 +275,11 @@ async function testdisplayType() {
     [
       'https://globalassets.starbucks.com/assets/cff93f212cda4cd09e7dfa5a358caeed.jpg',
       'D03',
-      'Strawberry Acai Starbucks Refreshers™ Beverage'
+      'Strawberry Acai Refreshers™'
     ]
-  ];
+];
+
+  console.log("Testing function displayType...");
 
   //console.log( "Expecting returned list of pairs of [img, id, name]" );
   //console.log( "Actual returned value:" );
@@ -466,4 +468,9 @@ async function testChangeProfilePhoto() {
   } else {
     console.log("FAILED!\n");
   }
+}
+
+
+async function testacceptOrder() {
+
 }

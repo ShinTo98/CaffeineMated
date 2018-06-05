@@ -20,14 +20,17 @@ import {
   Label,
   View,
   ListItem,
-  Picker,
+  ActionSheet
 } from 'native-base';
 //import {
   //Picker,
 //} from 'react-native';
 import {styles} from '../CSS/Settings.js';
-import {logout, changeDefaultMode, getProfileById} from './../database.js';
+import {logout, changeDefaultMode, getProfileById, getCurrentUserUID} from './../database.js';
+import { StackActions, NavigationActions } from 'react-navigation';
 
+var BUTTONS = ["Buyer", "Carrier", "Cancel"];
+var CANCEL_INDEX = 2;
 export class Settings extends Component {
 
   static navigationOptions = {
@@ -38,28 +41,32 @@ export class Settings extends Component {
     super(props);
     this.state = {
       defaultMode: "",
+      user_id: "",
     };
 
     //this.logOut = this.logOut.bind(this);
   }
 
-  async onValueChange(value: string) {
+
+  onValueChange(value) {
     console.log(value);
-    this.setState({
-      defaultMode: value
-    },
-    () => {
-      // here is our callback that will be fired after state change.
-      console.log(this.state.defaultMode);
-      changeDefaultMode("01", this.state.defaultMode);
-      alert("Change Successful!");
+    if (value != 'Cancel') {
+      this.setState({
+        defaultMode: value
+      },
+      async () => {
+        // here is our callback that will be fired after state change.
+        console.log(this.state.defaultMode);
+        await changeDefaultMode(this.state.user_id, this.state.defaultMode);
+      }
+      );
     }
-    );
     //console.log(this.state.defaultMode);
   }
 
   async getProfile() {
-    this.setState({profileData: await getProfileById("01")});
+    this.setState({user_id: await getCurrentUserUID()});
+    this.setState({profileData: await getProfileById(this.state.user_id)});
     this.setState({
       defaultMode: this.state.profileData["default_mode"],
     })
@@ -74,7 +81,12 @@ export class Settings extends Component {
     var result = await logout();
     if(result === 0) {
       alert("Log Out Successful!");
-      this.props.navigation.navigate('start');
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        key: null,
+        actions: [NavigationActions.navigate({ routeName: 'start' })],
+      });
+      this.props.navigation.dispatch(resetAction);
     } else {
       alert(result);
     }
@@ -104,19 +116,26 @@ export class Settings extends Component {
             <List>
               <ListItem>
                 <Left>
-                  <Text>Change Default Mode</Text>
+                  <Text>Current Default Mode: {this.state.defaultMode}</Text>
                 </Left>
+
                 <Right>
-                  <Picker
-                    iosHeader="Select one"
-                    iosIcon={<Icon name="ios-arrow-down-outline" />}
-                    mode="dropdown"
-                    selectedValue={this.state.defaultMode}
-                    onValueChange={this.onValueChange.bind(this)}
+                  <Button
+                    style={{backgroundColor: "#FF9052"}}
+                    onPress={() =>
+                    ActionSheet.show(
+                      {
+                        options: BUTTONS,
+                        cancelButtonIndex: CANCEL_INDEX,
+                        title: "Select Option"
+                      },
+                      buttonIndex => {
+                        this.onValueChange(BUTTONS[buttonIndex]);
+                      }
+                    )}
                   >
-                    <Picker.Item label="Buyer" value="buyer" />
-                    <Picker.Item label="Carrier" value="carrier" />
-                  </Picker>
+                    <Text>Edit</Text>
+                  </Button>
                 </Right>
               </ListItem>
               <ListItem onPress={() => this.props.navigation.navigate('feedback')}>

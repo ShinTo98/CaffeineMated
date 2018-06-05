@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   color_theme: {
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#f8f8f8',
   },
   container: {
     flex: 1,
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     height: "40%",
   },
   signOut: {
-    backgroundColor: '#47525e',
+    backgroundColor: '#FF9052',
   },
   signOutText: {
     color: "#ffffff",

@@ -2,6 +2,8 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+const deviceWidthScale = 0.80;
+const deviceHeightScale = 0.07;
 
 export const styles = StyleSheet.create({
   card_title: {
@@ -19,12 +21,13 @@ export const styles = StyleSheet.create({
   color_theme: {
     // TODO: correct color code
     backgroundColor: '#f8f8f8',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
   container: {
-    flex: 1,
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   text_on:{
     color: '#ffffff',
@@ -33,7 +36,7 @@ export const styles = StyleSheet.create({
     color: '#ffffff',
   },
   header: {
-    top: 8,
+    paddingVertical: "1%"
   },
   button_header_on: {
     borderColor: '#ff9052',
@@ -48,38 +51,32 @@ export const styles = StyleSheet.create({
     color: '#ff9052',
   },
   white_banner: {
-    flex: 0.15,
+    height: '5%',
     backgroundColor: '#ffffff',
+    justifyContent: 'center',
   },
   banner: {
-    flex: 1,
+    height: '5%',
     alignItems: 'center',
-  },
-  buttons_top: {
-    //activeColor: '#FF9052',
   },
   buttons_menu: {
     backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
+    //flexDirection: 'row',
     justifyContent: 'center',
-    //fontSize: 30,
-    width: 300,
-    padding: 5,
+    width: deviceWidth*deviceWidthScale,
     borderWidth: 2,
-    height:50,
-    borderColor: '#c8c8c8',
+    height:deviceHeight*deviceHeightScale,
+    borderColor: '#c8c8c8'
   },
   buttons_submit: {
     backgroundColor: '#ff9052',
     flexDirection: 'row',
     justifyContent: 'center',
-    //fontSize: 30,
-    width: 300,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height:45,
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#ff9052',
-    top: 60,
     alignSelf: 'center',
   },
   buttons_accept: {
@@ -87,10 +84,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 300,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height:45,
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#c8c8c8',
     top: 60,
   },
@@ -99,10 +96,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     //fontSize: 30,
-    width: 300,
+    width: deviceWidth*deviceWidthScale,
     padding: 5,
     borderWidth: 2,
-    height:45,
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#c8c8c8',
     top: 70,
   },
@@ -115,7 +112,7 @@ export const styles = StyleSheet.create({
     width: 5*deviceWidth/6,
 
     borderWidth: 0.5,
-    height:45,
+    height: deviceWidth*0.12,
     borderColor: 'gray',
   },
   buttons: {
@@ -126,9 +123,8 @@ export const styles = StyleSheet.create({
     padding: 5,
     top: 100,
   },
-  buttonItem:{
-    //top: deviceHeight/60,
-    top: 50,
+  buttonItem: {
+    marginTop: '4%',
   },
   acceptButtonItem: {
     top: 20,
@@ -137,258 +133,100 @@ export const styles = StyleSheet.create({
     top: deviceHeight/30,
   },
   textSection: {
-    flex: 3,
+    height: '30%',
     backgroundColor: '#E3E3E3',
     alignItems: 'center',
     justifyContent: 'center',
   },
   textInput: {
-    height: 60,
-    //color: 'gray',
+    height: deviceHeight*deviceHeightScale,
     borderColor: '#f8f8f8',
-    //borderWidth: 2,
-    width: 300,
-    top: 30,
+    width: deviceWidth*deviceWidthScale,
+    marginBottom: '3%'
+  },
+  textInput_menu: {
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#f8f8f8',
+    width: deviceWidth*deviceWidthScale,
+    marginBottom: '6%'
+  },
+  textInput_price: {
+    height: deviceHeight*deviceHeightScale,
+    borderColor: '#f8f8f8',
+    width: deviceWidth*deviceWidthScale,
+    marginBottom: '1%'
   },
   orderItem:{
-    //alignItems: 'flex-start',
-    //justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
     borderColor: '#c8c8c8',
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderRadius: 6,
-    width: 300,
-    top: 80,
-    height: 320,
+    width: deviceWidth*deviceWidthScale,
+    height: deviceHeight*0.45
   },
 
-  requestTitleItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    width: 300,
-    top: 40,
-    height: 40,
-    borderColor: '#c8c8c8',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 6,
-
-  },
-  DiliverTitleItem: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: 5*deviceWidth/6,
-    top: deviceHeight/15,
-    height: deviceHeight/20,
-  },
-  DiliverItem: {
-    alignItems: 'flex-start',
-    borderColor: 'gray',
-    flexDirection: 'row',
-    borderWidth: 1,
-    width: 5*deviceWidth/6,
-    top: deviceHeight/15,
-    height: 5.5 * deviceHeight/11,
-  },
-  DiliverProcess: {
-    alignItems: 'flex-start',
-    borderColor: 'gray',
-    flexDirection: 'row',
-    borderWidth: 1,
-    width: 5*deviceWidth/6,
-    top: deviceHeight/15,
-    height: deviceHeight/15,
-  },
-  orderTitleItem: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    width: 280,
-    top: 90,
-    height: 40,
-  },
-  requestView:{
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: '#c8c8c8',
-    borderWidth: 2,
-    width: 300,
-    top: 50,
-    height: 375,
-    borderRadius: 6,
-    backgroundColor: '#FFFFFF',
-  },
-  requestItem:{
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    borderColor: '#c8c8c8',
-    width: 300,
-    height: 375,
-    left: -10,
-    borderWidth: 0,
-    borderColor: 'transparent'
-  },
-
-  textView: {
-    top: 110,
-    alignItems: 'center',
-  },
-  menuText:{
-    color: '#ff9052',
-    fontSize: 24,
-  },
-  cancelText:{
-    color: 'red',
-    fontSize: 24,
-  },
   orderDetailText:{
-    color: '#ff9052',
+    alignSelf: 'center',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    marginTop: '2%',
+    //marginBottom: '2%',
+    width: '100%'
+  },
+  orderText: {
+    textAlign: 'center',
     fontSize: 24,
-    marginTop: 8,
-    marginLeft: 72,
+    color: '#ff9052',
+    marginBottom: '2%',
   },
   submitText:{
     color: '#ffffff',
     fontSize: 24,
   },
-  menuText_disabled:{
-    color: 'gray',
-    fontSize: 30,
-  },
-  subText: {
-    color: 'gray',
-    fontSize: 30,
-  },
-  orderTitle:{
-    color: '#FF9052',
-    fontSize: 30,
-    alignItems: 'center',
-  },
-  titleText: {
-    fontSize: 35,
-    fontWeight: '300',
-    color: 'white',
-    top: 55,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-    top: 70,
-  },
-  buyerStarSection: {
-    flex: 0.25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  list_left_container: {
-    flex: 0.5,
-    //justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    //height: 35
-  },
-  list_body_container: {
-    flex: 2,
-    alignItems: 'flex-end',
-  },
-  list_text: {
-    fontSize: 12,
-    alignSelf: 'flex-end',
-  },
-  floatView: {
-    flex: 2,
-    position: 'absolute',
-    width: 230,
-    //height: 0,
-    top: 0,
-    left: 0,
-    backgroundColor: '#DDDDDD',
-  },
-  timeButton: {
-    position: 'absolute',
-    top: 6,
-    left: 240,
-    width: 30,
-  },
-  nothingText: {
-    textAlign: 'center',
-    justifyContent: 'center',
-    color: '#a8a8a8',
-    fontSize: 18.2,
-    marginTop: 10,
-  },
-  deliverProfile: {
-    top: deviceWidth/15,
-    left: deviceWidth/20,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  DeliverProfileText: {
-    top: deviceWidth/20,
-    left: deviceWidth/20,
-  },
-  DeliverStarts: {
-    top: deviceWidth/15,
-    left: deviceWidth/25,
-    flexDirection: 'row',
-  },
-
-  deliverItems: {
-    top: deviceWidth/8,
-    left: deviceWidth/20,
-    //flexDirection: 'row',
-
-  },
-  deliverItem: {
-    marginBottom: deviceWidth/20,
-  },
-  deliverLocation: {
-    justifyContent: 'flex-end',
-  },
-  process: {
-    //alignSelf: 'flex-end',
-    top: deviceWidth/30,
-    width: 5*deviceWidth/6,
-    justifyContent: 'space-evenly',
-    flexDirection: 'row',
-    marginBottom: deviceWidth/80,
-  },
   Whenbutton: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
     borderColor: '#c8c8c8',
-    height: '85%',
-    width: '100%',
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
   },
   Wherebutton: {
     backgroundColor: '#ffffff',
     borderWidth: 2,
     borderColor: '#c8c8c8',
-    height: '85%',
-    width: '100%',
+    height: deviceHeight*deviceHeightScale,
+    width: deviceWidth*deviceWidthScale
   },
   placeAutocomplete: {
-    top: 50,
+    top: deviceHeight * 0.1,
   },
   Whenwheretext: {
     color: '#ff9052',
     fontSize: 22,
   },
-  line: {
+  Whenwheretext2: {
+    color: '#ff9052',
+    fontSize: 22,
+    width: deviceWidth*0.7
+  },
+  priceText: {
+    marginTop: '2%',
+    color: '#ff9052',
+    fontSize: 18,
+  },
+  cardLine: {
     borderBottomColor: '#c8c8c8',
     borderBottomWidth: 2,
-    width: 260,
+    width: 5*deviceWidth/6,
     marginTop: 6,
     marginLeft: 20,
   },
   // For each card in order details
   orderCard: {
-    //height: 30,
-    //width: 90,
+    marginLeft: '4%',
+    alignSelf: 'center',
     borderColor: '#f8f8f8',
     backgroundColor: '#f8f8f8',
   },
@@ -408,4 +246,51 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
     alignSelf: 'flex-end'
   },
+  bodyCenter: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  cardBuyerName: {
+    fontSize: 24,
+  },
+  placeCancelText: {
+    fontSize: 16,
+  },
+  placeCancelButton: {
+    borderWidth: 2,
+    borderColor: '#c8c8c8',
+    backgroundColor: '#c8c8c8',
+  },
+  itemList : {
+    justifyContent : 'center',
+    alignItems : 'center'
+  },
+  listItems : {
+    alignSelf : 'center',
+    alignItems : 'center',
+    width: '100%',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    justifyContent: 'center',
+    width : deviceWidth*deviceWidthScale
+  },
+  itemImage : {
+    marginTop: 8,
+    marginBottom: 8,
+    left: 10
+  },
+  normalCell: {
+    backgroundColor: "#ffffff",
+  },
+  selectedCell: {
+    backgroundColor: "#ff9052"
+  },
+  list: {
+    height: deviceHeight*0.50,
+  },
+
+  menuText: {
+    color: '#ff9052',
+    fontSize: 25
+  }
 });

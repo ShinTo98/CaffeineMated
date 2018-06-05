@@ -2,24 +2,30 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+const deviceWidthScale = 0.80;
+const deviceHeightScale = 0.07;
 
 export const styles = StyleSheet.create({
   container:{
-    borderColor: 'gray',
-    borderWidth: 1,
-    flex: 0.7,
-    width: 4*deviceWidth/5,
+    borderColor: '#c8c8c8',
+    borderWidth: 2,
+    borderRadius: 6,
+    flex: 0.74,
+    width: deviceWidth*deviceWidthScale,
     alignSelf: 'center',
-    marginTop: 10,
+    //marginTop: '1%',
+    backgroundColor: '#FFFFFF',
   },
   progressBarView:{
-    borderColor: 'gray',
-    borderWidth: 1,
+    borderColor: '#c8c8c8',
+    borderWidth: 2,
+    borderRadius: 6,
     flex: 0.08,
     width: 4*deviceWidth/5,
     alignSelf: 'center',
     marginTop: 10,
     justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
   },
   progressBar: {
     justifyContent: 'center',
@@ -70,20 +76,21 @@ export const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   buttons_submit: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#ff9052',
     flexDirection: 'row',
     justifyContent: 'center',
-    width: 280,
+    //fontSize: 30,
+    width: deviceWidth*deviceWidthScale,
+    height:deviceHeight*deviceHeightScale,
     padding: 5,
-    borderWidth: 0.5,
-    height:45,
-    borderColor: 'gray',
+    borderWidth: 2,
+    borderColor: '#ff9052',
     marginTop: 10,
     alignSelf: 'center',
   },
   menuText:{
-    color: '#FF9052',
-    fontSize: 30,
+    color: '#ffffff',
+    fontSize: 24,
   },
   carrierTitle:{
     color: '#FF9052',
@@ -117,11 +124,13 @@ export const styles = StyleSheet.create({
   labelTextFirst: {
     fontSize: 12,
     fontWeight: '300',
-    left: 5
+    left: 5,
+    marginTop: '2%'
   },
   labelContent: {
     fontSize: 18,
-    left: 30
+    left: 30,
+    marginTop: '2%'
   },
   labelTextItems: {
     fontSize: 12,
@@ -147,6 +156,33 @@ export const styles = StyleSheet.create({
     fontWeight: '300',
     fontStyle: 'italic',
     alignSelf: 'flex-end'
-  }
+  },
+  itemImage: {
+    marginTop: 15,
+    left: 10
+  },
+  orderDetailText:{
+    alignSelf: 'center',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    marginTop: '2%',
+    //marginBottom: '2%',
+    width: '100%'
+  },
+  orderText: {
+    textAlign: 'center',
+    fontSize: 24,
+    color: '#ff9052',
+    marginBottom: '2%',
+  },
+  listItems : {
+    alignSelf : 'center',
+    alignItems : 'center',
+    width: '100%',
+    borderBottomColor: '#c8c8c8',
+    borderBottomWidth: 2,
+    justifyContent: 'center',
+    width : deviceWidth*deviceWidthScale
+  },
 
 });

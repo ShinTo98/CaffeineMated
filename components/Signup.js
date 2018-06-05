@@ -5,7 +5,8 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback, 
+  Keyboard
 } from 'react-native';
 import {styles} from '../CSS/Signup.js';
 import {userSignup, displayMenu, viewPendingOrders} from '../database.js'
@@ -22,10 +23,10 @@ export class Signup extends Component {
     this.state = {
       titleText: "CaffeineMated",
       //bodyText: 'This is not really a bird nest.',
-      name: 'Name',
-      email: 'Email',
-      password: 'Password',
-      comfirm: 'Comfirm Password',
+      name: null,
+      email: null,
+      password: null,
+      confirm: null,
       haveAccount: 'Already have an account? ',
       showToast: false,
     };
@@ -36,25 +37,24 @@ export class Signup extends Component {
   // Validity check function; whether is ucsd.edu email and if confirm password met
   // original password
   validityCheck(){
-      if( this.state.password == this.state.confirm ){
-        // if there is 'ucsd.edu' occurance, valid email
-        if (this.state.email.indexOf('ucsd.edu') != -1) {
-          this.signup();
-        } else {
-          Toast.show({
-            text: 'Please enter a valid UCSD email!',
-            buttonText: 'Okay',
-            duration: 5000
-          })
+      Keyboard.dismiss(); 
+      var thisPage = this; 
+      setTimeout(function() {
+        if (!thisPage.state.password || !thisPage.state.confirm || !thisPage.state.email || !thisPage.state.name) {
+          alert('Please fill out all blanks!'); 
+        } else if( thisPage.state.password == thisPage.state.confirm ){
+          // if there is 'ucsd.edu' occurance, valid email
+          if (thisPage.state.email.indexOf('ucsd.edu') != -1) {
+            thisPage.signup();
+          } else {
+            alert('Please enter a valid UCSD email!'); 
+          }
         }
-      }
-      else{
-        Toast.show({
-              text: 'Password does not match!',
-              buttonText: 'Okay',
-              duration: 5000
-        })
-      }
+        else{
+          alert('Password does not match!'); 
+        }
+      }, 1); 
+      
   }
 
   

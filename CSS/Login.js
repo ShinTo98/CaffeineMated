@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   },
   banner: {
     flex: 2,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#F8F8F8',
     justifyContent: 'center',
     alignItems: 'center',
   },

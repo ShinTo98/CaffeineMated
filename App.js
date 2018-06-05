@@ -15,17 +15,23 @@ import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import { Root } from "native-base";
+import {BuyerMain} from './components/BuyerMain.js';
+import {CarrierMain} from './components/CarrierMain.js';
+import { PlaceChoose } from './components/PlaceChoose.js';
+import { ViewHis } from './components/ViewHis.js';
+import { SubmitOrder } from './components/SubmitOrder.js';
 
-
+import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
+console.disableYellowBox = true;
 
 export default class App extends React.Component {
 
 
   render() {
     return (
+
       <Root>
-      <PrimaryNav />
-      //<Drawer />
+        <PrimaryNav />
       </Root>
     );
   }
@@ -87,6 +93,12 @@ const Drawer = DrawerNavigator(
     customization: {screen: Customization},
     settings: {screen: SettingsStack},
     profile: {screen: Profile},
+    buyermain: {screen: BuyerMain},
+    carrierMain: {screen: CarrierMain},
+    placeChoose: {screen: PlaceChoose},
+    submitOrder: {screen: SubmitOrder},
+    viewHis: {screen: ViewHis},
+    orderDetailInHistory: {screen: OrderDetailInHistory}
     //menu: {screen: MenuView},
   },
   {
@@ -123,5 +135,21 @@ const PrimaryNav = StackNavigator({
       headerTintColor: 'red',
     }
   }
+);
 
+// temp
+const HistoryNav = StackNavigator({
+        viewHis: {
+            screen: ViewHis,
+        },
+
+        orderDetailInHistory: {
+            screen: OrderDetailInHistory,
+        }
+    },
+    {
+        initialRouteName: 'viewHis',
+        headerMode: 'none',
+
+    }
 )

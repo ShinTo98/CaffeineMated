@@ -1,11 +1,18 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+const deviceWidthScale = 0.80;
+const deviceHeightScale = 0.07;
+
 export const styles = StyleSheet.create({
 
     popupBox: {
-      backgroundColor: '#FAFAFA', 
+      backgroundColor: '#F8F8F8', 
+      alignSelf: 'center',
+      alignItems: 'center',
       flex: 4, 
-      borderRadius: 10, 
+      borderRadius: 6, 
       height: Dimensions.get('window').height*0.7, 
       width: Dimensions.get('window').width * 0.86, 
       marginRight: '7%', 
@@ -58,22 +65,25 @@ export const styles = StyleSheet.create({
     }, 
 
     buttons_submit: {
-        backgroundColor: 'transparent',
+        backgroundColor: '#FF9052',
         flexDirection: 'row',
         justifyContent: 'center',
         //fontSize: 30,
-        width: 260,
-        borderWidth: 1.2,
-        height:50,
-        borderColor: '#8190A5', 
         borderRadius: 10, 
         marginLeft: 30, 
-        marginRight: 30
+        marginRight: 30,
+    width: deviceWidth*deviceWidthScale,
+    height:deviceHeight*deviceHeightScale,
+    padding: 5,
+    borderWidth: 2,
+    borderColor: '#ff9052',
+    marginTop: 10,
+    alignSelf: 'center',
         
     },
 
     buttonText: {
-        color: '#FF9052', 
+        color: '#FFFFFF', 
         fontSize: 22
     }
   

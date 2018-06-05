@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import { Image } from "react-native";
 
-import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, List, ListItem, Badge } from 'native-base';
+import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, List, ListItem, Badge, View } from 'native-base';
 import {styles} from '../CSS/SideBar.js';
+import { StackActions, NavigationActions } from 'react-navigation';
+import {getCurrentUserUID, getProfileById} from '../database.js'
 
 //const drawerCover = require("../resources/newlogo.png");
 //const drawerImage = require("../resources/newlogo.png");
@@ -12,18 +14,18 @@ import {styles} from '../CSS/SideBar.js';
 const datas = [
   {
     name: "View history",
-    route: "menu",
-    icon: 'menu',
+    route: "viewHis",
+    icon: 'bookmarks',
   },
-  {
+  /*{
     name: "Payment",
     route: "customization",
     icon: 'card',
-  },
+  },*/
   {
     name: "Profile",
     route: "profile",
-    icon: 'menu',
+    icon: 'person',
   },
   /*
   {
@@ -36,12 +38,13 @@ const datas = [
     route: "report",
     icon: 'menu',
   },
-  */
+*/
   {
     name: "Settings",
     route: "settings",
-    icon: 'menu',
+    icon: 'settings',
   },
+
 ];
 
 export class SideBar extends Component {
@@ -49,8 +52,23 @@ export class SideBar extends Component {
     super(props);
     this.state = {
       shadowOffsetWidth: 1,
-      shadowRadius: 4
+      shadowRadius: 4, 
     };
+  }
+
+  settings() {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      key: null,
+      actions: [NavigationActions.navigate({ routeName: 'settings' })],
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
+
+  async componentWillMount() {
+    user_id = await getCurrentUserUID(); 
+    profile = await getProfileById(user_id); 
+    this.setState({image: profile.photo}); 
   }
 
   render() {
@@ -61,14 +79,14 @@ export class SideBar extends Component {
           bounces={false}
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
-          <Image
-              style={styles.drawerCover}
-              //source={require('../resources/wei_logo.png')}
-          />
+          <View style={styles.drawerCover}>
+          
           <Image
               style={styles.drawerImage}
-              source={require('../resources/batman.jpg')}
+              //source={{uri: this.state.image}}
+              source={require('../resources/logo.png')}
           />
+          </View>
 
 
           <List
@@ -107,6 +125,24 @@ export class SideBar extends Component {
                   </Right>}
               </ListItem>}
           />
+          {/*
+          <List>
+            <ListItem button
+            noBorder
+            onPress={() => this.settings()}>
+            <Left>
+              <Icon
+                active
+                name='menu'
+                style={{ color: "#777", fontSize: 26, width: 30 }}
+              />
+              <Text style={styles.text}>
+                Settings
+              </Text>
+            </Left>
+            </ListItem>
+          </List>
+          */}
         </Content>
       </Container>
     );

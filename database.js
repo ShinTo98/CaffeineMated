@@ -3,12 +3,12 @@ import {Alert} from 'react-native';
 
 // Firebase configuration
 var config = {
-    apiKey: "AIzaSyC9lBfgxor-3FS__blFmwqda8LIvlKrq1c",
-    authDomain: "caffeinemated-90dda.firebaseapp.com",
-    databaseURL: "https://caffeinemated-90dda.firebaseio.com",
-    projectId: "caffeinemated-90dda",
-    storageBucket: "caffeinemated-90dda.appspot.com",
-     messagingSenderId: "329358763029"
+  apiKey: "AIzaSyBxsExx8hsNe6OyQCkS-O1lrzg4zVXgNoc",
+  authDomain: "cmdatabase-restore.firebaseapp.com",
+  databaseURL: "https://cmdatabase-restore.firebaseio.com",
+  projectId: "cmdatabase-restore",
+  storageBucket: "cmdatabase-restore.appspot.com",
+  messagingSenderId: "486235795755"
 };
 // Firebase initialization
 firebase.initializeApp(config);
@@ -28,10 +28,6 @@ export async function userLogin (email, password) {
     function success() {
       // callback with 0 indicating login success
       result = 0;
-
-
-
-
     }
   ).catch(
     function failure (error) {
@@ -42,9 +38,9 @@ export async function userLogin (email, password) {
   });
 
   if (result === 0) {
-      var curUser = getCurrentUserUID();
+      var curUser = await getCurrentUserUID();
       var Profile = await getProfileById(curUser);
-      if (Profile.current_order_as_buyer)
+      if (Profile.current_order_as_buyer && Profile.current_order_as_buyer != -1)
           addOrderStatusChangeListener(Profile.current_order_as_buyer);
   }
   return result;
@@ -62,13 +58,13 @@ export async function userSignup (email, password, name) {
     var result;
     await firebase.auth().createUserWithEmailAndPassword(email, password).then(
 
-      function success(){
+      async function success(){
         result = 0;
-          var newUID = getCurrentUserUID();
+          var newUID = await getCurrentUserUID();
           var newProfileDirName = "Profile/" + newUID;
           var ref = firebase.database().ref(newProfileDirName);
-          ref.set({default_mode:"buyer", rate:5, username:name,
-              history:{total_num:0}, photo:"www.baidu.com"});
+          ref.set({default_mode:"Buyer", rate:5, username:name,
+              history:{total_num:0}, photo:"data:image/png;base64,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"});
       }
     ).catch(
       function failure(error){
@@ -203,7 +199,7 @@ export async function saveOrder (order) {
     }
     order.id = order_id;
     orderRef.child("items").child(order_id).set(order);
-    orderRef.child("size").set(++order_id);
+    orderRef.child("size").set(order_id+1);
   });
 
   return order_id;
@@ -216,12 +212,24 @@ export async function saveOrder (order) {
  * Return: order_id
  */
   export async function createOrder(orders, orderLocation, requestTime){
+    console.log(orders);
+    console.log(orderLocation);
+    console.log(requestTime);
     var buyerId = await getCurrentUserUID();
     var createTime = new Date().toLocaleString('en-US', { hour12: false });
+    let profileRef = firebase.database().ref("Profile/" + buyerId);
+    let rate;
 
+    await profileRef.once("value", dataSnapshot => {
+      if (!dataSnapshot) {
+          rate = -1;
+      } else {
+          rate = dataSnapshot.val().rate;
+      }
+    });
     var orderObject ={
         buyer_id: buyerId,
-        buyer_rate: -1,
+        buyer_rate: rate,
         carrier_id: -1,
         create_time: createTime,
         items: orders,
@@ -232,6 +240,9 @@ export async function saveOrder (order) {
     }
 
     var orderId = await saveOrder(orderObject);
+
+    profileRef.child("current_order_as_buyer").set(orderId);
+    addOrderStatusChangeListener(orderId);
     return orderId;
   }
 
@@ -241,9 +252,19 @@ export async function saveOrder (order) {
  * Description: delete order object from database
  * Parameters: string: order_id
  */
-export function cancelByBuyer(order_id) {
+export async function cancelByBuyer(order_id) {
     let orderRef = firebase.database().ref("Orders/items/" + order_id);
-    orderRef.remove();
+
+    var user_id = await getCurrentUserUID();
+    removeOrderStatusChangeListener(order_id);
+    var ref = firebase.database().ref("Profile/" + user_id);
+    ref.child("current_order_as_buyer").set('-1');
+
+    orderRef.once('value', dataSnapshot => {
+      if (dataSnapshot.val().status === 1) {
+        orderRef.child('status').set(-1);
+      }
+    });
 }
 
 
@@ -274,7 +295,9 @@ export async function viewPendingOrders() {
   const firebaseRef = firebase.database().ref("Orders");
 
   var pendingOrders;
-  await firebaseRef.once('value', function(snapshot){
+  let cur_id = await getCurrentUserUID();
+
+    await firebaseRef.once('value', function(snapshot){
 
     // Find the value of Orders field
     let orders = snapshot.val();
@@ -288,7 +311,7 @@ export async function viewPendingOrders() {
 
       // check if it is a pending order
       let order = orders[order_id];
-      if( order.status == 1){
+      if( order.status == 1 && order.buyer_id != cur_id){
         pendingOrders.push(order_id);
       }
 
@@ -298,45 +321,6 @@ export async function viewPendingOrders() {
   });
 
   return pendingOrders;
-}
-
-/*
- * Name: viewAllOrders
- * Description: This is for carrier to see all pending orders
- * Parameters: object: order
- * Return: An array of order_id
- * Error Condition: none
- * Success: N/A
- */
-export async function viewAllOrders() {
-  // access the Menu field in firebase
-  const firebaseRef = firebase.database().ref("Orders");
-
-  var allOrders;
-  await firebaseRef.once('value', function(snapshot) {
-
-    // Find the value of Orders field
-    let orders = snapshot.val();
-    orders = orders.items;
-
-    allOrders=[];
-    var order_id;
-
-    // loop through all types in orders
-    for( order_id in orders){
-
-      // check if it is a pending order
-      let order = orders[order_id];
-        allOrders.push(order_id);
-
-    }
-
-  }, function(errorObject){
-      alert("failed:" + errorObject.code);
-    });
-
-  return allOrders;
-
 }
 
 /*
@@ -377,8 +361,6 @@ export async function viewOrderDetailById (order_id) {
     await firebase.database().ref(dir).once("value", function (snapshot) {
         orderInformation = snapshot.val();
     });
-
-
     return orderInformation;
 }
 
@@ -426,7 +408,8 @@ export async function getProfileDetailById(profile_id){
  * The database will update the carrier_id entry with the current carrier_id.
  * If the order is already taken by others, it will return -1.
  */
-export async function acceptOrder(order_id, carrier_id){
+export async function acceptOrder(order_id){
+    var carrier_id = await getCurrentUserUID();
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
   let status = -1;
   await orderRef.once("value", dataSnapshot => {
@@ -457,13 +440,17 @@ export async function getDistance(origin, destination, id) {
   return new Promise(function(resolve,reject){
     const xhr = new XMLHttpRequest();
 
-    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"%20ucsd&mode=walking";
+    const url = "https://maps.googleapis.com/maps/api/directions/json?origin="+origin+"&destination="+destination+"&mode=walking";
     xhr.responseType = 'json';
     //let orderWithDist;
     xhr.onreadystatechange = function () {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-          var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
-          resolve(orderWithDist);
+          if( xhr.response.routes[0] != undefined){
+            var orderWithDist = {dist: xhr.response.routes[0].legs[0].distance.value, order_id: id};
+            resolve(orderWithDist);
+          }else{
+            alert("Please choose another location");
+          }
       }
     };
 
@@ -475,6 +462,37 @@ export async function getDistance(origin, destination, id) {
   });
 
 }
+
+
+
+export async function checkPlace(destination) {
+  return new Promise(function(resolve,reject){
+    const xhr = new XMLHttpRequest();
+
+    const url = "https://maps.googleapis.com/maps/api/directions/json?origin=geisel libaray&destination="+destination+"&mode=walking";
+    xhr.responseType = 'json';
+    //let orderWithDist;
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+          if( xhr.response.routes[0] != undefined){
+            var test = true;
+            resolve(test);
+          }else{
+            var test = false;
+            resolve(test);
+          }
+      }
+    };
+
+    xhr.ontimeout = function() {
+      reject("timeout");
+    }
+    xhr.open('GET', url);
+    xhr.send();
+  });
+
+}
+
 
 /*
  *  Helper function used to compare two orders with ids.
@@ -496,7 +514,7 @@ function compare (a, b){
  * Sort the pending order based on some rules (for now, we are only sorting it with
  * distance from the origin)
  */
-export async function sortOrders(origin) {
+export async function sortOrdersByDistance(origin) {
   let orders = await viewPendingOrders();
   let ordersWithDistance = [];
   var current;
@@ -510,35 +528,45 @@ export async function sortOrders(origin) {
   console.log(ordersWithDistance);
   let ordersResult = [];
   for (let j = 0; j < ordersWithDistance.length; j++){
-      ordersResult.push(ordersWithDistance[j].order_id);
+      await ordersResult.push(ordersWithDistance[j].order_id);
   }
+  //console.log("this is what we returned from database" + ordersResult);
   return ordersResult;
 }
 
-export async function getOrderRequestTime(order_id) {
-  let dir = "Orders/items/" + order_id;
-  var location;
-  await firebase.database().ref(dir).once("value", function (snapshot){
-    location = snapshot.val().location;
-    location = location.split(' ').join('%20');
-  });
-  return location;
-}
 
 export async function sortOrdersByRequestTime() {
-  let orders = await viewPendingOrders();
-  let ordersWithRequestTime = [];
+   let orders = await viewPendingOrders();
 
-}
+   // build array with each object containing id and request_time
+   let ordersWithRequestTime = [];
+   for (let i = 0; i < orders.length; i++) {
+   var orderRef = firebase.database().ref("Orders/items/"+orders[i]);
+   await orderRef.once("value", dataSnapshot => {
+   ordersWithRequestTime.push({orderId:orders[i],requestTime:dataSnapshot.val().request_time});
+   });
+   }
+
+   await ordersWithRequestTime.sort(compareByRequestTime);
+
+   // build the result array
+   let resList = [];
+   for (var j = 0; j < ordersWithRequestTime.length; j++){
+   resList.push(ordersWithRequestTime[j].orderId);
+   }
+   return resList;
+  }
+
 /*
  * Name: completeOrder
  * Parameter: string: order_id  string: user_id
  * Return: N/A
  */
-export async function completeOrder(order_id, user_id) {
-  let profileRef = firebase.database().ref("Profile/" + user_id + "/hisory/");
+export async function completeOrder(order_id) {
+    var user_id = await getCurrentUserUID();
+  let profileRef = firebase.database().ref("Profile/" + user_id + "/history/");
   await profileRef.once("value", snapshot => {
-    index = snapshot.val().totalNum;
+    index = snapshot.val().total_num;
   });
 
   let orderRef = firebase.database().ref("Orders/items/" + order_id);
@@ -549,33 +577,41 @@ export async function completeOrder(order_id, user_id) {
       if (dataSnapshot.val().status === 4 && dataSnapshot.val().carrier_id == user_id) {
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       // current order status is 5: completedByCarrier, then buyer click complete
       // update status to be 6: completed
       else if (dataSnapshot.val().status === 5 && dataSnapshot.val().buyer_id == user_id) {
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(order_id);
+
           orderRef.child("status").set(6);
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       // current order status is 3: delivering, then buyer click complete
       // update status to be 4: completedByBuyer
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().buyer_id == user_id){
+          ref = firebase.database().ref("Profile/" + user_id);
+          ref.child("current_order_as_buyer").set('-1');
+          removeOrderStatusChangeListener(order_id);
+
           orderRef.child("status").set(4);
-          console.log("complete by buyer");
+          //console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       // current order status is 3: delivering, then carrier click complete
       // update status to be 5: completedByCarrier
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
-          console.log("complete by carrier");
+          //console.log("complete by carrier");
           profileRef.child("orders").child(index).set(order_id);
-          profileRef.child("totalNum").set(++index);
+          profileRef.child("total_num").set(++index);
       }
 
       updateLastTime(order_id);
@@ -593,10 +629,32 @@ export async function changeDefaultMode(id, mode) {
   let defaultMode;
   await profileRef.once("value", dataSnapshot => {
       profileRef.child("default_mode").set(mode);
+      alert("Change Successful!");
     }
   );
 
 }
+
+/*
+ * Name: getDefaultMode
+ * Parameters: void
+ * Return: N/A
+ * get deault mode
+ */
+
+ export async function getDefaultMode(){
+   var defaultMode;
+   let profileId = await getCurrentUserUID();
+   let profileRef = firebase.database().ref("Profile/" + profileId +"/default_mode");
+   await profileRef.once("value", dataSnapshot => {
+     defaultMode = dataSnapshot.val();
+   });
+   console.log("this is getDefaultMode " + defaultMode);
+
+   return defaultMode;
+ }
+
+
 
 
 /*
@@ -620,12 +678,12 @@ export async function changeProfilePhoto(id, url) {
  */
 export async function logout() {
 
-    var curUser = getCurrentUserUID();
+    var curUser = await getCurrentUserUID();
     var Profile = await getProfileById(curUser);
-    if (Profile.current_order_as_buyer)
+    if (Profile.current_order_as_buyer != null && Profile.current_order_as_buyer != -1)
         removeOrderStatusChangeListener(Profile.current_order_as_buyer);
 
-  var result;
+    var result;
     await firebase.auth().signOut().then(
 
       function success(){
@@ -635,12 +693,9 @@ export async function logout() {
       function failure(error){
         var errorCode = error.code;
         var errorMsg = error.message;
-
         result = errorMsg;
-
       }
     );
-
     return result;
 }
 
@@ -657,7 +712,6 @@ export async function displayOrderHistory(user_id) {
   await firebase.database().ref(dir).once("value", function (snapshot) {
       orderHis = snapshot.val();
   });
-
   return orderHis;
 }
 
@@ -710,9 +764,9 @@ export async function updateOrderRate(order_id, rate, isBuyer, user_id) {
   let orderRef = firebase.database().ref(orderDir);
   orderRef.set(rate);
 
-  let profileDir = "Profile/" + user_id; 
-  let prevRate; 
-  let totalNum; 
+  let profileDir = "Profile/" + user_id;
+  let prevRate;
+  let totalNum;
   await firebase.database().ref(profileDir).once("value", function (snapshot) {
     user = snapshot.val();
     prevRate = user.rate;
@@ -741,6 +795,25 @@ export async function changeUserName(user_id, newName){
         }
     });
     return result;
+}
+
+/*
+ * Name: setPhoneNum
+ * Parameter: string: phoneNum
+ */
+export async function setPhoneNum(phoneNum) {
+  let profile_id = await getCurrentUserUID();
+  let dir = firebase.database().ref("Profile/" + profile_id);
+  dir.child("phone").set(phoneNum);
+}
+
+
+export function getCurrentUserEmail(){
+    var currentUser = firebase.auth().currentUser;
+    if (currentUser != null){
+        return currentUser.email;
+    }
+    return -1;
 }
 
 /*
@@ -814,10 +887,78 @@ export function removeOrderStatusChangeListener(orderId){
 
 function statusUpdated(snapshot) {
     var changedChild = snapshot.val();
-    if (changedChild === 2) {
+    if (changedChild === 2　&& changedChild != 4 && changedChild != -1) {
         Alert.alert("Notification", "Someone just accepted your order!\n Please refresh the page!");
     }
-    else if (changedChild != 1) {
+    else if (changedChild != 1　&& changedChild != 4 && changedChild != -1) {
         Alert.alert("Notification", "Your Order has been updated!\n Please refresh the page! ");
+    }
+}
+
+export async function randomCoffee() {
+  // random an integer for type
+  let type = Math.floor(Math.random() * 6);
+
+  // random an integer for item
+  let item = Math.floor(Math.random() * 9) + 1;
+  let hotTea = Math.floor(Math.random() * 6) + 1;
+
+  let typeRef;
+  let prefix;
+
+  if (type === 0) {
+    typeRef = 'Cold Coffees';
+    prefix = 'CC';
+  } else if (type === 1) {
+    typeRef = 'Drinks';
+    prefix = 'DR';
+  } else if (type === 2) {
+    typeRef = 'Frappuccino';
+    prefix = 'FR';
+  } else if (type === 3) {
+    typeRef = 'Hot Coffees';
+    prefix = 'HC';
+  } else if (type === 4) {
+    typeRef = 'Hot Teas';
+    prefix = 'HT';
+  } else if (type === 5) {
+    typeRef = 'Iced Teas';
+    prefix = 'IT';
+  }
+
+  let dir;
+  if (typeRef === 'Hot Teas') {
+    dir = "Menu/" + typeRef + "/items/" + 'HT' + '0' + hotTea;
+  }
+
+  else {
+
+    // if (item === '10') {
+    //   dir = "Menu/" + typeRef + "/items/" + prefix + item;
+    // }
+    dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
+  }
+
+  console.log("prefix is: " + prefix);
+  console.log("dir in random is " + dir);
+  var coffee;
+  await firebase.database().ref(dir).once("value", function (snapshot) {
+    coffee = snapshot.val();
+  });
+  //console.log("today coffee is "+ coffee);
+  return coffee;
+}
+
+export function resetPassword() {
+    var user = firebase.auth().currentUser;
+
+    if (user) {
+        firebase.auth().sendPasswordResetEmail(user.email).then(function () {
+            // Email sent.
+            Alert.alert("Success！", "An E-mail has just been sent to your email!");
+        }).catch(function (error) {
+            // An error happened.
+            Alert.alert("Failed", "Something strange happened...")
+        });
     }
 }

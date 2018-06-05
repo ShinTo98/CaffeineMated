@@ -45,6 +45,8 @@ export class MenuView extends Component {
     super(props);
     this.state = {
       data: this.props.navigation.getParam('data'),
+      location: this.props.navigation.getParam('location'),
+      time: this.props.navigation.getParam('time'),
       menu: 'Menu',
       items: [],
     };
@@ -54,15 +56,13 @@ export class MenuView extends Component {
    this.getType = this.getType.bind(this);
   }
 
+  // Function to get what types are in menu
   async getMenu() {
     this.setState({items: await displayMenu()});
-    console.log(this.state.items);
   }
 
   async getType(e){
-    //console.log(e);
     var test = await displayType(e);
-    console.log(test);
     return test;
   }
 
@@ -72,13 +72,14 @@ export class MenuView extends Component {
 
   render () {
     var result = this.state.items;
-    console.log("this is result in items: " + result);
     return(
       <Container style={styles.container}>
         <Header style={styles.header}>
           <Left>
             <Button transparent onPress={() => this.props.navigation.navigate('main', {
                update: false,
+               location: this.state.location,
+               time: this.state.time,
           })}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
@@ -99,12 +100,12 @@ export class MenuView extends Component {
              <Row>
               <TouchableWithoutFeedback onPress={ ()=> {
                 this.props.navigation.navigate('submenu', {
-
                     name: type[1],
                     items: this.getType(type[1]),
                     data: this.state.data,
-
-                  })}}>
+                    location: this.state.location,
+                    time: this.state.time,
+                })}}>
                 <Image style={styles.image}
                         source={{uri: type[0]}} />
 
@@ -116,6 +117,8 @@ export class MenuView extends Component {
                    name: type[1],
                    items: this.getType(type[1]),
                    data: this.state.data,
+                   location: this.state.location,
+                   time: this.state.time,
               })}}>
                 <Text style={styles.text}>{type[1]}</Text>
               </TouchableWithoutFeedback>
