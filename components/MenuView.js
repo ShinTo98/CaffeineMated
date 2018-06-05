@@ -45,8 +45,7 @@ export class MenuView extends Component {
     super(props);
     this.state = {
       data: this.props.navigation.getParam('data'),
-      location: this.props.navigation.getParam('location'),
-      time: this.props.navigation.getParam('time'),
+      saveInfo: this.props.navigation.getParam('saveInfo'),
       menu: 'Menu',
       items: [],
     };
@@ -71,6 +70,7 @@ export class MenuView extends Component {
   }
 
   render () {
+    console.log("slakfjlskdjfl" + this.state.saveInfo["buyer_whenLogan"]);
     var result = this.state.items;
     return(
       <Container style={styles.container}>
@@ -78,8 +78,7 @@ export class MenuView extends Component {
           <Left>
             <Button transparent onPress={() => this.props.navigation.navigate('main', {
                update: false,
-               location: this.state.location,
-               time: this.state.time,
+               saveInfo: this.state.saveInfo
           })}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>
@@ -103,8 +102,7 @@ export class MenuView extends Component {
                     name: type[1],
                     items: this.getType(type[1]),
                     data: this.state.data,
-                    location: this.state.location,
-                    time: this.state.time,
+                    saveInfo: this.state.saveInfo
                 })}}>
                 <Image style={styles.image}
                         source={{uri: type[0]}} />
@@ -117,8 +115,7 @@ export class MenuView extends Component {
                    name: type[1],
                    items: this.getType(type[1]),
                    data: this.state.data,
-                   location: this.state.location,
-                   time: this.state.time,
+                   saveInfo: this.state.saveInfo
               })}}>
                 <Text style={styles.text}>{type[1]}</Text>
               </TouchableWithoutFeedback>

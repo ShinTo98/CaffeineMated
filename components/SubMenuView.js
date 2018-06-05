@@ -48,6 +48,7 @@ export class SubMenuView extends Component {
       data: this.props.navigation.getParam('data'),
       location: this.props.navigation.getParam('location'),
       time: this.props.navigation.getParam('time'),
+      saveInfo: this.props.navigation.getParam('saveInfo')
     };
     // Bind login related functions
     this.getType = this.getType.bind(this);
@@ -76,8 +77,7 @@ export class SubMenuView extends Component {
                 name='arrow-back'
                 style={styles.icon }
                 onPress={() => this.props.navigation.navigate('menu',{
-                  location: this.state.location,
-                  time: this.state.time,
+                  saveInfo: this.state.saveInfo
                 })}
               />
             </Button>
@@ -100,8 +100,7 @@ export class SubMenuView extends Component {
                    itemType: this.state.type,
                    itemId: type[1],
                    data: this.state.data,
-                   location: this.state.location,
-                   time: this.state.time,
+                   saveInfo: this.state.saveInfo
                  })}}>
                  <Image style={styles.image} source={{uri: type[0]}}/>
               </TouchableWithoutFeedback>
@@ -112,8 +111,7 @@ export class SubMenuView extends Component {
                    itemType: this.state.type,
                    itemId: type[1],
                    data: this.state.data,
-                   location: this.state.location,
-                   time: this.state.time,
+                   saveInfo: this.state.saveInfo
               })}}>
                 <Text style={styles.text}>{type[2]}</Text>
               </TouchableWithoutFeedback>

@@ -56,6 +56,7 @@ export class Customization extends Component {
       data: this.props.navigation.getParam('data'),
       location: this.props.navigation.getParam('location'),
       time: this.props.navigation.getParam('time'),
+      saveInfo: this.props.navigation.getParam('saveInfo')
       // If you want to set up more customization, add a state with all the choices and the name of this customization in the header.
         //Example:
         //topping: ["no", "light", "regular"]
@@ -147,6 +148,7 @@ export class Customization extends Component {
     choices.push(choiceEsp);
     choices.push(choiceCream);
     choices.push(choiceSyrup);
+    console.log("from customization" + this.state.saveInfo["buyer_whenLogan"]);
     // If add another customization, then add another push state, DO NOT CHANGE RENDER
     // Example:
     //choices.push(this.state.topping);
@@ -164,8 +166,7 @@ export class Customization extends Component {
             <Button
               transparent
               onPress={ ()=> this.props.navigation.navigate('submenu',{
-                location: this.state.location,
-                time: this.state.time,
+                saveInfo: this.state.saveInfo
               })}>
               <Icon name='arrow-back' style={styles.icon_BackArrow}/>
             </Button>
@@ -278,10 +279,9 @@ export class Customization extends Component {
                       image: itemImage,
                       selection: this.state.select,
                       data: this.state.data,
-                      location: this.state.location,
-                      time: this.state.time,
                       update: true,
                       itemObject: this.state.item,
+                      saveInfo: this.state.saveInfo,
                       seg: 1
                     })}}>
                    <Text style={styles.submitText}>Submit</Text>
