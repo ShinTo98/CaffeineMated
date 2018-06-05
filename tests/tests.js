@@ -35,14 +35,12 @@ main();
 //npx babel-node tests.js
 async function main() {
 
-  //await testuserSignup();
-  //await testuserLogin();
-  //await testdisplayMenu();
+  await testdisplayMenu();
   await testdisplayType();
-  //await testdisplayItem();
-  //await testviewPendingOrders();
-  //await testgetOrderLocationById();
-  //await testdisplayOrderHistory();
+  await testdisplayItem();
+  await testviewPendingOrders();
+  await testgetOrderLocationById();
+  await testdisplayOrderHistory();
   //await testupdateRate();
 
   console.log("ALL TESTED... Ctrl+C to exit the test program...");
@@ -214,22 +212,46 @@ async function testdisplayType() {
   var expectedReturnedDrinks = [
     [
       'https://globalassets.starbucks.com/assets/3056aa7849a0477ea4ed137b66910324.jpg',
-      'D01',
+      'DR01',
       'Pink Drink'
     ],
     [
       'https://globalassets.starbucks.com/assets/452d9229393844b9b57263a7d0d9cf1e.jpg',
-      'D02',
+      'DR02',
       'Hot Chocolate'
     ],
     [
       'https://globalassets.starbucks.com/assets/cff93f212cda4cd09e7dfa5a358caeed.jpg',
-      'D03',
+      'DR03',
       'Strawberry Acai Refreshers™'
-    ]
+    ],
+    [ 'https://globalassets.starbucks.com/assets/c05d9645bcad432695e2e2b42fda77f1.jpg',
+      'DR04',
+      'Cool Lime Lemonade Refreshers' ],
+    [ 'https://globalassets.starbucks.com/assets/65cd490369574169b7da525a715c388b.jpg',
+      'DR05',
+      'Very Berry Hibiscus Lemonade Refreshers' ],
+    [ 'https://globalassets.starbucks.com/assets/fc862fb36e71455c97360082d513c48e.jpg',
+      'DR06',
+      'Ombré Pink Drink' ],
+    [ 'https://globalassets.starbucks.com/assets/195a5b9e040d4da18464ce64813ce44f.jpg',
+      'DR07',
+      'Violet Drink' ],
+    [ 'https://globalassets.starbucks.com/assets/b74472856c7343b88f78e01c0e736d85.jpg',
+      'DR08',
+      'White Hot Chocolate' ],
+    [ 'https://globalassets.starbucks.com/assets/5f58206cbf3d463ebdac5f9f281aded1.jpg',
+      'DR09',
+      'Chocolate Smoothie' ],
+    [ 'https://globalassets.starbucks.com/assets/75f0afa0cf954a9b819ae7d031275e39.jpg',
+      'DR10',
+      'Cinnamon Dolce Crème' ]
 ];
 
+
   console.log("Testing function displayType...");
+
+
 
   //console.log( "Expecting returned list of pairs of [img, id, name]" );
   //console.log( "Actual returned value:" );
