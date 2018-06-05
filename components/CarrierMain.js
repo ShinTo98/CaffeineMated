@@ -141,6 +141,8 @@ export class CarrierMain extends Component {
 
         this.setState({progressNum:4})
 
+        this.fetchData();
+
       }
 
 
@@ -390,7 +392,7 @@ export class CarrierMain extends Component {
                          <Button style={styles.confirmButton}
                                       onPress={() => this.changeStates(["selected_order","selecting_order", "request_selected"], [this.props.get("order_selecting.id"), false,true])}>
                             <Text style={{color: '#FFFFFF', fontSize: 22, padding: '20%'}}>Confirm</Text>
-                    
+
                          </Button>
                          </FooterTab>
           </Footer>
@@ -663,7 +665,7 @@ export class CarrierMain extends Component {
                         }
                         )
                         }
-                        
+
                   </ScrollView>
                 </Container>
 
