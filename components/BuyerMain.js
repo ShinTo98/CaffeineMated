@@ -24,8 +24,6 @@ export class BuyerMain extends Component {
       orderSubmitted : false,
       placeChoose : false,
       order_data : this.props.get("order_data"),
-      //buyer_whereLogan : this.props.get("buyer_whereLogan"),
-      //buyer_whenLogan : this.props.get("buyer_whenLogan")
     }
 
     this.submitValidityCheck = this.submitValidityCheck.bind(this);
@@ -89,6 +87,12 @@ export class BuyerMain extends Component {
     render(){
       // For swipable list
       const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+      var saveInfoObject = {
+        buyer_whenLogan: this.props.get("buyer_whenLogan"),
+        buyer_whereLogan: this.props.get("buyer_whereLogan"),
+        carrier_whenLogan: this.props.get("carrier_whenLogan"),
+        carrier_whereLogan: this.props.get("carrier_whereLogan")
+     }
 
       return(
         <Container style = {styles.Container}>
@@ -124,8 +128,7 @@ export class BuyerMain extends Component {
               <Button style={styles.buttons_menu}  color="#ffffff"
                 onPress={() => this.props.navigation.navigate('menu', {
                   data: this.props.get("order_data"),
-                  time: this.props.get("buyer_whenLogan"),
-                  location: this.props.get("buyer_whereLogan")
+                  saveInfo: saveInfoObject,
                 })}>
                 <Text style={styles.menuText}> Menu </Text>
               </Button>

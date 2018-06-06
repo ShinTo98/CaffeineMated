@@ -26,7 +26,7 @@ import {
 } from 'react-native';
 import {styles} from '../CSS/Settings.js';
 
-export class Report extends Component {
+export class About extends Component {
 
   static navigationOptions = {
     header: null
@@ -51,7 +51,7 @@ export class Report extends Component {
           </Left>
           <Body>
 
-            <Title>Report</Title>
+            <Title>About</Title>
 
           </Body>
           <Right></Right>
@@ -60,23 +60,15 @@ export class Report extends Component {
         <Content >
           <Container>
 
-            <Item regular style={styles.textBox}>
-              <Input style={styles.textInput}
-                multiline = {true} placeholder='Please include the name of the user and detail of the misconduct.' />
-            </Item>
+            <Text style={{alignSelf: 'center'}}>Made by team ReCaf, CSE110 Spring 2018</Text>
 
           </Container>
         </Content>
         <Footer>
-          <FooterTab>
-            <Button full style={styles.signOut}>
-              <Text style={styles.signOutText}>Submit Report</Text>
-            </Button>
-          </FooterTab>
         </Footer>
 
       </Container>
     );
   }
 }
-export default Report;
+export default About;

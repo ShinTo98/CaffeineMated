@@ -28,15 +28,12 @@ main();
 //npx babel-node tests.js
 async function main() {
 
-  // await testuserLogin();
-  // await testdisplayMenu();
-  // await testdisplayType();
-  // await testdisplayItem();
-  // await testviewPendingOrders();
+  await testdisplayType();
+  await testdisplayItem();
+  await testviewPendingOrders();
   await testGetProfileById();
   await testGetProfileDetailById();
-  // await testviewOrderDetailById();
-  // await testgetOrderLocationById();
+  await testgetOrderLocationById();
   await testdisplayOrderHistory();
   await testGetItemDetailWithOnlyId();
   await testChangeUserName();

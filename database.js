@@ -994,3 +994,29 @@ export function resetPassword() {
         });
     }
 }
+
+export async function saveFeedback (feedback) {
+    let feedbackRef = firebase.database().ref("Feedback");
+    var feedback_id = 0;
+    await feedbackRef.once("value", dataSnapshot => {
+        feedback_id = dataSnapshot.val().size;
+        if (!feedback_id) {
+            feedback_id = 0;
+        }
+        feedbackRef.child("items").child(feedback_id).set(feedback);
+        feedbackRef.child("size").set(feedback_id+1);
+    });
+}
+
+export async function saveReport (report) {
+    let reportRef = firebase.database().ref("Reports");
+    var report_id = 0;
+    await reportRef.once("value", dataSnapshot => {
+        report_id = dataSnapshot.val().size;
+        if (!report_id) {
+            report_id = 0;
+        }
+        reportRef.child("items").child(report_id).set(report);
+        reportRef.child("size").set(report_id+1);
+    });
+}

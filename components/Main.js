@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Container, Header, Left, Body, Right, Button, Icon, Segment, Content, Text, Item, Input, Form, Label, View, List, ListItem, Spinner, Thumbnail,Card, CardItem, Toast } from 'native-base';
-import {getDefaultMode, sortOrdersByDistance, sortOrdersByRequestTime, viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder} from './../database.js';
+import {getDefaultMode, sortOrdersByDistance, sortOrdersByRequestTime, viewPendingOrders, viewOrderDetailById, acceptOrder, updateOrderStatus, completeOrder, cancelByCarrier, getProfileDetailById, createOrder, getCurrentUserUID} from './../database.js';
 import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
@@ -47,19 +47,17 @@ export class Main extends Component {
       selected_order: -1,
       accepted: false,
       delivering: false,
-      orderSubmitted: false,
       // for toggleing places choosing popup
       buyer_choosePlaces: false,
       carrier_choosePlaces: false,
       // for showing Toasts
       showToast: false,
+      orderSubmitted: false,
       // for when & where logans
       buyer_whenLogan: 'Pick a time',
       buyer_whereLogan: 'Specify a place',
       carrier_whenLogan: 'Pick a time',
       carrier_whereLogan: 'Specify a place',
-      carrier_time: '',
-      carrier_location: '',
       curname: 'Username',
       carrier_accept_hour: 0,
       carrier_accept_minute: 0,
@@ -119,6 +117,10 @@ export class Main extends Component {
         return this.state.carrier_refreshing;
    }else if( id == "totalPrice") {
         return this.state.totalPrice;
+   }else if( id == "carrier_whereLogan"){
+        return this.state.carrier_whereLogan;
+   }else if( id == "carrier_whenLogan"){
+        return this.state.carrier_whenLogan;
    }
   }
 
@@ -274,13 +276,9 @@ export class Main extends Component {
       }
     }
     this.setState({request_data: received});
-    //const d = this.state.ids.map(async id => {await viewOrderDetailById(id)});
-    //console.log(d)
-    //this.setState({data: async this.state.ids.map((id) => {await viewOrderDetailById(id))}});
-    //console.log(this.state.request_data);
   }
 
-  async componentWillMount() {
+  async componentWillMount() {      
 
     if( !this.state.updateMode){
       if(this.props.navigation.getParam('seg') != undefined) {
@@ -318,10 +316,6 @@ export class Main extends Component {
 
     if(this.props.navigation.getParam('itemObject') != undefined){
       var itemObject = this.props.navigation.getParam('itemObject');
-      console.log("this is itemObject" + itemObject);
-      console.log("this is itemObject size" + itemObject.size);
-      console.log("this is itemObject syrup" + itemObject.syrup);
-      console.log("this is itemObject price" + itemObject.price);
     }
 
 
@@ -348,13 +342,16 @@ export class Main extends Component {
       //console.log(this.state.order_data);
     }
 
-    //console.log("flkjdflksjdlfksjldfkjlsdjdfl" + this.props.navigation.getParam('location'));
-    if(this.props.navigation.getParam('time') != undefined){
-      this.setState({buyer_whenLogan : this.props.navigation.getParam('time')});
+    if(this.props.navigation.getParam('saveInfo') != undefined){
+        var savedInfo = this.props.navigation.getParam('saveInfo');
+        this.setState({
+                      buyer_whenLogan: savedInfo["buyer_whenLogan"],
+                      buyer_whereLogan: savedInfo["buyer_whereLogan"],
+                      carrier_whenLogan: savedInfo["carrier_whenLogan"],
+                      carrier_whereLogan: savedInfo["carrier_whereLogan"]
+        })
     }
-    if( this.props.navigation.getParam('location') != undefined){
-      this.setState({buyer_whereLogan : this.props.navigation.getParam('location')});
-    }
+
 
     if( this.state.carrier_whereLogan != 'Specify a place'){
       this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
@@ -389,7 +386,7 @@ export class Main extends Component {
     if( id == 0){
       return this.state.buyer_whereLogan;
     }else{
-      return this.state.carrer_whereLogan;
+      return this.state.carrier_whereLogan;
     }
   }
 
@@ -404,6 +401,8 @@ export class Main extends Component {
   }
 
   render() {
+
+
     // For swipable list
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     const loading = this.state.loadFinished;
