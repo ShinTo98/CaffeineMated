@@ -552,7 +552,7 @@ export class CarrierMain extends Component {
     }
     else if (this.state.rating) {
       console.log(this.props.get('order_selecting'))
-      return <OrderCompleted user_id={this.state.rating_order.buyer_id} order_id={this.state.rating_order.id} user_name={this.state.rating_order.buyer_name} isBuyer={false} img={this.state.rating_order.avatar} change={this.OrderCompletedChange}/>
+      return <OrderCompleted user_id={this.state.rating_order.buyer_id} order_id={this.state.rating_order.id} user_name={this.state.rating_order.buyer_name} isBuyer={true} img={this.state.rating_order.avatar} change={this.OrderCompletedChange}/>
     }
 
     else if(this.props.get("accepted")){
