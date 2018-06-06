@@ -20,6 +20,7 @@ import {CarrierMain} from './components/CarrierMain.js';
 import { PlaceChoose } from './components/PlaceChoose.js';
 import { ViewHis } from './components/ViewHis.js';
 import { SubmitOrder } from './components/SubmitOrder.js';
+import {About} from './components/About.js';
 
 import { OrderDetailInHistory} from './components/OrderDetailInHistory.js';
 console.disableYellowBox = true;
@@ -73,6 +74,9 @@ const SettingsStack = StackNavigator(
     },
     feedback: {
       screen: Feedback,
+    },
+    about: {
+      screen: About,
     },
     start: {
       screen: LoginScreen,

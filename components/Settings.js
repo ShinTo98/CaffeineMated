@@ -146,7 +146,7 @@ export class Settings extends Component {
                   <Icon name="arrow-forward" />
                 </Right>
               </ListItem>
-              <ListItem>
+              <ListItem onPress={() => this.props.navigation.navigate('about')}>
                 <Left>
                   <Text>About</Text>
                 </Left>
