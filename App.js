@@ -11,6 +11,7 @@ import {SubMenuView} from './components/SubMenuView.js';
 import {Settings} from './components/Settings.js';
 import {Profile} from './components/Profile.js';
 import {Feedback} from './components/Feedback.js';
+import {Report} from './components/Report.js';
 import {OrderCompleted} from './components/OrderCompleted.js';
 import {TestPage} from './components/TestPage.js';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
@@ -73,6 +74,9 @@ const SettingsStack = StackNavigator(
     },
     feedback: {
       screen: Feedback,
+    },
+    report: {
+      screen: Report,
     },
     start: {
       screen: LoginScreen,
