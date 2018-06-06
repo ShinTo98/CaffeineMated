@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 import {
   Container,
   Header,
@@ -25,6 +26,8 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import {styles} from '../CSS/Settings.js';
+import {saveReport} from './../database.js';
+
 
 export class Report extends Component {
 
@@ -36,8 +39,19 @@ export class Report extends Component {
     super(props);
     this.state = {
       seg: 1,
-      where: ""
+      where: "",
+      report: "",
     };
+  }
+
+  async submitReport() {
+    if (this.state.report === '') {
+      alert('Report can not be empty.')
+    }
+    else {
+      await saveReport(this.state.report)
+      await this.setState({report: ''})
+    }
   }
 
   render() {
@@ -62,14 +76,19 @@ export class Report extends Component {
 
             <Item regular style={styles.textBox}>
               <Input style={styles.textInput}
-                multiline = {true} placeholder='Please include the name of the user and detail of the misconduct.' />
+                multiline = {true}
+                placeholder='Please include the name of the user and detail of the misconduct.'
+                onChangeText={(input) => this.setState({report: input})}
+                value = {this.state.report}
+                />
             </Item>
 
           </Container>
         </Content>
         <Footer>
           <FooterTab>
-            <Button full style={styles.signOut}>
+            <Button full style={styles.signOut}
+            onPress= {() => this.submitReport()}>
               <Text style={styles.signOutText}>Submit Report</Text>
             </Button>
           </FooterTab>
