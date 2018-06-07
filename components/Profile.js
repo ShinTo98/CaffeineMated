@@ -66,8 +66,7 @@ export class Profile extends Component {
       photo: this.state.profileData["photo"],
       loaded: true,
     })
-    //console.log(this.state.buyerRating);
-    //console.log(this.state.carrierRating);
+
   }
 
   async componentWillMount() {

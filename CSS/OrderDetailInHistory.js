@@ -53,5 +53,9 @@ export const styles = StyleSheet.create({
         borderBottomColor: '#FF9052',
         borderBottomWidth: 2,
         marginVertical: '2%'
+    },
+
+    icon:{
+        color: '#FF9052'
     }
 });

@@ -59,16 +59,13 @@ export class PlaceChoose extends Component {
                 fetchDetails={true}
                 renderDescription={(row) => row.description} // custom description render
                 onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-                  //console.log(data);
                   // Get useful piece from data.description
                   var location = data.description.toString().substring(0, data.description.toString().indexOf(','));
                   //this.setState({location: data.description.toString().substring(0, data.description.toString().indexOf(','))});
                   //this.setState({whereLogan: data.description.toString().substring(0, data.description.toString().indexOf(','))});
-                  //console.log(location);
                  
                   this.changewhereLogan(location);
                   //this.setState({choosePlaces: false});
-                  //console.log(details)
                 }}
                 getDefaultValue={() => {
                   return ''; // text input default value

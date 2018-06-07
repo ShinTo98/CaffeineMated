@@ -32,7 +32,6 @@ async getInfo(){
   this.setState({carrierRate : this.state.orderData.carrier_rate});
   this.setState({itemsInfo : this.state.orderData.items});
   this.setState({loadFinished:true});
-  console.log(this.state.loadFinished);
 }
 
 async componentDidMount(){

@@ -49,19 +49,16 @@ export class Settings extends Component {
 
 
   onValueChange(value) {
-    console.log(value);
     if (value != 'Cancel') {
       this.setState({
         defaultMode: value
       },
       async () => {
         // here is our callback that will be fired after state change.
-        console.log(this.state.defaultMode);
         await changeDefaultMode(this.state.user_id, this.state.defaultMode);
       }
       );
     }
-    //console.log(this.state.defaultMode);
   }
 
   async getProfile() {
@@ -70,7 +67,6 @@ export class Settings extends Component {
     this.setState({
       defaultMode: this.state.profileData["default_mode"],
     })
-    //console.log(this.state.profileData);
   }
 
   async componentDidMount() {

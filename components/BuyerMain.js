@@ -19,7 +19,6 @@ export class BuyerMain extends Component {
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    //console.log("this is props in buyerMain with get function" + this.props.get(whenLogan));
     this.state = {
       orderSubmitted : false,
       placeChoose : false,
@@ -27,14 +26,12 @@ export class BuyerMain extends Component {
     }
 
     this.submitValidityCheck = this.submitValidityCheck.bind(this);
-    //console.log("this is from buyermain" + this.state.buyer_whereLogan);
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date.toString());
     // Extract the hr:min part
     var time = date.toString().substring(16, 21);
     this.props.change("buyer_whenLogan", time);
@@ -77,7 +74,6 @@ export class BuyerMain extends Component {
         newTotalPrice += newData[i].itemObject.price;
       }
       this.props.change('totalPrice', newTotalPrice);
-      console.log(this.props.get('order_data'));
       this.setState({ order_data: newData });
     }
 

@@ -41,7 +41,6 @@ export class Login extends Component {
     var thisPage = this; 
     setTimeout(function(){
       if(result === 0) {
-        alert("Login Successful!");
         thisPage.props.navigation.navigate('main');
       } else {
         alert(result);

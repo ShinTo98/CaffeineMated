@@ -148,7 +148,6 @@ export class Customization extends Component {
     choices.push(choiceEsp);
     choices.push(choiceCream);
     choices.push(choiceSyrup);
-    console.log("from customization" + this.state.saveInfo["buyer_whenLogan"]);
     // If add another customization, then add another push state, DO NOT CHANGE RENDER
     // Example:
     //choices.push(this.state.topping);

@@ -37,7 +37,6 @@ export class SubmitOrder extends Component {
     };
 
     this.OrderCompletedChange = this.OrderCompletedChange.bind(this);
-    //console.log("orderId, " + this.props.orderId);
 
   }
 
@@ -72,7 +71,6 @@ export class SubmitOrder extends Component {
     let carrierStars = [];
 
     let curr = Math.round(num*2)/2;
-    console.log(curr);
     for (var i = 1; i <= 5; i++) {
 
       let iosStar = 'ios-star';
@@ -102,13 +100,10 @@ export class SubmitOrder extends Component {
 
 
   componentDidMount() {
-    console.log(this.props.order_data);
   }
 
   async fetchData() {
-    console.log(this.state.orderId);
     var orderDetail = await viewOrderDetailById(this.state.orderId);
-    //console.log(orderDetail);
     var status = orderDetail.status;
     this.setState({progressNum: status})
     switch(status) {
@@ -118,7 +113,6 @@ export class SubmitOrder extends Component {
         this.setState({disableButton: true});
         this.setState({carrierId: orderDetail.carrier_id});
         var carrierProfile = await getProfileById(orderDetail.carrier_id);
-        //console.log(carrierProfile);
         this.setState({carrierName: carrierProfile.username});
         this.setState({carrierRate : carrierProfile.rate});
         this.setState({carrierPhoto: carrierProfile.photo});

@@ -96,7 +96,6 @@ export class Main extends Component {
   }
 
   buyerMainGet(id){
-   // console.log("klasdkjf;alksjdf;laksjdf;lkasjf;lkajsdl;" + s);
    if(id == "buyer_whereLogan"){
         return this.state.buyer_whereLogan;
    }else if( id == "buyer_choosePlaces"){
@@ -238,7 +237,6 @@ export class Main extends Component {
 
 
   async saveRequestIds() {
-    console.log("fetching...");
     if( this.state.carrier_whereLogan != 'Specify a place'){
       this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
     }else{
@@ -248,7 +246,6 @@ export class Main extends Component {
       var shortened = this.state.ids.slice(0,15)
       this.setState({ids: shortened});
     }
-    console.log(this.state.ids);
   }
 
   async saveRequestDetails() {
@@ -257,7 +254,6 @@ export class Main extends Component {
       order = await viewOrderDetailById(id);
       order["id"] = id;
       profile = await getProfileDetailById(order.buyer_id)
-      //console.log(profile)
       if (profile.username) {
         order["buyer_name"] = profile.username;
       }
@@ -298,22 +294,15 @@ export class Main extends Component {
     }
 
 
-    console.log("this is what test has in main" + test);
-    //console.log("this is from main about get function" + this.buyerMainGet(whereLogan));
-    console.log(this.state.seg)
     if (this.state.seg === 2) {
-      console.log("loading")
       this.setState({loadFinished: false});
 
       await this.saveRequestIds();
       await this.saveRequestDetails();
       this.setState({loadFinished: true});
     }
-    //console.log(this.state.request_data)
 
     // get params here
-    //console.log("This is from main  " + this.props.navigation.getParam('selection'));
-
     if(this.props.navigation.getParam('itemObject') != undefined){
       var itemObject = this.props.navigation.getParam('itemObject');
     }
@@ -339,7 +328,6 @@ export class Main extends Component {
         this.props.navigation.setParams({ update: false });
       }
 
-      //console.log(this.state.order_data);
     }
 
     if(this.props.navigation.getParam('saveInfo') != undefined){
@@ -376,8 +364,6 @@ export class Main extends Component {
 
     if( this.state.carrier_whereLogan != 'Specify a place'){
       this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
-      console.log("this is from main.js about setting updat orders" + this.state.carrier_whereLogan);
-      console.log("this is updated ids" + this.state.ids);
     }
 
   }
@@ -409,8 +395,6 @@ export class Main extends Component {
     const order_exists = this.state.order_exists;
     const order_data = this.state.order_data;
     const dloop = this.state.dloop;
-    //console.log(this.state.order_data);
-    //console.log(this.state.dloop);
     if( this.state.buyer_choosePlaces ){
       return(
         <PlaceChoose get={this.placeChooseGet} placeChange={this.placeChooseChange} main={0}/>)

@@ -212,9 +212,6 @@ export async function saveOrder (order) {
  * Return: order_id
  */
   export async function createOrder(orders, orderLocation, requestTime){
-    console.log(orders);
-    console.log(orderLocation);
-    console.log(requestTime);
     var buyerId = await getCurrentUserUID();
     var createTime = new Date().toLocaleString('en-US', { hour12: false });
     let profileRef = firebase.database().ref("Profile/" + buyerId);
@@ -557,12 +554,10 @@ export async function sortOrdersByDistance(origin) {
   }
 
   await ordersWithDistance.sort(compare);
-  console.log(ordersWithDistance);
   let ordersResult = [];
   for (let j = 0; j < ordersWithDistance.length; j++){
       await ordersResult.push(ordersWithDistance[j].order_id);
   }
-  //console.log("this is what we returned from database" + ordersResult);
   return ordersResult;
 }
 
@@ -632,7 +627,6 @@ export async function completeOrder(order_id) {
           removeOrderStatusChangeListener(order_id);
 
           orderRef.child("status").set(4);
-          //console.log("complete by buyer");
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("total_num").set(++index);
       }
@@ -641,7 +635,6 @@ export async function completeOrder(order_id) {
       // update status to be 5: completedByCarrier
       else if (dataSnapshot.val().status === 3 && dataSnapshot.val().carrier_id == user_id){
           orderRef.child("status").set(5);
-          //console.log("complete by carrier");
           profileRef.child("orders").child(index).set(order_id);
           profileRef.child("total_num").set(++index);
       }
@@ -681,7 +674,6 @@ export async function changeDefaultMode(id, mode) {
    await profileRef.once("value", dataSnapshot => {
      defaultMode = dataSnapshot.val();
    });
-   console.log("this is getDefaultMode " + defaultMode);
 
    return defaultMode;
  }
@@ -932,8 +924,8 @@ export async function randomCoffee() {
   let type = Math.floor(Math.random() * 6);
 
   // random an integer for item
-  let item = Math.floor(Math.random() * 9) + 1;
-  let hotTea = Math.floor(Math.random() * 6) + 1;
+  let item = Math.floor(Math.random() * 2) + 1;
+  let hotTea = Math.floor(Math.random() * 2) + 1;
 
   let typeRef;
   let prefix;
@@ -971,13 +963,10 @@ export async function randomCoffee() {
     dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
   }
 
-  console.log("prefix is: " + prefix);
-  console.log("dir in random is " + dir);
   var coffee;
   await firebase.database().ref(dir).once("value", function (snapshot) {
     coffee = snapshot.val();
   });
-  //console.log("today coffee is "+ coffee);
   return coffee;
 }
 

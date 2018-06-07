@@ -83,8 +83,7 @@ export class SideBar extends Component {
           
           <Image
               style={styles.drawerImage}
-              //source={{uri: this.state.image}}
-              source={require('../resources/logo.png')}
+              source={{uri: this.state.image}}
           />
           </View>
 

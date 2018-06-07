@@ -92,20 +92,6 @@ export const styles = StyleSheet.create({
     color: '#ff9052',
     fontSize: 22,
   },
-
-  // requestTitleItem: {
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   borderWidth: 2,
-  //   width: 300,
-  //   top: 40,
-  //   height: 40,
-  //   borderColor: '#c8c8c8',
-  //   backgroundColor: '#FFFFFF',
-  //   borderRadius: 6,
-  //
-  // },
-
   orderTitle:{
     color: '#FF9052',
     fontSize: 30,
@@ -114,16 +100,7 @@ export const styles = StyleSheet.create({
 
   requestList:{
     justifyContent : 'center',
-    alignItems : 'center',
-    //marginLeft: '-2%',
-    //height: deviceHeight * 0.40
-    //marginLeft: '-5.3%',
-    //padding: 0,
-    //width : deviceWidth * 0.82,
-    //backgroundColor: '#080808',
-    //height: deviceHeight * 0.49,
-    //marginTop : '1%'
-
+    alignItems : 'center'
   },
 
   list_left_container: {
@@ -157,16 +134,6 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   buttons_accept_disabled: {
-    //backgroundColor: 'transparent',
-    //flexDirection: 'row',
-    //justifyContent: 'center',
-    //fontSize: 30,
-    //width: deviceWidth*0.75,
-    //padding: 5,
-    //borderWidth: 2,
-    //height: deviceWidth*0.12,
-    //borderColor: '#c8c8c8',
-    //top: 60,
     backgroundColor: '#',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -366,9 +333,10 @@ export const styles = StyleSheet.create({
     //padding: 0
   },
   itemImage : {
-    marginTop: 8,
-    marginBottom: 8,
-    left: 10
+    //marginTop: 8,
+    //marginBottom: 8,
+    //left: 10,
+    marginRight: '5%'
   },
   cardTextView:{
     right: 7,
@@ -377,7 +345,7 @@ export const styles = StyleSheet.create({
   cardPrimaryText: {
     textAlign: 'right',
     fontSize: 14,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
   cardSecondaryText: {
     textAlign: 'right',
@@ -544,11 +512,6 @@ export const styles = StyleSheet.create({
     right: 7,
     justifyContent: 'center',
   },
-  cardPrimaryText: {
-    alignSelf: 'flex-start',
-    textAlign: 'right',
-    fontSize: 14,
-  },
   cardSecondaryText: {
     textAlign: 'right',
     fontSize: 12,
@@ -632,6 +595,13 @@ export const styles = StyleSheet.create({
     height: deviceHeight * 0.15 ,
     backgroundColor: '#ffffff'
   },
+
+  cardRow:{
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    marginBottom: 0, 
+    height: deviceHeight * 0.08,
+    marginRight: '4%'}
 
 }
 )

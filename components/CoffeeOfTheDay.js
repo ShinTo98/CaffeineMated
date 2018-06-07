@@ -70,7 +70,6 @@ export class CoffeeOfTheDay extends Component {
     var result = this.state.item;
 
     if( this.state.update){
-      //console.log("this is result in items: " + result.image);
       return(
 
           <View style={styles.container}>

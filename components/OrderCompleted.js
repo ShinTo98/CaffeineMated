@@ -32,11 +32,9 @@ export class OrderCompleted extends Component {
     this.setState({
       rate: rating
     });
-    console.log(this.state.rate);
   }
 
   updateRating() {
-    console.log(this.state.user_id)
     updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer, this.state.user_id);
     if(!this.props.fromBuyer) {
       this.props.change('rating', false);
@@ -55,7 +53,6 @@ export class OrderCompleted extends Component {
       star_count: 5,
       rate: 5
     });
-    console.log(this.state)
   }
 
 

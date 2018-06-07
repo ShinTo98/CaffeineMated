@@ -55,7 +55,6 @@ export class ViewHis extends Component {
         for (let i = 0; i < totNum; i++) {
             let order_id = history.orders[i]; 
             let order = await viewOrderDetailById(order_id); 
-            console.log(order); 
             hisState[i] = {}; 
             hisState[i].time = order.last_update_time; 
             hisState[i].location = order.location; 

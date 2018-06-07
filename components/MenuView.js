@@ -70,7 +70,6 @@ export class MenuView extends Component {
   }
 
   render () {
-    console.log("slakfjlskdjfl" + this.state.saveInfo["buyer_whenLogan"]);
     var result = this.state.items;
     return(
       <Container style={styles.container}>
