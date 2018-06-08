@@ -9,7 +9,7 @@ early to buy a cup of coffee? Why not have both the coffee and quality sleep tim
 * [Installation](#installation-before-using-the-app)
 * [Sample Workflow](#sample-workflow)
 * [Known Issues](#known-issues)
-* [Need Help? Contact us!](#need-help?)
+* [Contact Us](#contact-us)
 
 
 ## Requirements
@@ -20,4 +20,4 @@ early to buy a cup of coffee? Why not have both the coffee and quality sleep tim
 
 ## Known Issues
 
-## Need Help?
+## Contact Us
