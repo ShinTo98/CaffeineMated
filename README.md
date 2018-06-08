@@ -1,6 +1,7 @@
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
-Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
+Below you'll find information about using our App. Having difficult deciding whether to sleep a couple more minutes or wakeup
+early to buy a cup of coffee? Why not have both the coffee and quality sleep time? With CaffeineMated, students can enjoy their favorite drink wherever they want, whenever they want! Through CaffeineMated, we hope to bring convenience to students and let them enjoy the drink of their choice whenever they like, wherever they like. With their favorite drinks, students will be ready to fight through another day of school.
 
 ## Table of Contents
 
