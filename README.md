@@ -2,8 +2,9 @@
 
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app). React-Native, Firebase, and Native-Base was used to develop this app. 
 
-Below you'll find information about using our App. Having difficult deciding whether to sleep a couple more minutes or wakeup
-early to buy a cup of coffee? Why not have both the coffee and quality sleep time? With CaffeineMated, students can enjoy their favorite drink wherever they want, whenever they want! Through CaffeineMated, we hope to bring convenience to students and let them enjoy the drink of their choice whenever they like, wherever they like. With their favorite drinks, students will be ready to fight through another day of school.
+Having difficulty deciding whether to sleep a couple more minutes or wakeup early to buy a cup of coffee? Why not have both the coffee and quality sleep time? With CaffeineMated, students can enjoy their favorite drink wherever they want, whenever they want! We hope to bring convenience to  students and let them enjoy the drink of their choice whenever they like, wherever they like. With their favorite drinks, students will be ready to fight through another day of school.
+
+Below you'll find information about how to use our App. 
 
 ## Table of Contents
 
@@ -21,7 +22,7 @@ To demo this app, please make sure that you have the following:
   - __Node v9.6.1__ and up [Download here if needed](https://nodejs.org/en/download/current/)
   - Two demo user (one will act as coffee buyer, one will act as coffee carrier).
   - A command line terminal
-  - Two IOS device (Iphone 6 Plus and Up) *Our app does not support Android
+  - Two IOS device (Iphone 6 and Up) *Our app does not support Android
   - Have the two IOS device download __Expo__ via the Apple app store. [Expo](https://expo.io/)
   
 The rest of the requirements will be installed via __npm install__
@@ -37,7 +38,7 @@ The rest of the requirements will be installed via __npm install__
 After installation finishes properly, you should be good to go!
 
 ## Sample Workflow
-Here will be a basic walk through on how to use our App.
+Here will be a basic walk through on how to start our App.
 
 You have to run __npm start -s__ in the terminal (while inside the CaffeineMated folder). Using this, your computer will host the app in the network. You should see something similar in the terminal:
 
@@ -55,6 +56,9 @@ terminal to have a text message containing the app URL and EXPO ios download lin
 
 Now let's run the app on our devices!
 1. Open the app URL on your device (it should open up in the Expo app). **If screen flashes black and exit Expo, that is a bug caused by Expo. Simply close Expo in the background and reopen the URL should do the job**
+
+![alt text](https://github.com/ShinTo98/CaffeineMated/blob/master/images/DemoExpo.PNG)
+
 2. After your device successfully connect to the app URL and app finishes building you should see a similar image as the following: 
 
 ![alt text](https://github.com/ShinTo98/CaffeineMated/blob/master/images/DemoConnected.png)
@@ -70,6 +74,8 @@ Enjoy!! : )
 Below is the list of known bugs and issues:
   - On some occasions, there will be a warning about using flex-direction on View. This was necessary for displaying list of of orders and drinks.
   - On some occasions, there can also be a warning about using setState and calling other functions while component hasn't been mounted or is in the process of unmounting. This is caused by the nature of asynchronous functions from firebase database. The requests was still in progress and the user has navigated to another component. This will result in functions still in process call while component is unmounting.
+
+**These are console warnings, it will not affect the functionality or crash the app**
 
 ## Contact Us
 Still have more questions? Or need troubleshooting help?
