@@ -143,24 +143,25 @@ export class BuyerMain extends Component {
 
                   renderRow={data =>
                   <ListItem style={styles.listItems}>
-                      <View style = {{flexDirection: 'row'}}>
+                      <View style = {{flexDirection: 'row'}} />
 
                         <Left>
                           <Thumbnail style={styles.itemImage} source={{uri: data.image}} />
                         </Left>
 
-                        <View style = {styles.cardTextView}>
+                      <Container style = {styles.cardTextView}>
+                        <Container style = {{flexWrap: "wrap", height: '100%', width: '70%', alignSelf: 'flex-end'}}>
                           <Text style ={styles.cardPrimaryText}>
                             {data.name}
                           </Text>
+                          </Container>
                           <Text style ={styles.cardSecondaryText}>
                             {data.itemObject.size}
                           </Text>
                           <Text style ={styles.cardSecondaryText}>
                             ${data.itemObject.price}
                           </Text>
-                        </View>
-                      </View>
+                        </Container>
                   </ListItem>}
                   
                   showsHorizontalScrollIndicator={false}
