@@ -96,7 +96,7 @@ async function testGetProfileById() {
       for (inner in item) {
 
         if (item[inner] == expectedItem[inner]) {
-          console.log("PASSES!\n");
+          console.log("PASSED!\n");
 
         }
         else {
@@ -107,7 +107,7 @@ async function testGetProfileById() {
     }
     else {
       if (item === expectedItem) {
-        console.log("PASSES!\n");
+        console.log("PASSED!\n");
       }
       else {
         console.log("FAILED!\n");
@@ -196,7 +196,7 @@ async function testGetProfileDetailById() {
       for (inner in item) {
 
         if (item[inner] == expectedItem[inner]) {
-          console.log("PASSES!\n");
+          console.log("PASSED!\n");
 
         }
         else {
@@ -207,7 +207,7 @@ async function testGetProfileDetailById() {
     }
     else {
       if (item === expectedItem) {
-        console.log("PASSES!\n");
+        console.log("PASSED!\n");
       }
       else {
         console.log("FAILED!\n");
@@ -492,7 +492,3 @@ async function testChangeProfilePhoto() {
   }
 }
 
-
-async function testacceptOrder() {
-
-}
