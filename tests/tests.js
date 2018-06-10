@@ -1,3 +1,8 @@
+/*
+ * Filename: tests.js
+ * Version: 0.1.0
+ * Description: This file include multiple unit tests 
+ */
 import {
   userSignup,
   userLogin,
@@ -25,7 +30,12 @@ import {
 
 main();
 
-//npx babel-node tests.js
+/*
+ * --------------------------------------------------------
+ * |run npx babel-node ./tests/tests.js to begin testing! |
+ * |ctrl-c to end testing                                 |
+ * --------------------------------------------------------
+ */
 async function main() {
 
   await testdisplayType();
