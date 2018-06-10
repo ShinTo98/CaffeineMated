@@ -1,3 +1,11 @@
+/*
+  Filename: Customization.js
+  Version: 0.1.0
+  Description: Customization.js displays the current selected drink with their pictures and discription. ALso
+              under the discription and pictrue, all possible button selections are displayed and a text box
+              is also provided for user to input specific customization.
+*/
+
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -41,8 +49,6 @@ import {displayItem} from "../database";
 
 export class Customization extends Component {
 
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -82,6 +88,7 @@ export class Customization extends Component {
     for( let data in currenItem){
        datas.push(currenItem[data]);
     }
+
 
     // Get sizes
     var prices = await this.findPrices(datas[3], []);

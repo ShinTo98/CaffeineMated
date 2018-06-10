@@ -61,7 +61,7 @@ export class BuyerMain extends Component {
     // Make sure everything is selected and the buyer has ordered at least 1 drink
     if(this.props.get('buyer_whereLogan') == 'Specify a place' ||
        this.props.get('buyer_whenLogan') == 'Pick a time') {
-      // If not, alert the user and not proceed
+      // If not, alert /the user and not proceed
       alert('Please fill out location & time!');
     } else if(this.props.get('order_data').length == 0) {
       alert(

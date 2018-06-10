@@ -1,3 +1,9 @@
+/*
+  Filename: PlaceChoose.js
+  Version: 0.1.0
+  Description: This page contains UI elements for the place choose component supported by
+  Google places API
+*/
 import React, {Component} from 'react';
 import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -8,7 +14,7 @@ import {styles} from '../CSS/Main.js';
 import SubmitOrder from './SubmitOrder.js';
 import IconVector from 'react-native-vector-icons/Entypo';
 
-
+// Place choose component used by the main page
 export class PlaceChoose extends Component {
 
     static navigationOptions = {
@@ -33,22 +39,10 @@ export class PlaceChoose extends Component {
       }
     }
   
-
-
-
+    // Renders the component to the screen
     render(){
         return(
             <Container style={styles.color_theme}>
-              {/*<Header style={styles.header}>
-                <Left>
-                  <Button
-                    transparent
-                    onPress={() => this.changewhereLogan(this.props.get(0))}>
-                    <Icon name='arrow-back' style={styles.icon_BackArrow}/>
-                  </Button>
-                </Left>
-              </Header>*/}
-
               <Container style={styles.placeAutocomplete}>
               <GooglePlacesAutocomplete
                 placeholder= {this.props.get(this.props.main)}
@@ -61,11 +55,8 @@ export class PlaceChoose extends Component {
                 onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
                   // Get useful piece from data.description
                   var location = data.description.toString().substring(0, data.description.toString().indexOf(','));
-                  //this.setState({location: data.description.toString().substring(0, data.description.toString().indexOf(','))});
-                  //this.setState({whereLogan: data.description.toString().substring(0, data.description.toString().indexOf(','))});
-                 
+                  // Keep track of the current place chosen
                   this.changewhereLogan(location);
-                  //this.setState({choosePlaces: false});
                 }}
                 getDefaultValue={() => {
                   return ''; // text input default value
@@ -76,6 +67,7 @@ export class PlaceChoose extends Component {
                   language: 'en', // language of the results
                   //types: '(cities)' // default: 'geocode'
                 }}
+                // styles for the place choose page
                 styles={{
                   textInputContainer: {
                     width: '100%'
@@ -102,12 +94,9 @@ export class PlaceChoose extends Component {
                   types: 'food'
                 }}
                 filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-                /*predefinedPlaces={[homePlace, workPlace]}
-                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-                renderLeftButton={() => <Image source={require('path/custom/left-icon')} />}
-                renderRightButton={() => <Text>Custom text after the inputg</Text>} */
               />
               </Container>
+              {/* Cancel button for place choose that will return back to the main page */}
               <Footer>
                 <FooterTab>
                   <Button style={styles.placeCancelButton} onPress={() => this.props.placeChange(this.props.main, 'Specify a place')}>

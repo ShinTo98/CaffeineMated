@@ -6,10 +6,12 @@ import {styles} from '../CSS/SideBar.js';
 import { StackActions, NavigationActions } from 'react-navigation';
 import {getCurrentUserUID, getProfileById} from '../database.js'
 
-//const drawerCover = require("../resources/newlogo.png");
-//const drawerImage = require("../resources/newlogo.png");
-
-//TDDO: find icon names
+/*
+ * Filename: Sidebar.js
+ * Version: 0.1.0
+ * Description: This component will display drawer which provide a navagation to
+ *               profile, history and settings.
+ */
 
 const datas = [
   {
@@ -17,28 +19,13 @@ const datas = [
     route: "viewHis",
     icon: 'bookmarks',
   },
-  /*{
-    name: "Payment",
-    route: "customization",
-    icon: 'card',
-  },*/
+
   {
     name: "Profile",
     route: "profile",
     icon: 'person',
   },
-  /*
-  {
-    name: "Help",
-    route: "help",
-    icon: 'help-circle',
-  },
-  {
-    name: "Report",
-    route: "report",
-    icon: 'menu',
-  },
-*/
+
   {
     name: "Settings",
     route: "settings",
@@ -52,7 +39,7 @@ export class SideBar extends Component {
     super(props);
     this.state = {
       shadowOffsetWidth: 1,
-      shadowRadius: 4, 
+      shadowRadius: 4,
     };
   }
 
@@ -66,9 +53,9 @@ export class SideBar extends Component {
   }
 
   async componentWillMount() {
-    user_id = await getCurrentUserUID(); 
-    profile = await getProfileById(user_id); 
-    this.setState({image: profile.photo}); 
+    user_id = await getCurrentUserUID();
+    profile = await getProfileById(user_id);
+    this.setState({image: profile.photo});
   }
 
   render() {
@@ -80,13 +67,14 @@ export class SideBar extends Component {
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
           <View style={styles.drawerCover}>
-          
+
           <Image
               style={styles.drawerImage}
               source={{uri: this.state.image}}
           />
           </View>
 
+          {/* ------------------------- button list --------------------------- */}
 
           <List
             scrollEnabled={false}
@@ -124,24 +112,6 @@ export class SideBar extends Component {
                   </Right>}
               </ListItem>}
           />
-          {/*
-          <List>
-            <ListItem button
-            noBorder
-            onPress={() => this.settings()}>
-            <Left>
-              <Icon
-                active
-                name='menu'
-                style={{ color: "#777", fontSize: 26, width: 30 }}
-              />
-              <Text style={styles.text}>
-                Settings
-              </Text>
-            </Left>
-            </ListItem>
-          </List>
-          */}
         </Content>
       </Container>
     );

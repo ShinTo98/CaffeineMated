@@ -1,3 +1,9 @@
+/*
+  Filename: Report.js
+  Version: 0.1.0
+  Description: This page contains a form that allows users to submit report
+*/
+
 import React, {Component} from 'react';
 
 import {
@@ -49,6 +55,7 @@ export class Report extends Component {
       alert('Report can not be empty.')
     }
     else {
+      alert("We have received your report, we will get to it ASAP");
       await saveReport(this.state.report)
       await this.setState({report: ''})
     }
@@ -71,6 +78,8 @@ export class Report extends Component {
           <Right></Right>
         </Header>
 
+        {/*Text box for users to enter report*/}
+
         <Content >
           <Container>
 
@@ -85,6 +94,8 @@ export class Report extends Component {
 
           </Container>
         </Content>
+
+        {/*Submit button*/}
         <Footer>
           <FooterTab>
             <Button full style={styles.signOut}

@@ -32,7 +32,6 @@ export class Login extends Component {
       //bodyText: 'This is not really a bird nest.',
       email: 'Email',
       password: 'Password',
-      forgotPassword: 'Forgot Password?',
       signup: 'Don\'t have an account? '
     };
 
@@ -100,7 +99,6 @@ export class Login extends Component {
 
             {/*Text that navigates to signup if the user needs an account*/}
             <View style={styles.textView}>
-              <Text style={styles.subText}>{this.state.forgotPassword}</Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.subText}>{this.state.signup}</Text>
                 <Text

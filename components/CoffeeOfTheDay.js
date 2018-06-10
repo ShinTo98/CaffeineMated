@@ -1,3 +1,9 @@
+/*
+  Filename: CoffeeOfTheDay.js
+  Version: 0.1.0
+  Description: This page contains UI elements for randomly display an item in BuyerMain screen.
+*/
+
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -74,6 +80,7 @@ export class CoffeeOfTheDay extends Component {
 
           <View style={styles.container}>
             <Grid style={{flexWrap: 'wrap'}}>
+              {/* This row displays the title */}
               <Row style={styles.titleRow}>
                 <Text style={styles.titleTex}>Coffee of the Moment</Text>
               </Row>
@@ -82,6 +89,7 @@ export class CoffeeOfTheDay extends Component {
                 <View style={styles.line} />
               </Row>
 
+              {/* This row displays the image of the random drink */}
               <Row style={styles.imageRow}>
                 <TouchableWithoutFeedback onPress={() => {
                   this.getCoffee();
@@ -90,6 +98,7 @@ export class CoffeeOfTheDay extends Component {
                 </TouchableWithoutFeedback>
               </Row>
 
+              {/* This row displays the name of the random drink */}
               <Row style={styles.nameRow}>
                  <Text style={styles.itemName}>{result.name}</Text>
               </Row>
