@@ -1,3 +1,9 @@
+/*
+  Filename: SubMenuView.js
+  Version: 0.1.0
+  Description: This page contains UI elements for the submenu page to display types.
+*/
+
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -38,7 +44,6 @@ import {
 } from 'native-base';
 
 export class SubMenuView extends Component {
-
 
   constructor(props) {
     super(props);
@@ -93,8 +98,11 @@ export class SubMenuView extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Grid style={{flexWrap: 'wrap'}}>
           {
+            /* This will go through each element in the array*/
             result.map((type, key) =>
             <Col key={key} style={{ width:'50%', alignItems: 'center'}}>
+
+              {/* This row displays the image of the item*/}
               <Row>
               <TouchableWithoutFeedback onPress ={ () => {
                 this.props.navigation.navigate('customization', {
@@ -106,6 +114,8 @@ export class SubMenuView extends Component {
                  <Image style={styles.image} source={{uri: type[0]}}/>
               </TouchableWithoutFeedback>
               </Row>
+
+              {/* This row displays the name of item*/}
               <Row>
               <TouchableWithoutFeedback onPress={ ()=> {
                 this.props.navigation.navigate('customization', {

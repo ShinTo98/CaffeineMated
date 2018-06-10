@@ -282,6 +282,8 @@ export function cancelByCarrier(order_id) {
     orderRef.once('value', dataSnapshot => {
       if (dataSnapshot.val().status === 2) {
         orderRef.child('status').set(1);
+        orderRef.child('carrier_id').set('');
+        orderRef.child('carrier_rate').set(0);
       }
     });
 }
@@ -955,8 +957,8 @@ export async function randomCoffee() {
   let type = Math.floor(Math.random() * 6);
 
   // random an integer for item
-  let item = Math.floor(Math.random() * 2) + 1;
-  let hotTea = Math.floor(Math.random() * 2) + 1;
+  let item = Math.floor(Math.random() * 9) + 1;
+  let hotTea = Math.floor(Math.random() * 6) + 1;
 
   let typeRef;
   let prefix;
