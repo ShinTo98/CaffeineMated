@@ -119,7 +119,7 @@ export class SubmitOrder extends Component {
     //order status
     switch(status) {
       case 1:
-          this.setState({carrierAccepted: false,
+        this.setState({carrierAccepted: false,
                         progressText: 'Waiting for carrier to accept',
                         buttonText: 'Finding carriers for your order'});
           break;
@@ -226,7 +226,7 @@ export class SubmitOrder extends Component {
                 <Left>
                   <Thumbnail style={styles.itemImage} source={{uri: data.image}} />
                 </Left>
-                <View style = {styles.cardTextView}>
+                <Container style = {{flexWrap: "wrap", width: '70%', height: '100%', alignSelf: 'flex-end'}}>
                   <Text style ={styles.cardPrimaryText}>
                     {data.name}
                   </Text>
@@ -236,7 +236,7 @@ export class SubmitOrder extends Component {
                   <Text style ={styles.cardSecondaryText}>
                     ${data.itemObject.price}
                   </Text>
-                </View>
+                </Container>
               </View>
           </ListItem>}
           />
