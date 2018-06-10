@@ -1,3 +1,9 @@
+/*
+  Filename: OrderCompleted.js
+  Version: 0.1.0
+  Description: This page contains UI elements for the rating page after order is comple, as well as
+  functions to update rating in database. 
+*/
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -28,12 +34,14 @@ export class OrderCompleted extends Component {
   }
 
 
+  // pressing on starts
   onStarRatingPress(rating) {
     this.setState({
       rate: rating
     });
   }
 
+  // send rating to database
   updateRating() {
     updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer, this.state.user_id);
     if(!this.props.fromBuyer) {
@@ -43,6 +51,7 @@ export class OrderCompleted extends Component {
     }
   }
 
+  // initializing
   componentWillMount() {
     this.setState({
       user_id: this.props.user_id,
@@ -73,6 +82,7 @@ export class OrderCompleted extends Component {
               <Text style={styles.userID}>{this.state.user_name}</Text>
             </Container>
 
+{/* ---------------------------------- rating stars ---------------------------------- */}
             <Container style={styles.starsContainer}>
               <StarRating
                 disabled={false}
