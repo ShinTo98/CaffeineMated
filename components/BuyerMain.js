@@ -1,3 +1,9 @@
+/*
+  Filename: BuyerMain.js
+  Version: 0.1.0
+  Description: This page contains UI elements for the buyer's main page, 
+  as well as functions for date time picker and swipable list.
+*/
 import React, {Component} from 'react';
 import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -18,6 +24,7 @@ export class BuyerMain extends Component {
 
   constructor(props) {
     super(props);
+    // Used for swipable list
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = {
       orderSubmitted : false,
@@ -44,30 +51,34 @@ export class BuyerMain extends Component {
   // Date time picker End ------------------------------------------------------------
 
   orderCancelled = () => {
+    // Update states & alert
     this.setState({orderSubmitted: false});
     this.setState({orderSubmitted: false});
     alert('Order Cancelled');
   }
 
   async submitValidityCheck() {
-    // make sure everything is selected and at least 1 drink
+    // Make sure everything is selected and the buyer has ordered at least 1 drink
     if(this.props.get('buyer_whereLogan') == 'Specify a place' ||
        this.props.get('buyer_whenLogan') == 'Pick a time') {
+      // If not, alert the user and not proceed
       alert('Please fill out location & time!');
     } else if(this.props.get('order_data').length == 0) {
       alert(
         'Please order at least one drink!');
       } else {
+        // Proceed; call the backend function to create the order
         var id = await createOrder(this.props.get('order_data'),
                              this.props.get('buyer_whereLogan'),
                              this.props.get('buyer_whenLogan'));
+        // Update states
         this.setState({orderSubmitted: true});
         this.props.change('orderId', id);
         this.props.change('orderSubmitted', true);
       }
     }
 
-    // For swipable list delete one row
+    // For swipable list delete one row (from nativebase)
     deleteRow(secId, rowId, rowMap) {
       rowMap[`${secId}${rowId}`].props.closeRow();
       var newData = [...this.props.get('order_data')];
@@ -85,6 +96,7 @@ export class BuyerMain extends Component {
     render(){
       // For swipable list
       const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+      // Texts displayed (as well as keeping track of) for when & where
       var saveInfoObject = {
         buyer_whenLogan: this.props.get("buyer_whenLogan"),
         buyer_whereLogan: this.props.get("buyer_whereLogan"),
@@ -101,6 +113,7 @@ export class BuyerMain extends Component {
                 <Icon style={styles.Whenwheretext} name='alarm' />
                 <Text style={styles.Whenwheretext}>{this.props.get("buyer_whenLogan")}</Text>
               </Button>
+              {/* DateTime Picker from github open source project */}
               <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
                 onConfirm={this._handleDatePicked}
@@ -132,7 +145,6 @@ export class BuyerMain extends Component {
               </Button>
             </View>
 
-
             {/* ------------------------ LIST OF ORDER ITEMS ------------------------- */}
             <View style={styles.orderItem}>
               
@@ -141,9 +153,11 @@ export class BuyerMain extends Component {
                 </View>
 
                 {this.props.get("order_exists") &&
+                // The actual list used to display orders
                 <List contentContainerStyle={styles.itemList} dataSource={this.ds.cloneWithRows(this.props.get("order_data"))}
 
                   renderRow={data =>
+                  // Each list item
                   <ListItem style={styles.listItems}>
                       <View style = {{flexDirection: 'row'}} />
 
