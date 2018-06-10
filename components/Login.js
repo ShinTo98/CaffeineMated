@@ -1,3 +1,9 @@
+/*
+  Filename: Login.js
+  Version: 0.1.0
+  Description: This page contains a form that allows users to enter their
+  email/password in order to sign in to the app
+*/
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -5,13 +11,13 @@ import {
   Image,
   TextInput,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback, 
+  TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
 import { Container, Header, Content, Button, Text, Form, Item, Input, Label } from 'native-base';
 import {styles} from '../CSS/Login.js';
-import {StackNavigator} from 'react-navigation'; 
-import {userLogin} from '../database.js'; 
+import {StackNavigator} from 'react-navigation';
+import {userLogin} from '../database.js';
 
 export class Login extends Component {
 
@@ -26,7 +32,6 @@ export class Login extends Component {
       //bodyText: 'This is not really a bird nest.',
       email: 'Email',
       password: 'Password',
-      forgotPassword: 'Forgot Password?',
       signup: 'Don\'t have an account? '
     };
 
@@ -36,9 +41,9 @@ export class Login extends Component {
 
   // Function called when user clicked the login button
   async login() {
-    Keyboard.dismiss(); 
+    Keyboard.dismiss();
     var result = await userLogin(this.state.email, this.state.password);
-    var thisPage = this; 
+    var thisPage = this;
     setTimeout(function(){
       if(result === 0) {
         thisPage.props.navigation.navigate('main');
@@ -61,6 +66,8 @@ export class Login extends Component {
             />
             </TouchableWithoutFeedback>
           </Container>
+
+          {/*Form containing the fields required to log in*/}
           <Container style={styles.textSection}>
 
             <Form >
@@ -82,7 +89,7 @@ export class Login extends Component {
             </Item>
             </Form>
 
-
+            {/*Submit button*/}
             <Button
               style={styles.buttons}
               color="#ffffff"
@@ -90,8 +97,8 @@ export class Login extends Component {
             > <Text> Log In </Text>
             </Button>
 
+            {/*Text that navigates to signup if the user needs an account*/}
             <View style={styles.textView}>
-              <Text style={styles.subText}>{this.state.forgotPassword}</Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={styles.subText}>{this.state.signup}</Text>
                 <Text

@@ -1,3 +1,9 @@
+/*
+  Filename: MenuView.js
+  Version: 0.1.0
+  Description: MenuView displays 6 different types of drinks with their pictrues and name.
+*/
+
 import React, {Component} from 'react';
 import {
   StyleSheet,

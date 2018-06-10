@@ -1,3 +1,10 @@
+/*
+  Filename: SubmitOrder.js
+  Version: 0.1.0
+  Description: This page is the page that displays after the buyer submits order,
+  displays information regarding who the carrier is, current order status, as well
+  as ordered items.
+*/
 import React, {Component} from 'react';
 import { TouchableOpacity, Image, RefreshControl } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -40,6 +47,7 @@ export class SubmitOrder extends Component {
 
   }
 
+  //updates progress bar to the status depending on parameter passed
   updateProgressBar = (num) => {
     let curr = num;
     let progressArr = [];
@@ -63,10 +71,12 @@ export class SubmitOrder extends Component {
 
   };
 
+  //changes state after order has completed
   OrderCompletedChange() {
     this.props.change('orderSubmitted', false);
   }
 
+  //updates number of stars depending on parameter passed
   updateStars = (num) => {
     let carrierStars = [];
 
@@ -106,6 +116,7 @@ export class SubmitOrder extends Component {
     var orderDetail = await viewOrderDetailById(this.state.orderId);
     var status = orderDetail.status;
     this.setState({progressNum: status})
+    //order status
     switch(status) {
       case 2:
         this.setState({progressText: 'Order Progress: Your order has been accepted!'});
@@ -144,6 +155,7 @@ export class SubmitOrder extends Component {
     }
   }
 
+  //changes button to complete order to let the user complete the order.
   async updateOrderSubmitted() {
     if (this.state.buttonText === 'Cancel Order') {
       await cancelByBuyer(this.state.orderId);
@@ -179,7 +191,7 @@ export class SubmitOrder extends Component {
               onRefresh={this._onRefresh.bind(this)}
             />
           }>
-            <View style={styles.orderDetailText}> 
+            <View style={styles.orderDetailText}>
               <Text style={styles.orderText}> Order Details </Text>
             </View>
             <Text style = {styles.labelTextFirst}>
@@ -198,33 +210,35 @@ export class SubmitOrder extends Component {
               Items:
             </Text>
 
-<List
-dataArray={this.state.order_data}
+          {/*List of all the drinks in the order*/}
+          <List
+          dataArray={this.state.order_data}
 
-renderRow={data =>
-<ListItem style={styles.listItems}>
-    <View style = {{flexDirection: 'row'}}>
-      <Left>
-        <Thumbnail style={styles.itemImage} source={{uri: data.image}} />
-      </Left>
-      <View style = {styles.cardTextView}>
-        <Text style ={styles.cardPrimaryText}>
-          {data.name}
-        </Text>
-        <Text style ={styles.cardSecondaryText}>
-          {data.itemObject.size}
-        </Text>
-        <Text style ={styles.cardSecondaryText}>
-          ${data.itemObject.price}
-        </Text>
-      </View>
-    </View>
-</ListItem>}
-/>
+          renderRow={data =>
+          <ListItem style={styles.listItems}>
+              <View style = {{flexDirection: 'row'}}>
+                <Left>
+                  <Thumbnail style={styles.itemImage} source={{uri: data.image}} />
+                </Left>
+                <View style = {styles.cardTextView}>
+                  <Text style ={styles.cardPrimaryText}>
+                    {data.name}
+                  </Text>
+                  <Text style ={styles.cardSecondaryText}>
+                    {data.itemObject.size}
+                  </Text>
+                  <Text style ={styles.cardSecondaryText}>
+                    ${data.itemObject.price}
+                  </Text>
+                </View>
+              </View>
+          </ListItem>}
+          />
 
-{this.state.carrierAccepted &&
-<View>
-  <Text style = {styles.carrierTitle}>
+          {/*Information of carrier of the order*/}
+          {this.state.carrierAccepted &&
+          <View>
+            <Text style = {styles.carrierTitle}>
               Your Carrier
             </Text>
             <View  style= {styles.carrierView}>
@@ -256,18 +270,19 @@ renderRow={data =>
             </View>
             </View>
 
-}
+            }
 
           </Content>
         </View>
 
+        {/*Displays progress bar*/}
         <View style={styles.progressBarView}>
 
           <View style= {styles.progressBar}>
             {this.updateProgressBar(this.state.progressNum)}
           </View>
 
-
+        {/*Displays progress text*/}
           <Text style = {styles.progressText}>
             {this.state.progressText}
           </Text>
@@ -285,10 +300,10 @@ renderRow={data =>
       </Container>
     );
   } else if(this.state.completed) {
-    return <OrderCompleted user_id={this.state.carrierId} 
-            order_id={this.state.orderId} 
-            user_name={this.state.carrierName} 
-            isBuyer={false} img={this.state.carrierPhoto} 
+    return <OrderCompleted user_id={this.state.carrierId}
+            order_id={this.state.orderId}
+            user_name={this.state.carrierName}
+            isBuyer={false} img={this.state.carrierPhoto}
             fromBuyer={true} buyer_change={this.OrderCompletedChange}/>
   }
   }

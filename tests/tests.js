@@ -40,7 +40,7 @@ async function main() {
   await testChangeProfilePhoto();
 }
 
-
+/*Test User Login function*/
 async function testuserLogin() {
   var email = "unittest@ucsd.edu";
   var password = "password";
@@ -70,10 +70,11 @@ async function testuserLogin() {
   }
 }
 
-
+/*Test Get Profile By Id function*/
 async function testGetProfileById() {
   console.log( "Testing function getProfileById..." );
 
+  var check = true;
   var his = await getProfileById( "test1" );
 
   var expected = {
@@ -95,29 +96,25 @@ async function testGetProfileById() {
 
       for (inner in item) {
 
-        if (item[inner] == expectedItem[inner]) {
-          console.log("PASSED!\n");
-
-        }
-        else {
+        if (item[inner] != expectedItem[inner]) {
           console.log("FAILED!\n");
-
+          check = false;
         }
       }
     }
     else {
-      if (item === expectedItem) {
-        console.log("PASSED!\n");
-      }
-      else {
+      if (item !== expectedItem) {
         console.log("FAILED!\n");
-
+        check = false;
       }
     }
   }
+  if (check == true) {
+    console.log("PASSED!\n");
+  }
 }
 
-
+/*Test View Pending Orders function*/
 async function testviewPendingOrders() {
 
   var gotPendingId = await viewPendingOrders();
@@ -170,11 +167,12 @@ console.log("Comparing if all pending orders fetched");
   }
 }
 
-
+/*Test Get Profile Detail By Id function*/
 async function testGetProfileDetailById() {
   console.log( "Testing function getProfileDetailById..." );
 
-  var his = await getProfileDetailById( "test1" );
+  var check = true;
+  var his = await getProfileById( "test1" );
 
   var expected = {
     "default_mode": "buyer",
@@ -195,30 +193,25 @@ async function testGetProfileDetailById() {
 
       for (inner in item) {
 
-        if (item[inner] == expectedItem[inner]) {
-          console.log("PASSED!\n");
-
-        }
-        else {
+        if (item[inner] != expectedItem[inner]) {
           console.log("FAILED!\n");
-
+          check = false;
         }
       }
     }
     else {
-      if (item === expectedItem) {
-        console.log("PASSED!\n");
-      }
-      else {
+      if (item !== expectedItem) {
         console.log("FAILED!\n");
-
+        check = false;
       }
     }
   }
-
+  if (check == true) {
+    console.log("PASSED!\n");
+  }
 }
 
-
+/*Test Display Menu function*/
 async function testdisplayMenu( ) {
   var gotMenu = await displayMenu();
 
@@ -255,7 +248,7 @@ async function testdisplayMenu( ) {
   }
 }
 
-
+/*Test Display Play Type function*/
 async function testdisplayType() {
   var gotSubMenu = await displayType('Drinks');
   var expectedReturnedDrinks = [
@@ -299,9 +292,6 @@ async function testdisplayType() {
 
 
   console.log("Testing function displayType...");
-
-
-
   //console.log( "Expecting returned list of pairs of [img, id, name]" );
   //console.log( "Actual returned value:" );
   var noProblem = true;
@@ -318,7 +308,7 @@ async function testdisplayType() {
   }
 }
 
-
+/*Test Display Item function*/
 async function testdisplayItem() {
   var got = await displayItem("Hot Coffees", "HC02");
   var expectedItem = {
@@ -352,39 +342,7 @@ async function testdisplayItem() {
   }
 }
 
-
-function compareObj(obj1, obj2) {
-  var equal = true;
-
-  for (tag in obj1) {
-    if (obj1[tag] !== obj2[tag]) {
-      noProblem = false;
-    }
-  }
-
-  return equal;
-}
-
-
-async function helpaddingOrder(ord, callback) {
-  setTimeout(function () {
-    var addedOrderId = saveOrder(ord);
-    callback();
-    return addedOrderId;
-  }, 1000);
-}
-
-
-async function helpviewpending(callback) {
-  setTimeout(function () {
-    var got = viewPendingOrders();
-    callback();
-    return got;
-  }, 1000);
-
-}
-
-
+/*Test Get Order Location By Id function*/
 async function testgetOrderLocationById() {
   var gotAllId = await viewAllOrders();
 
@@ -412,24 +370,29 @@ async function testgetOrderLocationById() {
 
 }
 
-
+/*Test Display Order History function*/
 async function testdisplayOrderHistory() {
   console.log("Testing function displayOrderHistory...");
 
+  var check = true;
   var his = await displayOrderHistory("test1");
   var expected = await getProfileById("test1");
   for (index in his) {
-    if (his[index] === expected.history[index]) {
-      console.log("PASSED!\n");
-    } else {
+    if (his[index] !== expected.history[index]) {
       console.log("FAILED!\n");
+      check = false;
     }
+  }
+  if (check === true) {
+    console.log("PASSED!\n");
   }
 }
 
-
+/*Test Get Item Detail With Only Id function*/
 async function testGetItemDetailWithOnlyId() {
   console.log( "Testing function getItemDetailWithOnlyId..." );
+
+  var check = true;
   var his = await getItemDetailWithOnlyId("CC01");
   var expected = {
     description: '  With less milk than a latte, Iced Cappuccino offers a stronger espresso flavor, a luxurious texture and a velvety, frothy foam with a crisp, cool undercurrent.',
@@ -439,7 +402,7 @@ async function testGetItemDetailWithOnlyId() {
       grande: 3.95,
       tall: 3.45,
       venti: 4.75 }
-    }
+  }
 
     for (index in his) {
       let content = his[index];
@@ -447,26 +410,26 @@ async function testGetItemDetailWithOnlyId() {
 
       if (index === "price") {
         for (inner in content) {
-          if (content[inner] === exp[inner]) {
-            console.log("PASSED!\n");
-          } else {
+          if (content[inner] !== exp[inner]) {
             console.log("FAILED!\n");
-            console.log(content[inner]);
+            check = false;
           }
         }
       }
       else {
-        if (content === exp) {
-          console.log("PASSED!\n");
-        } else {
+        if (content !== exp) {
           console.log("FAILED!\n");
-          console.log(content);
+          check = false;
         }
       }
     }
+
+    if (check === true) {
+      console.log("PASSED!\n");
+    }
 }
 
-
+/*Test Change Username function*/
 async function testChangeUserName() {
   console.log( "Testing function changeUserName..." );
   var his = await changeUserName("test_change", "newname");
@@ -479,7 +442,7 @@ async function testChangeUserName() {
   }
 }
 
-
+/*Test Change Profile Photo function*/
 async function testChangeProfilePhoto() {
   console.log( "Testing function changeProfilePhoto..." );
   var his = await changeProfilePhoto("test_change", "www.baidu.com");
@@ -491,4 +454,3 @@ async function testChangeProfilePhoto() {
     console.log("FAILED!\n");
   }
 }
-

@@ -1,3 +1,9 @@
+/*
+  Filename: Profile.js
+  Version: 0.1.0
+  Description: This page contains UI elements for the profiles page, as well as
+  functions to parse/update user data.
+*/
 import React, {Component} from 'react';
 import {
   Container,
@@ -55,6 +61,7 @@ export class Profile extends Component {
 
   }
 
+  //get profile data
   async getProfile() {
     this.setState({user_id: await getCurrentUserUID()});
     this.setState({profileData: await getProfileById(this.state.user_id)});
@@ -73,6 +80,7 @@ export class Profile extends Component {
     await this.getProfile();
   }
 
+  //update profile logic check
   async updateProfile() {
     var changed = false;
     if (this.state.name != '' || this.state.phone != '') {
@@ -102,6 +110,7 @@ export class Profile extends Component {
     }
   }
 
+  //reset password
   async updatePassword() {
     await resetPassword();
   }
@@ -110,6 +119,7 @@ export class Profile extends Component {
 
     let rateStars = [];
 
+    {/* Initialize rating stars for profile*/}
     let curr = this.state.rating;
     for (var i = 1; i <= 5; i++) {
 
@@ -161,6 +171,7 @@ export class Profile extends Component {
                 </Container>
               </Container>
 
+              {/*Section Containing profile details*/}
               <Form style={styles.detailSection}>
                 <Item stackedLabel>
                   <Label>Name</Label>
@@ -192,6 +203,7 @@ export class Profile extends Component {
             </Container>
           }
 
+          {/*spinner during loading*/}
           {!this.state.loaded &&
             <Container>
               <Spinner color="#FF9052" />
@@ -199,7 +211,7 @@ export class Profile extends Component {
 
           }
 
-
+          {/*Signout button*/}
           <Footer>
             <FooterTab>
               <Button full style={styles.signOut}

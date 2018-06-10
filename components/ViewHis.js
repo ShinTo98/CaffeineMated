@@ -1,3 +1,8 @@
+/*
+  Filename: ViewHis.js
+  Version: 0.1.0
+  Description: This page contains UI elements for the viewing history page
+*/
 import React, {Component} from 'react';
 import {
   Container,
@@ -45,6 +50,8 @@ export class ViewHis extends Component {
           loadFinished: false
         };
       }
+
+      // fetch history from database
       async getHistory() {
         //let user_id = "02"; // testing, uncomment the following line when done
         let user_id = await getCurrentUserUID(); 
@@ -52,6 +59,8 @@ export class ViewHis extends Component {
         let history = await displayOrderHistory(user_id);
         let totNum  = parseInt(history.total_num); 
         let hisState = []; 
+
+        // get history for each order
         for (let i = 0; i < totNum; i++) {
             let order_id = history.orders[i]; 
             let order = await viewOrderDetailById(order_id); 
@@ -59,6 +68,7 @@ export class ViewHis extends Component {
             hisState[i].time = order.last_update_time; 
             hisState[i].location = order.location; 
             hisState[i].items = {}; 
+            // for each property in the order
             for (let property in order.items) {
                 hisState[i].items[property] = order.items[property]['name'];
             }
@@ -77,20 +87,24 @@ export class ViewHis extends Component {
                 }
             }
         }
+
         this.setState({user_id: user_id}); 
         this.setState({history: hisState}); 
         this.setState({loadFinished: true}); 
       }
     
+      // get history from database after component is mounted
       async componentDidMount() {
         await this.getHistory();
       }
 
+    // render the page
     render() {
         let loaded = this.state.loadFinished; 
         if (loaded) {
           return (
             <Container style={styles.color_theme}>
+            {/*-------------------------- header ----------------------------*/}
                 <Header hasSegment="hasSegment">
                 <Left>
                     <Button transparent onPress={() => this.props.navigation.navigate('main', {
@@ -107,6 +121,7 @@ export class ViewHis extends Component {
                 <Right></Right>
                 </Header>
 
+                {/*------------------------ a list of each order ------------------------------*/}
                 <Container>
                 <FlatList
                     data={this.state.history}
@@ -134,6 +149,7 @@ export class ViewHis extends Component {
             </Container>
             );
         } else {
+            // if not loaded, display spinner
             return (
               <Container>
                 <Header/>

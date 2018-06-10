@@ -1,3 +1,9 @@
+/*
+  Filename: Start.js
+  Version: 0.1.0
+  Description: This page is the first page of the app, contains UI elements with
+  buttons to navigate to log in/sign up pages
+*/
 import React, {Component} from 'react';
 import {Image} from 'react-native';
 import {Container, Header, Content, Button, Text} from 'native-base';
@@ -27,6 +33,8 @@ export class Start extends Component {
           </Text>
         </Container>
 
+
+        {/*Containing login/signup buttons*/}
         <Container style={styles.bottom}>
           <Button
             style={styles.buttons}
