@@ -1,3 +1,9 @@
+/*
+  Filename: Settings.js
+  Version: 0.1.0
+  Description: This page contains UI elements for the settings page, as well as
+  functions to parse/update user data.
+*/
 import React, {Component} from 'react';
 import {
   Container,
@@ -61,6 +67,7 @@ export class Settings extends Component {
     }
   }
 
+  //get profile of current user
   async getProfile() {
     this.setState({user_id: await getCurrentUserUID()});
     this.setState({profileData: await getProfileById(this.state.user_id)});
@@ -73,6 +80,7 @@ export class Settings extends Component {
     await this.getProfile();
   }
 
+  //function to logout
   async logOut() {
     var result = await logout();
     if(result === 0) {
@@ -115,6 +123,7 @@ export class Settings extends Component {
                   <Text>Current Default Mode: {this.state.defaultMode}</Text>
                 </Left>
 
+                {/*iOS default actionsheet*/}
                 <Right>
                   <Button
                     style={{backgroundColor: "#FF9052"}}
@@ -134,6 +143,8 @@ export class Settings extends Component {
                   </Button>
                 </Right>
               </ListItem>
+
+              {/*Navigation to other pages*/}
               <ListItem onPress={() => this.props.navigation.navigate('feedback')}>
                 <Left>
                   <Text>Feedback</Text>
@@ -161,6 +172,8 @@ export class Settings extends Component {
             </List>
 
           </Container>
+
+        {/*Signout button*/}
         <Footer>
           <FooterTab>
             <Button full style={styles.signOut}
