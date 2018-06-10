@@ -44,6 +44,8 @@ export class OrderCompleted extends Component {
   // send rating to database
   updateRating() {
     updateOrderRate(this.state.order_id, this.state.rate, this.state.isBuyer, this.state.user_id);
+    // update rating in database
+
     if(!this.props.fromBuyer) {
       this.props.change('rating', false);
     } else {
@@ -64,25 +66,26 @@ export class OrderCompleted extends Component {
     });
   }
 
-
+  // render the page
   render () {
     return(
       <Container>
         <Container style={styles.popupBox}>
             
+            {/* ---------------------------------- titles ---------------------------------- */}
             <Container style={styles.titleContainer}>
               <Text style={styles.title}>Success! </Text>
               <Text style={styles.title}>You've completed this order. </Text>
               <Text style={styles.title}>Please rate <Text style={styles.title}>{this.state.user_name}</Text></Text>
             </Container>
 
-
+            {/* ---------------------------------- avatars ---------------------------------- */}
             <Container style={styles.avatarContainer}>
               <Image source={{uri: this.state.img}} style={styles.avatar} />
               <Text style={styles.userID}>{this.state.user_name}</Text>
             </Container>
 
-{/* ---------------------------------- rating stars ---------------------------------- */}
+            {/* ---------------------------------- rating stars ---------------------------------- */}
             <Container style={styles.starsContainer}>
               <StarRating
                 disabled={false}
@@ -99,7 +102,7 @@ export class OrderCompleted extends Component {
               />
             </Container>
             
-
+            {/* ---------------------------------- submit button ---------------------------------- */}
             <Container style={styles.buttonContainer}>
               <Button style={styles.buttons_submit} onPress={() => this.updateRating()}>
                 <Text style={styles.buttonText}> Submit </Text>

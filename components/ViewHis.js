@@ -93,10 +93,12 @@ export class ViewHis extends Component {
         this.setState({loadFinished: true}); 
       }
     
+      // get history from database after component is mounted
       async componentDidMount() {
         await this.getHistory();
       }
 
+    // render the page
     render() {
         let loaded = this.state.loadFinished; 
         if (loaded) {
