@@ -1,3 +1,11 @@
+/*
+  Filename: Main.js
+  Version: 0.1.0
+  Description: Main.js is a component that serves as a controller. Main.js saves most of the states for both
+              buyerMain.js and carrierMain.js. It decides which part to render depending on the current states.
+              Also, the button on the top in main page is inside this file.
+*/
+
 import React, {Component} from 'react';
 import { TouchableOpacity, Image, RefreshControl, ListView } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -20,7 +28,6 @@ export class Main extends Component {
 
   constructor(props) {
     super(props);
-    // For swipable list
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.buyerMainChange = this.buyerMainChange.bind(this);
     this.buyerMainGet = this.buyerMainGet.bind(this);
@@ -47,13 +54,13 @@ export class Main extends Component {
       selected_order: -1,
       accepted: false,
       delivering: false,
-      // for toggleing places choosing popup
+
       buyer_choosePlaces: false,
       carrier_choosePlaces: false,
       // for showing Toasts
       showToast: false,
       orderSubmitted: false,
-      // for when & where logans
+
       buyer_whenLogan: 'Pick a time',
       buyer_whereLogan: 'Specify a place',
       carrier_whenLogan: 'Pick a time',
@@ -62,10 +69,11 @@ export class Main extends Component {
       carrier_accept_hour: 0,
       carrier_accept_minute: 0,
       carrier_accept_second: 0,
-      // order id after order submission
+
       orderId: '',
       carrier_refreshing: false,
     };
+
     this.order_selected = {};
     this.order_to_id = {};
     this.placeChooseChange = this.placeChooseChange.bind(this);
@@ -74,6 +82,8 @@ export class Main extends Component {
     this.orderCancelled= this.orderCancelled.bind(this);
   }
 
+  
+  //  Setter function for buyerMain 
   buyerMainChange(id, value){
     if( id == "buyer_choosePlaces"){
         this.setState({buyer_choosePlaces : !this.state.buyer_choosePlaces});
@@ -95,6 +105,7 @@ export class Main extends Component {
 
   }
 
+  // Getter function for buyerMain
   buyerMainGet(id){
    if(id == "buyer_whereLogan"){
         return this.state.buyer_whereLogan;
@@ -123,6 +134,7 @@ export class Main extends Component {
    }
   }
 
+  // Getter function for carrierMain
   carrierMainGet(id){
     if( id == 'selecting_order'){
         return this.state.selecting_order;
@@ -173,6 +185,8 @@ export class Main extends Component {
     }
   }
 
+
+  // Setter function for carrier
   carrierMainChange(id, value){
     var orderSelecting = this.state.order_selecting;
     if( id == 'selecting_order'){
@@ -235,7 +249,7 @@ export class Main extends Component {
   }
 
 
-
+  // Following two functions change the list of requests 
   async saveRequestIds() {
     if( this.state.carrier_whereLogan != 'Specify a place'){
       this.setState({ids: await sortOrdersByDistance(this.state.carrier_whereLogan)});
@@ -248,6 +262,7 @@ export class Main extends Component {
     }
   }
 
+  // Get detail about each pending orders
   async saveRequestDetails() {
     var received = [];
     for (let id of this.state.ids) {
@@ -276,6 +291,7 @@ export class Main extends Component {
 
   async componentWillMount() {      
 
+    // Following blocks set states that will be used in buyerMain or carrierMain
     if( !this.state.updateMode){
       if(this.props.navigation.getParam('seg') != undefined) {
         var seg = this.props.navigation.getParam('seg');
@@ -302,7 +318,6 @@ export class Main extends Component {
       this.setState({loadFinished: true});
     }
 
-    // get params here
     if(this.props.navigation.getParam('itemObject') != undefined){
       var itemObject = this.props.navigation.getParam('itemObject');
     }
@@ -358,6 +373,7 @@ export class Main extends Component {
     alert('Order Cancelled');
   }
 
+  // Setter function for placeChooseChange component
   async placeChooseChange(id, location){
     if( id == 0){
       this.setState({buyer_whereLogan : location,
@@ -374,6 +390,7 @@ export class Main extends Component {
 
   }
 
+  // Getter function for placeChooseChange component
   placeChooseGet(id){
     if( id == 0){
       return this.state.buyer_whereLogan;
@@ -382,10 +399,10 @@ export class Main extends Component {
     }
   }
 
+  // Change to carrier or buyer
   async selectCarrier(){
     await this.setState({ seg: 2 })
     this.componentWillMount()
-
   }
 
   async selectBuyer(){
@@ -393,15 +410,14 @@ export class Main extends Component {
   }
 
   render() {
-
-
-    // For swipable list
+    // Get variables to be used.
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     const loading = this.state.loadFinished;
     const order_exists = this.state.order_exists;
     const order_data = this.state.order_data;
     const dloop = this.state.dloop;
     if( this.state.buyer_choosePlaces ){
+      // display location choose page and pass in which page is asking to set location.
       return(
         <PlaceChoose get={this.placeChooseGet} placeChange={this.placeChooseChange} main={0}/>)
     }else if( this.state.carrier_choosePlaces ){
@@ -409,10 +425,12 @@ export class Main extends Component {
         <PlaceChoose get={this.placeChooseGet} placeChange={this.placeChooseChange} main ={1}/>
       )
     }else{
+      // no user is choosing location
     return (
 
       <Container style={styles.color_theme}>
-      {/* ---------------------------------- Regular main page ---------------------------------- */}{/* ---------------------------------- Main page header ---------------------------------- */}
+      {/* ---------------------------------- Regular main page ---------------------------------- */}
+      {/* ---------------------------------- Main page header ---------------------------------- */}
         <Header hasSegment style={styles.header}>
           <Left>
             <Button
@@ -422,6 +440,7 @@ export class Main extends Component {
             </Button>
           </Left>
           <Body>
+            {/* when button is pressed, trigger helper functions*/}
             <Segment >
               <Button
                 style={this.state.seg === 1 ? styles.button_header_on : styles.button_header_off}
@@ -446,12 +465,15 @@ export class Main extends Component {
         <Content padder bounces={false} scrollEnabled={false}>
 
           {/* ---------------------------------- Buyer segment ---------------------------------- */}
+          {/* Buyer has not submitted an order*/}
           {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && !this.state.orderSubmitted &&
             <BuyerMain
             get = {this.buyerMainGet}
             change = {this.buyerMainChange}
             navigation = {this.props.navigation}/>
           }
+
+          {/* Buyer has already submitted an order*/}
           {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 1 && this.state.orderSubmitted &&
             <SubmitOrder
             get = {this.buyerMainGet}
@@ -464,6 +486,8 @@ export class Main extends Component {
             orderId={this.state.orderId}
             navigation = {this.props.navigation}/>
           }
+
+          {/*Carrier view ( conditional rendering in carrierMain )*/}
           {!this.state.buyer_choosePlace && !this.state.carrier_choosePlaces && this.state.seg === 2 && <CarrierMain
             func = {this.componentWillMount}
             get = {this.carrierMainGet}

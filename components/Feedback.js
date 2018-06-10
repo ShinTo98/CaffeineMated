@@ -49,6 +49,7 @@ export class Feedback extends Component {
       alert('Feedback can not be empty.')
     }
     else {
+      alert("We appreciate your feedback, we will get to it ASAP");
       await saveFeedback(this.state.feedback)
       await this.setState({feedback: ''})
     }

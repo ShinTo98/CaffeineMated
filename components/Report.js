@@ -49,6 +49,7 @@ export class Report extends Component {
       alert('Report can not be empty.')
     }
     else {
+      alert("We have received your report, we will get to it ASAP");
       await saveReport(this.state.report)
       await this.setState({report: ''})
     }
