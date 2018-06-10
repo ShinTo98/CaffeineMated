@@ -77,7 +77,8 @@ export class MenuView extends Component {
           <Left>
             <Button transparent onPress={() => this.props.navigation.navigate('main', {
                update: false,
-               saveInfo: this.state.saveInfo
+               saveInfo: this.state.saveInfo,
+               data: this.state.data
           })}>
               <Icon name='arrow-back' style={styles.icon}/>
             </Button>

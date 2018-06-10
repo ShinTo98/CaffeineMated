@@ -233,11 +233,12 @@ export const styles = StyleSheet.create({
   cardTextView:{
     right: 7,
     justifyContent: 'center',
+    height: '30%',
   },
   cardPrimaryText: {
     textAlign: 'right',
     fontSize: 14,
-    alignSelf: 'flex-end'
+    alignSelf: 'flex-end',
   },
   cardSecondaryText: {
     textAlign: 'right',

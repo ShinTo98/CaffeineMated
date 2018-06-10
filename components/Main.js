@@ -307,9 +307,15 @@ export class Main extends Component {
       var itemObject = this.props.navigation.getParam('itemObject');
     }
 
+    var latest;
+    if( this.props.navigation.getParam('data') != undefined){
+      latest = this.props.navigation.getParam('data');
+      this.setState({order_data: latest});
+      this.setState({order_exists: true});
+    }
 
     if(this.props.navigation.getParam('selection') != undefined) {
-      var latest = this.props.navigation.getParam('data');
+      latest = this.props.navigation.getParam('data');
       if (this.props.navigation.getParam('update') == true) {
         latest.push({
           name: this.props.navigation.getParam('name'),
