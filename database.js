@@ -1,3 +1,8 @@
+/*
+  Filename: database.js
+  Version: 0.1.0
+  Description: Handle data manipulation, determine what data to be displayed on the screen.
+*/
 import firebase from 'firebase';
 import {Alert} from 'react-native';
 
