@@ -10,6 +10,7 @@ var config = {
   storageBucket: "cmdatabase-restore.appspot.com",
   messagingSenderId: "486235795755"
 };
+
 // Firebase initialization
 firebase.initializeApp(config);
 
@@ -80,7 +81,7 @@ export async function userSignup (email, password, name) {
 }
 
 /*
-* Name: userPasswordChange
+ * Name: userPasswordChange
  * Parameters: string: newPassword
  * Return: N/A
  * Error Condition: errorMessage
@@ -217,6 +218,7 @@ export async function saveOrder (order) {
     let profileRef = firebase.database().ref("Profile/" + buyerId);
     let rate;
 
+    // get the rate of the buyer
     await profileRef.once("value", dataSnapshot => {
       if (!dataSnapshot) {
           rate = -1;
@@ -320,7 +322,12 @@ export async function viewPendingOrders() {
   return pendingOrders;
 }
 
-
+/*
+ * Name: viewAllOrders
+ * Description: view all orders that is pending
+ * Parameters: None.
+ * Return: All orders that is pending.
+ */
 export async function viewAllOrders() {
   // access the Menu field in firebase
   const firebaseRef = firebase.database().ref("Orders");
@@ -381,7 +388,6 @@ export async function updateOrderStatus(order_id) {
  * Parameters: string: order_id
  * Return: object orderInformation
  * The json containing the information of the order corresponding to the order_id
- *
  */
 export async function viewOrderDetailById (order_id) {
     // get the direction
@@ -393,13 +399,10 @@ export async function viewOrderDetailById (order_id) {
     return orderInformation;
 }
 
-
 /*
  * Name: getOrderLocationById
  * Parameters: string: order_id
  * Return: return location string,
- * Parameter: string:order_id
- * Return: location of this order
  */
 export async function getOrderLocationById (order_id){
   // get the direction
@@ -416,7 +419,6 @@ export async function getOrderLocationById (order_id){
  * Name: getProfileDetailById
  * Parameters: string: profile_id
  * Return: object profile
- *
  */
 export async function getProfileDetailById(profile_id){
   dir = "Profile/" + profile_id;
@@ -427,7 +429,6 @@ export async function getProfileDetailById(profile_id){
 
   return result;
 }
-
 
 /*
  * Name: acceptOrder
@@ -492,8 +493,13 @@ export async function getDistance(origin, destination, id) {
 
 }
 
-
-
+/*
+ * Name: checkPlace
+ * Parameters: string: starting destination: the destination to be check.
+ *
+ * Check if the destination is in UCSD.
+ * Return: true if it is in UCSD, otherwise false.
+ */
 export async function checkPlace(destination) {
   return new Promise(function(resolve,reject){
     const xhr = new XMLHttpRequest();
@@ -522,9 +528,8 @@ export async function checkPlace(destination) {
 
 }
 
-
 /*
- *  Helper function used to compare two orders with ids.
+ *  Helper function used to compare two orders with ids in distance.
  */
 function compare (a, b){
     if (a.dist > b.dist){
@@ -657,7 +662,6 @@ export async function changeDefaultMode(id, mode) {
       alert("Change Successful!");
     }
   );
-
 }
 
 /*
@@ -666,7 +670,6 @@ export async function changeDefaultMode(id, mode) {
  * Return: N/A
  * get deault mode
  */
-
  export async function getDefaultMode(){
    var defaultMode;
    let profileId = await getCurrentUserUID();
@@ -677,9 +680,6 @@ export async function changeDefaultMode(id, mode) {
 
    return defaultMode;
  }
-
-
-
 
 /*
  * Name: changeProfilePhoto
@@ -762,7 +762,6 @@ export async function getProfileById(user_id) {
  * Return: database change
  * update user profile photo
  */
-
  export async function updateLastTime(order_id){
    let dir;
    dir = "Orders/items/" + order_id + "/last_update_time";
@@ -831,7 +830,12 @@ export async function setPhoneNum(phoneNum) {
   dir.child("phone").set(phoneNum);
 }
 
-
+/*
+ * Name: getCurrentUserEmail
+ * Description: get the email of current user
+ * Parameters: None.
+ * Return: The email of current user
+ */
 export function getCurrentUserEmail(){
     var currentUser = firebase.auth().currentUser;
     if (currentUser != null){
@@ -899,16 +903,32 @@ export async function getItemDetailWithOnlyId(itemId) {
     return itemDetail;
 }
 
+/*
+ * Name: addOrderStatusChangeListener
+ * Description: add a listener to the given order ID so that the user will be notified when the order is updated.
+ * Parameters: order_id
+ */
 export function addOrderStatusChangeListener(orderId){
     ref = firebase.database().ref("Orders/items/" + orderId +"/status");
     ref.on('value', statusUpdated);
 }
 
+/*
+ * Name: removeOrderStatusChangeListener
+ * Description: remove a listener of the given order ID so that the user will not be notified when the order is updated
+ *              any more.
+ * Parameters: order_id
+ */
 export function removeOrderStatusChangeListener(orderId){
     ref = firebase.database().ref("Orders/items/" + orderId +"/status");
     ref.off('value', statusUpdated);
 }
 
+/*
+ * Name: statusUpdated
+ * Description: notification when the order is updated
+ * Parameters: snapshot.
+ */
 function statusUpdated(snapshot) {
     var changedChild = snapshot.val();
     if (changedChild === 2　&& changedChild != 4 && changedChild != -1) {
@@ -919,6 +939,12 @@ function statusUpdated(snapshot) {
     }
 }
 
+/*
+ * Name: randomCoffee
+ * Description: generate a random coffee
+ * Parameters: None.
+ * Return: a random coffee object.
+ */
 export async function randomCoffee() {
   // random an integer for type
   let type = Math.floor(Math.random() * 6);
@@ -956,10 +982,6 @@ export async function randomCoffee() {
   }
 
   else {
-
-    // if (item === '10') {
-    //   dir = "Menu/" + typeRef + "/items/" + prefix + item;
-    // }
     dir = "Menu/" + typeRef + "/items/" + prefix + '0' + item;
   }
 
@@ -970,6 +992,12 @@ export async function randomCoffee() {
   return coffee;
 }
 
+/*
+ * Name: resetPassword
+ * Description: send a email to the current user so that the user can change the password
+ * Parameters: None.
+ * Return: None.
+ */
 export function resetPassword() {
     var user = firebase.auth().currentUser;
 
@@ -984,6 +1012,12 @@ export function resetPassword() {
     }
 }
 
+/*
+ * Name: saveFeedback
+ * Description: save the feedback from the user
+ * Parameters: None.
+ * Return: None.
+ */
 export async function saveFeedback (feedback) {
     let feedbackRef = firebase.database().ref("Feedback");
     var feedback_id = 0;
@@ -997,6 +1031,12 @@ export async function saveFeedback (feedback) {
     });
 }
 
+/*
+ * Name: saveReport
+ * Description: save the report from the user
+ * Parameters: None.
+ * Return: None.
+ */
 export async function saveReport (report) {
     let reportRef = firebase.database().ref("Reports");
     var report_id = 0;
