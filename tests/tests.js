@@ -40,6 +40,7 @@ async function main() {
 
   await testdisplayType();
   await testdisplayItem();
+  await testdisplayMenu();
   await testviewPendingOrders();
   await testGetProfileById();
   await testGetProfileDetailById();
