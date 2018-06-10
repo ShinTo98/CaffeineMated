@@ -282,6 +282,8 @@ export function cancelByCarrier(order_id) {
     orderRef.once('value', dataSnapshot => {
       if (dataSnapshot.val().status === 2) {
         orderRef.child('status').set(1);
+        orderRef.child('carrier_id').set('');
+        orderRef.child('carrier_rate').set(0);
       }
     });
 }

@@ -98,7 +98,7 @@ export class SubMenuView extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Grid style={{flexWrap: 'wrap'}}>
           {
-            {/* This will go through each element in the array*/}
+            /* This will go through each element in the array*/
             result.map((type, key) =>
             <Col key={key} style={{ width:'50%', alignItems: 'center'}}>
 
