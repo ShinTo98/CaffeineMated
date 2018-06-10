@@ -118,6 +118,11 @@ export class SubmitOrder extends Component {
     this.setState({progressNum: status})
     //order status
     switch(status) {
+      case 1:
+          this.setState({carrierAccepted: false,
+                        progressText: 'Waiting for carrier to accept',
+                        buttonText: 'Finding carriers for your order'});
+          break;
       case 2:
         this.setState({progressText: 'Order Progress: Your order has been accepted!'});
         this.setState({buttonText: 'Carrier Working...'});
@@ -153,6 +158,7 @@ export class SubmitOrder extends Component {
         this.setState({carrierPhone: carrierProfile.phone});
         break;
     }
+
   }
 
   //changes button to complete order to let the user complete the order.
