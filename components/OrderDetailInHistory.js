@@ -1,3 +1,8 @@
+/*
+  Filename: OrderDetailInHistory.js
+  Version: 0.1.0
+  Description: Display the order detail in history.
+*/
 import React, {Component} from 'react';
 import {
   Container, Button, Header, Left, 
