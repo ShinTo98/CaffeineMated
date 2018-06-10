@@ -342,38 +342,6 @@ async function testdisplayItem() {
   }
 }
 
-
-function compareObj(obj1, obj2) {
-  var equal = true;
-
-  for (tag in obj1) {
-    if (obj1[tag] !== obj2[tag]) {
-      noProblem = false;
-    }
-  }
-
-  return equal;
-}
-
-
-async function helpaddingOrder(ord, callback) {
-  setTimeout(function () {
-    var addedOrderId = saveOrder(ord);
-    callback();
-    return addedOrderId;
-  }, 1000);
-}
-
-
-async function helpviewpending(callback) {
-  setTimeout(function () {
-    var got = viewPendingOrders();
-    callback();
-    return got;
-  }, 1000);
-
-}
-
 /*Test Get Order Location By Id function*/
 async function testgetOrderLocationById() {
   var gotAllId = await viewAllOrders();

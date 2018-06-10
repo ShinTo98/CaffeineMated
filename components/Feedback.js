@@ -1,3 +1,9 @@
+/*
+  Filename: Feedback.js
+  Version: 0.1.0
+  Description: This page contains a form that allows users to submit feedback
+  about this app
+*/
 import React, {Component} from 'react';
 import {saveFeedback} from './../database.js';
 
@@ -71,6 +77,7 @@ export class Feedback extends Component {
           <Right></Right>
         </Header>
 
+        {/*Text box for users to enter comment*/}
         <Content >
           <Container>
 
@@ -86,6 +93,8 @@ export class Feedback extends Component {
 
           </Container>
         </Content>
+
+        {/*Submit button*/}
         <Footer>
           <FooterTab>
             <Button full style={styles.signOut}

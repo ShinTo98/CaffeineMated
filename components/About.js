@@ -1,3 +1,8 @@
+/*
+  Filename: About.js
+  Version: 0.1.0
+  Description: A page that contains basic information about the app
+*/
 import React, {Component} from 'react';
 import {
   Container,
