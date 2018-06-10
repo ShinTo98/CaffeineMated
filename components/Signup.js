@@ -1,3 +1,9 @@
+/*
+  Filename: Signup.js
+  Version: 0.1.0
+  Description: This page contains a form that allows user to create a new account
+  and access the app using this newly created account.
+*/
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -5,7 +11,7 @@ import {
   View,
   Image,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback, 
+  TouchableWithoutFeedback,
   Keyboard
 } from 'react-native';
 import {styles} from '../CSS/Signup.js';
@@ -37,27 +43,27 @@ export class Signup extends Component {
   // Validity check function; whether is ucsd.edu email and if confirm password met
   // original password
   validityCheck(){
-      Keyboard.dismiss(); 
-      var thisPage = this; 
+      Keyboard.dismiss();
+      var thisPage = this;
       setTimeout(function() {
         if (!thisPage.state.password || !thisPage.state.confirm || !thisPage.state.email || !thisPage.state.name) {
-          alert('Please fill out all blanks!'); 
+          alert('Please fill out all blanks!');
         } else if( thisPage.state.password == thisPage.state.confirm ){
           // if there is 'ucsd.edu' occurance, valid email
           if (thisPage.state.email.indexOf('ucsd.edu') != -1) {
             thisPage.signup();
           } else {
-            alert('Please enter a valid UCSD email!'); 
+            alert('Please enter a valid UCSD email!');
           }
         }
         else{
-          alert('Password does not match!'); 
+          alert('Password does not match!');
         }
-      }, 1); 
-      
+      }, 1);
+
   }
 
-  
+
   async signup (){
     var result = await userSignup(this.state.email, this.state.password, this.state.name);
     if(result === 0) {
