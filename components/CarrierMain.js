@@ -436,6 +436,8 @@ export class CarrierMain extends Component {
   );
 
   {/* ------------------------- carrier main page with pending list ---------------------------------- */}
+}
+
   else if(!this.state.rating && !this.props.get('accepted')){
     return(
       <Container style = {{height: '100%'}}>
@@ -559,13 +561,13 @@ export class CarrierMain extends Component {
     </Container>);
   }
 
-  {/* ---------------------------------- Rating ---------------------------------- */}
+  /* ---------------------------------- Rating ---------------------------------- */
   else if (this.state.rating) {
     return <OrderCompleted user_id={this.state.rating_order.buyer_id} order_id={this.state.rating_order.id} user_name={this.state.rating_order.buyer_name} isBuyer={true} img={this.state.rating_order.avatar} change={this.OrderCompletedChange}/>
   }
 
 
-  {/* ---------------------------------- Update page ---------------------------------- */}
+  /* ---------------------------------- Update page ---------------------------------- */
   else if(this.props.get("accepted")){
     return (
       <Container style={styles.deliver_container}>
