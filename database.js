@@ -955,8 +955,8 @@ export async function randomCoffee() {
   let type = Math.floor(Math.random() * 6);
 
   // random an integer for item
-  let item = Math.floor(Math.random() * 2) + 1;
-  let hotTea = Math.floor(Math.random() * 2) + 1;
+  let item = Math.floor(Math.random() * 9) + 1;
+  let hotTea = Math.floor(Math.random() * 6) + 1;
 
   let typeRef;
   let prefix;
