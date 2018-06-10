@@ -38,6 +38,7 @@ async function main() {
   await testGetItemDetailWithOnlyId();
   await testChangeUserName();
   await testChangeProfilePhoto();
+  console.log("Finish testing! Please type CTR+C to quit.");
 }
 
 /*Test User Login function*/
@@ -129,7 +130,6 @@ async function testviewPendingOrders() {
 
   for ( index in gotPendingId) {
     let order = await viewOrderDetailById( gotPendingId[index] );
-    //console.log(gotPendingId[index]);
     if( order.status != 1){
       noProblem1 = false;
     }
@@ -231,15 +231,12 @@ async function testdisplayMenu( ) {
   ];
 
   console.log("Testing function displayMenu...");
-  //console.log( "Expecting returned list of pairs of [img, type]" );
-  //console.log( "Actual returned value:\n" );
   var noProblem = true;
   for (pair in gotMenu) {
     if (gotMenu[pair][0] !== expectedReturnedMenu[pair][0] ||
       gotMenu[pair][1] !== expectedReturnedMenu[pair][1]) {
       noProblem = false;
     }
-    //console.log( gotMenu[pair][0] );
   }
   if (noProblem) {
     console.log("PASSED!\n");
@@ -292,8 +289,6 @@ async function testdisplayType() {
 
 
   console.log("Testing function displayType...");
-  //console.log( "Expecting returned list of pairs of [img, id, name]" );
-  //console.log( "Actual returned value:" );
   var noProblem = true;
   for (pair in gotSubMenu) {
     if (gotSubMenu[pair][0] !== expectedReturnedDrinks[pair][0] ||
@@ -320,8 +315,6 @@ async function testdisplayItem() {
 
 
   console.log("Testing function displayItem...");
-  //console.log( "Expecting returned list of [name, description, image]" );
-  //console.log( "Actual returned value:" );
   var noProblem = true;
   for (pair in got) {
     if (pair !== "price" && got[pair] !== expectedItem[pair]) {
