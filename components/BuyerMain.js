@@ -22,12 +22,15 @@ export class BuyerMain extends Component {
     this.state = {
       orderSubmitted : false,
       placeChoose : false,
+      // Order data containing all drinks ordered
       order_data : this.props.get("order_data"),
     }
 
+    // Bind function
     this.submitValidityCheck = this.submitValidityCheck.bind(this);
   }
 
+  // For date time picker ------------------------------------------------------------
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
@@ -38,6 +41,7 @@ export class BuyerMain extends Component {
     //this.setState({whenLogan: time});
     this._hideDateTimePicker();
   };
+  // Date time picker End ------------------------------------------------------------
 
   orderCancelled = () => {
     this.setState({orderSubmitted: false});
@@ -46,6 +50,7 @@ export class BuyerMain extends Component {
   }
 
   async submitValidityCheck() {
+    // make sure everything is selected and at least 1 drink
     if(this.props.get('buyer_whereLogan') == 'Specify a place' ||
        this.props.get('buyer_whenLogan') == 'Pick a time') {
       alert('Please fill out location & time!');
@@ -76,9 +81,6 @@ export class BuyerMain extends Component {
       this.props.change('totalPrice', newTotalPrice);
       this.setState({ order_data: newData });
     }
-
-
-
 
     render(){
       // For swipable list
