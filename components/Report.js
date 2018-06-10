@@ -1,3 +1,9 @@
+/*
+  Filename: Report.js
+  Version: 0.1.0
+  Description: This page contains a form that allows users to submit report
+*/
+
 import React, {Component} from 'react';
 
 import {
@@ -72,6 +78,8 @@ export class Report extends Component {
           <Right></Right>
         </Header>
 
+        {/*Text box for users to enter report*/}
+
         <Content >
           <Container>
 
@@ -86,6 +94,8 @@ export class Report extends Component {
 
           </Container>
         </Content>
+
+        {/*Submit button*/}
         <Footer>
           <FooterTab>
             <Button full style={styles.signOut}

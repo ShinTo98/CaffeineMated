@@ -28,7 +28,6 @@ export class Signup extends Component {
     super(props);
     this.state = {
       titleText: "CaffeineMated",
-      //bodyText: 'This is not really a bird nest.',
       name: null,
       email: null,
       password: null,
@@ -43,27 +42,26 @@ export class Signup extends Component {
   // Validity check function; whether is ucsd.edu email and if confirm password met
   // original password
   validityCheck(){
-      Keyboard.dismiss();
-      var thisPage = this;
-      setTimeout(function() {
-        if (!thisPage.state.password || !thisPage.state.confirm || !thisPage.state.email || !thisPage.state.name) {
-          alert('Please fill out all blanks!');
-        } else if( thisPage.state.password == thisPage.state.confirm ){
-          // if there is 'ucsd.edu' occurance, valid email
-          if (thisPage.state.email.indexOf('ucsd.edu') != -1) {
-            thisPage.signup();
-          } else {
-            alert('Please enter a valid UCSD email!');
-          }
+    Keyboard.dismiss();
+    var thisPage = this;
+    setTimeout(function() {
+      if (!thisPage.state.password || !thisPage.state.confirm || !thisPage.state.email || !thisPage.state.name) {
+        alert('Please fill out all blanks!');
+      } else if( thisPage.state.password == thisPage.state.confirm ){
+        // if there is 'ucsd.edu' occurance, valid email
+        if (thisPage.state.email.indexOf('ucsd.edu') != -1) {
+          thisPage.signup();
+        } else {
+          alert('Please enter a valid UCSD email!');
         }
-        else{
-          alert('Password does not match!');
-        }
-      }, 1);
-
+      }
+      else{
+        alert('Password does not match!');
+      }
+    },1);
   }
 
-
+  // signup function
   async signup (){
     var result = await userSignup(this.state.email, this.state.password, this.state.name);
     if(result === 0) {
@@ -74,10 +72,12 @@ export class Signup extends Component {
     }
   }
 
-
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+
+
+        {/* ------------------------- Text input section --------------------------- */}
         <View style={styles.container}>
           <View style={styles.banner}>
             <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('start')}>
@@ -125,6 +125,9 @@ export class Signup extends Component {
               />
             </Item>
             </Form>
+
+            {/* ------------------------- Signup button --------------------------- */}
+
 
             <Button
               style={styles.buttons}
